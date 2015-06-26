@@ -1758,7 +1758,7 @@ oUF:Factory(function(self)
 			self:SetWidth(%d)
 			]]):format(cfg.target.height,cfg.target.width)
 			)
-		    maintanktarget:SetPoint('TOPLEFT', 'oUF_MainTank', 'TOPRIGHT', 6,4)	
+		    maintanktarget:SetPoint('TOPLEFT', 'oUF_MainTank', 'TOPRIGHT', 6,0)	
         end		
 	end 
 	

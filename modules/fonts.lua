@@ -16,7 +16,7 @@ f:SetScript("OnEvent", function()
 	local BOLDITALIC = "Interface\\AddOns\\gempUI\\media\\fonts\\roboto_bolditalic.ttf"
 	local ITALIC     = "Interface\\AddOns\\gempUI\\media\\fonts\\roboto_italic.ttf"
 	local NUMBER     = "Interface\\AddOns\\gempUI\\media\\fonts\\roboto_bold.ttf"
-	local SQUARE     = "Interface\\AddOns\\gempUI\\media\\fonts\\square.ttf"
+	FONT_SQUARE     = "Interface\\AddOns\\gempUI\\media\\fonts\\square.ttf"
 
 	UIDROPDOWNMENU_DEFAULT_TEXT_HEIGHT = 12
 	CHAT_FONT_HEIGHTS = {7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24}
@@ -97,3 +97,23 @@ f:SetScript("OnEvent", function()
 	for _,butt in pairs(PaperDollTitlesPane.buttons) do butt.text:SetFontObject(GameFontHighlightSmallLeft) end
 end)
 
+-- changes the damage font
+dmgfont = CreateFrame("Frame", "dmgfont");
+
+local damagefont_FONT_NUMBER = "Interface\\AddOns\\gempUI\\media\\fonts\\roboto.ttf";
+
+function dmgfont:ApplySystemFonts()
+
+DAMAGE_TEXT_FONT = damagefont_FONT_NUMBER;
+
+end
+
+dmgfont:SetScript("OnEvent",
+		    function() 
+		       if (event == "ADDON_LOADED") then
+			  dmgfont:ApplySystemFonts()
+		       end
+		    end);
+dmgfont:RegisterEvent("ADDON_LOADED");
+
+dmgfont:ApplySystemFonts()

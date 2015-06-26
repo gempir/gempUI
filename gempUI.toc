@@ -2,71 +2,18 @@
 ## Title: |cFFDC143Cgemp|rUI 
 ## Notes: gempUI v1.3
 ## OptionalDeps: Skada, LibSharedMedia-3.0
-## SavedVariables: hideerrors, selljunk, autorepair, SkadaSkinSet, gDMG_visible, gAC_visible, gWM_visible
+## SavedVariables: hideerrors, selljunk, autorepair, SkadaSkinSet, gDMG_visible, gAC_visible, gWM_visible, KuiNameplatesGDB, KuiSpellListCustom
 
-# libs
-libs\LibStub\LibStub.lua
-libs\CallbackHandler-1.0\CallbackHandler-1.0.lua
-libs\LibSharedMedia-3.0\LibSharedMedia-3.0.lua
+
+libs\load_libs.xml
 
 gempUI.lua
 
-modules\oUF_Skaarj\oUF\oUF.xml
-modules\oUF_Skaarj\cfg.lua
-modules\oUF_Skaarj\Plugins\oUF_MovableFrames.lua
-modules\oUF_Skaarj\Plugins\oUF_ThreatBar.lua
-modules\oUF_Skaarj\Plugins\oUF_Experience.lua
-modules\oUF_Skaarj\Plugins\oUF_Reputation.lua
-modules\oUF_Skaarj\Plugins\oUF_Smooth.lua
-modules\oUF_Skaarj\Plugins\oUF_TotemBar.lua
-modules\oUF_Skaarj\Plugins\oUF_SpellRange.lua
-modules\oUF_Skaarj\Plugins\oUF_RaidDebuffs.lua
-modules\oUF_Skaarj\Plugins\oUF_AuraTracker.lua
-modules\oUF_Skaarj\Plugins\oUF_Trinkets.lua
-modules\oUF_Skaarj\Plugins\oUF_DebuffHighlight.lua
-modules\oUF_Skaarj\Plugins\oUF_GCD.lua
-modules\oUF_Skaarj\Plugins\oUF_AuraWatch.lua
-modules\oUF_Skaarj\Plugins\oUF_WarlockSpecBars.lua
-modules\oUF_Skaarj\Plugins\oUF_Maelstrom.lua
-modules\oUF_Skaarj\cfg.raiddebuffs.lua
-modules\oUF_Skaarj\Core\functions.lua
-modules\oUF_Skaarj\Core\tags.lua
-modules\oUF_Skaarj\Core\layout.lua
+modules\unitframes\load_unitframes.xml
+modules\load_modules.xml
+modules\cooldowns\load_cooldowns.xml
 
-modules\actionbars.lua
-modules\bags.lua
-modules\actionbuttonstyler.lua
-modules\panels.lua
-modules\minimap.lua
-modules\infotext.lua
-modules\tooltip.lua
-modules\dmgfont.lua
-modules\nameplates.lua
-modules\fonts.lua
-modules\bags.lua
-modules\objectivetracker.lua
-modules\chat.lua
-modules\buffs.lua
-modules\utilityframes.lua
-modules\automator.lua
-modules\buttons.lua
-modules\worldmarkers.lua
-
-modules\sBuff2\AuraButtonTemplate.xml
-modules\sBuff2\config\config.lua
-modules\sBuff2\config\attribute.lua
-modules\sBuff2\core.lua
-modules\sBuff2\sBuff2.lua
-
-modules\rActionButtonStyler\config.lua
-modules\rActionButtonStyler\core\core.lua
-
-modules\cooldowns\cooldowns.lua
-modules\cooldowns\cooldowns.xml
-modules\cooldowns\cooldowns_options.lua
-modules\cooldowns\cooldowns_options.xml
-
-# skins
-skins\Skada.lua
+blizzard\load_blizzard.xml
+skins\load_skins.xml
 
 

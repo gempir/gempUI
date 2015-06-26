@@ -139,3 +139,20 @@ LOOT_ITEM_BONUS_ROLL_MULTIPLE = "%s loots: %sx%d";
 LOOT_ITEM_MULTIPLE = "%s loots: %sx%d";
 LOOT_ITEM_PUSHED = "%s loots: %s";
 LOOT_ITEM_PUSHED_MULTIPLE = "%s loots: %sx%d";
+
+-- shorten cahnnel names
+
+
+CHAT_GUILD_GET                = "[G]|h%s:\32"
+CHAT_INSTANCE_CHAT_GET        = "[I] |h%s:\32"
+CHAT_INSTANCE_CHAT_LEADER_GET = "[I] |h%s:\32"
+CHAT_OFFICER_GET              = "[G]|h%s:\32"
+CHAT_PARTY_GET                = "[P]|h%s:\32"
+CHAT_PARTY_GUIDE_GET          = "[P]|h%s:\32"
+CHAT_PARTY_LEADER_GET         = "[P]|h%s:\32"
+CHAT_RAID_GET                 = "[R] |h%s:\32"
+CHAT_RAID_LEADER_GET          = "[R] |h%s:\32"
+CHAT_RAID_WARNING_GET         = "[R] %s:\32"
+CHAT_SAY_GET                  = "[S]%s:\32"
+CHAT_YELL_GET                 = "[S]%s:\32"
+

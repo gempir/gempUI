@@ -82,7 +82,7 @@
 		custom_visibility_macro = false
 		},
 	["MicroMenu"] = {
-		hide_bar = false,				show_on_mouseover = true ,	scale = 0.7,
+		hide_bar = true,				show_on_mouseover = true ,	scale = 0.7,
 		lock_to_CharacterFrame = false,					-- position MicroMenu bar right on top of your CharacterFrame
 		position = {a= "BOTTOMRIGHT", x=	-545,	y= 0},	  	-- if not locked
 		},
@@ -129,13 +129,6 @@ elseif not gempUI.actionbars_side_two then
 	cfg.bars.Bar5.hide_bar = true
 end
 
-if gempUI.actionbars_side_mouseover then
-	cfg.bars.Bar4.show_on_mouseover = true
-	cfg.bars.Bar5.show_on_mouseover = true
-elseif not gempUI.actionbars_side_mouseover then
-	cfg.bars.Bar4.show_on_mouseover = false
-	cfg.bars.Bar5.show_on_mouseover = false
-end
 
 
   -- HANDOVER
@@ -433,10 +426,13 @@ f:SetScript("OnEvent", function()
 	if (not ab1 or not ab2 or not ab3 or not ab4) then
 		SetActionBarToggles(1, 1, 1, 1)
 		StaticPopupDialogs.SET_AB = {
-			text = "gempUI will now setup your ActionBars. Click 'Accept' for a quick UI reload.",
+			text = "gempUI is almost finished installing. Click 'Accept' for a quick UI reload and to finish the installation.",
 			button1 = ACCEPT,
 			button2 = CANCEL,
-			OnAccept = function() ReloadUI() end,
+			OnAccept = function() 
+			SetCVar("uiScale", 768/string.match(({GetScreenResolutions()})[GetCurrentResolution()], "%d+x(%d+)")) 
+			ReloadUI() 
+			end,
 			timeout = 0,
 			whileDead = 1,
 			hideOnEscape = true,
@@ -572,12 +568,6 @@ mAB.SetVisibility("Bar6",extrabar)
 mAB.SetVisibility("StanceBar",stancebar)
 mAB.SetVisibility("PetBar",petbar)
 
-if gempUI.hidebags == true then
-	bag0 = CharacterBag0Slot
-    bag1 = CharacterBag1Slot
-    bag2 = CharacterBag2Slot
-    bag3 = CharacterBag3Slot
-end
 
 -- hiding default frames and textures
 local FramesToHide = {
@@ -595,10 +585,6 @@ local FramesToHide = {
 	--BonusActionBarFrame, 
 	--PossessBarFrame
 	MainMenuBarBackpackButton, 
-	bag0,
-	bag1,
-	bag2,
-	bag3,
 	StanceBarLeft,
 	StanceBarMiddle,
 	StanceBarRight,

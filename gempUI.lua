@@ -11,9 +11,7 @@ gempUI = {
 	xp_rep = true,							-- enables the xp and reputation bar
 	actionbars_side_two = false,			-- adds a second actionbar on the right
 	actionbars_main_three = false,			-- adds a third actionbar in the middle
-	tooltip_alternative = false,				-- puts the tooltip more in the corner
-	castbar_safezone = false,				-- shows a safezone for the castbar 
-	hidebags = true
+	castbar_safezone = false				-- shows a safezone for the castbar 
 	}
 
 	
@@ -62,6 +60,5 @@ LSM:Register(LSM.MediaType.FONT, "Roboto Italic", "Interface\\AddOns\\gempUI\\me
 -- Monolit - m_Actionbars (monoActionbars)
 -- Tuller - TullaRange
 -- Blooblahguy - bBuffs
+-- 10leej - Click Menu - Copyright (c) 2015 10leej (MIT License)
 
-
--- -- Only for testing.

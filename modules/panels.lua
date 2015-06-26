@@ -47,6 +47,20 @@ gempUI_sidepanel:SetPoint("RIGHT",1,0)
 gempUI_sidepanel:Show();
 
 
+-- bagslots panel
 
 
+gempUI_bagpanel = CreateFrame("Frame", nil, UIParent)
+gempUI_bagpanel:SetFrameStrata("BACKGROUND")
+gempUI_bagpanel:SetWidth(47+extrabars_2) 
+gempUI_bagpanel:SetHeight(144) 
+gempUI_bagpanel:SetBackdrop({
+	bgFile = [[Interface\Buttons\WHITE8x8]],
+	edgeFile = [[Interface\Buttons\WHITE8x8]],
+	edgeSize = 1,
+})
+gempUI_bagpanel:SetBackdropColor(gempUIcolor.r,gempUIcolor.g,gempUIcolor.b,gempUIcolor.a)
+gempUI_bagpanel:SetBackdropBorderColor(gempUIbordercolor.r, gempUIbordercolor.g, gempUIbordercolor.b, gempUIbordercolor.a)
+gempUI_bagpanel:SetPoint("RIGHT",1,-309)
+gempUI_bagpanel:Show();
 

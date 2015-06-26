@@ -71,25 +71,25 @@ gWorldmarkers:Hide();
 
 
 function gWM_Toggle()
-	if(gWM_visible == true) then
-		gWorldmarkers:Hide();
-		gWM_visible = false;
-	elseif(gAC_visible ==true) then
-		gAutomatorConfig:Hide();
-		gAC_visible = false;
+	if gDMG_visible == true then
+		gDamage:Hide()
+		gDMG_visible = false
+		SkadaToggleWindowIfLoaded()
 
-		gWorldmarkers:Show();
-		gWM_visible = true;
-	elseif(wDMG_visible == true) then
-		gDamage:Hide();
-		gDMG_visible = false;
-		SkadaToggleWindowIfLoaded();
+		gWorldmarkers:Show()
+		gWM_visible = true
+	elseif gAC_visible == true then
+		gAutomatorConfig:Hide()
+		gAC_visible = false
 
-		gWorldmarkers:Show();
-		gWM_visible = true;
+		gWorldmarkers:Show()
+		gWM_visible = true
+	elseif gWM_visible == true then
+		gWorldmarkers:Hide()
+		gWM_visible = false
 	else
-		gWorldmarkers:Show();
-		gWM_visible = true;
+		gWorldmarkers:Show()
+		gWM_visible = true
 	end
 end
 
@@ -415,15 +415,12 @@ gACt_3:SetText("Sell Junk");
 gACt_3:SetPoint("CENTER", gAC_3button, "CENTER", 0,-1);
 
 local frame = CreateFrame("FRAME", "check");
-frame:RegisterEvent("MERCHANT_SHOW");
+frame:RegisterEvent("PLAYER_ENTERING_WORLD");
 local function eventHandler(self, event, ...)
 	if selljunk == true then
 		gAC_3:SetBackdropColor(0,1,0,0.2);
-		
-		selljunkfunc();
 	elseif selljunk == false then
 		gAC_3:SetBackdropColor(1,0,0,0.2);
-		
 	end
 end
 frame:SetScript("OnEvent", eventHandler);
