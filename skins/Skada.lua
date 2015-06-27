@@ -15,7 +15,7 @@ if SkadaSkinSet == nil or false then
 	SkadaDB.profiles.Default.windows[1].background.color.a = 0
 	SkadaDB.profiles.Default.icon.hide = true
 	-- Barcolors
-	SkadaDB.profiles.Default.windows[1].barbgcolor.a = gempUIcolor.a
+	SkadaDB.profiles.Default.windows[1].barbgcolor.a = 0
 	SkadaDB.profiles.Default.windows[1].barcolor.r = gempUIcolor.r
 	SkadaDB.profiles.Default.windows[1].barcolor.g = gempUIcolor.g
 	SkadaDB.profiles.Default.windows[1].barcolor.b = gempUIcolor.b
