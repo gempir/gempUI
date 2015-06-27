@@ -56,9 +56,9 @@ local function Update(self, event, unit)
 	
 	if(experience.text) then
 	    if(exhaustion~=0) then
-		    experience.text:SetText(format('XP: %d / %d (%d%%) |cff0090ff+ %d (%d%%)', min, max, min / max * 100, exhaustion, exhaustion / max * 100))
+		    experience.text:SetText(format('%d%% |cff0090ff+ %d (%d%%)', min / max * 100, exhaustion, exhaustion / max * 100))
 	    else
-	        experience.text:SetText(format('XP: %d / %d (%d%%)', min, max, min / max * 100))
+	        experience.text:SetText(format('%d%%', min / max * 100))
 	    end
 	end
 

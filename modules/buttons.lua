@@ -9,11 +9,29 @@ button:SetWidth(60)
 button:SetHeight(25)
 button:RegisterForClicks("LeftButtonDown")
 button:SetScript("OnClick", function()
-    gWM_Toggle();
-    
 
+    if oUF_SkaarjPlayer.Experience then
 
-end )
+	    if gWM_visible then
+	    	gempUI_exp:SetPoint("TOP", Minimap,"TOP",0,-200)
+	    elseif not gWM_visible then
+	    	gempUI_exp:SetPoint("TOP", Minimap,"TOP",0,-272)
+	    end
+
+	end
+
+	if oUF_SkaarjPlayer.Reputation then
+
+	    if gWM_visible then
+	    	gempUI_rep:SetPoint("TOP", Minimap,"TOP",0,-200)
+	    elseif not gWM_visible then
+	    	gempUI_rep:SetPoint("TOP", Minimap,"TOP",0,-272)
+	    end
+
+	end
+
+    gWM_Toggle()
+end)
 
 button:SetBackdrop({
 		bgFile =  "Interface\\ChatFrame\\ChatFrameBackground",
@@ -50,9 +68,26 @@ button:SetWidth(60)
 button:SetHeight(25)
 button:RegisterForClicks("LeftButtonDown")
 button:SetScript("OnClick", function()
-    gAC_Toggle();
+    
+    if oUF_SkaarjPlayer.Experience then
+		if gAC_visible then
+	    	gempUI_exp:SetPoint("TOP", Minimap,"TOP",0,-200)
+	    elseif not gAC_visible then
+	    	gempUI_exp:SetPoint("TOP", Minimap,"TOP",0,-272)
+	    end
+	end
 
-   
+	if oUF_SkaarjPlayer.Reputation then
+
+	    if gAC_visible then
+	    	gempUI_rep:SetPoint("TOP", Minimap,"TOP",0,-200)
+	    elseif not gAC_visible then
+	    	gempUI_rep:SetPoint("TOP", Minimap,"TOP",0,-272)
+	    end
+
+	end
+
+    gAC_Toggle()
 end )
 
 button:SetBackdrop({
@@ -89,7 +124,24 @@ button:SetWidth(60)
 button:SetHeight(25)
 button:RegisterForClicks("LeftButtonDown")
 button:SetScript("OnClick", function()
-    gDMG_Toggle();
+    
+    if oUF_SkaarjPlayer.Experience then
+		if gDMG_visible then
+	    	gempUI_exp:SetPoint("TOP", Minimap,"TOP",0,-200)
+	    elseif not gDMG_visible then
+	    	gempUI_exp:SetPoint("TOP", Minimap,"TOP",0,-275)
+	    end
+	end
+
+	if oUF_SkaarjPlayer.Reputation then
+	    if gDMG_visible then
+	    	gempUI_rep:SetPoint("TOP", Minimap,"TOP",0,-200)
+	    elseif not gDMG_visible then
+	    	gempUI_rep:SetPoint("TOP", Minimap,"TOP",0,-275)
+	    end
+	end
+
+    gDMG_Toggle()
 end)
 
 button:SetBackdrop({

@@ -105,14 +105,14 @@ MiniMapTracking:SetAlpha(0)
 
 local function OnLeave()
     if not Minimap:IsMouseOver() then
-    	MiniMapTracking:SetAlpha(0)
-    	GarrisonIcon:SetAlpha(0) 
+    	UIFrameFadeOut(MiniMapTracking, 0.3, 1, 0)           
+    	UIFrameFadeOut(GarrisonIcon, 0.3, 1, 0)          
     end
 end
  
 Minimap:HookScript('OnEnter', function() 
-	MiniMapTracking:SetAlpha(1) 
-	GarrisonIcon:SetAlpha(1)
+	UIFrameFadeIn(MiniMapTracking, 0.3, 0, 1)           
+  UIFrameFadeIn(GarrisonIcon, 0.3, 0, 1)  
 	end)
 Minimap:HookScript('OnLeave', OnLeave)
 MiniMapTrackingButton:HookScript('OnLeave', OnLeave)
@@ -414,13 +414,15 @@ local menuList = {
     end,
     notCheckable = true,
   },
-  {
+  --[[
+{
     text = L['Quit'],
     func = function()
       ForceQuit()
     end,
     notCheckable = true,
   },
+  ]]
 }
 if IsAddOnLoaded("Carbonite") or IsAddOnLoaded("Sexymap") or IsAddOnLoaded("Chinchilla") then --check to see if a conflicting addon is loaded
   local button = CreateFrame("Button", nil, mainframe) --if one is we make a button

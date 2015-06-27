@@ -1019,60 +1019,80 @@ local UnitSpecific = {
 		
         if cfg.exp_rep.enable then 
             if UnitLevel('player') < MAX_PLAYER_LEVEL then		    
-                e = createStatusbar(self, cfg.texture, nil, cfg.treat.height, cfg.treat.width, 0, .7, 1, 1)
-				e:SetFrameStrata('LOW')
+                gempUI_exp = createStatusbar(self, cfg.texture, nil, cfg.treat.height, cfg.treat.width, 0, .7, 1, 1)
+				gempUI_exp:SetFrameStrata('LOW')
 				if cfg.exp_rep.unlock then
-				    e:SetPoint(gempUI.xp_rep.a, gempUI.xp_rep.b, gempUI.xp_rep.c, gempUI.xp_rep.x, gempUI.xp_rep.y)
-					e:SetSize(cfg.exp_rep.width, cfg.exp_rep.height) 
+				    -- this is a custom If function for the minimap frames in gempUI
+
+				    if gAC_visible or gWM_visible then
+				    	gempUI_exp:SetPoint("TOP", Minimap,"TOP",0,-272)
+				    elseif gDMG_visible then
+				    	gempUI_exp:SetPoint("TOP", Minimap,"TOP",0,-275)
+				    else
+				    	gempUI_exp:SetPoint("TOP", Minimap,"TOP",0,-200)
+					end
+					
+					if gXpbar == nil or gXpbar == false then
+						gempUI_exp:SetAlpha(0)
+					end
+					
+					gempUI_exp:SetSize(cfg.exp_rep.width, cfg.exp_rep.height)
+
 				else
-				    e:SetPoint(unpack(cfg.treat.pos))
+				    gempUI_exp:SetPoint(unpack(cfg.treat.pos))
 				end
-                e.Rested = createStatusbar(e, cfg.texture, nil, nil, nil, 0, .4, 1, .6)
-                e.Rested:SetAllPoints(e)
-                e.bg = e.Rested:CreateTexture(nil, 'BORDER')
-                e.bg:SetAllPoints(e)
-                e.bg:SetTexture(cfg.texture)
-                e.bg:SetVertexColor(0, .7, 1, 0.4)
-			    e.text = fs(e, 'OVERLAY', cfg.aura.font, cfg.aura.fontsize, cfg.aura.fontflag, 1, 1, 1)
-	            e.text:SetPoint('CENTER',0,0)
+                gempUI_exp.Rested = createStatusbar(gempUI_exp, cfg.texture, nil, nil, nil, 0, .4, 1, .6)
+                gempUI_exp.Rested:SetAllPoints(gempUI_exp)
+                gempUI_exp.bg = gempUI_exp.Rested:CreateTexture(nil, 'BORDER')
+                gempUI_exp.bg:SetAllPoints(gempUI_exp)
+                gempUI_exp.bg:SetTexture(cfg.texture)
+                gempUI_exp.bg:SetVertexColor(0, .7, 1, 0.4)
+			    gempUI_exp.text = fs(gempUI_exp, 'OVERLAY', cfg.aura.font, cfg.aura.fontsize, cfg.aura.fontflag, 1, 1, 1)
+	            gempUI_exp.text:SetPoint('CENTER',0,-1)
 				if cfg.exp_rep.show_text_on_mouseover then
-					e.text:Hide()
-					e:SetScript('OnEnter', function(self)UIFrameFadeIn(e.text, 0.3, 0, 1)end)
-	                e:SetScript('OnLeave', function(self)UIFrameFadeOut(e.text, 0.3, 1, 0)end)
+					gempUI_exp.text:Hide()
+					gempUI_exp:SetScript('OnEnter', function(self)UIFrameFadeIn(gempUI_exp.text, 0.3, 0, 1)end)
+	                gempUI_exp:SetScript('OnLeave', function(self)UIFrameFadeOut(gempUI_exp.text, 0.3, 1, 0)end)
 				end
-                e.bd = framebd(e, e)
-			    self.Experience = e
+                gempUI_exp.bd = framebd(gempUI_exp, gempUI_exp)
+
+			    self.Experience = gempUI_exp
 
 		    else 
-		        local r = createStatusbar(self, cfg.texture, nil, cfg.treat.height, cfg.treat.width, 0, .7, 1, 1)
-				r:SetFrameStrata('LOW')
+		        gempUI_rep = createStatusbar(self, cfg.texture, nil, cfg.treat.height, cfg.treat.width, gempUIsecondcolor.r, gempUIsecondcolor.g+0.4, gempUIsecondcolor.b+0.3 ,1)
+				gempUI_rep:SetFrameStrata('LOW')
 				if cfg.exp_rep.unlock then
-				    if SkadaBarWindowSkada:IsShown() then
-						r:SetPoint("CENTER", button_wDamage, "TOPRIGHT", -89, -103)
-					elseif gAC_3visible == true then 
-						r:SetPoint("CENTER", button_wDamage, "TOPRIGHT", -89, -102)
-					elseif wWM_visible == true then
-						r:SetPoint("CENTER", button_wDamage, "TOPRIGHT", -89, -100)
-					else 
-						r:SetPoint(gempUI.xp_rep.a, gempUI.xp_rep.b, gempUI.xp_rep.c, gempUI.xp_rep.x, gempUI.xp_rep.y)
+				    
+					if gAC_visible or gWM_visible then
+				    	gempUI_rep:SetPoint("TOP", Minimap,"TOP",0,-272)
+				    elseif gDMG_visible then
+				    	gempUI_rep:SetPoint("TOP", Minimap,"TOP",0,-275)
+				    else
+				    	gempUI_rep:SetPoint("TOP", Minimap,"TOP",0,-200)
 					end
-			        r:SetSize(cfg.exp_rep.width, cfg.exp_rep.height)
+
+					gempUI_rep:SetSize(cfg.exp_rep.width, cfg.exp_rep.height)
+
+					if gXpbar == nil or gXpbar == false then
+						gempUI_rep:SetAlpha(0)
+					end
+			        
 				else
-				    r:SetPoint(unpack(cfg.treat.pos))
+				    gempUI_rep:SetPoint(unpack(cfg.treat.pos))
 				end
-		        r.bg = r:CreateTexture(nil, 'BORDER')
-		        r.bg:SetAllPoints(r)
-                r.bg:SetTexture(cfg.texture)
-                r.bg:SetVertexColor(0, .7, 1, 0.4)	
-			    r.text = fs(r, 'OVERLAY', cfg.aura.font, cfg.aura.fontsize, cfg.aura.fontflag, 1, 1, 1)
-	            r.text:SetPoint('CENTER')
+		        gempUI_rep.bg = gempUI_rep:CreateTexture(nil, 'BORDER')
+		        gempUI_rep.bg:SetAllPoints(gempUI_rep)
+                gempUI_rep.bg:SetTexture(cfg.texture)
+                gempUI_rep.bg:SetVertexColor(gempUIsecondcolor.r, gempUIsecondcolor.g+0.4, gempUIsecondcolor.b+0.3, 0.4)	
+			    gempUI_rep.text = fs(gempUI_rep, 'OVERLAY', cfg.aura.font, cfg.aura.fontsize, cfg.aura.fontflag, 1, 1, 1)
+	            gempUI_rep.text:SetPoint('CENTER',0,-1)
 				if cfg.exp_rep.show_text_on_mouseover then
-					r.text:Hide()
-					r:SetScript('OnEnter', function(self)UIFrameFadeIn(r.text, 0.3, 0, 1)end)
-	                r:SetScript('OnLeave', function(self)UIFrameFadeOut(r.text, 0.3, 1, 0)end)
+					gempUI_rep.text:Hide()
+					gempUI_rep:SetScript('OnEnter', function(self)UIFrameFadeIn(gempUI_rep.text, 0.3, 0, 1)end)
+	                gempUI_rep:SetScript('OnLeave', function(self)UIFrameFadeOut(gempUI_rep.text, 0.3, 1, 0)end)
 				end
-		        r.bd = framebd(r, r)
-		        self.Reputation = r		
+		        gempUI_rep.bd = framebd(gempUI_rep, gempUI_rep)
+		        self.Reputation = gempUI_rep		
             end					
 	    end
 	    

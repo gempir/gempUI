@@ -6,10 +6,9 @@ local _, class = UnitClass('player')
   -- Media
   -----------------------------
   
-local mediaPath = 'Interface\\AddOns\\gempUI\\modules\\oUF_Skaarj\\Media\\'
 cfg.texture = "Interface\\Addons\\gempUI\\media\\textures\\flat"
-cfg.symbol = mediaPath..'symbol.ttf'
-cfg.raidicons = mediaPath..'raidicons'
+cfg.symbol = "Interface\\AddOns\\gempUI\\media\\unitframes\\symbol.ttf"
+cfg.raidicons = "Interface\\AddOns\\gempUI\\media\\unitframes\\raidicons"
 cfg.edge = "Interface\\Buttons\\WHITE8x8"
 
 --Unit Frames Font
@@ -188,20 +187,17 @@ cfg.treat = {
 		height = 7,
 }
 
---Experience/Reputation
+--Experience/Reputation 
+-- don't play with these options most of them will cause bugs if changed
+
 cfg.exp_rep = {
-        enable = gempUI.xp_rep,
+        enable = true, -- DON'T TOUCH THIS
 		unlock = true,
         pos = {},  --requires unlock = true
-        width = 474,                                          --requires unlock = true
-		height = 10,                                           --requires unlock = true
+        width = 176,                                          --requires unlock = true
+		height = 14,                                           --requires unlock = true
 		show_text_on_mouseover = true,
 }
-
-
-
-
-
 
 --GCD
 cfg.gcd = {

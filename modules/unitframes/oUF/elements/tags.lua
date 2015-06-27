@@ -595,7 +595,8 @@ local Tag = function(self, fs, tagstr)
 				end
 
 				_ENV._COLORS = parent.colors
-				return self:SetFont(FONT_SQUARE,11,"THINOUTLINE"),self:SetFormattedText(
+				--self:SetFont(FONT_SQUARE,11,"THINOUTLINE"),
+				return self:SetFormattedText(
 					format,
 					args[1](parent.unit, realUnit) or ''
 				)

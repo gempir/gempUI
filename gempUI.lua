@@ -1,14 +1,14 @@
 -------------------------------------------------------------------------------------
 ------ Options
 -------------------------------------------------------------------------------------
--- defines general color of the UI
-gempUIcolor = {r =  0.1,	g =  0.1, 	b =  0.1, a = 1} 	
--- this is experimental which is why it doesn't work with anything
-gempUIbordercolor = {r =  0,	g =  0, 	b =  0, a = 1}  
+
+gempUIcolor = {r =  0.1,	g =  0.1, 	b =  0.1, a = 1}   -- defines general color of the UI
+gempUIsecondcolor = {r = 0, g = 0.5, b = 0.4}  	   -- this is the green tone used in something like the rep bar Hex: #008066
+gempUIbordercolor = {r =  0,	g =  0, 	b =  0, a = 1} -- this is experimental which is why it doesn't work with anything
+
 
 -- several general options
-gempUI = {
-	xp_rep = true,							-- enables the xp and reputation bar
+gempUI = {						
 	actionbars_side_two = false,			-- adds a second actionbar on the right
 	actionbars_main_three = false,			-- adds a third actionbar in the middle
 	castbar_safezone = false				-- shows a safezone for the castbar 
@@ -17,13 +17,8 @@ gempUI = {
 	
 -- positions
 
-gempUI = {
-	xp_rep = { a = "TOP", b = UIParent, c = "TOP", x = 0, y = -6}  -- Experience/Reputation 
-
-}
-
 -- Version Output
-print("|cFFDC143CWraths|rUI v1.3")
+print("|cff00FF7F gemp|rUI v0.1 BETA")
 
 -- Shared Media
 local LSM = LibStub("LibSharedMedia-3.0") 

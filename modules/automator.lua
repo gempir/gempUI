@@ -6,8 +6,8 @@ local addonName, eventHandlers = ..., { }
 ---------- Automator functions
 -------------------------------------------------------------------------------
 -- Hide Error text
-function hideerrorsfunc()
-	if hideerrors then
+function gHideerrorsfunc()
+	if gHideerrors then
 		local allowedErrors = { }
 
 			eventHandlers['UI_ERROR_MESSAGE'] = function(message)
@@ -23,9 +23,9 @@ end
 
 -- auto junk sell
 
-function selljunkfunc()	
+function gSelljunkfunc()	
 
-	if selljunk then
+	if gSelljunk then
 		for bag = 0,4,1 do for slot = 1, GetContainerNumSlots(bag),
 
 			1 do local name = GetContainerItemLink(bag,slot)
@@ -38,6 +38,7 @@ function selljunkfunc()
 	end
 end
 
+-- maybe later implementation, this destroys all grey items in the bags
 
 function destroyjunkfunc()
 		
@@ -55,7 +56,7 @@ function destroyjunkfunc()
 end
 
 -- autorepair / autojunkseller 
-function autorepairfunc() 
+function gAutorepairfunc() 
 	if CanMerchantRepair() then
 			local cost = GetRepairAllCost()
 
@@ -74,8 +75,8 @@ local frame = CreateFrame("FRAME", "MerchantEventCheck");
 frame:RegisterEvent("MERCHANT_SHOW");
 local function eventHandler(self, event, ...)
 
-	selljunkfunc();
-	autorepairfunc();
+	gSelljunkfunc();
+	gAutorepairfunc();
 
 end
 frame:SetScript("OnEvent", eventHandler);

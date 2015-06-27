@@ -54,9 +54,9 @@ local function Update(self, event, unit)
 	
 	if(reputation.text) then
         if 	Width < 300 then
-		    reputation.text:SetText(format('%s: %d / %d (%d%%)', name, barMin, barMax, ((barMin/barMax)*100) ))
+		    reputation.text:SetText(format('%d / %d (%d%%)', barMin, barMax, ((barMin/barMax)*100) ))
 		else
-	        reputation.text:SetText(format('%s:  %s | %d / %d (%d%%)', name, standing, barMin, barMax, ((barMin/barMax)*100) ))
+	        reputation.text:SetText(format(' %s | %d / %d (%d%%)', standing, barMin, barMax, ((barMin/barMax)*100) ))
 		end
 	end
 	

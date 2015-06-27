@@ -67,27 +67,9 @@ hooksecurefunc(CharacterBag3Slot, "SetPoint", function(self)
 end)
 CharacterBag3Slot:SetPoint("RIGHT", MainMenuBarBackpackButton, "LEFT", -2, 200)
 
-gempUI_bagpanel:Hide()
+
 CharacterBag0Slot:Hide()
 CharacterBag1Slot:Hide()
 CharacterBag2Slot:Hide()
 CharacterBag3Slot:Hide()
 
-
-local frame = CreateFrame("FRAME", "PlayerEnterWorld");
-    frame:RegisterEvent("PLAYER_ENTERING_WORLD");
-    local function eventHandler(self, event, ...)
-        local frame = CreateFrame("FRAME", "PlayerEnterWorld");
-            frame:RegisterEvent("BAG_UPDATE");
-            local function eventHandler(self, event, ...)
-                gempUI_bagpanel:Show()
-                CharacterBag0Slot:Show()
-                CharacterBag1Slot:Show()
-                CharacterBag2Slot:Show()
-                CharacterBag3Slot:Show()
-            end
-            frame:SetScript("OnEvent", eventHandler);
-
-
-    end
-    frame:SetScript("OnEvent", eventHandler);

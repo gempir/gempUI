@@ -1,8 +1,8 @@
 ## Interface: 60100
-## Title: |cFFDC143Cgemp|rUI 
+## Title: |cff00FF7F gemp|rUI v0.1 BETA 
 ## Notes: gempUI v1.3
 ## OptionalDeps: Skada, LibSharedMedia-3.0
-## SavedVariables: hideerrors, selljunk, autorepair, SkadaSkinSet, gDMG_visible, gAC_visible, gWM_visible, KuiNameplatesGDB, KuiSpellListCustom
+## SavedVariables: gHideerrors, gSelljunk, gAutorepair, gXpbar, SkadaSkinSet, gDMG_visible, gAC_visible, gWM_visible,
 
 
 libs\load_libs.xml
