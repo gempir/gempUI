@@ -3,7 +3,7 @@ Custom User Interface for World of Warcraft
 
 # Description
 
-This is my custom build User Interface for World of Warcraft. The current version is compatible with patch 6.1. 
+This is my custom build User Interface for World of Warcraft. The current version is compatible with patch 6.2. 
 Some stuff is written by myself but alot of modules are written by other awesome people. 
 
 # Screenshots
