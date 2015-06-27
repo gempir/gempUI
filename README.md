@@ -7,14 +7,15 @@ This is my custom build User Interface for World of Warcraft. The current versio
 Some stuff is written by myself but alot of modules are written by other awesome people. 
 
 # Screenshots
-![alt tag](http://i.imgur.com/VIca1rX.png)
+![alt tag](http://imgur.com/TUnFd3T.jpg)
 
 
-![alt tag](http://i.imgur.com/V1nZiEL.png)
+![alt tag](http://imgur.com/T8hyZlZ.jpg)
 
 
-![alt tag](http://i.imgur.com/opMn3iW.png)
+![alt tag](http://imgur.com/hmKn8M6.jpg)
 
+![alt tag](http://imgur.com/82Le1kp.jpg)
 
 # Credits: 
 
