@@ -82,16 +82,16 @@ GarrisonIcon:SetBackdrop{
 DurabilityFrame:SetPoint("CENTER", Minimap, "CENTER", -30,0)
 -- DungeonFinder LFG LFR
 QueueStatusMinimapButton:ClearAllPoints()
-QueueStatusMinimapButton:SetPoint("BOTTOMLEFT", Minimap, "BOTTOMLEFT", 0, -2)
+QueueStatusMinimapButton:SetPoint("BOTTOMLEFT", Minimap, "BOTTOMLEFT", 1, -2)
 QueueStatusMinimapButtonBorder:Hide()
 QueueStatusFrame:SetBackdrop({
 		bgFile =  [=[Interface\ChatFrame\ChatFrameBackground]=],
         edgeFile = "Interface\\Buttons\\WHITE8x8", edgeSize = 1, 
 		insets = {left = -0, right = -0, top = -0, bottom = -0} 
 	})
-QueueStatusFrame:SetBackdropColor(0,0,0,0.5)
+QueueStatusFrame:SetBackdropColor(gempUIcolor.r,gempUIcolor.g,gempUIcolor.b,gempUIcolor.a)
 QueueStatusFrame:SetBackdropBorderColor(0,0,0,1)
-QueueStatusFrame:SetBackdropBorderColor(0, 0, 0,1)
+QueueStatusFrame:SetBackdropBorderColor(gempUIbordercolor.r, gempUIbordercolor.g, gempUIbordercolor.b, gempUIbordercolor.a)
 
 --Tracking
 

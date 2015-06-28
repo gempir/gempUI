@@ -3,7 +3,7 @@
 -------------------------------------------------------------------------------------
 
 gempUIcolor = {r =  0.1,	g =  0.1, 	b =  0.1, a = 1}   -- defines general color of the UI
-gempUIsecondcolor = {r = 0, g = 0.5, b = 0.4}  	   -- this is the green tone used in something like the rep bar Hex: #008066
+gempUIsecondcolor = {r = 0, g = 0.7, b = 0.3}  	   -- this is the green tone used in something like the rep bar
 gempUIbordercolor = {r =  0,	g =  0, 	b =  0, a = 1} -- this is experimental which is why it doesn't work with anything
 
 
@@ -18,7 +18,8 @@ gempUI = {
 -- positions
 
 -- Version Output
-print("|cff00FF7F gemp|rUI v0.1 BETA")
+ChatFrame1:AddMessage("|cff00FF7Fgemp|rUI v0.1 BETA");
+
 
 
 

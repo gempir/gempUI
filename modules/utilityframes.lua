@@ -10,9 +10,11 @@ if gSelljunk == nil then
 	gSelljunk = false
 end
 if gAutorepair == nil then
-	gAutorepair = false
+	gAutorepair = 0
 end
-
+if gXpbar == nil then
+	gXpbar = true
+end
 -------------------------------------------------------------------------------
 ---------- Checks if Skada is active and parents it to the dmg frame of the minimap
 -------------------------------------------------------------------------------
@@ -241,12 +243,12 @@ local gAC_1button = CreateFrame("Button", nil, gAC_1)
 	  		end
 
 	  		if gHideerrors == true then
-				gAC_1:SetBackdropColor(gempUIsecondcolor.r, gempUIsecondcolor.g, gempUIsecondcolor.b)
-				print("Errors are hidden");
+				gAC_1:SetBackdropColor(0,1,0,0.2)
+				print("|cff00FF7F[gemp]|r Errors are hidden");
 				gHideerrorsfunc();
 			elseif gHideerrors == false then
 				gAC_1:SetBackdropColor(1,0,0,0.2)
-				print("Errors are not hidden");
+				print("|cff00FF7F[gemp]|r Errors are not hidden");
 				UIErrorsFrame:RegisterEvent('UI_ERROR_MESSAGE')
 			end
 	  end)
@@ -276,7 +278,7 @@ local frame = CreateFrame("FRAME", "check");
 frame:RegisterEvent("PLAYER_ENTERING_WORLD");
 local function eventHandler(self, event, ...)
 	if gHideerrors == true then
-		gAC_1:SetBackdropColor(gempUIsecondcolor.r, gempUIsecondcolor.g, gempUIsecondcolor.b);
+		gAC_1:SetBackdropColor(0,1,0,0.2);
 		
 		gHideerrorsfunc();
 	elseif gHideerrors == false then
@@ -307,21 +309,27 @@ local gAC_2button = CreateFrame("Button", nil, gAC_2)
       gAC_2button:SetPoint("CENTER", gAC_2, "CENTER", 0,0)
 	  gAC_2button:EnableMouse()
 	  gAC_2button:SetScript("OnMouseDown", function(self, button)
-	  		if gAutorepair == true then
-	  			gAutorepair = false
-	  		elseif gAutorepair == false then
-	  			gAutorepair = true
-	  		else 
-	  			gAutorepair = false
+	  		if gAutorepair == 0 then 
+	  			gAutorepair = 1 
+	  		elseif gAutorepair == 1 then
+	  			gAutorepair = 2
+	  		elseif gAutorepair == 2 then
+	  			gAutorepair = 0
 	  		end
+	  		
 
-	  		if gAutorepair == true then
-				gAC_2:SetBackdropColor(gempUIsecondcolor.r, gempUIsecondcolor.g, gempUIsecondcolor.b)
-				print("Auto-Repair is on (Guild first)");
-				gAutorepairfunc();
-			elseif gAutorepair == false then
+	  		if gAutorepair == 1 then
+				gAC_2:SetBackdropColor(0,1,0,0.2)
+				ChatFrame1:AddMessage("|cff00FF7F[gemp]|r Auto-Repair is on (Player)");
+				gACt_2:SetText("Auto Repair Player");
+			elseif gAutorepair == 2 then
+				gAC_2:SetBackdropColor(0,1,0,0.2)
+				ChatFrame1:AddMessage("|cff00FF7F[gemp]|r Auto-Repair is on (Guild first)");
+				gACt_2:SetText("Auto Repair Guild");
+			elseif gAutorepair == 0 then
 				gAC_2:SetBackdropColor(1,0,0,0.2)
-				print("Auto-Repair is off");
+				ChatFrame1:AddMessage("|cff00FF7F[gemp]|r Auto-Repair is off");
+				gACt_2:SetText("Auto Repair is off");
 			end
 			
 	  end)
@@ -345,19 +353,32 @@ local buttonOverlay = CreateFrame("Frame", nil, gAC_2button)
 
 gACt_2 = gAC_2button:CreateFontString(nil, "OVERLAY", gAutomatorConfig);
 gACt_2:SetFont("Interface\\AddOns\\gempUI\\media\\fonts\\square.ttf", 14, "THINOUTLINE");
-gACt_2:SetText("Auto Repair");
 gACt_2:SetPoint("CENTER", gAC_2button, "CENTER", 0,-1);
+
+if gAutorepair == 1 then
+		gAC_2:SetBackdropColor(0,1,0,0.2);
+		gACt_2:SetText("Auto Repair Player");
+	elseif gAutorepair == 2 then
+		gAC_2:SetBackdropColor(0,1,0,0.2);
+		gACt_2:SetText("Auto Repair Guild");
+	elseif gAutorepair == 0 then
+		gAC_2:SetBackdropColor(1,0,0,0.2);
+		gACt_2:SetText("Auto Repair is off");
+end
+
 
 local frame = CreateFrame("FRAME", "check");
 frame:RegisterEvent("PLAYER_ENTERING_WORLD");
 local function eventHandler(self, event, ...)
-	if gAutorepair == true then
-		gAC_2:SetBackdropColor(gempUIsecondcolor.r, gempUIsecondcolor.g, gempUIsecondcolor.b);
-		
-		gAutorepairfunc();
-	elseif gAutorepair == false then
+	if gAutorepair == 1 then
+		gAC_2:SetBackdropColor(0,1,0,0.2);
+		gACt_2:SetText("Auto Repair Player");
+	elseif gAutorepair == 2 then
+		gAC_2:SetBackdropColor(0,1,0,0.2);
+		gACt_2:SetText("Auto Repair Guild");
+	elseif gAutorepair == 0 then
 		gAC_2:SetBackdropColor(1,0,0,0.2);
-		
+		gACt_2:SetText("Auto Repair is off");
 	end
 end
 frame:SetScript("OnEvent", eventHandler);
@@ -393,12 +414,12 @@ local gAC_3button = CreateFrame("Button", nil, gAC_3)
 	  		end
 
 	  		if gSelljunk == true then
-				gAC_3:SetBackdropColor(gempUIsecondcolor.r, gempUIsecondcolor.g, gempUIsecondcolor.b)
-				print("Junk will be sold");
+				gAC_3:SetBackdropColor(0,1,0,0.2)
+				print("|cff00FF7F[gemp]|r Junk will be sold");
 				gSelljunkfunc();
 			elseif gSelljunk == false then
 				gAC_3:SetBackdropColor(1,0,0,0.2)
-				print("Junk won't be sold");
+				print("|cff00FF7F[gemp]|r Junk won't be sold");
 			
 			end
 	  end)
@@ -429,7 +450,7 @@ local frame = CreateFrame("FRAME", "check");
 frame:RegisterEvent("PLAYER_ENTERING_WORLD");
 local function eventHandler(self, event, ...)
 	if gSelljunk == true then
-		gAC_3:SetBackdropColor(gempUIsecondcolor.r, gempUIsecondcolor.g, gempUIsecondcolor.b);
+		gAC_3:SetBackdropColor(0,1,0,0.2);
 	elseif gSelljunk == false then
 		gAC_3:SetBackdropColor(1,0,0,0.2);
 	end
@@ -470,7 +491,7 @@ local gAC_4button = CreateFrame("Button", nil, gAC_4)
 	  		end
 
 	  		if gXpbar == true then
-					gAC_4:SetBackdropColor(gempUIsecondcolor.r, gempUIsecondcolor.g, gempUIsecondcolor.b)
+					gAC_4:SetBackdropColor(0,1,0,0.2)
 					
 			elseif gXpbar == false then
 					gAC_4:SetBackdropColor(1,0,0,0.2)
@@ -479,19 +500,19 @@ local gAC_4button = CreateFrame("Button", nil, gAC_4)
 
 	  		if gempUI_playerlevel == MAX_PLAYER_LEVEL then
 	  			if gXpbar == true then
-					print("Reputationbar is now shown");
+					print("|cff00FF7F[gemp]|r Reputationbar is now shown");
 					gempUI_rep:SetAlpha(1)
 				elseif gXpbar == false then
-					print("Reputationbar is now hidden");
+					print("|cff00FF7F[gemp]|r Reputationbar is now hidden");
 					gempUI_rep:SetAlpha(0)
 				end
 	  		else
 
 		  		if gXpbar == true then
-					print("Experiencebar is now shown");
+					print("|cff00FF7F[gemp]|r Experiencebar is now shown");
 					gempUI_exp:SetAlpha(1)
 				elseif gXpbar == false then
-					print("Experiencebar is now hidden");
+					print("|cff00FF7F[gemp]|r Experiencebar is now hidden");
 					gempUI_exp:SetAlpha(0)
 				end
 			end
@@ -507,7 +528,7 @@ local buttonOverlay = CreateFrame("Frame", nil, gAC_4button)
 			edgeSize = 1,
 		})
 	  buttonOverlay:SetBackdropColor(0,0,0,0)
-	  buttonOverlay:SetBackdropBorderColor(gempUIbordercolor.r, gempUIbordercolor.g, gempUIbordercolor.b, gempUIbordercolor.a)
+	  buttonOverlay:SetBackdropBorderColor(0,1,0,0.2)
 
 	  gAC_4button:SetScript('OnEnter', function() buttonOverlay:SetBackdropColor(1,1,1,0.15) end)
 	  gAC_4button:SetScript('OnLeave', function() buttonOverlay:SetBackdropColor(0,0,0,0) end)
@@ -528,7 +549,7 @@ local frame = CreateFrame("FRAME", "check");
 frame:RegisterEvent("PLAYER_ENTERING_WORLD");
 local function eventHandler(self, event, ...)
 	if gXpbar == true then
-		gAC_4:SetBackdropColor(gempUIsecondcolor.r, gempUIsecondcolor.g, gempUIsecondcolor.b);
+		gAC_4:SetBackdropColor(0,1,0,0.2);
 		
 		gHideerrorsfunc();
 	elseif gXpbar == false then
@@ -540,6 +561,3 @@ frame:SetScript("OnEvent", eventHandler);
 
 ---------------------------------------------------------------------------------
 
--------------------------------------------------------------------------------
----------- Checks if the XP bar should be showing 
--------------------------------------------------------------------------------

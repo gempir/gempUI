@@ -97,3 +97,5 @@ end
     if frame and frame2 and frame3 and frame4 then
         frame:HookScript("OnHide", Container_OnHide)
     end
+
+

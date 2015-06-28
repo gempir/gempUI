@@ -1059,7 +1059,7 @@ local UnitSpecific = {
 			    self.Experience = gempUI_exp
 
 		    else 
-		        gempUI_rep = createStatusbar(self, cfg.texture, nil, cfg.treat.height, cfg.treat.width, gempUIsecondcolor.r, gempUIsecondcolor.g+0.4, gempUIsecondcolor.b+0.3 ,1)
+		        gempUI_rep = createStatusbar(self, cfg.texture, nil, cfg.treat.height, cfg.treat.width, gempUIsecondcolor.r, gempUIsecondcolor.g+0.3, gempUIsecondcolor.b+0.3 ,1)
 				gempUI_rep:SetFrameStrata('LOW')
 				if cfg.exp_rep.unlock then
 				    
@@ -1083,7 +1083,7 @@ local UnitSpecific = {
 		        gempUI_rep.bg = gempUI_rep:CreateTexture(nil, 'BORDER')
 		        gempUI_rep.bg:SetAllPoints(gempUI_rep)
                 gempUI_rep.bg:SetTexture(cfg.texture)
-                gempUI_rep.bg:SetVertexColor(gempUIsecondcolor.r, gempUIsecondcolor.g+0.4, gempUIsecondcolor.b+0.3, 0.4)	
+                gempUI_rep.bg:SetVertexColor(gempUIsecondcolor.r, gempUIsecondcolor.g+0.4, gempUIsecondcolor.b+0.3, 0.3)	
 			    gempUI_rep.text = fs(gempUI_rep, 'OVERLAY', cfg.aura.font, cfg.aura.fontsize, cfg.aura.fontflag, 1, 1, 1)
 	            gempUI_rep.text:SetPoint('CENTER',0,-1)
 				if cfg.exp_rep.show_text_on_mouseover then
