@@ -48,15 +48,13 @@ function gAutorepairfunc()
 				if gAutorepair == 1 then
 					RepairAllItems()
 					if cost > 0 then
-					ChatFrame1:AddMessage("Autorepaired with Playerfunds: "..cost)
 					end
 				elseif gAutorepair == 2 then
 					RepairAllItems(1)
 					if cost > 0 then
-					ChatFrame1:AddMessage("Autorepaired with Guildfunds: "..cost)
 					end
 				elseif gAutorepair == 0 then
-					
+
 				end
 
 		end

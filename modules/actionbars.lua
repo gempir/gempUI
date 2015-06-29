@@ -89,7 +89,7 @@
 		
 	["ExitVehicleButton"] = {
 		disable = false,				user_placed = true,	-- if user_placed is set to false exit vehicle button will be 'docked' into bar1	
-		position = {a="BOTTOM", x=-250, y=150}, 			-- only if user_placed = true
+		position = {a="BOTTOM", x=-260, y=150}, 			-- only if user_placed = true
 		button_size = 28,									-- only if user_placed = true
 		},
 	["ExtraButton"] = {
@@ -113,6 +113,24 @@
 		},
 	}
 
+	cfg.buttons = {
+	hide_hotkey = false,		-- remove key binding text from the bars
+	hide_macro_name = true,		-- remove macro name text from the bars
+	count_font_size = 12,		-- remove count text from the bars
+	hotkey_font_size = 11,		-- font size for the key bindings text
+	name_font_size = 8,			-- font size for the macro name text
+	colors = {	--R,G,B
+		   normal = {0,0,0},
+		   pushed = {1,1,1},
+		highlight = {.9,.8,.6},
+		  checked = {.9,.8,.6},
+	   outofrange = {.8,.3,.2},
+		outofmana = {.3,.3,.7},
+		   usable = {1,1,1},
+		 unusable = {.4,.4,.4},
+		 equipped = {.3,.6,.3}
+	  }
+  }
 
 
 if gempUI.actionbars_main_three then

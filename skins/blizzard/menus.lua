@@ -1,6 +1,5 @@
 
--- redoes a lot of simple tooltips like the micromenu on the minimap
-gempUI_rebackdrop(DropDownList1MenuBackdrop)
+
 
 -- changes the Escape menu
 gempUI_rebackdrop(GameMenuFrame)

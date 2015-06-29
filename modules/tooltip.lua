@@ -1,3 +1,6 @@
+-- redoes a lot of simple tooltips like the micromenu on the minimap
+gempUI_rebackdrop(DropDownList1MenuBackdrop)
+gempUI_rebackdrop(ItemRefTooltip)
 
 -- font changes
 
