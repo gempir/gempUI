@@ -2,6 +2,4 @@
 	<Script file="LibStub\LibStub.lua"/>
 	<Script file="CallbackHandler-1.0\CallbackHandler-1.0.lua"/>
 	<Script file="LibSharedMedia-3.0\LibSharedMedia-3.0.lua"/>
-	<Script file="gempUI\libary.lua"/>
-	<Script file="gempUI\functions.lua"/>
 </Ui>

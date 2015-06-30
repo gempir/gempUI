@@ -13,6 +13,6 @@ modules\unitframes\load_unitframes.xml
 modules\load_modules.xml
 modules\cooldowns\load_cooldowns.xml
 modules\blizzard\load_blizzard.xml
-skins\load_skins.xml
+modules\skins\load_skins.xml
 
 

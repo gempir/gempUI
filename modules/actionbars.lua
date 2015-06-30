@@ -82,7 +82,7 @@
 		custom_visibility_macro = false
 		},
 	["MicroMenu"] = {
-		hide_bar = true,				show_on_mouseover = true ,	scale = 0.7,
+		hide_bar = false,				show_on_mouseover = true ,	scale = 0.7,
 		lock_to_CharacterFrame = false,					-- position MicroMenu bar right on top of your CharacterFrame
 		position = {a= "BOTTOMRIGHT", x=	-545,	y= 0},	  	-- if not locked
 		},
