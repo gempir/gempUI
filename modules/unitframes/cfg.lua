@@ -191,7 +191,7 @@ cfg.treat = {
 -- don't play with these options most of them will cause bugs if changed
 
 cfg.exp_rep = {
-        enable = true, -- DON'T TOUCH THIS
+        enable = false, -- DON'T TOUCH THIS
 		unlock = true,
         pos = {},  --requires unlock = true
         width = 176,                                          --requires unlock = true

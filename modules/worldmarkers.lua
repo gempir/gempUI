@@ -1,6 +1,6 @@
 
 local function CreateMarkerButton(btnName, iconnum,x,y)
-	local frame = CreateFrame("Button", btnName, gWorldmarkers, "SecureActionButtonTemplate");
+	local frame = CreateFrame("Button", btnName, gWorldmarkers);
 	frame:SetPoint("CENTER", gWorldmarkers,x,y)
     frame:SetWidth(22);
     frame:SetHeight(22);
@@ -61,7 +61,7 @@ WM_SkullFlareSet:SetAttribute("macrotext", "/wm 8");
 -- clear the worldmarkers
 
 local function CreateMarkerClearButton(btnName,x,y)
-	local frame = CreateFrame("Button", btnName, gWorldmarkers, "SecureActionButtonTemplate");
+	local frame = CreateFrame("Button", btnName, gWorldmarkers);
 	frame:SetPoint("CENTER", gWorldmarkers,x,y)
     frame:SetWidth(22);
     frame:SetHeight(22);
@@ -126,7 +126,7 @@ WM_SkullFlareClear:SetAttribute("macrotext", "/cwm 8");
 -- Rolecheck / ReadyCheck / Clear All
 
 local function CreateRaidButton(btnName,text,x,y)
-	local frame = CreateFrame("Button", btnName, gWorldmarkers, "SecureActionButtonTemplate");
+	local frame = CreateFrame("Button", btnName, gWorldmarkers);
 	frame:SetPoint("CENTER", gWorldmarkers,x,y)
     frame:SetWidth(60);
     frame:SetHeight(25);

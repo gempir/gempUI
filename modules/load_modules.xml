@@ -12,4 +12,5 @@
 	<Script file="buffs.lua"/>
 	<Script file="actionbuttonstyler.lua"/>
 	<Script file="actionbars.lua"/>
+	<Script file="experience_reputation.lua"/>
 </Ui>

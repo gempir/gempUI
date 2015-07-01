@@ -501,39 +501,28 @@ local gAC_4button = CreateFrame("Button", nil, gAC_4)
 	  		if gempUI_playerlevel == MAX_PLAYER_LEVEL then
 	  			if gXpbar == true then
 					print("|cff00FF7F[gemp]|r Reputationbar is now shown");
-					gempUI_rep:SetAlpha(1)
+					gempXpbar:Show()
+					gXpbarp:Show()
 				elseif gXpbar == false then
 					print("|cff00FF7F[gemp]|r Reputationbar is now hidden");
-					gempUI_rep:SetAlpha(0)
+					gempXpbar:Hide()
+					gXpbarp:Hide()
 				end
 	  		else
-
 		  		if gXpbar == true then
 					print("|cff00FF7F[gemp]|r Experiencebar is now shown");
-					gempUI_exp:SetAlpha(1)
+					gempXpbar:Show()
+					gXpbarp:Show()
 				elseif gXpbar == false then
 					print("|cff00FF7F[gemp]|r Experiencebar is now hidden");
-					gempUI_exp:SetAlpha(0)
+					gempXpbar:Hide()
+					gXpbarp:Hide()
 				end
 			end
 	  end)
 
-local buttonOverlay = CreateFrame("Frame", nil, gAC_4button)
-      buttonOverlay:SetWidth(60)
-      buttonOverlay:SetHeight(25)
-      buttonOverlay:SetPoint("CENTER", gAC_4button, "CENTER", 0,0)
-	  buttonOverlay:SetBackdrop({
-			bgFile = [[Interface\Buttons\WHITE8x8]],
-			edgeFile = [[Interface\Buttons\WHITE8x8]],
-			edgeSize = 1,
-		})
-	  buttonOverlay:SetBackdropColor(0,0,0,0)
-	  buttonOverlay:SetBackdropBorderColor(0,1,0,0.2)
 
-	  gAC_4button:SetScript('OnEnter', function() buttonOverlay:SetBackdropColor(1,1,1,0.15) end)
-	  gAC_4button:SetScript('OnLeave', function() buttonOverlay:SetBackdropColor(0,0,0,0) end)
-
-if gempUI_playerlevel == MAX_PLAYER_LEVEL then
+if UnitLevel("player") == MAX_PLAYER_LEVEL then
 	rep_or_xp_text = "REPBar"
 else
 	rep_or_xp_text = "EXPBar"
@@ -550,14 +539,63 @@ frame:RegisterEvent("PLAYER_ENTERING_WORLD");
 local function eventHandler(self, event, ...)
 	if gXpbar == true then
 		gAC_4:SetBackdropColor(0,1,0,0.2);
-		
-		gHideerrorsfunc();
+		gXpbarp:Show()
+		gempXpbar:Show()
+
 	elseif gXpbar == false then
 		gAC_4:SetBackdropColor(1,0,0,0.2);
-		
+		gXpbarp:Hide()
+		gempXpbar:Hide()
 	end
 end
 frame:SetScript("OnEvent", eventHandler);
 
 ---------------------------------------------------------------------------------
 
+-------------------------------------------------------------------------------
+------ Config for the XP Bar Text
+-------------------------------------------------------------------------------
+
+local gAC_4 = CreateFrame("Frame",nil, gAutomatorConfig)
+gAC_4:SetWidth(60) 
+gAC_4:SetHeight(25) 
+gAC_4:SetPoint("CENTER", gAutomatorConfig, "CENTER", 59, 24)
+gAC_4:SetBackdrop({
+	bgFile = [[Interface\Buttons\WHITE8x8]],
+	edgeFile = [[Interface\Buttons\WHITE8x8]],
+	edgeSize = 1,
+})
+gAC_4:SetBackdropColor(0,0,0,0)
+gAC_4:SetBackdropBorderColor(gempUIbordercolor.r, gempUIbordercolor.g, gempUIbordercolor.b, gempUIbordercolor.a)
+gAC_4:EnableMouse()
+
+
+
+local gAC_4button = CreateFrame("Button", nil, gAC_4)
+      gAC_4button:SetWidth(60)
+      gAC_4button:SetHeight(25)
+      gAC_4button:SetPoint("CENTER", gAC_4, "CENTER", 0,0)
+	  gAC_4button:EnableMouse()
+	  gAC_4button:SetScript("OnMouseDown", function(self, button)
+	  		
+
+
+	  		
+	  end)
+
+
+
+gACt_4 = gAC_4button:CreateFontString(nil, "OVERLAY", gAutomatorConfig);
+gACt_4:SetFont("Interface\\AddOns\\gempUI\\media\\fonts\\square.ttf", 14, "THINOUTLINE");
+gACt_4:SetText("");
+gACt_4:SetPoint("CENTER", gAC_4button, "CENTER",1,-1);
+
+
+local frame = CreateFrame("FRAME", "check");
+frame:RegisterEvent("PLAYER_ENTERING_WORLD");
+local function eventHandler(self, event, ...)
+	
+end
+frame:SetScript("OnEvent", eventHandler);
+
+---------------------------------------------------------------------------------

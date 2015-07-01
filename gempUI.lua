@@ -7,8 +7,8 @@ gempUI = {}
 ChatFrame1:AddMessage("|cff00FF7Fgemp|rUI v0.1 BETA");
 
 
-gempUIcolor = {r =  0.1,	g =  0.1, 	b =  0.1, a = 1}   -- defines general color of the UI
-gempUIsecondcolor = {r = 0, g = 0.7, b = 0.3}  	   -- this is the green tone used in something like the rep bar
+gempUIcolor = {r =  0.1,	g =  0.1, 	b =  0.1, a = 1}   -- defines general color of the UI, unitframes will have some bugs
+gempUIsecondcolor = {r = 0, g = 0.7, b = 0.3}  	   -- this is the green tone used in something like the rep bar, doesn't work correctly either
 gempUIbordercolor = {r =  0,	g =  0, 	b =  0, a = 1} -- this is experimental which is why it doesn't work with anything
 
 
@@ -80,17 +80,10 @@ function gempUI_retexture(frame)
 end
 
 function gempUI_textureclear(t)
-	local setting
-	hooksecurefunc(t, "SetTexture", function(self)
-	    if setting then
-	        return
-	    end
-	    setting = true
-	    t:SetTexture(nil)
-	    setting = nil
-	end)
-	t:SetTexture(nil)
+  
 end
+
+
 
 
 -- thanks to Resike for these two
@@ -164,3 +157,5 @@ end
 -- Blooblahguy - bBuffs
 -- 10leej - Click Menu - Copyright (c) 2015 10leej (MIT License)
 -- Mayron - For helping me with some Interface skinning
+
+

@@ -10,27 +10,14 @@ button:SetHeight(25)
 button:RegisterForClicks("LeftButtonDown")
 button:SetScript("OnClick", function()
 
-    if oUF_SkaarjPlayer.Experience then
-
-	    if gWM_visible then
-	    	gempUI_exp:SetPoint("TOP", Minimap,"TOP",0,-200)
-	    elseif not gWM_visible then
-	    	gempUI_exp:SetPoint("TOP", Minimap,"TOP",0,-272)
-	    end
-
+	if gWM_visible then
+		gXpbarp:SetPoint("TOP", Minimap, "TOP", 0, -201)
+	elseif not gWM_visible then
+		gXpbarp:SetPoint("TOP", Minimap, "TOP", 0, -271)
 	end
-
-	if oUF_SkaarjPlayer.Reputation then
-
-	    if gWM_visible then
-	    	gempUI_rep:SetPoint("TOP", Minimap,"TOP",0,-200)
-	    elseif not gWM_visible then
-	    	gempUI_rep:SetPoint("TOP", Minimap,"TOP",0,-272)
-	    end
-
-	end
-
+	   
     gWM_Toggle()
+
 end)
 
 button:SetBackdrop({
@@ -69,22 +56,10 @@ button:SetHeight(25)
 button:RegisterForClicks("LeftButtonDown")
 button:SetScript("OnClick", function()
     
-    if oUF_SkaarjPlayer.Experience then
-		if gAC_visible then
-	    	gempUI_exp:SetPoint("TOP", Minimap,"TOP",0,-200)
-	    elseif not gAC_visible then
-	    	gempUI_exp:SetPoint("TOP", Minimap,"TOP",0,-272)
-	    end
-	end
-
-	if oUF_SkaarjPlayer.Reputation then
-
-	    if gAC_visible then
-	    	gempUI_rep:SetPoint("TOP", Minimap,"TOP",0,-200)
-	    elseif not gAC_visible then
-	    	gempUI_rep:SetPoint("TOP", Minimap,"TOP",0,-272)
-	    end
-
+    if gAC_visible then
+		gXpbarp:SetPoint("TOP", Minimap, "TOP", 0, -201)
+	elseif not gAC_visible then
+		gXpbarp:SetPoint("TOP", Minimap, "TOP", 0, -273)
 	end
 
     gAC_Toggle()
@@ -125,20 +100,10 @@ button:SetHeight(25)
 button:RegisterForClicks("LeftButtonDown")
 button:SetScript("OnClick", function()
     
-    if oUF_SkaarjPlayer.Experience then
-		if gDMG_visible then
-	    	gempUI_exp:SetPoint("TOP", Minimap,"TOP",0,-200)
-	    elseif not gDMG_visible then
-	    	gempUI_exp:SetPoint("TOP", Minimap,"TOP",0,-275)
-	    end
-	end
-
-	if oUF_SkaarjPlayer.Reputation then
-	    if gDMG_visible then
-	    	gempUI_rep:SetPoint("TOP", Minimap,"TOP",0,-200)
-	    elseif not gDMG_visible then
-	    	gempUI_rep:SetPoint("TOP", Minimap,"TOP",0,-275)
-	    end
+    if gDMG_visible then
+		gXpbarp:SetPoint("TOP", Minimap, "TOP", 0, -201)
+	elseif not gDMG_visible then
+		gXpbarp:SetPoint("TOP", Minimap, "TOP", 0, -274)
 	end
 
     gDMG_Toggle()
