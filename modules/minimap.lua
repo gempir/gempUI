@@ -68,7 +68,7 @@ GarrisonLandingPageMinimapButton:SetSize(38, 38)
 GarrisonLandingPageMinimapButton:SetAlpha(0)
 GarrisonLandingPageMinimapButton:ClearAllPoints()
 GarrisonLandingPageMinimapButton:SetParent(Minimap)
-GarrisonLandingPageMinimapButton:SetPoint("BOTTOMRIGHT", Minimap, "BOTTOMRIGHT", 3, -3)
+GarrisonLandingPageMinimapButton:SetPoint("BOTTOMRIGHT", Minimap, "BOTTOMRIGHT", 1, -2)
 
 local GarrisonIcon = CreateFrame("Frame", "GarrisonIcon")
 GarrisonIcon:SetPoint("CENTER", GarrisonLandingPageMinimapButton, "CENTER", 0,0)
@@ -82,7 +82,7 @@ GarrisonIcon:SetBackdrop{
 DurabilityFrame:SetPoint("CENTER", Minimap, "CENTER", -30,0)
 -- DungeonFinder LFG LFR
 QueueStatusMinimapButton:ClearAllPoints()
-QueueStatusMinimapButton:SetPoint("BOTTOMLEFT", Minimap, "BOTTOMLEFT", 1, -2)
+QueueStatusMinimapButton:SetPoint("BOTTOMLEFT", Minimap, "BOTTOMLEFT", 1, -1)
 QueueStatusMinimapButtonBorder:Hide()
 QueueStatusFrame:SetBackdrop({
 		bgFile =  [=[Interface\ChatFrame\ChatFrameBackground]=],
@@ -97,7 +97,7 @@ QueueStatusFrame:SetBackdropBorderColor(gempUIbordercolor.r, gempUIbordercolor.g
 
 MiniMapTrackingBackground:SetAlpha(0)
 MiniMapTracking:ClearAllPoints()
-MiniMapTracking:SetPoint("TOPRIGHT", Minimap, 1, 1)
+MiniMapTracking:SetPoint("TOPRIGHT", Minimap, -2, -2)
 MiniMapTrackingButtonBorder:Hide()
 MiniMapTrackingButton:SetBackdropBorderColor(0, 0, 0)
 MiniMapTracking:SetAlpha(0)

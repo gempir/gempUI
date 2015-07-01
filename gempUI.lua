@@ -141,9 +141,6 @@ end
 -- The 2nd Font is called SquareFont from dafont user "agustinluisbou92" or "Bou Fonts"
 -- Interface\\Addons\\gempUI\\media\\fonts\\square.ttf
 
--- Icon Credit
--- http://cliparts.co/clip-art-sword
-
 -- This UI is a compilation of a lot of Addons and some stuff is written by me (Gempir)
 -- A lot of Credit goes to these great people who wrote these addons, most of them can be found on wowinterface.com
 

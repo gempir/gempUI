@@ -22,9 +22,6 @@ Some stuff is written by myself but alot of modules are written by other awesome
 The first general font is Roboto by Google.
 The second font is called SquareFont from dafont user "agustinluisbou92" or "Bou Fonts"
 
-The icon for the garrison button on the minimap can be found here:
-http://cliparts.co/clip-art-sword
-
 ## User Credits
 
 Zork - rActionButtonStyler, rChat
