@@ -1,4 +1,5 @@
-﻿
+﻿local F, G, V = unpack(select(2, ...))
+
 local function SetFont(obj, font, size, style, r, g, b, sr, sg, sb, sox, soy)
 	obj:SetFont(font, size, style)
 	if sr and sg and sb then obj:SetShadowColor(sr, sg, sb) end
@@ -11,12 +12,12 @@ end
 local f = CreateFrame("Frame")
 f:RegisterEvent("ADDON_LOADED")
 f:SetScript("OnEvent", function()
-	local NORMAL     = "Interface\\AddOns\\gempUI\\media\\fonts\\roboto.ttf"
-	local BOLD       = "Interface\\AddOns\\gempUI\\media\\fonts\\roboto_bold.ttf"
-	local BOLDITALIC = "Interface\\AddOns\\gempUI\\media\\fonts\\roboto_bolditalic.ttf"
-	local ITALIC     = "Interface\\AddOns\\gempUI\\media\\fonts\\roboto_italic.ttf"
-	local NUMBER     = "Interface\\AddOns\\gempUI\\media\\fonts\\roboto_bold.ttf"
-	FONT_SQUARE     = "Interface\\AddOns\\gempUI\\media\\fonts\\square.ttf"
+	local NORMAL      = G.fonts.roboto
+	local BOLD        = G.fonts.roboto_bold
+	local BOLDITALIC  = G.fonts.roboto_bolditalic
+	local ITALIC      = G.fonts.roboto_italic
+	local NUMBER      = G.fonts.roboto_bold
+	local FONT_SQUARE = G.fonts.square
 
 	UIDROPDOWNMENU_DEFAULT_TEXT_HEIGHT = 12
 	CHAT_FONT_HEIGHTS = {7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24}

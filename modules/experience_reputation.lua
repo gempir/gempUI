@@ -1,3 +1,5 @@
+local F, G, V = unpack(select(2, ...))
+
 ------------------------------------------------------------------------
 -- Basic configuration section. Width, height, anchor point etc ...
 ------------------------------------------------------------------------
@@ -11,7 +13,7 @@ local ttanchorpoint = "BOTTOMLEFT"
 local ttanchorframe = "BOTTOMRIGHT"
 local ttxoffset = 5
 local ttyoffset = -2
-local grepbarcolor = {gempUIsecondcolor.r, gempUIsecondcolor.g+0.4, gempUIsecondcolor.b+0.4}
+local grepbarcolor = {0/255, 150/255, 50/255}
 
 ------------------------------------------------------------------------
 -- End of configuration
@@ -23,7 +25,7 @@ local name, standing, minrep, maxrep, value
 local factions = {}
 local flen = 0
 
-local TEXTURE = gempUI_media.."textures\\flat"
+local TEXTURE = G.media.."textures\\flat"
 local BACKDROP = {
 	bgFile = "Interface\\ChatFrame\\ChatFrameBackground",
 	insets = {top = 0, left = 0, bottom = 0, right = 0},
@@ -56,7 +58,7 @@ local repstanding = {
 }
 
 local font = CreateFont("xpBarFont")
-font:SetFont(gempUI_fonts_square, 12, "THINOUTLINE")
+font:SetFont(G.fonts.square, 12, "THINOUTLINE")
 font:SetTextColor(1,1,1)
 
 ------------------------------------------------------------------------
@@ -108,7 +110,7 @@ gXpbarp:SetBackdrop({
 	  tile = false, tileSize = 0, edgeSize = 1, 
 	  insets = { left = 0, right = 0, top = 0, bottom = 0}
 	})
-gXpbarp:SetBackdropColor(gempUIcolor.r, gempUIcolor.g, gempUIcolor.b, 1)
+gXpbarp:SetBackdropColor(G.color.r, G.color.g, G.color.b, 1)
 gXpbarp:SetBackdropBorderColor(0,0,0,1)
 
 gempXpbar = CreateFrame("statusbar", nil, UIParent)
@@ -150,7 +152,7 @@ local function OnEnter(self)
 		local retVal =  GetXPExhaustion()
 		
 		-- Display basic experience information
-		GameTooltip:AddLine("Experience", gempUIsecondcolor.r, gempUIsecondcolor.g, gempUIsecondcolor.b)
+		GameTooltip:AddLine("Experience", 0/255, 150/255, 50/255)
 		GameTooltip:AddLine(' ')
 		GameTooltip:AddLine(format('Experience: %s  / %s (%.1f%%)', truncate(min), truncate(max), min / max * 100))
 		GameTooltip:AddLine(format('Remaining: %s (%.1f%%)', truncate(max-min), 100 - (min / max * 100)))
@@ -166,7 +168,7 @@ local function OnEnter(self)
 		minrep = (value-minrep)	
 	
 		-- Display basic reputation information
-		GameTooltip:AddLine("Reputation", gempUIsecondcolor.r, gempUIsecondcolor.g, gempUIsecondcolor.b)
+		GameTooltip:AddLine("Reputation", 0/255, 150/255, 50/255)
 		GameTooltip:AddLine(' ')
 		GameTooltip:AddLine(format('Watched Faction: |cffffffff%s|r', name))
 		GameTooltip:AddLine(format('Current Standing: |cFF%02x%02x%02x%s|r', reaction[standing].r*255, reaction[standing].g*255, reaction[standing].b*255, repstanding[standing]))		

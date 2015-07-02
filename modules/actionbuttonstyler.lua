@@ -1,3 +1,4 @@
+local F, G, V = unpack(select(2, ...))
 
   -- // rActionButtonStyler
   -- // zork - 2012
@@ -17,15 +18,15 @@
   -----------------------------
 
   cfg.textures = {
-    normal            = "Interface\\AddOns\\gempUI\\media\\buttons\\gloss",
-    flash             = "Interface\\AddOns\\gempUI\\media\\buttons\\flash",
-    hover             = "Interface\\AddOns\\gempUI\\media\\buttons\\hover",
-    pushed            = "Interface\\AddOns\\gempUI\\media\\buttons\\pushed",
-    checked           = "Interface\\AddOns\\gempUI\\media\\buttons\\checked",
-    equipped          = "Interface\\AddOns\\gempUI\\media\\buttons\\gloss_grey",
-    buttonback        = "Interface\\AddOns\\gempUI\\media\\buttons\\button_background",
-    buttonbackflat    = "Interface\\AddOns\\gempUI\\media\\buttons\\button_background_flat",
-    outer_shadow      = "Interface\\AddOns\\gempUI\\media\\buttons\\outer_shadow",
+    normal            = G.media.."buttons\\gloss",
+    flash             = G.media.."buttons\\flash",
+    hover             = G.media.."buttons\\hover",
+    pushed            = G.media.."buttons\\pushed",
+    checked           = G.media.."buttons\\checked",
+    equipped          = G.media.."buttons\\gloss_grey",
+    buttonback        = G.media.."buttons\\button_background",
+    buttonbackflat    = G.media.."buttons\\button_background_flat",
+    outer_shadow      = G.media.."buttons\\outer_shadow",
   }
 
   cfg.background = {
@@ -68,7 +69,7 @@
     spacing         = 3,
   }
 
-  cfg.font = "Interface\\Addons\\gempUI\\media\\fonts\\square.ttf"
+  cfg.font = G.fonts.square
 
   -----------------------------
   -- HANDOVER

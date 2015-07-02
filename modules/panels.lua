@@ -1,8 +1,10 @@
+local F, G, V = unpack(select(2, ...))
+
 -- main_middle_panel
 
-if gempUI.actionbars_main_three then
+if G.options.actionbars_main_three then
 	extrabars_1 = 39
-elseif not gempUI.actionbars_main_three then
+elseif not G.options.actionbars_main_three then
 	extrabars_1 = 0
 end
 
@@ -16,8 +18,8 @@ gempUI_mainpanel:SetBackdrop({
 	edgeFile = [[Interface\Buttons\WHITE8x8]],
 	edgeSize = 1,
 })
-gempUI_mainpanel:SetBackdropColor(gempUIcolor.r,gempUIcolor.g,gempUIcolor.b,gempUIcolor.a)
-gempUI_mainpanel:SetBackdropBorderColor(gempUIbordercolor.r, gempUIbordercolor.g, gempUIbordercolor.b, gempUIbordercolor.a)
+gempUI_mainpanel:SetBackdropColor(G.color.r,G.color.g,G.color.b,G.color.a)
+gempUI_mainpanel:SetBackdropBorderColor(G.bordercolor.r, G.bordercolor.g, G.bordercolor.b, G.bordercolor.a)
 gempUI_mainpanel:SetPoint("BOTTOM",0,-1)
 gempUI_mainpanel:Show()
 
@@ -25,9 +27,9 @@ gempUI_mainpanel:Show()
 
 -- main_side_panel
 
-if gempUI.actionbars_side_two then
+if G.options.actionbars_side_two then
 	extrabars_2 = 39
-elseif not gempUI.actionbars_side_two then
+elseif not G.options.actionbars_side_two then
 	extrabars_2 = 0
 end
 
@@ -41,8 +43,8 @@ gempUI_sidepanel:SetBackdrop({
 	edgeFile = [[Interface\Buttons\WHITE8x8]],
 	edgeSize = 1,
 })
-gempUI_sidepanel:SetBackdropColor(gempUIcolor.r,gempUIcolor.g,gempUIcolor.b,gempUIcolor.a)
-gempUI_sidepanel:SetBackdropBorderColor(gempUIbordercolor.r, gempUIbordercolor.g, gempUIbordercolor.b, gempUIbordercolor.a)
+gempUI_sidepanel:SetBackdropColor(G.color.r,G.color.g,G.color.b,G.color.a)
+gempUI_sidepanel:SetBackdropBorderColor(G.bordercolor.r, G.bordercolor.g, G.bordercolor.b, G.bordercolor.a)
 gempUI_sidepanel:SetPoint("RIGHT",1,0)
 gempUI_sidepanel:Show()
 
@@ -59,8 +61,8 @@ gempUI_bagpanel:SetBackdrop({
 	edgeFile = [[Interface\Buttons\WHITE8x8]],
 	edgeSize = 1,
 })
-gempUI_bagpanel:SetBackdropColor(gempUIcolor.r,gempUIcolor.g,gempUIcolor.b,gempUIcolor.a)
-gempUI_bagpanel:SetBackdropBorderColor(gempUIbordercolor.r, gempUIbordercolor.g, gempUIbordercolor.b, gempUIbordercolor.a)
+gempUI_bagpanel:SetBackdropColor(G.color.r,G.color.g,G.color.b,G.color.a)
+gempUI_bagpanel:SetBackdropBorderColor(G.bordercolor.r, G.bordercolor.g, G.bordercolor.b, G.bordercolor.a)
 gempUI_bagpanel:SetPoint("RIGHT",1,-309)
 gempUI_bagpanel:Hide()
 

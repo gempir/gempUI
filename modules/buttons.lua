@@ -1,3 +1,6 @@
+local F, G, V = unpack(select(2, ...))
+
+
 -------------------------------------------------------
 -- WORLDMARKERS BUTTON
 -------------------------------------------------------
@@ -25,7 +28,7 @@ button:SetBackdrop({
         edgeFile = "Interface\\Buttons\\WHITE8x8", edgeSize = 1, 
 		insets = {left = -0, right = -0, top = -0, bottom = -0} 
 					})
-button:SetBackdropColor(gempUIcolor.r,gempUIcolor.g,gempUIcolor.b,gempUIcolor.a)
+button:SetBackdropColor(G.color.r,G.color.g,G.color.b,G.color.a)
 button:SetBackdropBorderColor(0,0,0,1)
 
 local buttonOverlay = CreateFrame("Frame", nil, button)
@@ -38,7 +41,7 @@ local buttonOverlay = CreateFrame("Frame", nil, button)
 			edgeSize = 1,
 		})
 	  buttonOverlay:SetBackdropColor(0,0,0,0)
-	  buttonOverlay:SetBackdropBorderColor(gempUIbordercolor.r, gempUIbordercolor.g, gempUIbordercolor.b, gempUIbordercolor.a)
+	  buttonOverlay:SetBackdropBorderColor(G.bordercolor.r, G.bordercolor.g, G.bordercolor.b, G.bordercolor.a)
 	  button:EnableMouse()
 	  button:SetScript('OnEnter', function() buttonOverlay:SetBackdropColor(1,1,1,0.15) end)
 	  button:SetScript('OnLeave', function() buttonOverlay:SetBackdropColor(0,0,0,0) end)
@@ -70,7 +73,7 @@ button:SetBackdrop({
         edgeFile = "Interface\\Buttons\\WHITE8x8", edgeSize = 1, 
 		insets = {left = -0, right = -0, top = -0, bottom = -0} 
 					})
-button:SetBackdropColor(gempUIcolor.r,gempUIcolor.g,gempUIcolor.b,gempUIcolor.a)
+button:SetBackdropColor(G.color.r,G.color.g,G.color.b,G.color.a)
 button:SetBackdropBorderColor(0,0,0,1)
 
 local buttonOverlay = CreateFrame("Frame", nil, button)
@@ -83,7 +86,7 @@ local buttonOverlay = CreateFrame("Frame", nil, button)
 			edgeSize = 1,
 		})
 	  buttonOverlay:SetBackdropColor(0,0,0,0)
-	  buttonOverlay:SetBackdropBorderColor(gempUIbordercolor.r, gempUIbordercolor.g, gempUIbordercolor.b, gempUIbordercolor.a)
+	  buttonOverlay:SetBackdropBorderColor(G.bordercolor.r, G.bordercolor.g, G.bordercolor.b, G.bordercolor.a)
 	  button:EnableMouse()
 	  button:SetScript('OnEnter', function() buttonOverlay:SetBackdropColor(1,1,1,0.15) end)
 	  button:SetScript('OnLeave', function() buttonOverlay:SetBackdropColor(0,0,0,0) end)
@@ -114,7 +117,7 @@ button:SetBackdrop({
         edgeFile = "Interface\\Buttons\\WHITE8x8", edgeSize = 1, 
 		insets = {left = -0, right = -0, top = -0, bottom = -0} 
 					})
-button:SetBackdropColor(gempUIcolor.r,gempUIcolor.g,gempUIcolor.b,gempUIcolor.a)
+button:SetBackdropColor(G.color.r,G.color.g,G.color.b,G.color.a)
 button:SetBackdropBorderColor(0,0,0,1)
 
 local buttonOverlay = CreateFrame("Frame", nil, button)
@@ -127,7 +130,7 @@ local buttonOverlay = CreateFrame("Frame", nil, button)
 			edgeSize = 1,
 		})
 	  buttonOverlay:SetBackdropColor(0,0,0,0)
-	  buttonOverlay:SetBackdropBorderColor(gempUIbordercolor.r, gempUIbordercolor.g, gempUIbordercolor.b, gempUIbordercolor.a)
+	  buttonOverlay:SetBackdropBorderColor(G.bordercolor.r, G.bordercolor.g, G.bordercolor.b, G.bordercolor.a)
 	  button:EnableMouse()
 	  button:SetScript('OnEnter', function() buttonOverlay:SetBackdropColor(1,1,1,0.15) end)
 	  button:SetScript('OnLeave', function() buttonOverlay:SetBackdropColor(0,0,0,0) end)

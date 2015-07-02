@@ -1,3 +1,5 @@
+local F, G, V = unpack(select(2, ...))
+
 
 local function CreateMarkerButton(btnName, iconnum,x,y)
 	local frame = CreateFrame("Button", btnName, gWorldmarkers);
@@ -135,7 +137,7 @@ local function CreateRaidButton(btnName,text,x,y)
         edgeFile = "Interface\\Buttons\\WHITE8x8", edgeSize = 1, 
 		insets = {left = -0, right = -0, top = -0, bottom = -0} 
 	})
-    frame:SetBackdropBorderColor(gempUIbordercolor.r, gempUIbordercolor.g, gempUIbordercolor.b, gempUIbordercolor.a)
+    frame:SetBackdropBorderColor(G.bordercolor.r, G.bordercolor.g, G.bordercolor.b, G.bordercolor.a)
     frame:SetBackdropColor(0,0,0,0)
 	frame:SetAttribute("type", "macro");
 

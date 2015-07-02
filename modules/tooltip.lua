@@ -1,12 +1,11 @@
--- redoes a lot of simple tooltips like the micromenu on the minimap
-gempUI_rebackdrop(DropDownList1MenuBackdrop)
-gempUI_rebackdrop(ItemRefTooltip)
+local F, G, V = unpack(select(2, ...))
+
 
 -- font changes
 
-GameTooltipHeaderText:SetFont(gempUI_fonts_roboto, 14, "NONE")
-GameTooltipText:SetFont(gempUI_fonts_roboto, 12, "NONE")
-Tooltip_Small:SetFont(gempUI_fonts_roboto, 11, "NONE")
+GameTooltipHeaderText:SetFont(G.fonts.roboto, 14, "NONE")
+GameTooltipText:SetFont(G.fonts.roboto, 12, "NONE")
+Tooltip_Small:SetFont(G.fonts.roboto, 11, "NONE")
 
 
 GameTooltip.bg = CreateFrame("Frame", nil, GameTooltip)
@@ -18,7 +17,7 @@ GameTooltip.bg:SetBackdrop({
 					}) -- or just set this to your own backdrop
 GameTooltip:SetBackdrop(nil)
 
-GameTooltip.bg:SetBackdropColor(gempUIcolor.r,gempUIcolor.g,gempUIcolor.b,gempUIcolor.a) -- replace ... with the actual color you want to use
+GameTooltip.bg:SetBackdropColor(G.color.r,G.color.g,G.color.b,G.color.a) -- replace ... with the actual color you want to use
 GameTooltip.bg:SetFrameLevel(0)
 
 
@@ -48,7 +47,7 @@ local function TooltipOnShow(self,...)
         GameTooltip.bg:SetBackdropBorderColor(unpack({GetItemQualityColor(itemRarity)}))
       end
     else
-    	GameTooltip.bg:SetBackdropBorderColor(gempUIbordercolor.r, gempUIbordercolor.g, gempUIbordercolor.b, gempUIbordercolor.a) 
+    	GameTooltip.bg:SetBackdropBorderColor(G.bordercolor.r, G.bordercolor.g, G.bordercolor.b, G.bordercolor.a) 
     end
   end
 

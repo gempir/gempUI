@@ -1,3 +1,4 @@
+local F, G, V = unpack(select(2, ...))
 local name, ns = ...
 local cfg = ns.cfg
 

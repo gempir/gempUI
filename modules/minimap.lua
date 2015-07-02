@@ -1,5 +1,5 @@
--- made by Gempir on wowinterface.com 
--- 
+local F, G, V = unpack(select(2, ...))
+
 Minimap:ClearAllPoints()
 Minimap:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", -6, -6)
 Minimap:SetSize(178, 178)
@@ -10,7 +10,7 @@ Minimap:SetBackdrop({
 		insets = {left = -0, right = -0, top = -0, bottom = -0} 
 					})
 Minimap:SetBackdropColor(0,0,0,1)
-Minimap:SetBackdropBorderColor(gempUIbordercolor.r, gempUIbordercolor.g, gempUIbordercolor.b, gempUIbordercolor.a)
+Minimap:SetBackdropBorderColor(G.bordercolor.r, G.bordercolor.g, G.bordercolor.b, G.bordercolor.a)
 
 -- displays time/clock 
 if not IsAddOnLoaded("Blizzard_TimeManager") then
@@ -89,9 +89,9 @@ QueueStatusFrame:SetBackdrop({
         edgeFile = "Interface\\Buttons\\WHITE8x8", edgeSize = 1, 
 		insets = {left = -0, right = -0, top = -0, bottom = -0} 
 	})
-QueueStatusFrame:SetBackdropColor(gempUIcolor.r,gempUIcolor.g,gempUIcolor.b,gempUIcolor.a)
+QueueStatusFrame:SetBackdropColor(G.color.r,G.color.g,G.color.b,G.color.a)
 QueueStatusFrame:SetBackdropBorderColor(0,0,0,1)
-QueueStatusFrame:SetBackdropBorderColor(gempUIbordercolor.r, gempUIbordercolor.g, gempUIbordercolor.b, gempUIbordercolor.a)
+QueueStatusFrame:SetBackdropBorderColor(G.bordercolor.r, G.bordercolor.g, G.bordercolor.b, G.bordercolor.a)
 
 --Tracking
 

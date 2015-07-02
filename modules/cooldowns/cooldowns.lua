@@ -1,3 +1,5 @@
+local F, G, V = unpack(select(2, ...))
+
 -- Credit goes to yarko for his awesome Addon Cooldowns!
 YarkoCooldowns = {};
 
@@ -7,7 +9,7 @@ YarkoCooldowns.DefaultFlashSeconds = 3;
 YarkoCooldowns.DefaultAlternate = 1;
 YarkoCooldowns.DefaultFlashColor = { r = 1.0, g = 0, b = 0 };
 YarkoCooldowns.DefaultFontLocation = "Fonts";
-YarkoCooldowns.DefaultFontFile = "Interface\\Addons\\gempUI\\media\\fonts\\square.ttf";
+YarkoCooldowns.DefaultFontFile = G.fonts.square;
 YarkoCooldowns.DefaultFontHeight = 26;
 YarkoCooldowns.DefaultShadow = "N";
 YarkoCooldowns.DefaultOutline = 3;

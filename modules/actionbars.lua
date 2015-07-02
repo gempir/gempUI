@@ -1,6 +1,6 @@
-  local addon, ns = ...
-  local cfg = CreateFrame("Frame")
-
+local addon, ns = ...
+local cfg = CreateFrame("Frame")
+local F, G, V = unpack(select(2, ...))
   --ActionBars config  
   cfg.mAB = {
 	size = 37,						-- setting up default buttons size 
@@ -133,16 +133,16 @@
   }
 
 
-if gempUI.actionbars_main_three then
+if G.options.actionbars_main_three then
 	cfg.bars.Bar3.hide_bar = false
-elseif not actionbars_main_three then
+elseif not G.options.actionbars_main_three then
 	cfg.bars.Bar3.hide_bar = true
 end
 
-if gempUI.actionbars_side_two then
+if G.options.actionbars_side_two then
 	cfg.bars.Bar4.hide_bar = false
 	cfg.bars.Bar5.hide_bar = false
-elseif not gempUI.actionbars_side_two then
+elseif not G.options.actionbars_side_two then
 	cfg.bars.Bar4.hide_bar = false
 	cfg.bars.Bar5.hide_bar = true
 end

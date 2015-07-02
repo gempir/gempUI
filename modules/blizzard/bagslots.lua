@@ -1,3 +1,4 @@
+local F, G, V = unpack(select(2, ...))
 
 -- removes the green border
 CharacterBag0Slot.IconBorder:SetTexture(0,0,0,0)

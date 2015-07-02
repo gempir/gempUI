@@ -1,3 +1,4 @@
+local F, G, V = unpack(select(2, ...))
 
   -- // rChat
   -- // zork - 2012

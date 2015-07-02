@@ -1,3 +1,4 @@
+local F, G, V = unpack(select(2, ...))
 local _, ns = ...
 local ORD = ns.oUF_RaidDebuffs or oUF_RaidDebuffs
 if not ORD then return end

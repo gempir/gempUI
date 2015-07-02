@@ -1,9 +1,11 @@
+local F, G, V = unpack(select(2, ...))
 local name, ns = ...
 local oUF = ns.oUF or oUF
 local cfg = ns.cfg
 local _, class = UnitClass('player')
 local class_color = RAID_CLASS_COLORS[class]
 local powerType, powerTypeString = UnitPowerType('player')
+
 
 local backdrop = {
     bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
@@ -429,9 +431,9 @@ local castbar = function(self, unit)
 		cb.SafeZone = cb:CreateTexture(nil, 'ARTWORK')
 		cb.SafeZone:SetTexture(cfg.texture)
 
-		if gempUI.castbar_safezone then 
+		if G.options.castbar_safezone then 
 			safezonealpha = 1
-		elseif not gempUI.castbar_safezone then
+		elseif not G.options.castbar_safezone then
 			safezonealpha = 0
 		end
 		cb.SafeZone:SetVertexColor(.8,.11,.15, safezonealpha) --Safezone color

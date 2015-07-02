@@ -1,14 +1,14 @@
 local name, ns = ...
 local cfg = CreateFrame('Frame')
 local _, class = UnitClass('player')
-
+local F, G, V = unpack(select(2, ...))
   -----------------------------
   -- Media
   -----------------------------
   
-cfg.texture = "Interface\\Addons\\gempUI\\media\\textures\\flat"
-cfg.symbol = "Interface\\AddOns\\gempUI\\media\\unitframes\\symbol.ttf"
-cfg.raidicons = "Interface\\AddOns\\gempUI\\media\\unitframes\\raidicons"
+cfg.texture = G.media.."textures\\flat"
+cfg.symbol =  G.media.."unitframes\\symbol.ttf"
+cfg.raidicons =  G.media.."unitframes\\raidicons"
 cfg.edge = "Interface\\Buttons\\WHITE8x8"
 
 --Unit Frames Font
@@ -18,7 +18,7 @@ cfg.font,
 cfg.fontsize, 
 cfg.shadowoffsetX, 
 cfg.shadowoffsetY, 
-cfg.fontflag = "Interface\\Addons\\gempUI\\media\\fonts\\square.ttf", 11, 0, 0,  'THINOUTLINE' -- '' for none THINOUTLINE Outlinemonochrome
+cfg.fontflag = G.fonts.square, 11, 0, 0,  'THINOUTLINE' -- '' for none THINOUTLINE Outlinemonochrome
 
 
 --Normal
@@ -169,7 +169,7 @@ cfg.aura = {
 		
 		onlyShowPlayer = false,         -- only show player debuffs on target
         disableCooldown = true,         -- hide omniCC
-        font = "Interface\\Addons\\gempUI\\media\\fonts\\square.ttf",
+        font = G.fonts.square,
 		fontsize = 11,
 		fontflag = 'THINOUTLINE',
 }
@@ -356,9 +356,9 @@ cfg.colorClass_bg = false
 cfg.hbg_multiplier = 1
   
 cfg.Color = { 				
-       Health = {r =  gempUIcolor.r+0.08,	g =  gempUIcolor.g+0.08, 	b =  gempUIcolor.b+0.08, a = gempUIcolor.a},
+       Health = {r =  G.color.r+0.08,	g =  G.color.g+0.08, 	b =  G.color.b+0.08, a = G.color.a},
 	Health_bg = {r =  0,	g =  0, 	b =  0, a = 0},
-	  Castbar = {r =  gempUIcolor.r+0.08,	g =  gempUIcolor.g+0.08, 	b =  gempUIcolor.b+0.08, a = gempUIcolor.a},
+	  Castbar = {r =  G.color.r+0.08,	g =  G.color.g+0.08, 	b =  G.color.b+0.08, a = G.color.a},
 	  CPoints = {r =  .96,	g =  0.37, 	b =  0.34},
 }
 
@@ -390,11 +390,11 @@ ns.cfg = cfg
 -- gempUI options
 -----------------------------
 
-if gempUI.actionbars_main_three then
+if G.options.actionbars_main_three then
 	cfg.player_cb.pos = {'BOTTOM', UIParent, 16, 131}
 	cfg.unit_positions.Player = { a = UIParent, x= -132, y=  228 }				
     cfg.unit_positions.Target = {a = UIParent, x=  132, y=  228} 
-elseif not gempUI.actionbars_main_three then
+elseif not G.options.actionbars_main_three then
 	cfg.player_cb.pos = {'BOTTOM', UIParent, 16, 92}
 	cfg.unit_positions.Player = { a = UIParent, x= -132, y=  189 }				
     cfg.unit_positions.Target = {a = UIParent, x=  132, y=  189}

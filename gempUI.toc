@@ -2,12 +2,13 @@
 ## Title: |cff00FF7F gemp|rUI v0.1 BETA 
 ## Notes: gempUI v1.3
 ## OptionalDeps: Skada, LibSharedMedia-3.0
-## SavedVariables: gHideerrors, gSelljunk, gAutorepair, gXpbar, SkadaSkinSet, gDMG_visible, gAC_visible, gWM_visible,
+## SavedVariables: gempDB
 
 
 libs\load_libs.xml
 
 gempUI.lua
+functions.lua
 
 modules\unitframes\load_unitframes.xml
 modules\load_modules.xml

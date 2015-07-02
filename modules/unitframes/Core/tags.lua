@@ -1,3 +1,4 @@
+local F, G, V = unpack(select(2, ...))
 local _, ns = ...
 local oUF = ns.oUF or oUF
 local cfg = ns.cfg

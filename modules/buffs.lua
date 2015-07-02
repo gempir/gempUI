@@ -1,9 +1,11 @@
+local F, G, V = unpack(select(2, ...))
+
 buttonsize = 30         -- Buff Size
 spacing = 4             -- Buff Spacing
 buffsperrow = 12        -- Buffs Per Row
 growthvertical = 1      -- Growth Direction. 1 = down, 2 = up
 growthhorizontal = 1    -- Growth Direction. 1 = left, 2 = right
-font = "Interface\\Addons\\gempUI\\media\\fonts\\square.ttf"
+font = G.fonts.square
 
 -- Default Spawn Positions
 local positions = {
