@@ -111,7 +111,7 @@ gXpbarp:SetBackdrop({
 	  insets = { left = 0, right = 0, top = 0, bottom = 0}
 	})
 gXpbarp:SetBackdropColor(G.color.r, G.color.g, G.color.b, 1)
-gXpbarp:SetBackdropBorderColor(0,0,0,1)
+gXpbarp:SetBackdropBorderColor(G.bordercolor.r, G.bordercolor.g, G.bordercolor.b, G.bordercolor.a)
 
 gempXpbar = CreateFrame("statusbar", nil, UIParent)
 gempXpbar:SetPoint("CENTER", gXpbarp, "CENTER", 0, 0)

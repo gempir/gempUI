@@ -72,20 +72,20 @@ cfg.target = {
 
   -----------------------------
   -- Unit Frames Positions
-  -----------------------------
+  ----------------------------
   
- cfg.unit_positions = { 				
-             Player = { a = UIParent,           x= -132, y=  189},  
-             Target = { a = UIParent,           x=  132, y=  189},  
-       Targettarget = { a = 'oUF_SkaarjTarget', x=    0, y=  -63},  
-              Focus = { a = 'oUF_SkaarjPlayer', x= -105, y=  300},  
-        Focustarget = { a = 'oUF_SkaarjFocus',  x=   95, y=    0},  
-                Pet = { a = 'oUF_SkaarjPlayer', x=	  0, y=  -63},  
-               Boss = { a = 'oUF_SkaarjTarget', x=  120, y=  300},  
-               Tank = { a = 'oUF_SkaarjPlayer', x= -105, y=  150},  
-               Raid = { a = UIParent,           x=	6,  y=  -6},   
-	          Party = { a = UIParent, 			x=  724,  y=  -800},
-              Arena = { a = 'oUF_SkaarjTarget', x=  120, y=  300},			  
+ cfg.unit_positions = { 					
+             Player = { a = UIParent,           x= G.pos.player.x, y=  G.pos.player.y},  
+             Target = { a = UIParent,            x= G.pos.target.x, y=  G.pos.target.y},  
+       Targettarget = { a = 'oUF_SkaarjTarget',  x= G.pos.targetoftarget.x, y=  G.pos.targetoftarget.y},  
+              Focus = { a = 'oUF_SkaarjPlayer', x= G.pos.focus.x, y=  G.pos.focus.y},  
+        Focustarget = { a = 'oUF_SkaarjFocus',  x= G.pos.focustarget.x, y=  G.pos.focustarget.y},  
+                Pet = { a = 'oUF_SkaarjPlayer', x= G.pos.pet.x, y=  G.pos.pet.y},  
+               Boss = { a = 'oUF_SkaarjTarget', x= G.pos.boss.x, y=  G.pos.boss.y},  
+               Tank = { a = 'oUF_SkaarjPlayer', x= G.pos.tank.x, y=  G.pos.tank.y},  
+               Raid = { a = UIParent,           x= G.pos.raid.x, y=  G.pos.raid.y},   
+	          Party = { a = UIParent, 			x= G.pos.party.x, y=  G.pos.party.y},
+              Arena = { a = 'oUF_SkaarjTarget', x= G.pos.arena.x, y=  G.pos.arena.y},			  
 }
 
   -----------------------------
@@ -326,7 +326,7 @@ cfg.focus_cb = {
 -- Boss
 cfg.boss_cb = {
         enable = true,
-        pos = {'BOTTOMRIGHT', 0, -21},
+        pos = {'BOTTOMRIGHT', 0, -23},
 		height = 15,
 		width = 150,
 }

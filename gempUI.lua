@@ -12,7 +12,7 @@ ChatFrame1:AddMessage("|cff00FF7Fgemp|rUI v0.1 BETA");
 -------------------------------------------------------------------------------------
 
 G.color = {r =  0.1,	g =  0.1, 	b =  0.1, a = 1}   -- defines general color of the UI, unitframes will have some bugs
-G.bordercolor = {r =  0,	g =  0, 	b =  0, a = 1} -- this is experimental which is why it doesn't work with anything
+G.bordercolor = {r =  0,	g =  0, 	b =  0, a = 1} -- unitframes not fully supported, buffs and buttons don't work either
 
 G.options = {						
 	actionbars_side_two = false,			-- adds a second actionbar on the right
@@ -20,6 +20,31 @@ G.options = {
 	castbar_safezone = false				-- shows a safezone for the castbar 
 	}
 
+-- positions for unitframes some of these are anchored to another 
+
+G.pos = {
+	player 			= {x = 132,  y = 189},
+	target 			= {x = -132, y = 189},
+	targetoftarget  = {x = 0, 	 y = -64},
+	focus 			= {x = -105, y = 400},
+	focustarget		= {x = 95, 	 y = 0},
+	pet				= {x = 0, 	 y = -63},
+	boss			= {x = 120,	 y = 400},
+	tank			= {x = -105, y = 150},
+	raid			= {x = 6, 	 y = -6},
+	party			= {x = 724,  y = -780},
+	arena			= {x = 120,	 y = 300},
+}
+
+--[[
+ 
+ 
+               Tank = { a = 'oUF_SkaarjPlayer', x= -105, y=  150},  
+               Raid = { a = UIParent,           x=	6,  y=  -6},   
+	          Party = { a = UIParent, 			x=  724,  y=  -800},
+              Arena = { a = 'oUF_SkaarjTarget', x=  120, y=  300},	
+
+]]
 -- media stuff
 G.media = "Interface\\AddOns\\gempUI\\media\\"
 

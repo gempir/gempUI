@@ -1,4 +1,5 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">	
+	<Script file="functions.lua"/>
 	<Script file="sharedmedia.lua"/>
 	<Script file="experience_reputation.lua"/>
 	<Script file="threat.lua"/>
@@ -15,4 +16,5 @@
 	<Script file="buffs.lua"/>
 	<Script file="actionbuttonstyler.lua"/>
 	<Script file="actionbars.lua"/>
+	<Script file="nameplates.lua"/>
 </Ui>

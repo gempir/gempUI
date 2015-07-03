@@ -132,7 +132,7 @@ local auraIcon = function(auras, button)
     button.overlay:SetTexture(nil)
 	button.icon:SetTexCoord(.1, .9, .1, .9)
 	button:SetBackdrop(backdrop)
-	button:SetBackdropColor(0, 0, 0, 1)
+	button:SetBackdropColor(G.bordercolor.r, G.bordercolor.g, G.bordercolor.b, G.bordercolor.a)
 	
     button.glow = CreateFrame('Frame', nil, button)
     button.glow:SetPoint('TOPLEFT', button, 'TOPLEFT', -4, 4)
@@ -241,7 +241,7 @@ local createAuraWatch = function(self, unit)
 			    icon:SetPoint('BOTTOMLEFT', self.Health, 'BOTTOMRIGHT', -7 * i, 0)
 			end
 			icon:SetBackdrop(backdrop)
-	        icon:SetBackdropColor(0, 0, 0, 1)
+	        icon:SetBackdropColor(G.bordercolor.r, G.bordercolor.g, G.bordercolor.b, G.bordercolor.a)
 			
 			local tex = icon:CreateTexture(nil, 'ARTWORK')
 			tex:SetAllPoints(icon)
@@ -410,7 +410,7 @@ local castbar = function(self, unit)
 	local cbbg = cb:CreateTexture(nil, 'BACKGROUND')
     cbbg:SetAllPoints(cb)
     cbbg:SetTexture(cfg.texture)
-    cbbg:SetVertexColor(0, 0, 0, 1)
+    cbbg:SetVertexColor(G.bordercolor.r, G.bordercolor.g, G.bordercolor.b, G.bordercolor.a)
     cb.Time = fs(cb, 'OVERLAY', cfg.font, cfg.fontsize, cfg.fontflag, 1, 1, 1)
 	cb.Time:SetPoint('RIGHT', cb, -2, 0)		
 	cb.Text = fs(cb, 'OVERLAY', cfg.font, cfg.fontsize, cfg.fontflag, 1, 1, 1, 'LEFT')
@@ -1217,7 +1217,7 @@ local UnitSpecific = {
 		
 		if cfg.focus_cb.enable then castbar(self) end
 		
-		self:SetSize(cfg.party.width, cfg.party.health+cfg.party.power+1)
+		self:SetSize(cfg.party.width, cfg.party.health+cfg.player.power+5)
 		self.Power:SetHeight(cfg.player.power)
 		self.Power.PostUpdate = PostUpdatePower
 		
@@ -1622,7 +1622,7 @@ oUF:Factory(function(self)
 	
     if cfg.uf.boss then
 	    for i = 1, MAX_BOSS_FRAMES do
-            spawnHelper(self, 'boss' .. i, 'LEFT', cfg.unit_positions.Boss.a, 'RIGHT', cfg.unit_positions.Boss.x, cfg.unit_positions.Boss.y - (51 * i))
+            spawnHelper(self, 'boss' .. i, 'LEFT', cfg.unit_positions.Boss.a, 'RIGHT', cfg.unit_positions.Boss.x, cfg.unit_positions.Boss.y - (70 * i))
         end
     end
 	

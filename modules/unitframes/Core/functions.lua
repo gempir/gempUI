@@ -12,7 +12,7 @@ framebd = function(parent, anchor)
     bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
     insets = {left = 1, right = 1, top = 1, bottom = 1}})
     frame:SetBackdropColor(0, 0, 0)
-    frame:SetBackdropBorderColor(0, 0, 0,1)
+    frame:SetBackdropBorderColor(G.bordercolor.r, G.bordercolor.g, G.bordercolor.b)
     return frame
 end
 

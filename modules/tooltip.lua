@@ -33,7 +33,7 @@ GameTooltipStatusBar.bg = GameTooltipStatusBar:CreateTexture(nil,"BACKGROUND",ni
 GameTooltipStatusBar.bg:SetPoint("TOPLEFT",-1,1)
 GameTooltipStatusBar.bg:SetPoint("BOTTOMRIGHT",1,-1)
 GameTooltipStatusBar.bg:SetTexture(1,1,1)
-GameTooltipStatusBar.bg:SetVertexColor(0,0,0,0.7)
+GameTooltipStatusBar.bg:SetVertexColor(G.bordercolor.r, G.bordercolor.g, G.bordercolor.b, G.bordercolor.a)
 
 
 -- item border (thank you Zork)
