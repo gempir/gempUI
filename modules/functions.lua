@@ -149,6 +149,62 @@ function F.retexture(frame)
 	frame:SetTexture(G.color.r,G.color.g,G.color.b,G.color.a)
 end
 
+function F.retexturetab(tabname)
+	local tab = CreateFrame("frame",nil, tabname)
+	tab:SetPoint("CENTER", tabname, "CENTER", 0,2)
+	tab:SetSize(70,25)
+	tab:SetBackdrop({
+		bgFile = [[Interface\Buttons\WHITE8x8]],
+		edgeFile = [[Interface\Buttons\WHITE8x8]],
+		edgeSize = 1,
+		})
+	tab:SetFrameStrata("LOW")
+	tab:SetBackdropColor(G.color.r,G.color.g,G.color.b,G.color.a)
+	tab:SetBackdropBorderColor(G.bordercolor.r, G.bordercolor.g, G.bordercolor.b, G.bordercolor.a)
+end
+
+function F.retexturestab(stabname)
+	local stab = CreateFrame("frame", nil, stabname)
+	stab:SetPoint("CENTER", stabname.TabBg, "CENTER", 0,-4)
+	stab:SetSize(34,34)
+	stab:SetBackdrop({
+		bgFile = [[Interface\Buttons\WHITE8x8]],
+		edgeFile = [[Interface\Buttons\WHITE8x8]],
+		edgeSize = 1,
+		})
+	stab:SetFrameLevel(1)
+	stab:SetBackdropColor(G.color.r,G.color.g,G.color.b,G.color.a)
+	stab:SetBackdropBorderColor(G.bordercolor.r, G.bordercolor.g, G.bordercolor.b, G.bordercolor.a)
+end
+
+function F.bgframe(parent)
+	local bgframe = CreateFrame("frame", nil, parent)
+	bgframe:SetPoint("CENTER", parent, "CENTER", 0,0)
+	bgframe:SetSize(parent:GetWidth()-33, parent:GetHeight()+1)
+	bgframe:SetBackdrop({
+		bgFile = [[Interface\Buttons\WHITE8x8]],
+		edgeFile = [[Interface\Buttons\WHITE8x8]],
+		edgeSize = 1,
+		})
+	bgframe:SetFrameLevel(1)
+	bgframe:SetBackdropColor(G.color.r+0.05,G.color.g+0.05,G.color.b+0.05,G.color.a)
+	bgframe:SetBackdropBorderColor(G.bordercolor.r, G.bordercolor.g, G.bordercolor.b, G.bordercolor.a)
+end
+
+function F.bgframe2(parent)
+	local bgframe = CreateFrame("frame", nil, parent)
+	bgframe:SetPoint("CENTER", parent, "CENTER", 0,0)
+	bgframe:SetSize(parent:GetWidth()+2, parent:GetHeight()+2)
+	bgframe:SetBackdrop({
+		bgFile = [[Interface\Buttons\WHITE8x8]],
+		edgeFile = [[Interface\Buttons\WHITE8x8]],
+		edgeSize = 1,
+		})
+	bgframe:SetFrameLevel(1)
+	bgframe:SetBackdropColor(G.color.r+0.05,G.color.g+0.05,G.color.b+0.05,G.color.a)
+	bgframe:SetBackdropBorderColor(G.bordercolor.r, G.bordercolor.g, G.bordercolor.b, G.bordercolor.a)
+end
+
 function F.ReskinPortraitIcon(frame, isButtonFrame)
 	local name = frame:GetName()
 
