@@ -278,7 +278,7 @@ local function eventHandler(self, event, ...)
 		gAC_1:SetBackdropColor(0/255, 84/255, 28/255, 1);
 		
 		hideerrorsfunc();
-	elseif gemp.DB.hideerrors == false then
+	elseif gempDB.hideerrors == false then
 		gAC_1:SetBackdropColor(150/255, 10/255, 10/255, 1);
 		
 	end

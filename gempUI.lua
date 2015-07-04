@@ -6,7 +6,7 @@ core[3] = {} -- V, variables
 
 local F, G, V = unpack(select(2, ...))
 
-ChatFrame1:AddMessage("|cff00FF7Fgemp|rUI v0.1 BETA");
+ChatFrame1:AddMessage("|cff00FF7Fgemp|rUI v1.0");
 -------------------------------------------------------------------------------------
 ------ Options
 -------------------------------------------------------------------------------------
