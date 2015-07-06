@@ -11,9 +11,6 @@ ChatFrame1:AddMessage("|cff00FF7Fgemp|rUI v1.0");
 ------ Options
 -------------------------------------------------------------------------------------
 
-G.color = {r =  0.1,	g =  0.1, 	b =  0.1, a = 1}   -- defines general color of the UI, unitframes will have some bugs
-G.bordercolor = {r =  0,	g =  0, 	b =  0, a = 1} -- unitframes not fully supported, buffs and buttons don't work either
-
 G.options = {						
 	actionbars_side_two = false,			-- adds a second actionbar on the right
 	actionbars_main_three = false,			-- adds a third actionbar in the middle
@@ -35,6 +32,11 @@ G.pos = {
 	party			= {x = 724,  y = -780},
 	arena			= {x = 120,	 y = 300},
 }
+
+-- Colors
+
+G.color = {r =  0.1,	g =  0.1, 	b =  0.1, a = 1}   -- defines general color of the UI, unitframes will have some bugs
+G.bordercolor = {r =  0,	g =  0, 	b =  0, a = 1} -- unitframes not fully supported, buffs and buttons don't work either
 
 --[[
  
