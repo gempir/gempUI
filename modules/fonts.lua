@@ -118,3 +118,21 @@ dmgfont:SetScript("OnEvent",
 dmgfont:RegisterEvent("ADDON_LOADED");
 
 dmgfont:ApplySystemFonts()
+
+-- Adventure guide
+
+
+
+local frame = CreateFrame("FRAME");
+frame:RegisterEvent("ADDON_LOADED")
+ 
+function frame:OnEvent(event, arg1)
+ 
+if event == "ADDON_LOADED" and arg1 == "Blizzard_EncounterJournal"  then
+ 
+EncounterJournalSuggestFrame.Suggestion1.centerDisplay.description.text:SetFont(G.fonts.roboto,12, "NONE")
+ 
+end
+end
+ 
+frame:SetScript("OnEvent", frame.OnEvent);
