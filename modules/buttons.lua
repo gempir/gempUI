@@ -12,6 +12,8 @@ button:SetWidth(60)
 button:SetHeight(25)
 button:RegisterForClicks("LeftButtonDown")
 button:SetScript("OnClick", function()
+button:SetFrameStrata("BACKGROUND")
+	
 
 	if gWM_visible then
 		gXpbarp:SetPoint("TOP", Minimap, "TOP", 0, -201)
@@ -56,6 +58,7 @@ local button = CreateFrame("Button", "button_gAutomatorConfig", UIParent)
 button:SetPoint("CENTER", UIParent, "TOPRIGHT", -95, -196)
 button:SetWidth(60)
 button:SetHeight(25)
+button:SetFrameStrata("BACKGROUND")
 button:RegisterForClicks("LeftButtonDown")
 button:SetScript("OnClick", function()
     
@@ -100,6 +103,7 @@ local button = CreateFrame("Button", "button_gDamage", UIParent)
 button:SetPoint("CENTER", UIParent, "TOPRIGHT", -36, -196)
 button:SetWidth(60)
 button:SetHeight(25)
+button:SetFrameStrata("BACKGROUND")
 button:RegisterForClicks("LeftButtonDown")
 button:SetScript("OnClick", function()
     

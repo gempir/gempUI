@@ -139,4 +139,3 @@ end
 hooksecurefunc("BuffFrame_UpdateAllBuffAnchors", UpdateBuff)
 hooksecurefunc("DebuffButton_UpdateAnchors", UpdateDebuff)
 hooksecurefunc("AuraButton_UpdateDuration", updateTime)
-SetCVar("consolidateBuffs", 0)

@@ -103,10 +103,10 @@ do
 	clockFrame:Hide()
 	clockTime:SetFont("Interface\\Addons\\gempUI\\media\\fonts\\square.ttf", 14, "THINOUTLINE")
 	clockTime:SetTextColor(1,1,1)
-	TimeManagerClockButton:SetFrameStrata("HIGH")
+	TimeManagerClockButton:SetFrameStrata("TOOLTIP")
 	TimeManagerClockButton:SetPoint("CENTER", UIParent, "TOPRIGHT", -95, -197)
 	TimeManagerClockButton:EnableMouse(false)
-  clockTime:SetShadowOffset(0, 0)
+  	clockTime:SetShadowOffset(0, 0)
 	clockTime:Show()
 
 	

@@ -89,15 +89,15 @@ function F.autorepair()
 				local cost = GetRepairAllCost()
 				local guildName, guildRankName, guildRankIndex = GetGuildInfo('player');
 
-				if gAutorepair == 1 then
+				if gempDB.autorepair == 1 then
 					RepairAllItems()
 					if cost > 0 then
 					end
-				elseif gAutorepair == 2 then
+				elseif gempDB.autorepair == 2 then
 					RepairAllItems(1)
 					if cost > 0 then
 					end
-				elseif gAutorepair == 0 then
+				elseif gempDB.autorepair == 0 then
 
 				end
 

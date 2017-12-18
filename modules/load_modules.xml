@@ -3,7 +3,6 @@
 	<Script file="sharedmedia.lua"/>
 	<Script file="experience_reputation.lua"/>
 	<Script file="threat.lua"/>
-	<Script file="automator.lua"/>
 	<Script file="utilityframes.lua"/>
 	<Script file="buttons.lua"/>
 	<Script file="worldmarkers.lua"/>
@@ -12,9 +11,7 @@
 	<Script file="minimap.lua"/>
 	<Script file="infotext.lua"/>
 	<Script file="fonts.lua"/>
-	<Script file="chat.lua"/>
 	<Script file="buffs.lua"/>
 	<Script file="actionbuttonstyler.lua"/>
 	<Script file="actionbars.lua"/>
-	<Script file="nameplates.lua"/>
 </Ui>

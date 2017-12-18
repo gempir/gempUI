@@ -92,7 +92,7 @@ gempDB = {
 -- This UI is a compilation of a lot of Addons and some stuff is written by me (Gempir)
 -- A lot of Credit goes to these great people who wrote these addons and people who helped me, most of them can be found on wowinterface.com
 
--- Zork - rTooltip, rActionButtonStyler, rChat
+-- Zork - rTooltip, rActionButtonStyler
 -- Skaarj - ouF_Skaarj
 -- Yarko - Cooldowns
 -- Dridzt - TinyMainBarInfo (Info texts)
