@@ -1,6 +1,7 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">	
 	<Script file="functions.lua"/>
 	<Script file="sharedmedia.lua"/>
+	<Include file="unitframes\load_unitframes.xml"/>
 	<Script file="experience_reputation.lua"/>
 	<Script file="threat.lua"/>
 	<Script file="utilityframes.lua"/>
