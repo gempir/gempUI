@@ -584,10 +584,12 @@ local gAC_5button = CreateFrame("Button", nil, gAC_5)
 	  		gempDB.threatbar = true
 	  	end
 
-	  	if gempDB.threatbar == true then
+		  if gempDB.threatbar == true then
+			print("|cff00FF7F[gemp]|r Threatbar is now shown");			
 			gAC_5:SetBackdropColor(0/255, 84/255, 28/255, 1)
 			gThreat:SetAlpha(1)
 		elseif gempDB.threatbar == false then
+			print("|cff00FF7F[gemp]|r Threatbar is now hidden");			
 			gAC_5:SetBackdropColor(150/255, 10/255, 10/255, 1)
 			gThreat:SetAlpha(0)
 		end
@@ -608,7 +610,7 @@ local frame = CreateFrame("FRAME", "check");
 frame:RegisterEvent("PLAYER_ENTERING_WORLD");
 local function eventHandler(self, event, ...)
 
-	  	if gempDB.threatbar == true then
+		  if gempDB.threatbar == true then
 			gAC_5:SetBackdropColor(0/255, 84/255, 28/255, 1)
 			gThreat:SetAlpha(1)
 		elseif gempDB.threatbar == false then

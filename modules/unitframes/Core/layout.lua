@@ -14,30 +14,18 @@ local backdrop = {
 
 local OnEnter = function(self)
     UnitFrame_OnEnter(self)
-    self.Highlight:Show()	
+	if self.Highlight then
+		self.Highlight:Show()
+	end
 end
 
 local OnLeave = function(self)
     UnitFrame_OnLeave(self)
-    self.Highlight:Hide()	
+    if self.Highlight then
+		self.Highlight:Hide()
+	end	
 end
 	
-local ChangedTarget = function(self)
-    if UnitIsUnit('target', self.unit) then
-        self.TargetBorder:Show()
-    else
-        self.TargetBorder:Hide()
-    end
-end
-
-local FocusTarget = function(self)
-    if UnitIsUnit('focus', self.unit) then
-        self.FocusHighlight:Show()
-    else
-        self.FocusHighlight:Hide()
-    end
-end
-
 local dropdown = CreateFrame('Frame', name .. 'DropDown', UIParent, 'UIDropDownMenuTemplate')
 
 local function menu(self)
@@ -458,44 +446,6 @@ local castbar = function(self, unit)
 	self.Castbar = cb
 end
 
-local Healcomm = function(self) 
-	local myBar = createStatusbar(self.Health, cfg.texture, nil, nil, self:GetWidth(), 0.33, 0.59, 0.33, 0.6)
-	myBar:SetPoint('TOP')
-	myBar:SetPoint('BOTTOM')
-	myBar:SetPoint('LEFT', self.Health:GetStatusBarTexture(), 'RIGHT')
-	   
-	local otherBar = createStatusbar(self.Health, cfg.texture, nil, nil, self:GetWidth(), 0.33, 0.59, 0.33, 0.6)
-	otherBar:SetPoint('TOP')
-	otherBar:SetPoint('BOTTOM')
-	otherBar:SetPoint('LEFT', self.Health:GetStatusBarTexture(), 'RIGHT')
-
-    local absorbBar = createStatusbar(self.Health, cfg.texture, nil, nil, self:GetWidth(), 0.33, 0.59, 0.33, 0.6)
-    absorbBar:SetPoint('TOP')
-    absorbBar:SetPoint('BOTTOM')
-    absorbBar:SetPoint('LEFT', self.Health:GetStatusBarTexture(), 'RIGHT')
-	
-    local healAbsorbBar = createStatusbar(self.Health, cfg.texture, nil, nil, self:GetWidth(), 0.33, 0.59, 0.33, 0.6)
-    healAbsorbBar:SetPoint('TOP')
-    healAbsorbBar:SetPoint('BOTTOM')
-    healAbsorbBar:SetPoint('LEFT', self.Health:GetStatusBarTexture(), 'RIGHT')
-   
-   self.HealPrediction = {
-      myBar = myBar,
-      otherBar = otherBar,
-      absorbBar = absorbBar,
-      healAbsorbBar = healAbsorbBar,
-      maxOverflow = 1,
-      frequentUpdates = true,
-   }
-end
-
-local Portraits = function(self) 
-    self.Portrait = CreateFrame('PlayerModel', nil, self)
-	self.Portrait:SetAllPoints(self.Health)
-	self.Portrait:SetAlpha(0.2)
-	self.Portrait:SetFrameLevel(self.Health:GetFrameLevel())
-end   
-
 local Health = function(self) 
 	local h = createStatusbar(self, cfg.texture, nil, nil, nil, 1, 1, 1, 1)
     h:SetPoint'TOP'
@@ -521,9 +471,7 @@ local Health = function(self)
     end
 
 	h.frequentUpdates = false
-	
-	if cfg.options.smooth then h.Smooth = true end
-	
+		
 	h.bg = hbg
     self.Health	= h 
 	self.Health.PostUpdate = PostUpdateHealth
@@ -537,8 +485,6 @@ local Power = function(self)
 	
 	if unit == 'player' and powerType ~= 0 then p.frequentUpdates = true end	   
 		
-	if cfg.options.smooth then p.Smooth = true end
-
     local pbg = p:CreateTexture(nil, 'BACKGROUND')
     pbg:SetAllPoints(p)
     pbg:SetTexture(cfg.texture)
@@ -622,14 +568,14 @@ local function SizeUpdate(self, event,unit)
     end
 end
 
-local Shared = function(self, unit)
+local function Shared(self, unit)
 
     self.menu = menu
 	
     self:SetScript('OnEnter', OnEnter)
-    self:SetScript('OnLeave', OnLeave)
+	self:SetScript('OnLeave', OnLeave)
 	
-    self:RegisterForClicks'AnyUp'
+    self:RegisterForClicks('AnyUp')
 	
 	self:SetBackdrop({
     bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
@@ -653,12 +599,6 @@ local Shared = function(self, unit)
     hl:SetBlendMode('ADD')
     hl:Hide()
 	self.Highlight = hl
-	
-	if cfg.options.SpellRange then
-	    self.SpellRange = {
-	    insideAlpha = 1,
-        outsideAlpha = cfg.options.range_alpha}
-	end
 end
 
 local UnitSpecific = {
@@ -669,9 +609,7 @@ local UnitSpecific = {
 		
 		Power(self)
 		Icons(self)
-		
-		if cfg.options.portraits then Portraits(self) end
-		
+				
 	    if cfg.player_cb.enable then
             castbar(self)
 	        PetCastingBarFrame:UnregisterAllEvents()
@@ -695,9 +633,7 @@ local UnitSpecific = {
 		self.framebd = framebd(self.dh, self.dh)
 		
 		self.DebuffHighlight = cfg.dh.player
-		
-		if cfg.options.healcomm then Healcomm(self) end
-		
+				
 		local name = fs(self.Health, 'OVERLAY', cfg.font, cfg.fontsize, cfg.fontflag, 1, 1, 1)
         name:SetPoint('LEFT', 4, 0)
         name:SetJustifyH'LEFT'
@@ -956,117 +892,6 @@ local UnitSpecific = {
 			
 		    self.CPoints = cp
 		end
-		
-		if cfg.gcd.enable then
-		    local gcd = createStatusbar(self, cfg.texture, nil, cfg.gcd.height, cfg.gcd.width, class_color.r, class_color.g, class_color.b, 1)
-		    gcd:SetPoint(unpack(cfg.gcd.pos))
-			gcd.bg = gcd:CreateTexture(nil, 'BORDER')
-            gcd.bg:SetAllPoints(gcd)
-            gcd.bg:SetTexture(cfg.texture)
-            gcd.bg:SetVertexColor(class_color.r, class_color.g, class_color.b, 0.4)
-			gcd.bd = framebd(gcd, gcd)	
-			self.GCD = gcd
-		end
-        
-	    if cfg.treat.enable then
-		    local treat = createStatusbar(UIParent, cfg.texture, nil, cfg.treat.height, cfg.treat.width, 1, 1, 1, 1)
-			treat:SetFrameStrata('LOW')
-	        treat:SetPoint(unpack(cfg.treat.pos))
-			treat.useRawThreat = false
-			treat.usePlayerTarget = false	
-			treat.bg = treat:CreateTexture(nil, 'BACKGROUND')
-            treat.bg:SetAllPoints(treat)
-            treat.bg:SetTexture(cfg.texture)
-            treat.bg:SetVertexColor(1, 1, 1, 0.3)
-			if cfg.treat.text then
-				treat.Title = fs(treat, 'OVERLAY', cfg.aura.font, cfg.aura.fontsize, cfg.aura.fontflag, 0.8, 0.8, 0.8)
-				treat.Title:SetText('Threat:')
-				treat.Title:SetPoint('RIGHT', treat, 'CENTER')
-				treat.Text = fs(treat, 'OVERLAY', cfg.aura.font, cfg.aura.fontsize, cfg.aura.fontflag, 0.8, 0.8, 0.8)
-				treat.Text:SetPoint('LEFT', treat, 'CENTER')
-			end
-	        treat.bg = framebd(treat, treat)
-			self.ThreatBar = treat
-		end
-		
-        if cfg.exp_rep.enable then 
-            if UnitLevel('player') < MAX_PLAYER_LEVEL then		    
-                gempUI_exp = createStatusbar(self, cfg.texture, nil, cfg.treat.height, cfg.treat.width, 0, .7, 1, 1)
-				gempUI_exp:SetFrameStrata('LOW')
-				if cfg.exp_rep.unlock then
-				    -- this is a custom If function for the minimap frames in gempUI
-
-				    if gAC_visible or gWM_visible then
-				    	gempUI_exp:SetPoint("TOP", Minimap,"TOP",0,-272)
-				    elseif gDMG_visible then
-				    	gempUI_exp:SetPoint("TOP", Minimap,"TOP",0,-275)
-				    else
-				    	gempUI_exp:SetPoint("TOP", Minimap,"TOP",0,-200)
-					end
-					
-					if gXpbar == nil or gXpbar == false then
-						gempUI_exp:SetAlpha(0)
-					end
-					
-					gempUI_exp:SetSize(cfg.exp_rep.width, cfg.exp_rep.height)
-
-				else
-				    gempUI_exp:SetPoint(unpack(cfg.treat.pos))
-				end
-                gempUI_exp.Rested = createStatusbar(gempUI_exp, cfg.texture, nil, nil, nil, 0, .4, 1, .6)
-                gempUI_exp.Rested:SetAllPoints(gempUI_exp)
-                gempUI_exp.bg = gempUI_exp.Rested:CreateTexture(nil, 'BORDER')
-                gempUI_exp.bg:SetAllPoints(gempUI_exp)
-                gempUI_exp.bg:SetTexture(cfg.texture)
-                gempUI_exp.bg:SetVertexColor(0, .7, 1, 0.4)
-			    gempUI_exp.text = fs(gempUI_exp, 'OVERLAY', cfg.aura.font, cfg.aura.fontsize, cfg.aura.fontflag, 1, 1, 1)
-	            gempUI_exp.text:SetPoint('CENTER',0,-1)
-				if cfg.exp_rep.show_text_on_mouseover then
-					gempUI_exp.text:Hide()
-					gempUI_exp:SetScript('OnEnter', function(self)UIFrameFadeIn(gempUI_exp.text, 0.3, 0, 1)end)
-	                gempUI_exp:SetScript('OnLeave', function(self)UIFrameFadeOut(gempUI_exp.text, 0.3, 1, 0)end)
-				end
-                gempUI_exp.bd = framebd(gempUI_exp, gempUI_exp)
-
-			    self.Experience = gempUI_exp
-
-		    else 
-		        gempUI_rep = createStatusbar(self, cfg.texture, nil, cfg.treat.height, cfg.treat.width, gempUIsecondcolor.r, gempUIsecondcolor.g+0.3, gempUIsecondcolor.b+0.3 ,1)
-				gempUI_rep:SetFrameStrata('LOW')
-				if cfg.exp_rep.unlock then
-				    
-					if gAC_visible or gWM_visible then
-				    	gempUI_rep:SetPoint("TOP", Minimap,"TOP",0,-272)
-				    elseif gDMG_visible then
-				    	gempUI_rep:SetPoint("TOP", Minimap,"TOP",0,-275)
-				    else
-				    	gempUI_rep:SetPoint("TOP", Minimap,"TOP",0,-200)
-					end
-
-					gempUI_rep:SetSize(cfg.exp_rep.width, cfg.exp_rep.height)
-
-					if gXpbar == nil or gXpbar == false then
-						gempUI_rep:SetAlpha(0)
-					end
-			        
-				else
-				    gempUI_rep:SetPoint(unpack(cfg.treat.pos))
-				end
-		        gempUI_rep.bg = gempUI_rep:CreateTexture(nil, 'BORDER')
-		        gempUI_rep.bg:SetAllPoints(gempUI_rep)
-                gempUI_rep.bg:SetTexture(cfg.texture)
-                gempUI_rep.bg:SetVertexColor(gempUIsecondcolor.r, gempUIsecondcolor.g+0.4, gempUIsecondcolor.b+0.3, 0.3)	
-			    gempUI_rep.text = fs(gempUI_rep, 'OVERLAY', cfg.aura.font, cfg.aura.fontsize, cfg.aura.fontflag, 1, 1, 1)
-	            gempUI_rep.text:SetPoint('CENTER',0,-1)
-				if cfg.exp_rep.show_text_on_mouseover then
-					gempUI_rep.text:Hide()
-					gempUI_rep:SetScript('OnEnter', function(self)UIFrameFadeIn(gempUI_rep.text, 0.3, 0, 1)end)
-	                gempUI_rep:SetScript('OnLeave', function(self)UIFrameFadeOut(gempUI_rep.text, 0.3, 1, 0)end)
-				end
-		        gempUI_rep.bd = framebd(gempUI_rep, gempUI_rep)
-		        self.Reputation = gempUI_rep		
-            end					
-	    end
 	    
 	    if cfg.AltPowerBar.player.enable then
 	       local altp = createStatusbar(self, cfg.texture, nil, cfg.AltPowerBar.player.height, cfg.AltPowerBar.player.width, 1, 1, 1, 1)
@@ -1080,7 +905,6 @@ local UnitSpecific = {
            altp.Text:SetPoint('CENTER')
            self:Tag(altp.Text, '[altpower]') 
 		   altp:EnableMouse(true)
-		   altp.colorTexture = true
            self.AltPowerBar = altp
 	    end
 			
@@ -1113,8 +937,6 @@ local UnitSpecific = {
 		self.DebuffHighlight = cfg.dh.target
 		
 		if cfg.target_cb.enable then castbar(self) end
-		if cfg.options.healcomm then Healcomm(self) end
-		if cfg.options.portraits then Portraits(self) end
 		
 		self:SetSize(cfg.player.width, cfg.player.health+cfg.player.power+1)
 		self.Power:SetHeight(cfg.player.power)
@@ -1190,9 +1012,7 @@ local UnitSpecific = {
 		self:SetSize(cfg.party.width, cfg.party.health+cfg.player.power+5)
 		self.Power:SetHeight(cfg.player.power)
 		self.Power.PostUpdate = PostUpdatePower
-		
-		if cfg.options.healcomm then Healcomm(self) end
-		
+				
 		local name = fs(self.Health, 'OVERLAY', cfg.font, cfg.fontsize, cfg.fontflag, 1, 1, 1)
         name:SetPoint('LEFT', 4, 0)
         name:SetJustifyH'LEFT'
@@ -1242,9 +1062,7 @@ local UnitSpecific = {
 		self.framebd = framebd(self, self)
 		
 		self.Health.frequentUpdates = true
-		
-		self.SpellRange.outsideAlpha = 1
-		
+				
 		if cfg.boss_cb.enable then castbar(self) end
 		
 	    self:SetSize(cfg.party.width, cfg.party.health+13) -- +cfg.party.power
@@ -1272,7 +1090,6 @@ local UnitSpecific = {
            altp.Text:SetPoint('CENTER')
            self:Tag(altp.Text, '[altpower]') 
 		   altp:EnableMouse(true)
-		   altp.colorTexture = true
            self.AltPowerBar = altp
 	    end
 		
@@ -1379,9 +1196,7 @@ local UnitSpecific = {
 		
 		self.Health:SetHeight(cfg.party.health)
 		self.Power:SetHeight(cfg.party.power)
-		
-		if cfg.options.healcomm then Healcomm(self) end
-		
+				
 		local lfd = fs(self.Health, 'OVERLAY', cfg.symbol, 13, OUTLINE, 1, 1, 1)
 		lfd:SetPoint('LEFT', 4, 0)
 		lfd:SetJustifyH'LEFT'
@@ -1434,9 +1249,7 @@ local UnitSpecific = {
 		self:SetSize(cfg.party.width, cfg.party.health+cfg.party.power+1)
 		self.Health:SetHeight(cfg.party.health)
 		self.Power:SetHeight(cfg.party.power)
-		
-		if cfg.options.healcomm then Healcomm(self) end
-		
+				
 		local name = fs(self.Health, 'OVERLAY', cfg.font, cfg.fontsize, cfg.fontflag, 1, 1, 1)
         name:SetPoint('LEFT', 4, 0)
         name:SetJustifyH'LEFT'
@@ -1481,9 +1294,7 @@ local UnitSpecific = {
 		
 		self.Health:SetHeight(cfg.raid.health)
 		self.Power:SetHeight(cfg.raid.power)
-		
-		if cfg.options.healcomm then Healcomm(self) end
-		
+				
 		local name = fs(self.Health, 'OVERLAY', cfg.font, cfg.fontsize, cfg.fontflag, 1, 1, 1)
 		name:SetPoint('LEFT', 5, 5)
 	    name:SetJustifyH'LEFT'
@@ -1553,11 +1364,6 @@ local UnitSpecific = {
         fborder:SetFrameLevel(1)
         fborder:Hide()
         self.FocusHighlight = fborder
-	    
-		self:RegisterEvent('PLAYER_TARGET_CHANGED', ChangedTarget)
-        self:RegisterEvent('RAID_ROSTER_UPDATE', ChangedTarget)
-		self:RegisterEvent('PLAYER_FOCUS_CHANGED', FocusTarget)
-        self:RegisterEvent('RAID_ROSTER_UPDATE', FocusTarget)
     end,
 }
 
@@ -1696,22 +1502,22 @@ oUF:Factory(function(self)
 		if cfg.options.showRaid then
 		    self:SetActiveStyle'Skaarj - Raid'
             local party = self:SpawnHeader('oUF_Party', nil, 'party','showPlayer',
-			cfg.options.showPlayer,'showSolo',false,'showParty',true ,'point','LEFT','xOffset', 5,'yOffset', -5,
-			'oUF-initialConfigFunction', ([[
-			self:SetHeight(%d)
-			self:SetWidth(%d)
-		]]):format(cfg.raid.health+cfg.raid.power+1, cfg.raid.width)
-		)
+				cfg.options.showPlayer,'showSolo',false,'showParty',true ,'point','LEFT','xOffset', 5,'yOffset', -5,
+				'oUF-initialConfigFunction', ([[
+				self:SetHeight(%d)
+				self:SetWidth(%d)
+				]]):format(cfg.raid.health+cfg.raid.power+1, cfg.raid.width)
+			)
             party:SetPoint('TOPLEFT',cfg.unit_positions.Party.a,'TOPLEFT',cfg.unit_positions.Party.x,cfg.unit_positions.Party.y)
 		else
 		    self:SetActiveStyle'Skaarj - Party'
-            local party = self:SpawnHeader('oUF_Party',nil,'party',
+            local party = self:SpawnHeader('oUF_Party', nil,'party',
 			'showPlayer',cfg.options.showPlayer,'showSolo',false,'showParty',true ,'yOffset', -23,
 			'oUF-initialConfigFunction', ([[
 			self:SetHeight(%d)
 			self:SetWidth(%d)
-		]]):format(cfg.party.health+cfg.party.power+1,cfg.party.width)
-		)
+			]]):format(cfg.party.health+cfg.party.power+1,cfg.party.width)
+			)
             party:SetPoint('TOPLEFT',cfg.unit_positions.Party.a,'TOPLEFT',cfg.unit_positions.Party.x,cfg.unit_positions.Party.y)
 		    
 			if cfg.uf.party_target then

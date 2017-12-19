@@ -18,12 +18,12 @@ end
 
 -----------------------------------------------------------------------------------------
 
-local fixStatusbar = function(bar)
+local function fixStatusbar(bar)
     bar:GetStatusBarTexture():SetHorizTile(false)
     bar:GetStatusBarTexture():SetVertTile(false)
 end
 
-createStatusbar = function(parent, tex, layer, height, width, r, g, b, alpha)
+function createStatusbar(parent, tex, layer, height, width, r, g, b, alpha)
     local bar = CreateFrame'StatusBar'
     bar:SetParent(parent)
     if height then
@@ -40,7 +40,7 @@ end
 
 -----------------------------------------------------------------------------------------
 
-fs = function(parent, layer, font, fontsiz, outline, r, g, b, justify)
+function fs(parent, layer, font, fontsiz, outline, r, g, b, justify)
     local string = parent:CreateFontString(nil, layer)
     string:SetFont(font, fontsiz, outline)
     string:SetShadowOffset(cfg.shadowoffsetX, cfg.shadowoffsetY)

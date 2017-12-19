@@ -93,8 +93,6 @@ cfg.target = {
   -----------------------------
 
 cfg.options = { 
-        portraits = false,               -- enables 3d portraits on player and target unit frames
-        healcomm = false,
 		raid_missinghp = true,           -- show/hide missing health text
 		raid_incheal = false,
         specific_power = true,
@@ -177,35 +175,6 @@ cfg.aura = {
   -----------------------------
   -- Plugins 
   -----------------------------
-
---ThreatBar
-cfg.treat = {
-        enable = false,
-		text = false,
-        pos = {'TOP', UIParent, 0, -10},
-        width = 345,
-		height = 7,
-}
-
---Experience/Reputation 
--- don't play with these options most of them will cause bugs if changed
-
-cfg.exp_rep = {
-        enable = false, -- DON'T TOUCH THIS
-		unlock = true,
-        pos = {},  --requires unlock = true
-        width = 176,                                          --requires unlock = true
-		height = 14,                                           --requires unlock = true
-		show_text_on_mouseover = true,
-}
-
---GCD
-cfg.gcd = {
-        enable = false,
-        pos = {'BOTTOM', UIParent, 0, 218},
-        width = 229,
-		height = 7,
-}
 
 --RaidDebuffs
 cfg.RaidDebuffs = {
@@ -291,13 +260,11 @@ cfg.spellIDs = {
 	            {3411, {0.89, 0.1, 0.1}, 'TOPRIGHT'},   -- Intervene
 	            },
  }
+
  
---oUF_MovableFrames	
-cfg.MovableFrames = false
- 
-  -----------------------------
-  -- Castbars 
-  -----------------------------
+-----------------------------
+-- Castbars 
+-----------------------------
 
 -- Player
 cfg.player_cb = {
@@ -347,9 +314,9 @@ cfg.arena_cb = {
 		width = 187,
 }
 
-  -----------------------------
-  -- Colors 
-  -----------------------------
+-----------------------------
+-- Colors 
+-----------------------------
 
 cfg.class_colorbars = false
 cfg.colorClass_bg = false
@@ -361,28 +328,6 @@ cfg.Color = {
 	  Castbar = {r =  G.color.r+0.08,	g =  G.color.g+0.08, 	b =  G.color.b+0.08, a = G.color.a},
 	  CPoints = {r =  .96,	g =  0.37, 	b =  0.34},
 }
-
------------------------------
--- CHARSPECIFIC REWRITES
------------------------------
-
-local playername, _ = UnitName('player')
-
-if playername == 'Чизкейк' then
-	cfg.treat.width = 444
-end
-
-if playername == 'Волараукар' then
-	--cfg.treat.width = 389
-	cfg.treat.enable = false
-end
-  
-if playername == 'Саварен' then
-	cfg.treat.width = 500
-	cfg.treat.enable = false
-	cfg.dh.player = false
-	cfg.gcd.enable = false
-end
 
 ns.cfg = cfg
 

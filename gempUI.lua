@@ -6,7 +6,7 @@ core[3] = {} -- V, variables
 
 local F, G, V = unpack(select(2, ...))
 
-ChatFrame1:AddMessage("|cff00FF7Fgemp|rUI v1.0");
+ChatFrame1:AddMessage("|cff00FF7Fgemp|rUI");
 -------------------------------------------------------------------------------------
 ------ Options
 -------------------------------------------------------------------------------------
@@ -89,13 +89,12 @@ gempDB = {
 -- The 2nd Font is called SquareFont from dafont user "agustinluisbou92" or "Bou Fonts"
 -- Interface\\Addons\\gempUI\\media\\fonts\\square.ttf
 
--- This UI is a compilation of a lot of Addons and some stuff is written by me (Gempir)
+-- This UI is a compilation of a lot of Addons and some stuff is written by me (gempir)
 -- A lot of Credit goes to these great people who wrote these addons and people who helped me, most of them can be found on wowinterface.com
 
 -- Zork - rTooltip, rActionButtonStyler
 -- Skaarj - ouF_Skaarj
 -- Yarko - Cooldowns
--- Dridzt - TinyMainBarInfo (Info texts)
 -- nightcracker, Coote - ncHoverbind 
 -- Monolit - m_Actionbars (monoActionbars)
 -- Tuller - TullaRange

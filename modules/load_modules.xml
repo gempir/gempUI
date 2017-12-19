@@ -15,4 +15,5 @@
 	<Script file="buffs.lua"/>
 	<Script file="actionbuttonstyler.lua"/>
 	<Script file="actionbars.lua"/>
+	<Script file="chat.lua"/>
 </Ui>
