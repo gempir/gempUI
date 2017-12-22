@@ -249,17 +249,31 @@ cfg.spellIDs = {
 -- Player
 cfg.player_cb = {
         enable = true,
-        pos = {'BOTTOM', UIParent, 16, 91},
 		width = 247,
 		height = 30,
 }
 
+-----------------------------
+-- gempUI options
+-----------------------------
+
+if G.options.actionbars_main_three then
+	cfg.player_cb.pos = {'BOTTOM', UIParent, 16, 130}
+	cfg.unit_positions.Player = { a = UIParent, x= -132, y=  228 }				
+    cfg.unit_positions.Target = {a = UIParent, x=  132, y=  228} 
+elseif not G.options.actionbars_main_three then
+	cfg.player_cb.pos = {'BOTTOM', UIParent, 16, 91}
+	cfg.unit_positions.Player = { a = UIParent, x= -132, y=  189 }				
+    cfg.unit_positions.Target = {a = UIParent, x=  132, y=  189}
+end
+        
+
 -- Target
 cfg.target_cb = {
         enable = true,
-        pos = {'BOTTOMRIGHT', -1, -21},
+        pos = {'BOTTOMRIGHT', 0, -22},
 		height = 15,
-		width = 192,
+		width = 196,
 }
 
 -- Focus
@@ -297,31 +311,13 @@ cfg.arena_cb = {
 -----------------------------
 -- Colors 
 -----------------------------
-
-cfg.class_colorbars = false
-cfg.colorClass_bg = false
-cfg.hbg_multiplier = 1
   
 cfg.Color = { 				
-       Health = {r =  G.color.r+0.08,	g =  G.color.g+0.08, 	b =  G.color.b+0.08, a = G.color.a},
-	Health_bg = {r =  0,	g =  0, 	b =  0, a = 0},
-	  Castbar = {r =  G.color.r+0.08,	g =  G.color.g+0.08, 	b =  G.color.b+0.08, a = G.color.a},
+       Health = {r =  G.color.r,	g =  G.color.g, 	b =  G.color.b, a = G.color.a},
+	  Castbar = {r =  G.color.r,	g =  G.color.g, 	b =  G.color.b, a = G.color.a},
 	  CPoints = {r =  .96,	g =  0.37, 	b =  0.34},
 }
 
 ns.cfg = cfg
 
------------------------------
--- gempUI options
------------------------------
 
-if G.options.actionbars_main_three then
-	cfg.player_cb.pos = {'BOTTOM', UIParent, 16, 131}
-	cfg.unit_positions.Player = { a = UIParent, x= -132, y=  228 }				
-    cfg.unit_positions.Target = {a = UIParent, x=  132, y=  228} 
-elseif not G.options.actionbars_main_three then
-	cfg.player_cb.pos = {'BOTTOM', UIParent, 16, 92}
-	cfg.unit_positions.Player = { a = UIParent, x= -132, y=  189 }				
-    cfg.unit_positions.Target = {a = UIParent, x=  132, y=  189}
-end
-        

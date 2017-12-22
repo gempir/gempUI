@@ -236,45 +236,25 @@ local PostCastFailed = function(self, event, unit)
 end
 
 local castbar = function(self, unit)
-	local cb = createStatusbar(self, cfg.texture, nil, nil, nil, 1, 1, 1, 1)		
-	local cbbg = cb:CreateTexture(nil, 'BACKGROUND')
-    cbbg:SetAllPoints(cb)
-    cbbg:SetTexture(cfg.texture)
-    cbbg:SetVertexColor(G.bordercolor.r, G.bordercolor.g, G.bordercolor.b, G.bordercolor.a)
+	local cb = createStatusbar(self, cfg.texture, nil, nil, nil, G.color.r, G.color.g, G.color.b, G.color.a)	
+	
     cb.Time = fs(cb, 'OVERLAY', cfg.font, cfg.fontsize, cfg.fontflag, 1, 1, 1)
 	cb.Time:SetPoint('RIGHT', cb, -2, 0)		
 	cb.Text = fs(cb, 'OVERLAY', cfg.font, cfg.fontsize, cfg.fontflag, 1, 1, 1, 'LEFT')
     cb.Text:SetPoint('LEFT', cb, 2, 0)
     cb.Text:SetPoint('RIGHT', cb.Time, 'LEFT')
-	cb.CastingColor = {cfg.Color.Castbar.r, cfg.Color.Castbar.g, cfg.Color.Castbar.b}
-	cb.CompleteColor = {0.12, 0.86, 0.15}
-	cb.FailColor = {1.0, 0.09, 0}
-	cb.ChannelingColor = {0.32, 0.3, 1}
+	cb.CastingColor = {G.color.r, G.color.g, G.color.b, G.color.a}
+	cb.CompleteColor = {0.12, 0.86, 0.15, G.color.a}
+	cb.FailColor = {1.0, 0.09, 0, G.color.a}
+	cb.ChannelingColor = {0.32, 0.3, G.color.a}
 	cb.Icon = cb:CreateTexture(nil, 'ARTWORK')
-	cb.Icon:SetPoint('TOPRIGHT', cb, 'TOPLEFT', -1, 0)
-    cb.Icon:SetTexCoord(.1, .9, .1, .9)
+	cb.Icon:SetPoint('TOPRIGHT', cb, 'TOPLEFT', 1, 0)
+	cb.Icon:SetTexCoord(.1, .9, .1, .9)
 
 	if self.unit == 'player' then
 		cb:SetPoint(unpack(cfg.player_cb.pos))
 		cb:SetSize(cfg.player_cb.width, cfg.player_cb.height)
 	    cb.Icon:SetSize(cfg.player_cb.height, cfg.player_cb.height)
-		cb.SafeZone = cb:CreateTexture(nil, 'ARTWORK')
-		cb.SafeZone:SetTexture(cfg.texture)
-
-		if G.options.castbar_safezone then 
-			safezonealpha = 1
-		elseif not G.options.castbar_safezone then
-			safezonealpha = 0
-		end
-		cb.SafeZone:SetVertexColor(.8,.11,.15, safezonealpha) --Safezone color
-		cb.Lag = fs(cb, 'OVERLAY', cfg.aura.font, cfg.aura.fontsize, cfg.aura.fontflag, 1, 1, 1)
-		cb.Lag:SetPoint('BOTTOMRIGHT', 0, -3)
-		cb.Lag:SetJustifyH('RIGHT')
-		self:RegisterEvent('UNIT_SPELLCAST_SENT', function(_, _, caster)
-			if (caster == 'player' or caster == 'vehicle') and self.Castbar.SafeZone then
-			self.Castbar.SafeZone.sendTime = GetTime()
-				end
-		end, true)
 	elseif self.unit == 'target' then
 		cb:SetPoint(unpack(cfg.target_cb.pos))
 		cb:SetSize(cfg.target_cb.width, cfg.target_cb.height)
@@ -301,7 +281,7 @@ local castbar = function(self, unit)
 	cb.Spark = cb:CreateTexture(nil,'OVERLAY')
 	cb.Spark:SetTexture([=[Interface\Buttons\WHITE8x8]=])
 	cb.Spark:SetBlendMode('Add')
-	cb.Spark:SetHeight(cb:GetHeight())
+	cb.Spark:SetHeight(cb:GetHeight() - 2)
 	cb.Spark:SetWidth(1)
 	cb.Spark:SetVertexColor(1, 1, 1)
 	
@@ -312,63 +292,41 @@ local castbar = function(self, unit)
 	cb.PostChannelStop = PostCastStop
 	cb.PostCastFailed = PostCastFailed
 	cb.PostCastInterrupted = PostCastFailed
-	cb.bg = cbbg
+
 	cb.Backdrop = framebd(cb, cb)
-	cb.IBackdrop = framebd(cb, cb.Icon)
+	cb.IBackdrop = F.createBorderFrame(cb, cb.Icon, false)
 	self.Castbar = cb
 end
 
 local Health = function(self) 
-	local h = createStatusbar(self, cfg.texture, nil, nil, nil, 1, 1, 1, 1)
+	local h = createStatusbar(self, G.texture, nil, nil, nil, G.color.r, G.color.g, G.color.b, G.color.a)
     h:SetPoint'TOP'
 	h:SetPoint'LEFT'
 	h:SetPoint'RIGHT'
-	
-	local hbg = h:CreateTexture(nil, 'BACKGROUND')
-    hbg:SetAllPoints(h)
-    hbg:SetTexture(cfg.texture)
-   
-	if cfg.class_colorbars then
-        h.colorClass = true
-        h.colorReaction = true
-		hbg.multiplier = .4
-	else
-	    h:SetStatusBarColor(cfg.Color.Health.r, cfg.Color.Health.g, cfg.Color.Health.b) 
-		if cfg.colorClass_bg then
-			h.colorClass_bg = true
-			hbg.multiplier = cfg.hbg_multiplier
-		else
-			hbg:SetVertexColor(cfg.Color.Health_bg.r, cfg.Color.Health_bg.g, cfg.Color.Health_bg.b, cfg.Color.Health_bg.a)
-		end
-    end
-
+    
 	h.frequentUpdates = false
 		
-	h.bg = hbg
     self.Health	= h 
 	self.Health.PostUpdate = PostUpdateHealth
 end
 
 local Power = function(self) 
-    local p = createStatusbar(self, cfg.texture, nil, nil, nil, 1, 1, 1, 1)
-	p:SetPoint'LEFT'
-	p:SetPoint'RIGHT'
+    local p = createStatusbar(self, cfg.texture, nil, nil, nil, G.color.r, G.color.g, G.color.b, G.color.a)
+	p:SetPoint('LEFT', self.Health, 'LEFT', 1, 0)
+	p:SetPoint('RIGHT', self.Health, 'RIGHT', -1, 0)
     p:SetPoint('TOP', self.Health, 'BOTTOM', 0, -1) 
 	
 	if unit == 'player' and powerType ~= 0 then p.frequentUpdates = true end	   
 		
     local pbg = p:CreateTexture(nil, 'BACKGROUND')
     pbg:SetAllPoints(p)
-    pbg:SetTexture(cfg.texture)
-		
-    if cfg.class_colorbars then 
-		p.colorPower = true
-        pbg.multiplier = .4			
-    else 
-		p.colorClass = true
-	    p.colorReaction = true
-        pbg.multiplier = .4			
-	end
+	pbg:SetTexture(cfg.texture)
+
+	F.createBorderFrame(p, p, true)
+	
+	p.colorClass = true
+	p.colorReaction = true
+	pbg.multiplier = .4			
 		
 	p.bg = pbg
 	self.Power = p 
@@ -435,11 +393,10 @@ local function Shared(self, unit)
     self:RegisterForClicks('AnyUp')
 	
 	self:SetBackdrop({
-    bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
-    insets = {top = 0, left = 0, bottom = 0, right = 0},
+		bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
+		insets = {top = 0, left = 0, bottom = 0, right = 0},
 	})
-	
-	self:SetBackdropColor(0, 0, 0)
+	self:SetBackdropColor(G.bgcolor.r, G.bgcolor.g, G.bgcolor.b, G.bgcolor.a)
 	
 	Health(self) 
 		
@@ -563,7 +520,7 @@ local UnitSpecific = {
                 end
 
 	            for i = 1, 6 do		
-					Icon = createStatusbar(ClassIcons, cfg.texture, nil, cfg.player.specific_power, (cfg.player.width+1)/ClassIcons.c-1, 1, 1, 1, 1)
+					Icon = createStatusbar(ClassIcons, cfg.texture, nil, cfg.player.specific_power, (cfg.player.width+1)/ClassIcons.c-1, G.color.r)
 					
 					if i == 1 then
 			            Icon:SetPoint('LEFT', ClassIcons)
@@ -791,7 +748,7 @@ local UnitSpecific = {
 			b.spacing = 4
 		    b.num = cfg.aura.target_buffs_num
             b:SetSize(b.size*b.num/2+b.spacing*(b.num/2-1), b.size)
-		    b:SetPoint('TOPLEFT', self, 'TOPRIGHT', 5, 0)
+		    b:SetPoint('TOPLEFT', self, 'TOPRIGHT', 5, -1)
             b.initialAnchor = 'TOPLEFT' 
             b['growth-y'] = 'DOWN'
             b.PostCreateIcon = auraIcon
@@ -1113,6 +1070,85 @@ local UnitSpecific = {
 
 UnitSpecific.focustarget = UnitSpecific.pet
 
+-- Nameplates
+oUF:RegisterStyle("gempUI", function(self, unit)
+	if not unit:match("nameplate") then
+		return
+	end
+		
+	local health = CreateFrame("StatusBar", nil, self)
+	health:SetAllPoints()
+	health:SetStatusBarTexture("Interface\\BUTTONS\\WHITE8X8")
+	health.colorHealth = true
+	health.colorTapping = true
+	health.colorDisconnected = true
+	health.frequentUpdates = true
+	
+	local border = CreateFrame("Frame",nil, health)
+	border:SetFrameStrata("BACKGROUND")
+	border:SetWidth(G.nameplates.width+2) 
+	border:SetHeight(G.nameplates.height+2) 
+	border:SetBackdrop({
+		bgFile = [[Interface\Buttons\WHITE8x8]],
+		edgeFile = [[Interface\Buttons\WHITE8x8]],
+		edgeSize = 1,
+	})
+	border:SetBackdropColor(G.color.r, G.color.g, G.color.b, G.color.a)
+	border:SetBackdropBorderColor(G.bordercolor.r, G.bordercolor.g, G.bordercolor.b, G.bordercolor.a)
+	border:SetPoint("BOTTOM",0,-1)
+	border:Show()
+	
+
+	self.Health = health
+	
+
+	self.Namecontainer = CreateFrame("frame",nil,self)
+	self.Name = self.Namecontainer:CreateFontString(nil)
+	self.Name:SetShadowOffset(1,-1)
+	self.Name:SetTextColor(1,1,1)
+	self.Name:ClearAllPoints()
+	self.Name:SetFont(G.fonts.square, G.nameplates.fontsize)
+	self.Name:SetShadowColor(0,0,0)
+	self.Name:SetPoint("BOTTOM", self, "TOP", 0, 6)	
+	self:Tag(self.Name, '[name]')
+
+	self.Castbar = CreateFrame("StatusBar", nil, self)
+	self.Castbar:SetFrameLevel(3)
+	self.Castbar:SetStatusBarTexture(G.texture)
+	self.Castbar:SetStatusBarColor(G.color.r, G.color.g, G.color.b, G.color.a)
+	self.Castbar:SetPoint("TOPLEFT", self.Health, "BOTTOMLEFT", 0, -20)
+	self.Castbar:SetPoint("BOTTOMRIGHT", self.Health, "BOTTOMRIGHT", 0, -20)
+	self.Castbar.CastingColor = {G.color.r, G.color.g, G.color.b, G.color.a}
+	self.Castbar.CompleteColor = {0.12, 0.86, 0.15, G.color.a}
+	self.Castbar.FailColor = {1.0, 0.09, 0, G.color.a}
+	self.Castbar.ChannelingColor = {0.32, 0.3, G.color.a}
+	
+	self.Castbar.Text = self.Castbar:CreateFontString(nil, "OVERLAY")
+	self.Castbar.Text:SetFont(G.fonts.square, G.nameplates.cbheight*0.85, "OUTLINE")
+	self.Castbar.Text:SetJustifyH("RIGHT")
+	self.Castbar.Text:SetPoint("CENTER", self.Castbar, "CENTER")
+	
+	self.Castbar.Icon = self.Castbar:CreateTexture(nil, "OVERLAY")
+	self.Castbar.Icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
+	self.Castbar.Icon:SetDrawLayer('ARTWORK')
+	self.Castbar.Icon:SetSize(G.nameplates.cbheight+6, G.nameplates.cbheight+6)
+	self.Castbar.Icon:SetPoint("BOTTOMRIGHT",self.Castbar, "BOTTOMLEFT", 0, 0)
+	
+	self.Castbar.PostChannelStart = kickable
+	self.Castbar.PostChannelUpdate = kickable
+	self.Castbar.PostCastStart = kickable
+	self.Castbar.PostCastDelayed = kickable
+	self.Castbar.PostCastNotInterruptible = kickable
+	self.Castbar.PostCastInterruptible = kickable
+	
+	-- set size and points
+	self:SetScale(UIParent:GetEffectiveScale()*1)
+	self:SetSize(G.nameplates.width, G.nameplates.height)
+	self:SetPoint("CENTER", 0, -50)
+end)
+
+oUF:SpawnNamePlates()
+
 oUF:RegisterStyle('Skaarj', Shared)
 
 for unit,layout in next, UnitSpecific do
@@ -1219,7 +1255,7 @@ oUF:Factory(function(self)
 								if cfg.class_colorbars then
 								    f.Health:SetStatusBarColor(class_color.r, class_color.g, class_color.b)
 								else
-								    f.Health:SetStatusBarColor(cfg.Color.Health.r, cfg.Color.Health.g, cfg.Color.Health.b)
+								    f.Health:SetStatusBarColor(cfg.Color.Health.r, cfg.Color.Health.g, cfg.Color.Health.b, cfg.Color.Health.a)
 								end
 							    f.Spec:SetText(spec..'  -  '..LOCALIZED_CLASS_NAMES_MALE[class])
 							    f:Show()

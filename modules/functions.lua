@@ -205,6 +205,24 @@ function F.bgframe2(parent)
 	bgframe:SetBackdropBorderColor(G.bordercolor.r, G.bordercolor.g, G.bordercolor.b, G.bordercolor.a)
 end
 
+function F.createBorderFrame(parent, anchor, extend) 
+    local frame = CreateFrame('Frame', nil, parent)
+	frame:SetFrameStrata('MEDIUM')
+	if extend then 
+		frame:SetPoint('TOPLEFT', anchor, 'TOPLEFT', -1, 1)
+		frame:SetPoint('BOTTOMRIGHT', anchor, 'BOTTOMRIGHT', 1, -1)
+	else
+		frame:SetPoint('TOPLEFT', anchor, 'TOPLEFT', 0, 0)
+		frame:SetPoint('BOTTOMRIGHT', anchor, 'BOTTOMRIGHT', 0, 0)
+	end
+    frame:SetBackdrop({
+        edgeFile = "Interface\\Buttons\\WHITE8x8", edgeSize = 1
+    })
+    frame:SetBackdropColor(0,0,0,0)
+    frame:SetBackdropBorderColor(G.bordercolor.r, G.bordercolor.g, G.bordercolor.b, G.bordercolor.a)
+    return frame
+end
+
 function F.ReskinPortraitIcon(frame, isButtonFrame)
 	local name = frame:GetName()
 

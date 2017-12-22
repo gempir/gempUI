@@ -5,14 +5,14 @@ local cfg = ns.cfg
 framebd = function(parent, anchor) 
     local frame = CreateFrame('Frame', nil, parent)
     frame:SetFrameStrata('BACKGROUND')
-    frame:SetPoint('TOPLEFT', anchor, 'TOPLEFT', -1, 1)
-    frame:SetPoint('BOTTOMRIGHT', anchor, 'BOTTOMRIGHT', 1, -1)
+    frame:SetPoint('TOPLEFT', anchor, 'TOPLEFT', 0, 0)
+    frame:SetPoint('BOTTOMRIGHT', anchor, 'BOTTOMRIGHT', 0, 0)
     frame:SetBackdrop({
-    edgeFile = cfg.edge, edgeSize = 1,
-    bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
-    insets = {left = 1, right = 1, top = 1, bottom = 1}})
-    frame:SetBackdropColor(0, 0, 0)
-    frame:SetBackdropBorderColor(G.bordercolor.r, G.bordercolor.g, G.bordercolor.b)
+        edgeFile = "Interface\\Buttons\\WHITE8x8", edgeSize = 1,
+        bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=]
+    })
+    frame:SetBackdropColor(G.bgcolor.r, G.bgcolor.g, G.bgcolor.b, G.bgcolor.a)
+    frame:SetBackdropBorderColor(G.bordercolor.r, G.bordercolor.g, G.bordercolor.b, G.bordercolor.a)
     return frame
 end
 

@@ -33,10 +33,21 @@ G.pos = {
 	arena			= {x = 120,	 y = 300},
 }
 
+-- Nameplates
+
+G.nameplates = {
+	width = 120,
+	height = 10,
+	fontsize = 10,
+	cbheight = 8,
+	cbcolor = {r =  50,	g = 50, b =  50}
+}
+
 -- Colors
 
-G.color = {r =  0.1,	g =  0.1, 	b =  0.1, a = 1}   -- defines general color of the UI, unitframes will have some bugs
-G.bordercolor = {r =  0,	g =  0, 	b =  0, a = 1} -- unitframes not fully supported, buffs and buttons don't work either
+G.color = {r =  0,	g =  0, 	b =  0, a = 0.5 }
+G.bgcolor = {r =  0,	g =  0, 	b =  0, a = 0 }
+G.bordercolor = {r =  0,	g =  0, 	b =  0, a = 1} 
 
 --[[
  
@@ -49,6 +60,8 @@ G.bordercolor = {r =  0,	g =  0, 	b =  0, a = 1} -- unitframes not fully support
 ]]
 -- media stuff
 G.media = "Interface\\AddOns\\gempUI\\media\\"
+G.texture = G.media.."textures\\flat"
+
 
 G.fonts = {
 	square = "Interface\\Addons\\gempUI\\media\\fonts\\square.ttf",
