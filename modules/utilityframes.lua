@@ -14,6 +14,7 @@ end
 
 -------------------------------------------------------------------------------
 ---------- Checks if Skada is active and parents it to the dmg frame of the minimap
+-- don't rely on this in other modules
 -------------------------------------------------------------------------------
 if (IsAddOnLoaded("Skada")) then
 
@@ -24,6 +25,7 @@ if (IsAddOnLoaded("Skada")) then
 		if not gDamage:IsShown() then
 			gDamage:Show();
 			gDMG_visible = true;
+			gXpbarp:SetPoint("TOP", Minimap, "TOP", 0, -274)
 		elseif gAutomatorConfig:IsShown() then 
 			Skada:ToggleWindow();
 		elseif gWorldmarkers:IsShown() then 

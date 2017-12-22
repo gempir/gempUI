@@ -21,12 +21,9 @@ cfg.shadowoffsetY,
 cfg.fontflag = G.fonts.square, 11, 0, 0,  'THINOUTLINE' -- '' for none THINOUTLINE Outlinemonochrome
 
 
---Normal
---cfg.font, cfg.fontsize, cfg.shadowoffsetX, cfg.shadowoffsetY, cfg.fontflag = mediaPath..'font.ttf', 13, 1, -1,  '' 
-
-  -----------------------------
-  -- Unit Frames 
-  -----------------------------
+-----------------------------
+-- Unit Frames 
+-----------------------------
 
 cfg.uf = {  
         raid = true,               -- Raid 
@@ -38,9 +35,9 @@ cfg.uf = {
 		tank_target = true,        -- Maintank target
 }
 
-  -----------------------------
-  -- Unit Frames Size
-  -----------------------------
+-----------------------------
+-- Unit Frames Size
+-----------------------------
 
 --player, target
 cfg.player = { 
@@ -105,27 +102,10 @@ cfg.options = {
 		MushroomBar = true,
 		smooth = true,
 		showPlayer = false,              -- show player in party
-		showRaid = true,                 -- show party as raid 
 		SpellRange = true,
 		range_alpha = 0.6,
 		disableRaidFrameManager = true,  -- disable default compact Raid Manager 
-		pvp = false,                     -- pvp icon
 		ResurrectIcon = false,
-}
-
-cfg.AltPowerBar = { 
-		player = {
-			enable = true,
-			pos = {'BOTTOM', UIParent, 0, 350},
-			width = 265,
-			height = 9,
-		},
-		boss = {
-			enable = true,
-			pos = {'TOP', 0, 10},
-			width = cfg.party.width,
-			height = 9,
-		},
 }
 
 cfg.EclipseBar = { 
@@ -269,7 +249,7 @@ cfg.spellIDs = {
 -- Player
 cfg.player_cb = {
         enable = true,
-        pos = {'BOTTOM', UIParent, 16, 92},
+        pos = {'BOTTOM', UIParent, 16, 91},
 		width = 247,
 		height = 30,
 }

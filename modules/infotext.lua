@@ -13,9 +13,6 @@ local onlineTime = 0;
 local timer = 0;
 local doScan, loaded;
 
-BINDING_HEADER_TINYMAINBARINFO = "Tiny Mainbar Info";
-BINDING_NAME_TINYMAINBARINFO_SWITCH_BAR = "Toggle on / off";
-
 
 local function TinyMainbarInfo_OnLoad(self)
 

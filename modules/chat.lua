@@ -203,23 +203,6 @@ do
 	end
 end
 
--- Editbox
-local FixEditBox
-do
-	function FixEditBox(i)
-		local eb =  _G[format("%s%d%s", "ChatFrame", i, "EditBox")]
-		local cf = _G[format("%s%d", "ChatFrame", i)]
-		eb:ClearAllPoints()
-		eb:SetPoint("BOTTOMLEFT",  cf, "TOPLEFT",  -5, 0)
-		eb:SetPoint("BOTTOMRIGHT", cf, "TOPRIGHT", 5, 0)
-		eb:SetAltArrowKeyMode(false)
-	end
-
-	for i =1, NUM_CHAT_WINDOWS do
-		FixEditBox(i)
-	end
-end
-
 -- Scroll
 local FixScroll
 do

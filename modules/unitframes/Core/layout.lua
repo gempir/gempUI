@@ -25,49 +25,6 @@ local OnLeave = function(self)
 		self.Highlight:Hide()
 	end	
 end
-	
-local dropdown = CreateFrame('Frame', name .. 'DropDown', UIParent, 'UIDropDownMenuTemplate')
-
-local function menu(self)
-	dropdown:SetParent(self)
-	return ToggleDropDownMenu(1, nil, dropdown, self:GetName(), -3, 0)
-end
-
-local init = function(self)
-	local unit = self:GetParent().unit
-	local menu, name, id
-
-	if(not unit) then
-		return
-	end
-
-	if(UnitIsUnit(unit, 'player')) then
-		menu = 'SELF'
-    elseif(UnitIsUnit(unit, 'vehicle')) then
-		menu = 'VEHICLE'
-	elseif(UnitIsUnit(unit, 'pet')) then
-		menu = 'PET'
-	elseif(UnitIsPlayer(unit)) then
-		id = UnitInRaid(unit)
-		if(id) then
-			menu = 'RAID_PLAYER'
-			name = GetRaidRosterInfo(id)
-		elseif(UnitInParty(unit)) then
-			menu = 'PARTY'
-		else
-			menu = 'PLAYER'
-		end
-	else
-		menu = 'TARGET'
-		name = RAID_TARGET_ICON
-	end
-
-	if(menu) then
-		UnitPopup_ShowMenu(self, menu, unit, name, id)
-	end
-end
-
-UIDropDownMenu_Initialize(dropdown, init, 'MENU')
 
 local GetTime = GetTime
 local floor, fmod = floor, math.fmod
@@ -82,28 +39,6 @@ local FormatTime = function(s)
         return format('%dm', floor(s/minute + 0.5))
     end
     return format('%d', fmod(s, minute))
-end
-
-local CreateAuraTimer = function(self,elapsed)
-    self.elapsed = (self.elapsed or 0) + elapsed
-	if self.elapsed >= 0.1 then
-		self.timeLeft = self.expires - GetTime()
-		if self.timeLeft > 0 then
-			local time = FormatTime(self.timeLeft)
-				self.remaining:SetText(time)
-			if self.timeLeft < 6 then
-				self.remaining:SetTextColor(0.69, 0.31, 0.31)
-			elseif self.timeLeft < 60 then
-				self.remaining:SetTextColor(1, 0.85, 0)
-			else
-				self.remaining:SetTextColor(1, 1, 1)
-			end
-		else
-			self.remaining:Hide()
-			self:SetScript('OnUpdate', nil)
-		end
-		self.elapsed = 0
-	end
 end
 
 local auraIcon = function(auras, button)
@@ -210,64 +145,6 @@ local AWIcon = function(AWatch, icon, spellID, name, self)
 	icon.cd:SetReverse(true)
 end
 
-local createAuraWatch = function(self, unit)
-	if cfg.aw.enable and cfg.spellIDs[class] then
-		local auras = CreateFrame('Frame', nil, self)
-		auras:SetAllPoints(self.Health)
-		auras.onlyShowPresent = cfg.aw.onlyShowPresent
-		auras.anyUnit = cfg.aw.anyUnit
-		auras.icons = {}
-		auras.PostCreateIcon = AWIcon
-		
-		for i, v in pairs(cfg.spellIDs[class]) do
-			local icon = CreateFrame('Frame', nil, auras)
-			icon.spellID = v[1]
-			icon:SetSize(6, 6)
-			if v[3] then
-			    icon:SetPoint(v[3])
-			else
-			    icon:SetPoint('BOTTOMLEFT', self.Health, 'BOTTOMRIGHT', -7 * i, 0)
-			end
-			icon:SetBackdrop(backdrop)
-	        icon:SetBackdropColor(G.bordercolor.r, G.bordercolor.g, G.bordercolor.b, G.bordercolor.a)
-			
-			local tex = icon:CreateTexture(nil, 'ARTWORK')
-			tex:SetAllPoints(icon)
-			tex:SetTexCoord(.1, .9, .1, .9)
-			tex:SetTexture(cfg.texture)
-			tex:SetVertexColor(unpack(v[2]))
-			icon.icon = tex
-		
-			auras.icons[v[1]] = icon
-		end
-		self.AuraWatch = auras
-	end
-end
-
-local ticks = {}
-
-local setBarTicks = function(castBar, ticknum)
-	if ticknum and ticknum > 0 then
-		local delta = castBar:GetWidth() / ticknum
-		for k = 1, ticknum do
-			if not ticks[k] then
-				ticks[k] = castBar:CreateTexture(nil, 'OVERLAY')
-				ticks[k]:SetTexture(cfg.texture)
-				ticks[k]:SetVertexColor(0.6, 0.6, 0.6)
-				ticks[k]:SetWidth(1)
-				ticks[k]:SetHeight(21)
-			end
-			ticks[k]:ClearAllPoints()
-			ticks[k]:SetPoint('CENTER', castBar, 'LEFT', delta * k, 0 )
-			ticks[k]:Show()
-		end
-	else
-		for k, v in pairs(ticks) do
-			v:Hide()
-		end
-	end
-end
-
 local OnCastbarUpdate = function(self, elapsed)
 	local currentTime = GetTime()
 	if self.casting or self.channeling then
@@ -334,11 +211,6 @@ local PostCastStart = function(self, unit)
 			sf:SetWidth(self:GetWidth() * sf.timeDiff / self.max)
 		end
 		if not UnitInVehicle('player') then sf:Show() else sf:Hide() end
-		if self.casting then
-			setBarTicks(self, 0)
-		else
-		end
-
 	end
 	if unit ~= 'player' and self.interrupt and UnitCanAttack('player', unit) then
         self:SetStatusBarColor(1, .9, .4)
@@ -502,7 +374,7 @@ local Power = function(self)
 	self.Power = p 
 end
 
-local Icons = function(self) 
+local function Icons(self) 
     self.Leader = self.Health:CreateTexture(nil, 'OVERLAY')
 	self.Leader:SetPoint('BOTTOMLEFT', self.Health, 'TOPLEFT', 0, -3)
     self.Leader:SetSize(12, 12)
@@ -514,19 +386,6 @@ local Icons = function(self)
 	self.MasterLooter = self.Health:CreateTexture(nil, 'OVERLAY')
 	self.MasterLooter:SetPoint('LEFT', self.Leader, 'RIGHT')
 	self.MasterLooter:SetSize(11, 11)
-end
-
-local ph = function(self) 
-	local ph = CreateFrame('Frame', nil, self.Health)
-	ph:SetFrameLevel(self.Health:GetFrameLevel()+1)
-	ph:SetSize(10, 10)
-	ph:SetPoint('CENTER', 0,-3)
-	ph:SetAlpha(0.2)
-	ph.text = fs(ph, 'OVERLAY', cfg.symbol, 18, '', 1, 0, 1)
-	ph.text:SetShadowOffset(1, -1)
-	ph.text:SetPoint('CENTER')
-	ph.text:SetText('M')
-    self.PhaseIcon = ph
 end
 
 local function SizeUpdate(self, event,unit)
@@ -569,8 +428,6 @@ local function SizeUpdate(self, event,unit)
 end
 
 local function Shared(self, unit)
-
-    self.menu = menu
 	
     self:SetScript('OnEnter', OnEnter)
 	self:SetScript('OnLeave', OnLeave)
@@ -590,7 +447,7 @@ local function Shared(self, unit)
 	ricon:SetTexture(cfg.raidicons)
 	ricon:SetSize(20, 20)
 	ricon:SetPoint('TOP', 0, 10)
-	self.RaidIcon = ricon
+	self.RaidTargetIndicator = ricon
 	
 	local hl = self.Health:CreateTexture(nil, 'OVERLAY')
     hl:SetAllPoints(self)
@@ -602,11 +459,8 @@ local function Shared(self, unit)
 end
 
 local UnitSpecific = {
-    player = function(self, ...)
-        Shared(self, ...)
-		
-		self.unit = 'player'
-		
+    player = function(self, unit)
+        Shared(self, unit)		
 		Power(self)
 		Icons(self)
 				
@@ -652,7 +506,7 @@ local UnitSpecific = {
 		ct.text:SetShadowOffset(1, -1)
 	    ct.text:SetPoint('CENTER')
 	    ct.text:SetText('|cffAF5050j|r')
-        self.Combat = ct
+        self.CombatIndicator = ct
 
 		local r = CreateFrame('Frame', nil, self)
 		r:SetFrameLevel(self.Health:GetFrameLevel()+1)
@@ -664,14 +518,7 @@ local UnitSpecific = {
 	    r.text:SetPoint('CENTER')
 	    r.text:SetText('t')
 		if cfg.class_colorbars then r.text:SetVertexColor(0.5, 0.5, 1) end
-	    self.Resting = r
-		
-		if cfg.options.pvp then
-			local PvP = self.Health:CreateTexture(nil, 'OVERLAY')
-			PvP:SetSize(28, 28)
-			PvP:SetPoint('BOTTOMLEFT', self.Health, 'TOPRIGHT', -15, -20)
-			self.PvP = PvP
-		end
+	    self.RestingIndicator = r
 		
         if cfg.options.specific_power then 
 		    if class == 'DEATHKNIGHT'  then
@@ -892,21 +739,6 @@ local UnitSpecific = {
 			
 		    self.CPoints = cp
 		end
-	    
-	    if cfg.AltPowerBar.player.enable then
-	       local altp = createStatusbar(self, cfg.texture, nil, cfg.AltPowerBar.player.height, cfg.AltPowerBar.player.width, 1, 1, 1, 1)
-           altp:SetPoint(unpack(cfg.AltPowerBar.player.pos))
-		   altp.bd = framebd(altp, altp) 
-           altp.bg = altp:CreateTexture(nil, 'BORDER')
-           altp.bg:SetAllPoints(altp)
-           altp.bg:SetTexture(cfg.texture)
-           altp.bg:SetVertexColor(1, 1, 1, 0.3)
-           altp.Text = fs(altp, 'OVERLAY', cfg.aura.font, cfg.aura.fontsize, cfg.aura.fontflag, 1, 1, 1)
-           altp.Text:SetPoint('CENTER')
-           self:Tag(altp.Text, '[altpower]') 
-		   altp:EnableMouse(true)
-           self.AltPowerBar = altp
-	    end
 			
         if cfg.aura.player_debuffs then
             local d = CreateFrame('Frame', nil, self)
@@ -923,14 +755,10 @@ local UnitSpecific = {
         end
     end,
 
-    target = function(self, ...)
-        Shared(self, ...)
-		
-		self.unit = 'target'
-		
+    target = function(self, unit)
+        Shared(self, unit)		
 		Power(self)
 		Icons(self)
-		ph(self) 
 		
 		self.framebd = framebd(self, self)
 		
@@ -949,20 +777,13 @@ local UnitSpecific = {
 
 		local htext = fs(self.Health, 'OVERLAY', cfg.font, cfg.fontsize, cfg.fontflag, 1, 1, 1)
         htext:SetPoint('RIGHT', -2, 0)
-		--htext.frequentUpdates = .1
+		htext.frequentUpdates = .1
         self:Tag(htext, '[player:hp]')
 		
 		local q = fs(self.Health, 'OVERLAY', cfg.font, 16, cfg.fontflag, 1, 1, 1)
 	    q:SetPoint('CENTER')
 	    q:SetText('|cff8AFF30!|r')
-	    self.QuestIcon = q
-		
-		if cfg.options.pvp then
-			local PvP = self.Health:CreateTexture(nil, 'OVERLAY')
-			PvP:SetSize(28, 28)
-			PvP:SetPoint('BOTTOMLEFT', self.Health, 'TOPRIGHT', -15, -20)
-			self.PvP = PvP
-		end
+	    self.QuestIndicator = q
 	
 		if cfg.aura.target_buffs then
             local b = CreateFrame('Frame', nil, self)
@@ -994,14 +815,10 @@ local UnitSpecific = {
         end
     end,
 
-    focus = function(self, ...)
-        Shared(self, ...)
-		
-		self.unit = 'focus'
-		
+    focus = function(self, unit)
+        Shared(self, unit)
 		Power(self)
 		Icons(self)
-		ph(self)
 
 		self.framebd = framebd(self, self)
 		
@@ -1051,13 +868,9 @@ local UnitSpecific = {
 		end
     end,
 
-	boss = function(self, ...)
-        Shared(self, ...)
-		
-		self.unit = 'boss'
-		
-		--Power(self)
-		ph(self)
+	boss = function(self, unit)
+		Shared(self, unit)
+		Power(self)		
 		
 		self.framebd = framebd(self, self)
 		
@@ -1065,9 +878,9 @@ local UnitSpecific = {
 				
 		if cfg.boss_cb.enable then castbar(self) end
 		
-	    self:SetSize(cfg.party.width, cfg.party.health+13) -- +cfg.party.power
-		--self.Power:SetHeight(0)
-		--self.Power.PostUpdate = PostUpdatePower
+		self:SetSize(cfg.party.width, cfg.party.health+13)
+		self.Power:SetHeight(cfg.player.power)
+		self.Power.PostUpdate = PostUpdatePower
 		
 		local name = fs(self.Health, 'OVERLAY', cfg.font, cfg.fontsize, cfg.fontflag, 1, 1, 1)
         name:SetPoint('LEFT', 4, 0)
@@ -1077,21 +890,6 @@ local UnitSpecific = {
 		local htext = fs(self.Health, 'OVERLAY', cfg.font, cfg.fontsize, cfg.fontflag, 1, 1, 1)
         htext:SetPoint('RIGHT', -2, 0)
         self:Tag(htext, '[boss:hp]')
-		
-		if cfg.AltPowerBar.boss.enable then
-	       local altp = createStatusbar(self, cfg.texture, nil, cfg.AltPowerBar.boss.height, cfg.AltPowerBar.boss.width, 1, 1, 1, 1)
-           altp:SetPoint(unpack(cfg.AltPowerBar.boss.pos))
-		   altp.bd = framebd(altp, altp) 
-           altp.bg = altp:CreateTexture(nil, 'BORDER')
-           altp.bg:SetAllPoints(altp)
-           altp.bg:SetTexture(cfg.texture)
-           altp.bg:SetVertexColor(1, 1, 1, 0.3)
-           altp.Text = fs(altp, 'OVERLAY', cfg.aura.font, cfg.aura.fontsize, cfg.aura.fontflag, 1, 1, 1)
-           altp.Text:SetPoint('CENTER')
-           self:Tag(altp.Text, '[altpower]') 
-		   altp:EnableMouse(true)
-           self.AltPowerBar = altp
-	    end
 		
 		if cfg.aura.boss_buffs then 
             local b = CreateFrame('Frame', nil, self)
@@ -1122,10 +920,8 @@ local UnitSpecific = {
         end
     end,
 
-    pet = function(self, ...)
-        Shared(self, ...)
-		
-		ph(self)
+    pet = function(self, unit)
+        Shared(self, unit)
 		
 		self:SetSize(cfg.target.width, cfg.target.height)
 		
@@ -1139,8 +935,8 @@ local UnitSpecific = {
 		
     end,
 	
-	partytarget = function(self, ...)
-        Shared(self, ...)
+	partytarget = function(self, unit)
+        Shared(self, unit)
 		
 		self.framebd = framebd(self, self)
 		
@@ -1152,8 +948,8 @@ local UnitSpecific = {
 		
     end,
 
-    targettarget = function(self, ...)
-	    Shared(self, ...)
+    targettarget = function(self, unit)
+	    Shared(self, unit)
 				 
 	    self:SetSize(cfg.target.width, cfg.target.height)
 		
@@ -1179,14 +975,10 @@ local UnitSpecific = {
         end
     end,
 	
-	party = function(self, ...)
-		Shared(self, ...)
-		
-		self.unit = 'party'
-		
+	party = function(self, unit)
+		Shared(self, unit)
 		Power(self)
 		Icons(self)
-		ph(self)
 		
 		self.framebd = framebd(self, self)
 	
@@ -1231,14 +1023,11 @@ local UnitSpecific = {
 	    end
     end,
 	
-	arena = function(self, ...)
-		Shared(self, ...)
-		
-		self.unit = 'arena'
-		
+	arena = function(self, unit)
+		Shared(self, unit)
+
 		Power(self)
 		Icons(self)
-		ph(self)
 		
 		self.framebd = framebd(self, self)
 	
@@ -1259,34 +1048,19 @@ local UnitSpecific = {
         htext:SetPoint('RIGHT', -2, 0)
         self:Tag(htext, '[party:hp]')
 		
-		if cfg.options.pvp then
-			local PvP = self.Health:CreateTexture(nil, 'OVERLAY')
-			PvP:SetSize(28, 28)
-			PvP:SetPoint('BOTTOMLEFT', self.Health, 'TOPRIGHT', -15, -20)
-			self.PvP = PvP
-		end
 		
 		local t = CreateFrame('Frame', nil, self)
 		t:SetSize(cfg.party.health+cfg.party.power+1, cfg.party.health+cfg.party.power+1)
 		t:SetPoint('TOPRIGHT', self, 'TOPLEFT', -3, 0)
 		t.framebd = framebd(t, t)	
 		self.Trinket = t
-		
-		local at = CreateFrame('Frame', nil, self)
-		at:SetAllPoints(t)
-		at:SetFrameStrata('HIGH')
-		at.icon = at:CreateTexture(nil, 'ARTWORK')
-		at.icon:SetAllPoints(at)
-		at.icon:SetTexCoord(0.07,0.93,0.07,0.93)  
-		self.AuraTracker = at	
     end,
 
-    raid = function(self, ...)
-		Shared(self, ...)
+    raid = function(self, unit)
+		Shared(self, unit)
 		
 		Power(self)
 		Icons(self)
-		createAuraWatch(self)
 		
 		self.framebd = framebd(self, self)
 	
@@ -1309,43 +1083,13 @@ local UnitSpecific = {
 		lfd:SetPoint('BOTTOMLEFT', 6, 1)
 	    self:Tag(lfd, '[LFD]')	
 		
-		self.RaidIcon:SetSize(14, 14)
-	    self.RaidIcon:SetPoint('TOP', self.Health, 0, 8)
+		self.RaidTargetIndicator:SetSize(14, 14)
+	    self.RaidTargetIndicator:SetPoint('TOP', self.Health, 0, 8)
 		
 		local rc = self.Health:CreateTexture(nil, 'OVERLAY')
 	    rc:SetPoint('BOTTOM')
 	    rc:SetSize(12, 12)
 		self.ReadyCheck = rc
-		
-		if cfg.options.ResurrectIcon then
-			local r = CreateFrame('Frame', nil, self)
-			r:SetSize(20, 20)
-			r:SetPoint('CENTER')
-			r:SetFrameStrata'HIGH'
-			r:SetBackdrop(backdrop)
-			r:SetBackdropColor(.2, .6, 1)
-			r.icon = r:CreateTexture(nil, 'OVERLAY')
-			r.icon:SetTexture[[Interface\Icons\Spell_Holy_Resurrection]]
-			r.icon:SetTexCoord(.1, .9, .1, .9)
-			r.icon:SetAllPoints(r)
-			self.ResurrectIcon	= r
-		end
-		
-	    if cfg.RaidDebuffs.enable then
-	       local d = CreateFrame('Frame', nil, self)
-	       d:SetSize(cfg.RaidDebuffs.size, cfg.RaidDebuffs.size)
-	       d:SetPoint(unpack(cfg.RaidDebuffs.pos))
-	       d:SetFrameStrata'HIGH'
-	       d:SetBackdrop(backdrop)
-	       d.icon = d:CreateTexture(nil, 'OVERLAY')
-	       d.icon:SetTexCoord(.1,.9,.1,.9)
-	       d.icon:SetAllPoints(d)
-	       d.time = fs(d, 'OVERLAY', cfg.aura.font, cfg.aura.fontsize, cfg.aura.fontflag, 0.8, 0.8, 0.8)
-	       d.time:SetPoint('TOPLEFT', d, 'TOPLEFT', 0, 0)
-		   d.count = fs(d, 'OVERLAY', cfg.aura.font, cfg.aura.fontsize, cfg.aura.fontflag, 0.8, 0.8, 0.8)
-	       d.count:SetPoint('BOTTOMRIGHT', d, 'BOTTOMRIGHT', 2, 0)
-		   self.RaidDebuffs = d
-	    end
 
 		local tborder = CreateFrame('Frame', nil, self)
         tborder:SetPoint('TOPLEFT', self, 'TOPLEFT')
@@ -1499,45 +1243,21 @@ oUF:Factory(function(self)
 			_G[pet]:SetParent(Hider)
 			_G[pet..'HealthBar']:UnregisterAllEvents()
 		end
-		if cfg.options.showRaid then
-		    self:SetActiveStyle'Skaarj - Raid'
-            local party = self:SpawnHeader('oUF_Party', nil, 'party','showPlayer',
-				cfg.options.showPlayer,'showSolo',false,'showParty',true ,'point','LEFT','xOffset', 5,'yOffset', -5,
-				'oUF-initialConfigFunction', ([[
-				self:SetHeight(%d)
-				self:SetWidth(%d)
-				]]):format(cfg.raid.health+cfg.raid.power+1, cfg.raid.width)
-			)
-            party:SetPoint('TOPLEFT',cfg.unit_positions.Party.a,'TOPLEFT',cfg.unit_positions.Party.x,cfg.unit_positions.Party.y)
-		else
-		    self:SetActiveStyle'Skaarj - Party'
-            local party = self:SpawnHeader('oUF_Party', nil,'party',
-			'showPlayer',cfg.options.showPlayer,'showSolo',false,'showParty',true ,'yOffset', -23,
+		
+		self:SetActiveStyle'Skaarj - Raid'
+		local party = self:SpawnHeader(nil, nil, 'party','showPlayer',
+			cfg.options.showPlayer,'showSolo',false,'showParty',true ,'point','LEFT','xOffset', 5,'yOffset', -5,
 			'oUF-initialConfigFunction', ([[
 			self:SetHeight(%d)
 			self:SetWidth(%d)
-			]]):format(cfg.party.health+cfg.party.power+1,cfg.party.width)
-			)
-            party:SetPoint('TOPLEFT',cfg.unit_positions.Party.a,'TOPLEFT',cfg.unit_positions.Party.x,cfg.unit_positions.Party.y)
-		    
-			if cfg.uf.party_target then
-		        self:SetActiveStyle'Skaarj - Partytarget' --'custom [@raid6,exists] hide; show'
-		        local partytargets = self:SpawnHeader('oUF_PartyTargets', nil, 'party',
-			    'showParty', true,'showSolo',false,'yOffset', -27,
-			    'oUF-initialConfigFunction', ([[
-				self:SetAttribute('unitsuffix', 'target')
-				self:SetHeight(%d)
-				self:SetWidth(%d)
-				]]):format(cfg.target.height,cfg.target.width)
-				)
-		        partytargets:SetPoint('TOPLEFT', 'oUF_Party', 'TOPRIGHT', 5, 0)
-			end
-		end
+			]]):format(cfg.raid.health+cfg.raid.power+1, cfg.raid.width)
+		)
+		party:SetPoint('TOPLEFT',cfg.unit_positions.Party.a,'TOPLEFT',cfg.unit_positions.Party.x,cfg.unit_positions.Party.y)
     end
 	
 	if cfg.uf.tank then
 	    self:SetActiveStyle'Skaarj - Party'
-	    local maintank = self:SpawnHeader('oUF_MainTank', nil, 'raid',
+	    local maintank = self:SpawnHeader(nil, nil, 'raid',
 		'showRaid', true,'showSolo',false, 'groupFilter', 'MAINTANK', 'yOffset', -23,
 		'oUF-initialConfigFunction', ([[
 			self:SetHeight(%d)
@@ -1548,7 +1268,7 @@ oUF:Factory(function(self)
 		
 		if cfg.uf.tank_target then
 		    self:SetActiveStyle'Skaarj - Partytarget'
-		    local maintanktarget = self:SpawnHeader('oUF_MainTankTargets', nil, 'raid',
+		    local maintanktarget = self:SpawnHeader(nil, nil, 'raid',
 		    'showRaid', true,'showSolo',false,'groupFilter','MAINTANK','yOffset', -27, 
 		    'oUF-initialConfigFunction', ([[
 			self:SetAttribute('unitsuffix', 'target')
@@ -1556,7 +1276,7 @@ oUF:Factory(function(self)
 			self:SetWidth(%d)
 			]]):format(cfg.target.height,cfg.target.width)
 			)
-		    maintanktarget:SetPoint('TOPLEFT', 'oUF_MainTank', 'TOPRIGHT', 6,0)	
+		    maintanktarget:SetPoint('TOPLEFT', 'oUF_SkaarjPartyMainTank', 'TOPRIGHT', 6,0)	
         end		
 	end 
 	
