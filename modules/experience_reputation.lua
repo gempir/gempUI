@@ -110,7 +110,7 @@ gXpbarp:SetBackdrop({
 	  tile = false, tileSize = 0, edgeSize = 1, 
 	  insets = { left = 0, right = 0, top = 0, bottom = 0}
 	})
-gXpbarp:SetBackdropColor(G.color.r, G.color.g, G.color.b, 1)
+gXpbarp:SetBackdropColor(G.color.r, G.color.g, G.color.b, G.color.a)
 gXpbarp:SetBackdropBorderColor(G.bordercolor.r, G.bordercolor.g, G.bordercolor.b, G.bordercolor.a)
 
 gempXpbar = CreateFrame("statusbar", nil, UIParent)

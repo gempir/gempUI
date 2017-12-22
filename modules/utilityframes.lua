@@ -10,6 +10,23 @@ if gempDB.selljunk == nil then
 	gempDB.selljunk = false
 end
 
+function createOverlay(element, anchor)
+	
+		local buttonOverlay = CreateFrame("Frame", nil, parent)
+		buttonOverlay:SetPoint("TOPLEFT", anchor, "TOPLEFT", 0,0)
+		buttonOverlay:SetPoint("BOTTOMRIGHT", anchor, "BOTTOMRIGHT", 0,0)
+		buttonOverlay:SetBackdrop({
+			  bgFile = [[Interface\Buttons\WHITE8x8]],
+			  edgeFile = [[Interface\Buttons\WHITE8x8]],
+			  edgeSize = 1,
+		  })
+		buttonOverlay:SetBackdropColor(1,1,1,0.15)
+		buttonOverlay:SetBackdropBorderColor(G.bordercolor.r, G.bordercolor.g, G.bordercolor.b, G.bordercolor.a)
+		buttonOverlay:Hide()
+
+		element:SetScript('OnEnter', function() buttonOverlay:Show() end)
+		element:SetScript('OnLeave', function() buttonOverlay:Hide() end)
+end
 
 
 -------------------------------------------------------------------------------
@@ -171,7 +188,7 @@ gDamage:SetBackdropColor(G.color.r,G.color.g,G.color.b,G.color.a)
 gDamage:SetBackdropBorderColor(G.bordercolor.r, G.bordercolor.g, G.bordercolor.b, G.bordercolor.a)
 gDamage:SetWidth(178);
 gDamage:SetHeight(74);
-gDamage:SetFrameStrata("background")
+gDamage:SetFrameStrata("LOW")
 gDamage:Hide();
 
 
@@ -242,30 +259,17 @@ local gAC_1button = CreateFrame("Button", nil, gAC_1)
 	  		end
 
 	  		if gempDB.hideerrors == true then
-				gAC_1:SetBackdropColor(0/255, 84/255, 28/255, 1)
+				gAC_1:SetBackdropColor(0/255, 84/255, 28/255, G.color.a)
 				print("|cff00FF7F[gemp]|r Errors are hidden");
 				hideerrorsfunc();
 			elseif gempDB.hideerrors == false then
-				gAC_1:SetBackdropColor(150/255, 10/255, 10/255, 1)
+				gAC_1:SetBackdropColor(150/255, 10/255, 10/255, G.color.a)
 				print("|cff00FF7F[gemp]|r Errors are not hidden");
 				UIErrorsFrame:RegisterEvent('UI_ERROR_MESSAGE')
 			end
 	  end)
 
-local buttonOverlay = CreateFrame("Frame", nil, gAC_1button)
-      buttonOverlay:SetWidth(60)
-      buttonOverlay:SetHeight(25)
-      buttonOverlay:SetPoint("CENTER", gAC_1button, "CENTER", 0,0)
-	  buttonOverlay:SetBackdrop({
-			bgFile = [[Interface\Buttons\WHITE8x8]],
-			edgeFile = [[Interface\Buttons\WHITE8x8]],
-			edgeSize = 1,
-		})
-	  buttonOverlay:SetBackdropColor(0,0,0,0)
-	  buttonOverlay:SetBackdropBorderColor(G.bordercolor.r, G.bordercolor.g, G.bordercolor.b, G.bordercolor.a)
-
-	  gAC_1button:SetScript('OnEnter', function() buttonOverlay:SetBackdropColor(1,1,1,0.15) end)
-	  gAC_1button:SetScript('OnLeave', function() buttonOverlay:SetBackdropColor(0,0,0,0) end)
+createOverlay(gAC_1button, gAC_1)
 
 gACt_1 = gAC_1button:CreateFontString(nil, "OVERLAY", gAutomatorConfig);
 gACt_1:SetFont("Interface\\AddOns\\gempUI\\media\\fonts\\square.ttf", 14, "THINOUTLINE");
@@ -277,11 +281,11 @@ local frame = CreateFrame("FRAME", "check");
 frame:RegisterEvent("PLAYER_ENTERING_WORLD");
 local function eventHandler(self, event, ...)
 	if gempDB.hideerrors == true then
-		gAC_1:SetBackdropColor(0/255, 84/255, 28/255, 1);
+		gAC_1:SetBackdropColor(0/255, 84/255, 28/255, G.color.a);
 		
 		hideerrorsfunc();
 	elseif gempDB.hideerrors == false then
-		gAC_1:SetBackdropColor(150/255, 10/255, 10/255, 1);
+		gAC_1:SetBackdropColor(150/255, 10/255, 10/255, G.color.a);
 		
 	end
 end
@@ -319,35 +323,22 @@ local gAC_2button = CreateFrame("Button", nil, gAC_2)
 	  		
 
 	  		if gempDB.autorepair == 1 then
-				gAC_2:SetBackdropColor(0/255, 84/255, 28/255, 1)
+				gAC_2:SetBackdropColor(0/255, 84/255, 28/255, G.color.a)
 				ChatFrame1:AddMessage("|cff00FF7F[gemp]|r Auto-Repair is on (Player)");
 				gACt_2:SetText("Auto Repair Player");
 			elseif gempDB.autorepair == 2 then
-				gAC_2:SetBackdropColor(0/255, 84/255, 28/255, 1)
+				gAC_2:SetBackdropColor(0/255, 84/255, 28/255, G.color.a)
 				ChatFrame1:AddMessage("|cff00FF7F[gemp]|r Auto-Repair is on (Guild first)");
 				gACt_2:SetText("Auto Repair Guild");
 			elseif gempDB.autorepair == 0 then
-				gAC_2:SetBackdropColor(150/255, 10/255, 10/255, 1)
+				gAC_2:SetBackdropColor(150/255, 10/255, 10/255, G.color.a)
 				ChatFrame1:AddMessage("|cff00FF7F[gemp]|r Auto-Repair is off");
 				gACt_2:SetText("Auto Repair is off");
 			end
 			
-	  end)
+end)
 
-local buttonOverlay = CreateFrame("Frame", nil, gAC_2button)
-      buttonOverlay:SetWidth(178)
-      buttonOverlay:SetHeight(25)
-      buttonOverlay:SetPoint("CENTER", gAC_2button, "CENTER", 0,0)
-	  buttonOverlay:SetBackdrop({
-			bgFile = [[Interface\Buttons\WHITE8x8]],
-			edgeFile = [[Interface\Buttons\WHITE8x8]],
-			edgeSize = 1,
-		})
-	  buttonOverlay:SetBackdropColor(0,0,0,0)
-	  buttonOverlay:SetBackdropBorderColor(G.bordercolor.r, G.bordercolor.g, G.bordercolor.b, G.bordercolor.a)
-
-	  gAC_2button:SetScript('OnEnter', function() buttonOverlay:SetBackdropColor(1,1,1,0.15) end)
-	  gAC_2button:SetScript('OnLeave', function() buttonOverlay:SetBackdropColor(0,0,0,0) end)
+createOverlay(gAC_2button, gAC_2)
 
 
 
@@ -356,13 +347,13 @@ gACt_2:SetFont("Interface\\AddOns\\gempUI\\media\\fonts\\square.ttf", 14, "THINO
 gACt_2:SetPoint("CENTER", gAC_2button, "CENTER", 0,-1);
 
 if gempDB.autorepair == 1 then
-		gAC_2:SetBackdropColor(0/255, 84/255, 28/255, 1);
+		gAC_2:SetBackdropColor(0/255, 84/255, 28/255, G.color.a);
 		gACt_2:SetText("Auto Repair Player");
 	elseif gempDB.autorepair == 2 then
-		gAC_2:SetBackdropColor(0/255, 84/255, 28/255, 1);
+		gAC_2:SetBackdropColor(0/255, 84/255, 28/255, G.color.a);
 		gACt_2:SetText("Auto Repair Guild");
 	elseif gempDB.autorepair == 0 then
-		gAC_2:SetBackdropColor(150/255, 10/255, 10/255, 1);
+		gAC_2:SetBackdropColor(150/255, 10/255, 10/255, G.color.a);
 		gACt_2:SetText("Auto Repair is off");
 end
 
@@ -371,13 +362,13 @@ local frame = CreateFrame("FRAME", "check");
 frame:RegisterEvent("PLAYER_ENTERING_WORLD");
 local function eventHandler(self, event, ...)
 	if gempDB.autorepair == 1 then
-		gAC_2:SetBackdropColor(0/255, 84/255, 28/255, 1);
+		gAC_2:SetBackdropColor(0/255, 84/255, 28/255, G.color.a);
 		gACt_2:SetText("Auto Repair Player");
 	elseif gempDB.autorepair == 2 then
-		gAC_2:SetBackdropColor(0/255, 84/255, 28/255, 1);
+		gAC_2:SetBackdropColor(0/255, 84/255, 28/255, G.color.a);
 		gACt_2:SetText("Auto Repair Guild");
 	elseif gempDB.autorepair == 0 then
-		gAC_2:SetBackdropColor(150/255, 10/255, 10/255, 1);
+		gAC_2:SetBackdropColor(150/255, 10/255, 10/255, G.color.a);
 		gACt_2:SetText("Auto Repair is off");
 	end
 end
@@ -414,32 +405,18 @@ local gAC_3button = CreateFrame("Button", nil, gAC_3)
 	  		end
 
 	  		if gempDB.selljunk == true then
-				gAC_3:SetBackdropColor(0/255, 84/255, 28/255, 1)
+				gAC_3:SetBackdropColor(0/255, 84/255, 28/255, G.color.a)
 				print("|cff00FF7F[gemp]|r Junk will be sold");
 				F.selljunk();
 			elseif gempDB.selljunk == false then
-				gAC_3:SetBackdropColor(150/255, 10/255, 10/255, 1)
+				gAC_3:SetBackdropColor(150/255, 10/255, 10/255, G.color.a)
 				print("|cff00FF7F[gemp]|r Junk won't be sold");
 			
 			end
 	  end)
 
-local buttonOverlay = CreateFrame("Frame", nil, gAC_3button)
-      buttonOverlay:SetWidth(178)
-      buttonOverlay:SetHeight(25)
-      buttonOverlay:SetPoint("CENTER", gAC_3button, "CENTER", 0,0)
-	  buttonOverlay:SetBackdrop({
-			bgFile = [[Interface\Buttons\WHITE8x8]],
-			edgeFile = [[Interface\Buttons\WHITE8x8]],
-			edgeSize = 1,
-		})
-	  buttonOverlay:SetBackdropColor(0,0,0,0)
-	  buttonOverlay:SetBackdropBorderColor(G.bordercolor.r, G.bordercolor.g, G.bordercolor.b, G.bordercolor.a)
-
-	  gAC_3button:SetScript('OnEnter', function() buttonOverlay:SetBackdropColor(1,1,1,0.15) end)
-	  gAC_3button:SetScript('OnLeave', function() buttonOverlay:SetBackdropColor(0,0,0,0) end)
-
-
+createOverlay(gAC_3button, gAC_3)
+	  
 
 gACt_3 = gAC_3button:CreateFontString(nil, "OVERLAY", gAutomatorConfig);
 gACt_3:SetFont("Interface\\AddOns\\gempUI\\media\\fonts\\square.ttf", 14, "THINOUTLINE");
@@ -450,9 +427,9 @@ local frame = CreateFrame("FRAME", "check");
 frame:RegisterEvent("PLAYER_ENTERING_WORLD");
 local function eventHandler(self, event, ...)
 	if gempDB.selljunk == true then
-		gAC_3:SetBackdropColor(0/255, 84/255, 28/255, 1);
+		gAC_3:SetBackdropColor(0/255, 84/255, 28/255, G.color.a);
 	elseif gempDB.selljunk == false then
-		gAC_3:SetBackdropColor(150/255, 10/255, 10/255, 1);
+		gAC_3:SetBackdropColor(150/255, 10/255, 10/255, G.color.a);
 	end
 end
 frame:SetScript("OnEvent", eventHandler);
@@ -474,8 +451,6 @@ gAC_4:SetBackdropColor(0,0,0,0)
 gAC_4:SetBackdropBorderColor(G.bordercolor.r, G.bordercolor.g, G.bordercolor.b, G.bordercolor.a)
 gAC_4:EnableMouse()
 
-
-
 local gAC_4button = CreateFrame("Button", nil, gAC_4)
       gAC_4button:SetWidth(60)
       gAC_4button:SetHeight(25)
@@ -491,10 +466,10 @@ local gAC_4button = CreateFrame("Button", nil, gAC_4)
 	  		end
 
 	  		if gempDB.xpbar == true then
-					gAC_4:SetBackdropColor(0/255, 84/255, 28/255, 1)
+					gAC_4:SetBackdropColor(0/255, 84/255, 28/255, G.color.a)
 					
 			elseif gempDB.xpbar == false then
-					gAC_4:SetBackdropColor(150/255, 10/255, 10/255, 1)
+					gAC_4:SetBackdropColor(150/255, 10/255, 10/255, G.color.a)
 			end
 
 
@@ -521,6 +496,8 @@ local gAC_4button = CreateFrame("Button", nil, gAC_4)
 			end
 	  end)
 
+createOverlay(gAC_4button, gAC_4)
+	  
 
 if UnitLevel("player") == MAX_PLAYER_LEVEL then
 	rep_or_xp_text = "REPBar"
@@ -538,12 +515,12 @@ local frame = CreateFrame("FRAME", "check");
 frame:RegisterEvent("PLAYER_ENTERING_WORLD");
 local function eventHandler(self, event, ...)
 	if gempDB.xpbar == true then
-		gAC_4:SetBackdropColor(0/255, 84/255, 28/255, 1);
+		gAC_4:SetBackdropColor(0/255, 84/255, 28/255, G.color.a);
 		gXpbarp:Show()
 		gempXpbar:Show()
 
 	elseif gempDB.xpbar == false then
-		gAC_4:SetBackdropColor(150/255, 10/255, 10/255, 1);
+		gAC_4:SetBackdropColor(150/255, 10/255, 10/255, G.color.a);
 		gXpbarp:Hide()
 		gempXpbar:Hide()
 	end
@@ -588,18 +565,17 @@ local gAC_5button = CreateFrame("Button", nil, gAC_5)
 
 		  if gempDB.threatbar == true then
 			print("|cff00FF7F[gemp]|r Threatbar is now shown");			
-			gAC_5:SetBackdropColor(0/255, 84/255, 28/255, 1)
+			gAC_5:SetBackdropColor(0/255, 84/255, 28/255, G.color.a)
 			gThreat:SetAlpha(1)
 		elseif gempDB.threatbar == false then
 			print("|cff00FF7F[gemp]|r Threatbar is now hidden");			
-			gAC_5:SetBackdropColor(150/255, 10/255, 10/255, 1)
+			gAC_5:SetBackdropColor(150/255, 10/255, 10/255, G.color.a)
 			gThreat:SetAlpha(0)
 		end
+	end)
 
-
-	  		
-	  end)
-
+createOverlay(gAC_5button, gAC_5)
+	
 
 
 gACt_5 = gAC_5button:CreateFontString(nil, "OVERLAY", gAutomatorConfig);
@@ -613,10 +589,10 @@ frame:RegisterEvent("PLAYER_ENTERING_WORLD");
 local function eventHandler(self, event, ...)
 
 		  if gempDB.threatbar == true then
-			gAC_5:SetBackdropColor(0/255, 84/255, 28/255, 1)
+			gAC_5:SetBackdropColor(0/255, 84/255, 28/255, G.color.a)
 			gThreat:SetAlpha(1)
 		elseif gempDB.threatbar == false then
-			gAC_5:SetBackdropColor(150/255, 10/255, 10/255, 1)
+			gAC_5:SetBackdropColor(150/255, 10/255, 10/255, G.color.a)
 			gThreat:SetAlpha(0)
 		end
 	
@@ -635,3 +611,5 @@ local function eventHandler(self, event, ...)
 
 end
 frame:SetScript("OnEvent", eventHandler);
+
+

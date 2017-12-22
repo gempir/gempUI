@@ -248,7 +248,7 @@ local castbar = function(self, unit)
 	cb.FailColor = {1.0, 0.09, 0, G.color.a}
 	cb.ChannelingColor = {0.32, 0.3, G.color.a}
 	cb.Icon = cb:CreateTexture(nil, 'ARTWORK')
-	cb.Icon:SetPoint('TOPRIGHT', cb, 'TOPLEFT', 1, 0)
+	cb.Icon:SetPoint('TOPRIGHT', cb, 'TOPLEFT', -1, 0)
 	cb.Icon:SetTexCoord(.1, .9, .1, .9)
 
 	if self.unit == 'player' then
@@ -293,8 +293,8 @@ local castbar = function(self, unit)
 	cb.PostCastFailed = PostCastFailed
 	cb.PostCastInterrupted = PostCastFailed
 
-	cb.Backdrop = framebd(cb, cb)
-	cb.IBackdrop = F.createBorderFrame(cb, cb.Icon, false)
+	cb.Backdrop = F.createBorderFrame(cb, cb, true)
+	cb.IBackdrop = F.createBorderFrame(cb, cb.Icon, true)
 	self.Castbar = cb
 end
 
@@ -314,7 +314,7 @@ local Power = function(self)
     local p = createStatusbar(self, cfg.texture, nil, nil, nil, G.color.r, G.color.g, G.color.b, G.color.a)
 	p:SetPoint('LEFT', self.Health, 'LEFT', 1, 0)
 	p:SetPoint('RIGHT', self.Health, 'RIGHT', -1, 0)
-    p:SetPoint('TOP', self.Health, 'BOTTOM', 0, -1) 
+    p:SetPoint('TOP', self.Health, 'BOTTOM', 0, 0) 
 	
 	if unit == 'player' and powerType ~= 0 then p.frequentUpdates = true end	   
 		
@@ -390,13 +390,9 @@ local function Shared(self, unit)
     self:SetScript('OnEnter', OnEnter)
 	self:SetScript('OnLeave', OnLeave)
 	
-    self:RegisterForClicks('AnyUp')
-	
-	self:SetBackdrop({
-		bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
-		insets = {top = 0, left = 0, bottom = 0, right = 0},
-	})
-	self:SetBackdropColor(G.bgcolor.r, G.bgcolor.g, G.bgcolor.b, G.bgcolor.a)
+	self:RegisterForClicks('AnyUp')
+
+	self.framebd = F.createBorderFrame(self, self, false)	
 	
 	Health(self) 
 		
@@ -413,6 +409,11 @@ local function Shared(self, unit)
     hl:SetBlendMode('ADD')
     hl:Hide()
 	self.Highlight = hl
+
+	self.SpellRange = {
+		insideAlpha = 1,
+		outsideAlpha = cfg.options.range_alpha
+	}
 end
 
 local UnitSpecific = {
@@ -440,11 +441,7 @@ local UnitSpecific = {
 		self.dh:RegisterEvent('PLAYER_ENTERING_WORLD')
 		self.dh:RegisterEvent('PLAYER_LEVEL_UP')
 		self.dh:SetScript('OnEvent', function(frame, event, unit) SizeUpdate (self, event, unit) end)
-
-		self.framebd = framebd(self.dh, self.dh)
-		
-		self.DebuffHighlight = cfg.dh.player
-				
+						
 		local name = fs(self.Health, 'OVERLAY', cfg.font, cfg.fontsize, cfg.fontflag, 1, 1, 1)
         name:SetPoint('LEFT', 4, 0)
         name:SetJustifyH'LEFT'
@@ -716,11 +713,7 @@ local UnitSpecific = {
         Shared(self, unit)		
 		Power(self)
 		Icons(self)
-		
-		self.framebd = framebd(self, self)
-		
-		self.DebuffHighlight = cfg.dh.target
-		
+						
 		if cfg.target_cb.enable then castbar(self) end
 		
 		self:SetSize(cfg.player.width, cfg.player.health+cfg.player.power+1)
@@ -776,11 +769,7 @@ local UnitSpecific = {
         Shared(self, unit)
 		Power(self)
 		Icons(self)
-
-		self.framebd = framebd(self, self)
-		
-		self.DebuffHighlight = cfg.dh.focus
-		
+				
 		if cfg.focus_cb.enable then castbar(self) end
 		
 		self:SetSize(cfg.party.width, cfg.party.health+cfg.player.power+5)
@@ -828,12 +817,12 @@ local UnitSpecific = {
 	boss = function(self, unit)
 		Shared(self, unit)
 		Power(self)		
-		
-		self.framebd = framebd(self, self)
-		
+				
 		self.Health.frequentUpdates = true
 				
 		if cfg.boss_cb.enable then castbar(self) end
+
+		self.SpellRange.outsideAlpha = 1
 		
 		self:SetSize(cfg.party.width, cfg.party.health+13)
 		self.Power:SetHeight(cfg.player.power)
@@ -881,11 +870,7 @@ local UnitSpecific = {
         Shared(self, unit)
 		
 		self:SetSize(cfg.target.width, cfg.target.height)
-		
-		self.framebd = framebd(self, self)
-		
-		self.DebuffHighlight = cfg.dh.pet
-		
+						
 		local name = fs(self.Health, 'OVERLAY', cfg.font, cfg.fontsize, cfg.fontflag, 1, 1, 1)
         name:SetPoint('CENTER', self.Health)
 		self:Tag(name, '[color][short:name]')
@@ -894,11 +879,7 @@ local UnitSpecific = {
 	
 	partytarget = function(self, unit)
         Shared(self, unit)
-		
-		self.framebd = framebd(self, self)
-		
-		self.DebuffHighlight = cfg.dh.partytarget
-		
+						
 		local name = fs(self.Health, 'OVERLAY', cfg.font, cfg.fontsize, cfg.fontflag, 1, 1, 1)
         name:SetPoint('CENTER', self.Health)
 		self:Tag(name, '[color][short:name]')
@@ -910,10 +891,6 @@ local UnitSpecific = {
 				 
 	    self:SetSize(cfg.target.width, cfg.target.height)
 		
-		self.framebd = framebd(self, self)
-		
-		self.DebuffHighlight = cfg.dh.targettarget
-		
 		local name = fs(self.Health, 'OVERLAY', cfg.font, cfg.fontsize, cfg.fontflag, 1, 1, 1)
         name:SetPoint('CENTER')
 		self:Tag(name, '[color][short:name]')
@@ -924,7 +901,7 @@ local UnitSpecific = {
 			d.spacing = 4
 			d.num = cfg.aura.targettarget_debuffs_num
             d:SetSize(d.num*d.size+d.spacing*(d.num-1), d.size)
-            d:SetPoint('TOPLEFT', self, 'TOPRIGHT', 5, 0)
+            d:SetPoint('TOPLEFT', self, 'TOPRIGHT', 5, -1)
             d.initialAnchor = 'TOPLEFT'
             d.PostCreateIcon = auraIcon
             d.PostUpdateIcon = PostUpdateIcon
@@ -936,10 +913,6 @@ local UnitSpecific = {
 		Shared(self, unit)
 		Power(self)
 		Icons(self)
-		
-		self.framebd = framebd(self, self)
-	
-	    self.DebuffHighlight = cfg.dh.party
 		
 		if cfg.party_cb.enable then castbar(self) end
 		
@@ -963,7 +936,7 @@ local UnitSpecific = {
 		local rc = self.Health:CreateTexture(nil, 'OVERLAY')
 	    rc:SetPoint('CENTER')
 	    rc:SetSize(12, 12)
-		self.ReadyCheck = rc
+		self.ReadyCheckIndicator = rc
 		
 		if cfg.aura.party_buffs then			
             local d = CreateFrame('Frame', nil, self)
@@ -971,7 +944,7 @@ local UnitSpecific = {
 			d.spacing = 4
 			d.num = cfg.aura.party_buffs_num
             d:SetSize(d.num*d.size+d.spacing*(d.num-1), d.size)
-            d:SetPoint('TOPRIGHT', self, 'TOPLEFT', -5, 0)
+            d:SetPoint('TOPRIGHT', self, 'TOPLEFT', -5, -1)
             d.initialAnchor = 'TOPRIGHT'
 			d['growth-x'] = 'LEFT'
             d.PostCreateIcon = auraIcon
@@ -985,11 +958,7 @@ local UnitSpecific = {
 
 		Power(self)
 		Icons(self)
-		
-		self.framebd = framebd(self, self)
-	
-		self.DebuffHighlight = cfg.dh.arena
-		
+					
 		if cfg.arena_cb.enable then castbar(self) end
 		
 		self:SetSize(cfg.party.width, cfg.party.health+cfg.party.power+1)
@@ -1018,11 +987,7 @@ local UnitSpecific = {
 		
 		Power(self)
 		Icons(self)
-		
-		self.framebd = framebd(self, self)
-	
-		self.DebuffHighlight = cfg.dh.raid
-		
+					
 		self.Health:SetHeight(cfg.raid.health)
 		self.Power:SetHeight(cfg.raid.power)
 				
@@ -1046,7 +1011,7 @@ local UnitSpecific = {
 		local rc = self.Health:CreateTexture(nil, 'OVERLAY')
 	    rc:SetPoint('BOTTOM')
 	    rc:SetSize(12, 12)
-		self.ReadyCheck = rc
+		self.ReadyCheckIndicator = rc
 
 		local tborder = CreateFrame('Frame', nil, self)
         tborder:SetPoint('TOPLEFT', self, 'TOPLEFT')
@@ -1305,7 +1270,7 @@ oUF:Factory(function(self)
 		if cfg.uf.tank_target then
 		    self:SetActiveStyle'Skaarj - Partytarget'
 		    local maintanktarget = self:SpawnHeader(nil, nil, 'raid',
-		    'showRaid', true,'showSolo',false,'groupFilter','MAINTANK','yOffset', -27, 
+		    'showRaid', true,'showSolo',false,'groupFilter','MAINTANK','yOffset', -23, 
 		    'oUF-initialConfigFunction', ([[
 			self:SetAttribute('unitsuffix', 'target')
 			self:SetHeight(%d)

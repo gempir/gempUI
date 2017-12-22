@@ -1,101 +1,23 @@
---[[
-	Configuration 
-]]
-
--- Timestamps
-local timeStampFormat = "%X"
-local timeStampOutput = "|cFFFFFFFF%s|||r %s"
-
-local timeStampsEnabled = {
-	true, -- [1]
-	true, -- [2]
-	true, -- [3]
-	true, -- [4]
-	true, -- [5]
-	true, -- [6]
-	true  -- [7]
-}
-
--- Sticky
-local stickyTypes = {
-	SAY = true,
-	WHISPER = false,
-	YELL = false,
-	PARTY = true,
-	GUILD = true,
-	OFFICER = true,
-	RAID = true,
-	RAID_WARNING = true,
-	INSTANCE_CHAT = true,
-	CHANNEL = true,
-	EMOTE = false
-}
 
 -- Channel Names
 local channelNamePattern = {
-	["%[Guild%]"] = "(G)",
-	["%[Party%]"] = "(P)",
-	["%[Raid%]"] = "(R)",
-	["%[Party Leader%]"] = "(PL)",
-	["%[Dungeon Guide%]"] = "(DG)",
-	["%[Instance%]"] = "(I)",
-	["%[Instance Leader%]"] = "|cffff3399(|rIL|cffff3399)|r",
-	["%[Raid Leader%]"] = "|cffff3399(|rRL|cffff3399)|r",
-	["%[Raid Warning%]"] = "|cffff0000(|rRW|cffff0000)|r",
-	["%[Officer%]"] = "(O)",
-	["%[Battleground%]"] = "|cffff3399(|rBG|cffff3399)|r",
-	["%[Battleground Leader%]"] = "|cffff0000(|rBGL|cffff0000)|r",
-	["%[%d+%.%s(%w*)%]"] = "|cff990066(|r%1|cff990066)|r",
+	["%[Guild%]"] = "[G]",
+	["%[Party%]"] = "[P]",
+	["%[Raid%]"] = "[R]",
+	["%[Party Leader%]"] = "[PL]",
+	["%[Dungeon Guide%]"] = "[DG]",
+	["%[Instance%]"] = "[I]",
+	["%[Instance Leader%]"] = "|cffff3399[|rIL|cffff3399]|r",
+	["%[Raid Leader%]"] = "|cffff3399[|rRL|cffff3399]|r",
+	["%[Raid Warning%]"] = "|cffff0000[|rRW|cffff0000]|r",
+	["%[Officer%]"] = "[O]",
+	["%[Battleground%]"] = "|cffff3399[|rBG|cffff3399]|r",
+	["%[Battleground Leader%]"] = "|cffff0000[|rBGL|cffff0000]|r",
+	["%[%d+%.%s(%w*)%]"] = "|cff990066[|r%1|cff990066]|r",
 }
 
 -- Mouse Scroll
 local scrollLines = 1
-
--- UrlCopy
-local urlStyle = " |cffffffff|Hurl:%s|h[%s]|h|r "
-
-local urlPatterns = {
-		-- X://Y url
-	{ "^(%a[%w%.+-]+://%S+)", "%1"},
-	{ "%f[%S](%a[%w%.+-]+://%S+)", "%1"},
-		-- www.X.Y url
-	{ "^(www%.[-%w_%%]+%.%S+)", "%1"},
-	{ "%f[%S](www%.[-%w_%%]+%.%S+)", "%1"},
-		-- "W X"@Y.Z email (this is seriously a valid email)
-	--{ pattern = '^(%"[^%"]+%"@[-%w_%%%.]+%.(%a%a+))', matchfunc=Link_TLD},
-	--{ pattern = '%f[%S](%"[^%"]+%"@[-%w_%%%.]+%.(%a%a+))', matchfunc=Link_TLD},
-		-- X@Y.Z email
-	{ "(%S+@[-%w_%%%.]+%.(%a%a+))", "%1"},
-		-- XXX.YYY.ZZZ.WWW:VVVV/UUUUU IPv4 address with port and path
-	{ "^([0-2]?%d?%d%.[0-2]?%d?%d%.[0-2]?%d?%d%.[0-2]?%d?%d:[0-6]?%d?%d?%d?%d/%S+)", "%1"},
-	{ "%f[%S]([0-2]?%d?%d%.[0-2]?%d?%d%.[0-2]?%d?%d%.[0-2]?%d?%d:[0-6]?%d?%d?%d?%d/%S+)", "%1"},
-		-- XXX.YYY.ZZZ.WWW:VVVV IPv4 address with port (IP of ts server for example)
-	{ "^([0-2]?%d?%d%.[0-2]?%d?%d%.[0-2]?%d?%d%.[0-2]?%d?%d:[0-6]?%d?%d?%d?%d)%f[%D]", "%1"},
-	{ "%f[%S]([0-2]?%d?%d%.[0-2]?%d?%d%.[0-2]?%d?%d%.[0-2]?%d?%d:[0-6]?%d?%d?%d?%d)%f[%D]", "%1"},
-		-- XXX.YYY.ZZZ.WWW/VVVVV IPv4 address with path
-	{ "^([0-2]?%d?%d%.[0-2]?%d?%d%.[0-2]?%d?%d%.[0-2]?%d?%d%/%S+)", "%1"},
-	{ "%f[%S]([0-2]?%d?%d%.[0-2]?%d?%d%.[0-2]?%d?%d%.[0-2]?%d?%d%/%S+)", "%1"},
-		-- XXX.YYY.ZZZ.WWW IPv4 address
-	{ "^([0-2]?%d?%d%.[0-2]?%d?%d%.[0-2]?%d?%d%.[0-2]?%d?%d%)%f[%D]", "%1"},
-	{ "%f[%S]([0-2]?%d?%d%.[0-2]?%d?%d%.[0-2]?%d?%d%.[0-2]?%d?%d%)%f[%D]", "%1"},
-		-- X.Y.Z:WWWW/VVVVV url with port and path
-	{ "^([-%w_%%%.]+[-%w_%%]%.(%a%a+):[0-6]?%d?%d?%d?%d/%S+)", "%1"},
-	{ "%f[%S]([-%w_%%%.]+[-%w_%%]%.(%a%a+):[0-6]?%d?%d?%d?%d/%S+)", "%1"},
-		-- X.Y.Z:WWWW url with port (ts server for example)
-	{ "^([-%w_%%%.]+[-%w_%%]%.(%a%a+):[0-6]?%d?%d?%d?%d)%f[%D]", "%1"},
-	{ "%f[%S]([-%w_%%%.]+[-%w_%%]%.(%a%a+):[0-6]?%d?%d?%d?%d)%f[%D]", "%1"},
-		-- X.Y.Z/WWWWW url with path
-	{ "^([-%w_%%%.]+[-%w_%%]%.(%a%a+)/%S+)", "%1"},
-	{ "%f[%S]([-%w_%%%.]+[-%w_%%]%.(%a%a+)/%S+)", "%1"},
-		-- X.Y.Z url
-	--{ "^([-%w_%%]+%.[-%w_%%]+%.%S+)", "%1"},
-	--{ "%f[%S]([-%w_%%]+%.[-%w_%%]+%.%S+)", "%1"},
-}
-
---[[ 
-	-------------------------------------------------------------
-	Code
-]]
 local _G = _G
 local format, gsub, strlen, strsub = string.format, string.gsub, string.len, string.sub
 local pairs, type, date = pairs, type, date
@@ -109,21 +31,15 @@ do
 			for k, v in pairs(channelNamePattern) do
 				text = gsub(text, k, v)
 			end
-			-- url copy
-			if strlen(text) > 7 then
-				for i = 1, #urlPatterns do
-					local v = urlPatterns[i]
-					text = gsub(text, v[1], format(urlStyle, v[2], v[2]))
-				end
-			end
-			-- Time Stamp
-			text = format(timeStampOutput, date(timeStampFormat), text)
 		end
 		return orig[frame](frame, text, ...)
 	end
 
 	for i = 1, NUM_CHAT_WINDOWS do
 		local c = _G["ChatFrame"..i]
+		local tab = _G["ChatFrame"..i.."Tab"]
+		tab:Hide()
+		tab:SetScript("OnShow", function(self) self:Hide() end)
 		orig[c] = c.AddMessage
 		c.AddMessage = AddMessageHook
 	end
@@ -170,11 +86,6 @@ do
 		whileDead = 1,
 		hideOnEscape = 1,
 	}
-end
-
--- Sticky
-for k, v in pairs(stickyTypes) do
-	ChatTypeInfo[k].sticky = v and 1 or 0
 end
 
 -- Buttons

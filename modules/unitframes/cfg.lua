@@ -103,7 +103,7 @@ cfg.options = {
 		smooth = true,
 		showPlayer = false,              -- show player in party
 		SpellRange = true,
-		range_alpha = 0.6,
+		range_alpha = 0.2,
 		disableRaidFrameManager = true,  -- disable default compact Raid Manager 
 		ResurrectIcon = false,
 }
@@ -164,19 +164,6 @@ cfg.RaidDebuffs = {
 		ShowDispelableDebuff = true,
 		FilterDispellableDebuff = true,
 		MatchBySpellName = false,
-}
-
---Threat/DebuffHighlight
-cfg.dh = {
-        player = true,
-		target = true,
-		focus = true,
-		pet = true,
-		partytaget = false,
-		party = true,
-		arena = true,
-		raid = true,
-		targettarget = false,
 }
 
 --AuraWatch
@@ -250,7 +237,7 @@ cfg.spellIDs = {
 cfg.player_cb = {
         enable = true,
 		width = 247,
-		height = 30,
+		height = 28,
 }
 
 -----------------------------
@@ -258,11 +245,11 @@ cfg.player_cb = {
 -----------------------------
 
 if G.options.actionbars_main_three then
-	cfg.player_cb.pos = {'BOTTOM', UIParent, 16, 130}
+	cfg.player_cb.pos = {'BOTTOM', UIParent, 16, 131}
 	cfg.unit_positions.Player = { a = UIParent, x= -132, y=  228 }				
     cfg.unit_positions.Target = {a = UIParent, x=  132, y=  228} 
 elseif not G.options.actionbars_main_three then
-	cfg.player_cb.pos = {'BOTTOM', UIParent, 16, 91}
+	cfg.player_cb.pos = {'BOTTOM', UIParent, 16, 92}
 	cfg.unit_positions.Player = { a = UIParent, x= -132, y=  189 }				
     cfg.unit_positions.Target = {a = UIParent, x=  132, y=  189}
 end
@@ -273,7 +260,7 @@ cfg.target_cb = {
         enable = true,
         pos = {'BOTTOMRIGHT', 0, -22},
 		height = 15,
-		width = 196,
+		width = 193,
 }
 
 -- Focus
