@@ -304,56 +304,17 @@ local Power = function(self)
 end
 
 local function Icons(self) 
-    self.Leader = self.Health:CreateTexture(nil, 'OVERLAY')
-	self.Leader:SetPoint('BOTTOMLEFT', self.Health, 'TOPLEFT', 0, -3)
-    self.Leader:SetSize(12, 12)
+    self.LeaderIndicator = self.Health:CreateTexture(nil, 'OVERLAY')
+	self.LeaderIndicator:SetPoint('BOTTOMLEFT', self.Health, 'TOPLEFT', 0, -3)
+    self.LeaderIndicator:SetSize(12, 12)
 	    	
-	self.Assistant = self.Health:CreateTexture(nil, 'OVERLAY')
-	self.Assistant:SetPoint('BOTTOMLEFT', self.Health, 'TOPLEFT', 0, -3)
-    self.Assistant:SetSize(12, 12)    
+	self.AssistantIndicator = self.Health:CreateTexture(nil, 'OVERLAY')
+	self.AssistantIndicator:SetPoint('BOTTOMLEFT', self.Health, 'TOPLEFT', 0, -3)
+    self.AssistantIndicator:SetSize(12, 12)    
 	
-	self.MasterLooter = self.Health:CreateTexture(nil, 'OVERLAY')
-	self.MasterLooter:SetPoint('LEFT', self.Leader, 'RIGHT')
-	self.MasterLooter:SetSize(11, 11)
-end
-
-local function SizeUpdate(self, event,unit)
-    local spec = GetSpecialization()	
-	local stance = GetShapeshiftFormID()
-	local lvl = UnitLevel('player')
-	if ((class == 'DEATHKNIGHT' or class == 'PALADIN' or class == 'WARLOCK' or (class == 'PRIEST' and spec == SPEC_PRIEST_SHADOW)) and cfg.options.specific_power) or (class == "ROGUE" and cfg.options.cpoints) then
-	    self.dh:SetSize(cfg.player.width, self.Health:GetHeight()+(self.Power:GetHeight()+1)+(cfg.player.specific_power+1))
-	elseif class == 'SHAMAN' then
-		if  cfg.options.TotemBar and (cfg.options.Maelstrom and (spec == 3) and (lvl >= 50)) then
-			self.dh:SetSize(cfg.player.width, self.Health:GetHeight()+(self.Power:GetHeight()+1)+2*(cfg.player.specific_power+1))
-		elseif cfg.options.TotemBar or (cfg.options.Maelstrom and (spec == 3) and (lvl >= 50)) then
-			self.dh:SetSize(cfg.player.width, self.Health:GetHeight()+(self.Power:GetHeight()+1)+(cfg.player.specific_power+1))
-		else
-			self.dh:SetSize(cfg.player.width, self.Health:GetHeight()+(self.Power:GetHeight()+1))
-		end
-	elseif class == 'MONK' then
-	    if cfg.options.stagger_bar and cfg.options.specific_power and stance == 23 then 
-	        self.dh:SetSize(cfg.player.width, self.Health:GetHeight()+(self.Power:GetHeight()+1)+2*(cfg.player.specific_power+1))
-		elseif (cfg.options.stagger_bar and stance == 23) or cfg.options.specific_power then
-		    self.dh:SetSize(cfg.player.width, self.Health:GetHeight()+(self.Power:GetHeight()+1) +(cfg.player.specific_power+1))
-		else
-		    self.dh:SetSize(cfg.player.width, self.Health:GetHeight()+self.Power:GetHeight()+1)
-		end
-	elseif class == 'DRUID' then
-		if ((spec == 1 or spec == 4) and cfg.options.MushroomBar) and (stance == 1 and cfg.options.cpoints) then
-			self.dh:SetSize(cfg.player.width, self.Health:GetHeight()+(self.Power:GetHeight()+1)+2*(cfg.player.specific_power+1))
-			self.CPoints:SetPoint('TOPRIGHT', self, 'BOTTOMRIGHT', 0, -(cfg.player.specific_power+2))
-		elseif ((spec == 1 or spec == 4) and cfg.options.MushroomBar) or (stance == 1 and cfg.options.cpoints) then
-			self.dh:SetSize(cfg.player.width, self.Health:GetHeight()+(self.Power:GetHeight()+1)+(cfg.player.specific_power+1))
-			if cfg.options.cpoints then 
-				self.CPoints:SetPoint('TOPRIGHT', self, 'BOTTOMRIGHT', 0, -1) 
-			end
-		else
-			self.dh:SetSize(cfg.player.width, self.Health:GetHeight()+(self.Power:GetHeight()+1))
-		end
-	else
-	    self.dh:SetSize(cfg.player.width, self.Health:GetHeight()+(self.Power:GetHeight()+1))
-    end
+	self.MasterLooterIndicator = self.Health:CreateTexture(nil, 'OVERLAY')
+	self.MasterLooterIndicator:SetPoint('LEFT', self.Leader, 'RIGHT')
+	self.MasterLooterIndicator:SetSize(11, 11)
 end
 
 local function Shared(self, unit)
@@ -391,27 +352,16 @@ local UnitSpecific = {
     player = function(self, unit)
         Shared(self, unit)		
 		Power(self)
-		Icons(self)
-				
-	    if cfg.player_cb.enable then
-            castbar(self)
-	        PetCastingBarFrame:UnregisterAllEvents()
-	        PetCastingBarFrame.Show = function() end
-	        PetCastingBarFrame:Hide()
-        end
+		Icons(self)				
+		castbar(self)
+
+		PetCastingBarFrame:UnregisterAllEvents()
+		PetCastingBarFrame.Show = function() end
+		PetCastingBarFrame:Hide()
 			
 		self:SetSize(cfg.player.width, cfg.player.health+cfg.player.power+1)	
 		self.Health:SetHeight(cfg.player.health)
 	    self.Power:SetHeight(cfg.player.power)
-
-		self.dh = CreateFrame('Frame', 'Player', self)
-		self.dh:SetPoint('TOP')
-		self.dh:SetFrameStrata('BACKGROUND')
-		self.dh:RegisterEvent('PLAYER_TALENT_UPDATE')
-		self.dh:RegisterEvent('UPDATE_SHAPESHIFT_FORM')
-		self.dh:RegisterEvent('PLAYER_ENTERING_WORLD')
-		self.dh:RegisterEvent('PLAYER_LEVEL_UP')
-		self.dh:SetScript('OnEvent', function(frame, event, unit) SizeUpdate (self, event, unit) end)
 						
 		local name = fs(self.Health, 'OVERLAY', cfg.font, cfg.fontsize, cfg.fontflag, 1, 1, 1)
         name:SetPoint('LEFT', 4, 0)
@@ -431,25 +381,59 @@ local UnitSpecific = {
 		ct.text:SetShadowOffset(1, -1)
 	    ct.text:SetPoint('CENTER')
 	    ct.text:SetText('|cffAF5050j|r')
-        self.CombatIndicator = ct
+		self.CombatIndicator = ct
+		
+		local altp = createStatusbar(self, G.texture, nil, 30, 180, G.color.r, G.color.g, G.color.b, G.color.a)
+		altp:SetPoint("CENTER", UIParent, "CENTER", 0, -250)
+		altp.bd = F.createBorderFrame(altp, altp)
+		altp.Text = fs(altp, 'OVERLAY', cfg.aura.font, cfg.aura.fontsize, cfg.aura.fontflag, 1, 1, 1)
+		altp.Text:SetPoint('CENTER')
+		self:Tag(altp.Text, '[altpower]') 
+		altp:EnableMouse(true)
+   	    altp.colorTexture = true
+		self.AlternativePower = altp
 
-		local r = CreateFrame('Frame', nil, self)
-		r:SetFrameLevel(self.Health:GetFrameLevel()+1)
-		r:SetSize(10, 10)
-		r:SetPoint('CENTER', 0, -1)
-		r:SetAlpha(0.1)
-		r.text = fs(r, 'OVERLAY', cfg.symbol, 16, '', class_color.r, class_color.g, class_color.b)
-		r.text:SetShadowOffset(1, -1)
-	    r.text:SetPoint('CENTER')
-	    r.text:SetText('t')
-		if cfg.class_colorbars then r.text:SetVertexColor(0.5, 0.5, 1) end
-	    self.RestingIndicator = r
+		
+
+		if (class == 'PRIEST' or class == 'PALADIN' or class == 'MONK') then
+			local ClassPower = CreateFrame('Frame', nil, self)
+			ClassPower:SetPoint('TOPRIGHT', self.Power, 'BOTTOMRIGHT', 1, 0)
+			ClassPower:SetSize(cfg.player.width, cfg.player.specific_power) 
+			
+			if class == 'PRIEST' then
+				local numMax = UnitPowerMax('player', SPELL_POWER_SHADOW_ORBS)
+				ClassPower.c = numMax
+			elseif class == 'PALADIN' then
+				local numMax = UnitPowerMax('player', SPELL_POWER_HOLY_POWER)
+				ClassPower.c = numMax
+			elseif class == 'MONK' then
+				local numMax = UnitPowerMax('player', SPELL_POWER_CHI)
+				ClassPower.c = numMax 							
+			end
+
+			for i = 1, 11 do	
+				Icon = createStatusbar(ClassPower, cfg.texture, nil, cfg.player.specific_power, (self:GetWidth() / ClassPower.c) - 1, G.color.r)
+				
+				if i == 1 then
+					Icon:SetPoint('LEFT', ClassPower)
+				else
+					Icon:SetPoint('LEFT', ClassPower[i-1], 'RIGHT', 1, 0)
+				end
+				
+				ClassPower[i] = Icon
+				F.createBorderFrame(ClassPower[i], ClassPower[i])
+			end
+
+			self.ClassPower = ClassPower
+		end
+
+		
 		
         if cfg.options.specific_power then 
 		    if class == 'DEATHKNIGHT'  then
                 local b = CreateFrame('Frame', nil, self)
-                b:SetPoint('TOPRIGHT', self.Power, 'BOTTOMRIGHT', 0, -1)
-                b:SetSize(cfg.player.width, cfg.player.specific_power)
+                b:SetPoint('TOPRIGHT', self.Power, 'BOTTOMRIGHT', 1, 0)
+				b:SetSize(cfg.player.width, cfg.player.specific_power)
 
 				local i = 6
                 for index = 1, 6 do
@@ -461,7 +445,8 @@ local UnitSpecific = {
                         b[i]:SetPoint('RIGHT', b[i+1], 'LEFT', -1, 0)
                     end
 
-                    b[i].bg = b[i]:CreateTexture(nil, 'BACKGROUND')
+					b[i].bg = b[i]:CreateTexture(nil, 'BACKGROUND')
+					F.createBorderFrame(b[i], b[i])
                     b[i].bg:SetAllPoints(b[i])
                     b[i].bg:SetTexture(cfg.texture)
                     b[i].bg.multiplier = .3
@@ -470,200 +455,8 @@ local UnitSpecific = {
                 end
                 self.Runes = b
             end
-			
-			if (class == 'PRIEST' or class == 'PALADIN' or class == 'MONK') then
-			    local ClassIcons = CreateFrame('Frame', nil, self)
-	            ClassIcons:SetPoint('TOPRIGHT', self.Power, 'BOTTOMRIGHT', 0, -1)
-	            ClassIcons:SetSize(cfg.player.width, cfg.player.specific_power) 
-				
-                if class == 'PRIEST' then
-					local numMax = UnitPowerMax('player', SPELL_POWER_SHADOW_ORBS)
-                    ClassIcons.c = numMax
-		        elseif class == 'PALADIN' then
-	                local numMax = UnitPowerMax('player', SPELL_POWER_HOLY_POWER)
-			        ClassIcons.c = numMax
-                elseif class == 'MONK' then
-	                local numMax = UnitPowerMax('player', SPELL_POWER_CHI)
-			        ClassIcons.c = numMax 							
-                end
-
-	            for i = 1, 6 do		
-					Icon = createStatusbar(ClassIcons, cfg.texture, nil, cfg.player.specific_power, (cfg.player.width+1)/ClassIcons.c-1, G.color.r)
-					
-					if i == 1 then
-			            Icon:SetPoint('LEFT', ClassIcons)
-		            else
-			            Icon:SetPoint('LEFT', ClassIcons[i-1], 'RIGHT', 1, 0)
-		            end
-					
-		            ClassIcons[i] = Icon
-	            end
-
-	            self.ClassIcons = ClassIcons
-		    end
-			
-		    if class == 'WARLOCK' then
-			    wsb = CreateFrame('Frame', nil, self)
-			    wsb:SetPoint('TOPRIGHT', self.Power, 'BOTTOMRIGHT', 0, -1)
-			    wsb:SetSize(cfg.player.width, cfg.player.specific_power)
-				
-			    for i = 1, 4 do
-				    wsb[i] = createStatusbar(wsb, cfg.texture, nil, cfg.player.specific_power, (cfg.player.width+1)/4-1, 0.9, 0.37, 0.37, 1)
-					
-				    if i == 1 then
-					    wsb[i]:SetPoint('LEFT', wsb, 'LEFT')
-				    else
-					    wsb[i]:SetPoint('LEFT', wsb[i-1], 'RIGHT', 1, 0)
-				    end
-
-				    wsb[i].bg = wsb[i]:CreateTexture(nil, 'BORDER')
-				    wsb[i].bg:SetAllPoints()
-				    wsb[i].bg:SetTexture(cfg.texture)
-				    wsb[i].bg:SetVertexColor(0.9, 0.37, 0.37, .3)
-					
-					self.WarlockSpecBars = wsb
-			    end
-	        end
 		end
 		
-		if class == 'DRUID' and cfg.EclipseBar.enable then
-            local ebar = CreateFrame('Frame', nil, self)
-            ebar:SetPoint(unpack(cfg.EclipseBar.pos))
-            ebar:SetSize(cfg.player.width, cfg.EclipseBar.height)
-		    ebar.bd = framebd(ebar, ebar)
-			
-			ebar.Alpha = cfg.EclipseBar.Alpha
-
-            local lbar = createStatusbar(ebar, cfg.texture, nil, cfg.EclipseBar.height, cfg.player.width, 0, .4, 1, 1)
-            lbar:SetPoint('LEFT', ebar, 'LEFT')
-            ebar.LunarBar = lbar
-
-            local sbar = createStatusbar(ebar, cfg.texture, nil, cfg.EclipseBar.height, cfg.player.width, 1, .6, 0, 1)
-            sbar:SetPoint('LEFT', lbar:GetStatusBarTexture(), 'RIGHT')
-            ebar.SolarBar = sbar
-			
-            ebar.Spark = sbar:CreateTexture(nil, 'OVERLAY')
-            ebar.Spark:SetTexture([=[Interface\Buttons\WHITE8x8]=])
-            ebar.Spark:SetBlendMode('ADD')
-            ebar.Spark:SetHeight(cfg.EclipseBar.height)
-			ebar.Spark:SetWidth(1)
-            ebar.Spark:SetPoint('LEFT', sbar:GetStatusBarTexture(), 'LEFT', 0, 0)
-				
-		    ebar.Text = fs(ebar.SolarBar, 'OVERLAY', cfg.aura.font, cfg.aura.fontsize, cfg.aura.fontflag, 0.8, 0.8, 0.8)
-            ebar.Text:SetPoint('CENTER', ebar)
-            self:Tag(ebar.Text, '[EclipseDirection]')
-					
-		    self.EclipseBar = ebar
-        end
-			
-		if (class == 'SHAMAN' and cfg.options.TotemBar) or (class == 'DRUID' and cfg.options.MushroomBar) then
-	        local tb = CreateFrame('Frame', nil, self)
-		    tb:SetPoint('TOPRIGHT', self.Power, 'BOTTOMRIGHT', 0, -1)
-			tb:SetSize(cfg.player.width, cfg.player.specific_power)	   
-	        tb.Destroy = true
-			
-			if class == 'SHAMAN' then
-			    tb.c = 4
-			elseif class == 'DRUID' then
-			    tb.c = 3
-			end
-			   
-	        for i = 1, tb.c do
-				t = createStatusbar(tb, cfg.texture, nil, cfg.player.specific_power, (cfg.player.width+1)/tb.c-1, 1, 1, 1, 1)
-					
-		        if (i == 1) then
-			        t:SetPoint('LEFT', tb, 'LEFT', 0, 0)
-		        else
-			        t:SetPoint('TOPLEFT', tb[i-1], 'TOPRIGHT', 1, 0)
-		        end
-
-		        t.bg = t:CreateTexture(nil, 'BACKGROUND')
-		        t.bg:SetAllPoints()
-		        t.bg:SetTexture(1, 1, 1)
-		        t.bg.multiplier = 0.2
-
-		        tb[i] = t
-	        end
-			
-	        self.TotemBar = tb			
-		end
-		
-		if class == 'SHAMAN' and cfg.options.Maelstrom then
-	        local ms = CreateFrame('Frame', nil, self)
-			ms:SetSize(cfg.player.width, cfg.player.specific_power)
-
-			if cfg.options.TotemBar then
-		        ms:SetPoint('TOPRIGHT', self.Power, 'BOTTOMRIGHT', 0, -(cfg.player.specific_power+2))
-			else
-			    ms:SetPoint('TOPRIGHT', self.Power, 'BOTTOMRIGHT', 0, -1)
-			end
-			
-			ms.c = 5
-			   
-	        for i = 1, ms.c do
-				m = createStatusbar(ms, cfg.texture, nil, cfg.player.specific_power, (cfg.player.width+1)/ms.c-1, .45, .35, .65, 1)
-					
-		        if (i == 1) then
-			        m:SetPoint('LEFT', ms, 'LEFT', 0, 0)
-		        else
-			        m:SetPoint('TOPLEFT', ms[i-1], 'TOPRIGHT', 1, 0)
-		        end	
-				ms[i] = m
-	        end
-			
-	        self.Maelstrom = ms			
-		end
-		
-		if class == 'MONK' and cfg.options.stagger_bar then
-		
-		    local Stagger = CreateFrame('StatusBar', nil, self)
-			
-			Stagger:SetSize(cfg.player.width, cfg.player.specific_power)
-			Stagger:SetStatusBarTexture(cfg.texture)
-		    
-			if cfg.options.specific_power then
-		        Stagger:SetPoint('TOPRIGHT', self.Power, 'BOTTOMRIGHT', 0, -(cfg.player.specific_power+2))
-			else
-			    Stagger:SetPoint('TOPRIGHT', self.Power, 'BOTTOMRIGHT', 0, -1)
-			end
-		
-		    Stagger.bg = Stagger:CreateTexture(nil, 'BORDER')
-		    Stagger.bg:SetAllPoints()
-		    Stagger.bg:SetTexture(cfg.texture)
-		    Stagger.bg:SetVertexColor(0.52, 1.0, 0.52)
-			Stagger.bg.multiplier = .4
-
-            self.Stagger = Stagger
-		
-		end
-		
-		if cfg.options.cpoints and (class == 'DRUID' or class == 'ROGUE') then
-		    local cp = CreateFrame('Frame', nil, self)
-			if class == 'DRUID' and cfg.options.MushroomBar then
-				cp:RegisterEvent('PLAYER_TALENT_UPDATE')
-				cp:RegisterEvent('UPDATE_SHAPESHIFT_FORM')
-				cp:RegisterEvent('PLAYER_ENTERING_WORLD')
-				cp:SetScript('OnEvent', function(frame, event, unit) SizeUpdate (self, event, unit) end)
-			else
-				cp:SetPoint('TOPRIGHT', self, 'BOTTOMRIGHT', 0, -1)
-			end
-            cp:SetSize(cfg.player.width, cfg.player.specific_power)
-			
-		    local i = 5
-            for index = 1, 5 do
-                cp[i] = createStatusbar(cp, cfg.texture, nil, cfg.player.specific_power, (cfg.player.width+1)/5-1, cfg.Color.CPoints.r, cfg.Color.CPoints.g, cfg.Color.CPoints.b, 1)
-				
-                if i == 5 then
-                    cp[i]:SetPoint('RIGHT', cp)
-                else
-                    cp[i]:SetPoint('RIGHT', cp[i+1], 'LEFT', -1, 0)
-                end
-
-                i=i-1
-            end	
-			
-		    self.CPoints = cp
-		end
 			
         if cfg.aura.player_debuffs then
             local d = CreateFrame('Frame', nil, self)

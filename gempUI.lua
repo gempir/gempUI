@@ -66,6 +66,13 @@ G.fonts = {
 	roboto_bolditalic = "Interface\\Addons\\gempUI\\media\\fonts\\roboto_bolditalic.ttf",
 	roboto_italic = "Interface\\Addons\\gempUI\\media\\fonts\\roboto_italic.ttf"
 }
+
+G.backdrop = {
+	bgFile = [[Interface\Buttons\WHITE8x8]],
+	edgeFile = [[Interface\Buttons\WHITE8x8]],
+	edgeSize = 1,
+}
+
 -- useful variables
 
 V = {

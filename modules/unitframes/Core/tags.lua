@@ -233,13 +233,3 @@ oUF.Tags.Methods['LFD'] = function(u)
 	end
 end
 oUF.Tags.Events['LFD'] = 'PLAYER_ROLES_ASSIGNED PARTY_MEMBERS_CHANGED'
-
-oUF.Tags.Methods['EclipseDirection'] = function(u)
-    local direction = GetEclipseDirection()
-	if direction == 'sun' then
-		return '  '..' |cff4478BC>>|r'
-	elseif direction == 'moon' then
-		return '|cffE5994C<<|r '..'  '
-	end
-end
-oUF.Tags.Events['EclipseDirection'] = 'UNIT_POWER ECLIPSE_DIRECTION_CHANGE'
