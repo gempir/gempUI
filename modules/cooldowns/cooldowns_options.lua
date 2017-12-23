@@ -67,9 +67,9 @@ function YarkoCooldowns.OptionsSetup()
 	if (not YarkoCooldowns_SavedVars.ParentFrames) then
 		YarkoCooldowns_SavedVars.ParentFrames = {};
 	end
-	
+
 	InterfaceOptions_AddCategory(YarkoCooldowns_OptionsPanel);
-	
+
 	-- Set scroll frame so that it resets the dropdown hide counter
 	YarkoCooldowns_FontDropDownScrollFrameScrollBar:SetScript("OnEnter", YarkoCooldowns.StopCounting);
 	YarkoCooldowns_FontDropDownScrollFrameScrollBar:SetScript("OnLeave", YarkoCooldowns.StartCounting);
@@ -77,7 +77,7 @@ function YarkoCooldowns.OptionsSetup()
 	YarkoCooldowns_FontDropDownScrollFrameScrollBarScrollUpButton:SetScript("OnLeave", YarkoCooldowns.StartCounting);
 	YarkoCooldowns_FontDropDownScrollFrameScrollBarScrollDownButton:SetScript("OnEnter", YarkoCooldowns.StopCounting);
 	YarkoCooldowns_FontDropDownScrollFrameScrollBarScrollDownButton:SetScript("OnLeave", YarkoCooldowns.StartCounting);
-	
+
 	-- Create invis buttons for scrollbar to hide dropdown
 	CreateFrame("Button", "YarkoCooldowns_UpButton", YarkoCooldowns_FontDropDownScrollFrameScrollBarScrollUpButton,
 		"YarkoCooldowns_InvisibleButtonTemplate");
@@ -85,11 +85,11 @@ function YarkoCooldowns.OptionsSetup()
 	CreateFrame("Button", "YarkoCooldowns_DownButton", YarkoCooldowns_FontDropDownScrollFrameScrollBarScrollDownButton,
 		"YarkoCooldowns_InvisibleButtonTemplate");
 	YarkoCooldowns_DownButton:SetAllPoints(YarkoCooldowns_FontDropDownScrollFrameScrollBarScrollDownButton);
-		
+
 	-- Adjust dropdown field widths
 	UIDropDownMenu_SetWidth(YarkoCooldowns_OptionsPanelGeneralSettingsAlternate, 67)
 	UIDropDownMenu_SetWidth(YarkoCooldowns_OptionsPanelGeneralSettingsOutline, 60)
-	
+
 	-- Set first tab as selected by default
 	YarkoCooldowns.ConfigTabClick(1)
 end
@@ -114,13 +114,13 @@ function YarkoCooldowns.OptionsDefault()
 	YarkoCooldowns_SavedVars.Seconds = YarkoCooldowns.DefaultSeconds;
 	YarkoCooldowns_SavedVars.Minimum = YarkoCooldowns.DefaultMinimum;
 	YarkoCooldowns_SavedVars.Size = YarkoCooldowns.DefaultSize;
-	
+
 	if (YarkoCooldowns_SavedVars.ParentFrames) then
 		for k, v in pairs(YarkoCooldowns_SavedVars.ParentFrames) do
 			YarkoCooldowns_SavedVars.ParentFrames[k] = "Y";
 		end
 	end
-	
+
 	YarkoCooldowns.UpdateCooldowns();
 end
 
@@ -131,14 +131,14 @@ local TempCopy = {};
 -- YarkoCooldowns.OptionsRefresh
 ---------------------------------------------------
 function YarkoCooldowns.OptionsRefresh()
-	YarkoCooldowns_OptionsPanelGeneralSettingsMainColorColorSwatchNormalTexture:SetVertexColor(YarkoCooldowns_SavedVars.MainColor.r, 
+	YarkoCooldowns_OptionsPanelGeneralSettingsMainColorColorSwatchNormalTexture:SetVertexColor(YarkoCooldowns_SavedVars.MainColor.r,
 		YarkoCooldowns_SavedVars.MainColor.g, YarkoCooldowns_SavedVars.MainColor.b);
 	YarkoCooldowns_OptionsPanelGeneralSettingsFlash:SetChecked(YarkoCooldowns_SavedVars.Flash == "Y");
 	YarkoCooldowns_OptionsPanelGeneralSettingsFlashSeconds:SetText(YarkoCooldowns_SavedVars.FlashSeconds);
 	YarkoCooldowns_OptionsPanelGeneralSettingsFlashSeconds:SetCursorPosition(0);
-    UIDropDownMenu_Initialize(YarkoCooldowns_OptionsPanelGeneralSettingsAlternate, YarkoCooldowns.AlternateDropDownInit);
+	UIDropDownMenu_Initialize(YarkoCooldowns_OptionsPanelGeneralSettingsAlternate, YarkoCooldowns.AlternateDropDownInit);
 	UIDropDownMenu_SetSelectedValue(YarkoCooldowns_OptionsPanelGeneralSettingsAlternate, YarkoCooldowns_SavedVars.Alternate);
-	YarkoCooldowns_OptionsPanelGeneralSettingsFlashColorColorSwatchNormalTexture:SetVertexColor(YarkoCooldowns_SavedVars.FlashColor.r, 
+	YarkoCooldowns_OptionsPanelGeneralSettingsFlashColorColorSwatchNormalTexture:SetVertexColor(YarkoCooldowns_SavedVars.FlashColor.r,
 		YarkoCooldowns_SavedVars.FlashColor.g, YarkoCooldowns_SavedVars.FlashColor.b);
 	YarkoCooldowns_OptionsPanelGeneralSettingsFontLocation:SetText(YarkoCooldowns_SavedVars.FontLocation);
 	YarkoCooldowns_OptionsPanelGeneralSettingsFontLocation:SetCursorPosition(0);
@@ -147,7 +147,7 @@ function YarkoCooldowns.OptionsRefresh()
 	YarkoCooldowns_OptionsPanelGeneralSettingsFontHeight:SetNumber(YarkoCooldowns_SavedVars.FontHeightX);
 	YarkoCooldowns_OptionsPanelGeneralSettingsFontHeight:SetCursorPosition(0);
 	YarkoCooldowns_OptionsPanelGeneralSettingsShadow:SetChecked(YarkoCooldowns_SavedVars.Shadow == "Y");
-    UIDropDownMenu_Initialize(YarkoCooldowns_OptionsPanelGeneralSettingsOutline, YarkoCooldowns.OutlineDropDownInit);
+	UIDropDownMenu_Initialize(YarkoCooldowns_OptionsPanelGeneralSettingsOutline, YarkoCooldowns.OutlineDropDownInit);
 	UIDropDownMenu_SetSelectedValue(YarkoCooldowns_OptionsPanelGeneralSettingsOutline, YarkoCooldowns_SavedVars.Outline);
 	YarkoCooldowns_OptionsPanelGeneralSettingsTenths:SetChecked(YarkoCooldowns_SavedVars.Tenths == "Y");
 	YarkoCooldowns_OptionsPanelGeneralSettingsBelowTwo:SetChecked(YarkoCooldowns_SavedVars.BelowTwo == "Y");
@@ -157,14 +157,14 @@ function YarkoCooldowns.OptionsRefresh()
 	YarkoCooldowns_OptionsPanelGeneralSettingsMinimum:SetCursorPosition(0);
 	YarkoCooldowns_OptionsPanelGeneralSettingsSize:SetText(YarkoCooldowns_SavedVars.Size);
 	YarkoCooldowns_OptionsPanelGeneralSettingsSize:SetCursorPosition(0);
-	
+
 	-- Copy the real table to working table
 	wipe(TempCopy);
-	
+
 	for k, v in pairs(YarkoCooldowns_SavedVars.ParentFrames) do
 		TempCopy[k] = v;
 	end
-	
+
 	YarkoCooldowns.FilteringScrollUpdate();
 end
 
@@ -173,15 +173,15 @@ end
 -- YarkoCooldowns.OptionsOkay
 ---------------------------------------------------
 function YarkoCooldowns.OptionsOkay()
-	YarkoCooldowns_SavedVars.MainColor.r, YarkoCooldowns_SavedVars.MainColor.g, 
-		YarkoCooldowns_SavedVars.MainColor.b 
-		= YarkoCooldowns_OptionsPanelGeneralSettingsMainColorColorSwatchNormalTexture:GetVertexColor();
+	YarkoCooldowns_SavedVars.MainColor.r, YarkoCooldowns_SavedVars.MainColor.g,
+	YarkoCooldowns_SavedVars.MainColor.b
+	= YarkoCooldowns_OptionsPanelGeneralSettingsMainColorColorSwatchNormalTexture:GetVertexColor();
 	YarkoCooldowns_SavedVars.Flash = ((YarkoCooldowns_OptionsPanelGeneralSettingsFlash:GetChecked() and "Y") or "N");
 	YarkoCooldowns_SavedVars.FlashSeconds = YarkoCooldowns_OptionsPanelGeneralSettingsFlashSeconds:GetNumber();
 	YarkoCooldowns_SavedVars.Alternate = UIDropDownMenu_GetSelectedValue(YarkoCooldowns_OptionsPanelGeneralSettingsAlternate);
-	YarkoCooldowns_SavedVars.FlashColor.r, YarkoCooldowns_SavedVars.FlashColor.g, 
-		YarkoCooldowns_SavedVars.FlashColor.b 
-		= YarkoCooldowns_OptionsPanelGeneralSettingsFlashColorColorSwatchNormalTexture:GetVertexColor();
+	YarkoCooldowns_SavedVars.FlashColor.r, YarkoCooldowns_SavedVars.FlashColor.g,
+	YarkoCooldowns_SavedVars.FlashColor.b
+	= YarkoCooldowns_OptionsPanelGeneralSettingsFlashColorColorSwatchNormalTexture:GetVertexColor();
 	YarkoCooldowns_SavedVars.FontLocation = YarkoCooldowns_OptionsPanelGeneralSettingsFontLocation:GetText();
 	YarkoCooldowns_SavedVars.FontFile = YarkoCooldowns_OptionsPanelGeneralSettingsFontFile:GetText();
 	YarkoCooldowns_SavedVars.FontHeightX = YarkoCooldowns_OptionsPanelGeneralSettingsFontHeight:GetNumber();
@@ -192,7 +192,7 @@ function YarkoCooldowns.OptionsOkay()
 	YarkoCooldowns_SavedVars.Seconds = YarkoCooldowns_OptionsPanelGeneralSettingsSeconds:GetNumber();
 	YarkoCooldowns_SavedVars.Minimum = YarkoCooldowns_OptionsPanelGeneralSettingsMinimum:GetNumber();
 	YarkoCooldowns_SavedVars.Size = YarkoCooldowns_OptionsPanelGeneralSettingsSize:GetNumber();
-		
+
 	if (YarkoCooldowns_SavedVars.FlashSeconds < 0) then
 		YarkoCooldowns_SavedVars.FlashSeconds = 0;
 	end
@@ -200,11 +200,11 @@ function YarkoCooldowns.OptionsOkay()
 	if (YarkoCooldowns_SavedVars.FontHeightX < 4) then
 		YarkoCooldowns_SavedVars.FontHeightX = 4;
 	end
-	
+
 	if (YarkoCooldowns_SavedVars.FontHeightX > 72) then
 		YarkoCooldowns_SavedVars.FontHeightX = 72;
 	end
-	
+
 	--if (YarkoCooldowns_SavedVars.Seconds > 120) then
 	--	YarkoCooldowns_SavedVars.Seconds = 120;
 	--end
@@ -212,18 +212,18 @@ function YarkoCooldowns.OptionsOkay()
 	if (YarkoCooldowns_SavedVars.Seconds < 10) then
 		YarkoCooldowns_SavedVars.Seconds = 10;
 	end
-	
+
 	if (YarkoCooldowns_SavedVars.Minimum < YarkoCooldowns.DefaultMinimum) then
 		YarkoCooldowns_SavedVars.Minimum = YarkoCooldowns.DefaultMinimum;
 	end
-	
+
 	if (YarkoCooldowns_SavedVars.Size < 0) then
 		YarkoCooldowns_SavedVars.Size = 0;
 	end
-	
+
 	-- Copy the working table to real table
 	wipe(YarkoCooldowns_SavedVars.ParentFrames);
-	
+
 	for k, v in pairs(TempCopy) do
 		YarkoCooldowns_SavedVars.ParentFrames[k] = v;
 	end
@@ -237,7 +237,7 @@ end
 ---------------------------------------------------
 function YarkoCooldowns.UpdateCooldowns()
 	local index, value;
-	
+
 	for index, value in pairs(YarkoCooldowns.CooldownFrames) do
 		YarkoCooldowns.UpdateFont(value);
 	end
@@ -249,19 +249,19 @@ end
 ---------------------------------------------------
 function YarkoCooldowns.OutlineDropDownInit(self)
 	local info = UIDropDownMenu_CreateInfo();
-	
+
 	info.text = YARKOCOOLDOWNS_CONFIG_NONE;
 	info.value = 1;
 	info.func = YarkoCooldowns.OutlineDropDownOnClick;
 	info.checked = nil;
 	UIDropDownMenu_AddButton(info);
-	
+
 	info.text = YARKOCOOLDOWNS_CONFIG_NORMAL;
 	info.value = 2;
 	info.func = YarkoCooldowns.OutlineDropDownOnClick;
 	info.checked = nil;
 	UIDropDownMenu_AddButton(info);
-	
+
 	info.text = YARKOCOOLDOWNS_CONFIG_THICK;
 	info.value = 3;
 	info.func = YarkoCooldowns.OutlineDropDownOnClick;
@@ -283,13 +283,13 @@ end
 ---------------------------------------------------
 function YarkoCooldowns.AlternateDropDownInit(self)
 	local info = UIDropDownMenu_CreateInfo();
-	
+
 	info.text = YARKOCOOLDOWNS_CONFIG_ALTFLASH;
 	info.value = 1;
 	info.func = YarkoCooldowns.AlternateDropDownOnClick;
 	info.checked = nil;
 	UIDropDownMenu_AddButton(info);
-	
+
 	info.text = YARKOCOOLDOWNS_CONFIG_ALTSOLID;
 	info.value = 2;
 	info.func = YarkoCooldowns.AlternateDropDownOnClick;
@@ -337,51 +337,51 @@ function YarkoCooldowns.FontDropDownUpdate()
 	local numButtons = #InGameFonts;
 	local button, buttonText;
 	local maxwidth = 0;
-	
+
 	if (numButtons > 15) then
 		numButtons = 15;
 	end
-	
+
 	local offset = FauxScrollFrame_GetOffset(YarkoCooldowns_FontDropDownScrollFrame);
-	
+
 	for t = 1, 15 do
 		index = t + offset;
-		button = _G["YarkoCooldowns_FontDropDownButton"..t];
-		
+		button = _G["YarkoCooldowns_FontDropDownButton" .. t];
+
 		if (index <= #InGameFonts) then
-			buttonText = _G["YarkoCooldowns_FontDropDownButton"..t.."NormalText"];
+			buttonText = _G["YarkoCooldowns_FontDropDownButton" .. t .. "NormalText"];
 			button:SetText(InGameFonts[index]);
 			width = buttonText:GetWidth() + 10;
-			
+
 			if (width > maxwidth) then
 				maxwidth = width;
 			end
-			
+
 			button:Show();
 		else
 			button:Hide();
 		end
 	end
-	
+
 	-- Adjust menu width
 	if (not MenuResized) then
-		for t = 1,  15 do
-			button = _G["YarkoCooldowns_FontDropDownButton"..t];
+		for t = 1, 15 do
+			button = _G["YarkoCooldowns_FontDropDownButton" .. t];
 			button:SetWidth(maxwidth);
 		end
-		
+
 		if (#InGameFonts > 15) then
 			maxwidth = maxwidth + 15;
 		end
-		
+
 		YarkoCooldowns_FontDropDown:SetWidth(maxwidth + 25);
-		
+
 		MenuResized = true;
-	
+
 		-- Adjust menu height
 		YarkoCooldowns_FontDropDown:SetHeight((numButtons * 16) + 27);
 	end
-	
+
 	if (#InGameFonts > 15) then
 		-- Show or hide scrollbar invis buttons
 		if (offset == 0) then
@@ -406,7 +406,7 @@ end
 -- YarkoCooldowns.FontDropDownOnUpdate
 ---------------------------------------------------
 function YarkoCooldowns.FontDropDownButtonOnClick(self, button)
-	YarkoCooldowns_OptionsPanelGeneralSettingsFontFile:SetText(_G[self:GetName().."NormalText"]:GetText());
+	YarkoCooldowns_OptionsPanelGeneralSettingsFontFile:SetText(_G[self:GetName() .. "NormalText"]:GetText());
 	YarkoCooldowns_FontDropDown:Hide();
 end
 
@@ -419,7 +419,7 @@ function YarkoCooldowns.FontDropDownOnUpdate(self, elapsed)
 	-- Hide dropdown after 2 seconds
 	if (IsDropdownCounting) then
 		DropdownTimer = DropdownTimer - elapsed;
-		
+
 		if (DropdownTimer < 0) then
 			YarkoCooldowns_FontDropDown:Hide();
 			IsDropdownCounting = false;
@@ -450,17 +450,17 @@ end
 -- YarkoCooldowns.SwatchOnLoad
 ---------------------------------------------------
 function YarkoCooldowns.SwatchOnLoad(self)
-	local swatch = _G[self:GetName().."ColorSwatch"];
-	
-	swatch:SetScript("OnClick", function (self)
+	local swatch = _G[self:GetName() .. "ColorSwatch"];
+
+	swatch:SetScript("OnClick", function(self)
 		PlaySound("igMainMenuOptionCheckBoxOn");
 		YarkoCooldowns.SwatchOnClick(self);
 	end);
-	swatch:SetScript("OnEnter", function (self)
-		_G[self:GetName().."SwatchBg"]:SetVertexColor(NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b);
+	swatch:SetScript("OnEnter", function(self)
+		_G[self:GetName() .. "SwatchBg"]:SetVertexColor(NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b);
 	end);
-	swatch:SetScript("OnLeave", function (self)
-		_G[self:GetName().."SwatchBg"]:SetVertexColor(HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b);
+	swatch:SetScript("OnLeave", function(self)
+		_G[self:GetName() .. "SwatchBg"]:SetVertexColor(HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b);
 	end);
 	self:SetBackdropBorderColor(TOOLTIP_DEFAULT_COLOR.r, TOOLTIP_DEFAULT_COLOR.g, TOOLTIP_DEFAULT_COLOR.b, 0.5);
 end
@@ -471,7 +471,7 @@ end
 ---------------------------------------------------
 function YarkoCooldowns.SwatchOnClick(self)
 	local info = {};
-	info.extraInfo = _G[self:GetName().."NormalTexture"];
+	info.extraInfo = _G[self:GetName() .. "NormalTexture"];
 	info.r, info.g, info.b = info.extraInfo:GetVertexColor();
 	info.swatchFunc = YarkoCooldowns.SetColor;
 	OpenColorPicker(info);
@@ -493,11 +493,11 @@ end
 ---------------------------------------------------
 function YarkoCooldowns.CopyColors(object)
 	local tbl = {};
-	
+
 	tbl.r = object.r;
 	tbl.g = object.g;
 	tbl.b = object.b;
-	
+
 	return tbl;
 end
 
@@ -512,18 +512,18 @@ local ConfigTabs = {
 ---------------------------------------------------
 function YarkoCooldowns.ConfigTabClick(tabID)
 	for i, frame in ipairs(ConfigTabs) do
-		local name = "YarkoCooldowns_OptionsPanelTab"..i
+		local name = "YarkoCooldowns_OptionsPanelTab" .. i
 		local tab = _G[name];
 		if (i == tabID) then
-			_G[name.."Left"]:SetAlpha(1.0);
-			_G[name.."Middle"]:SetAlpha(1.0);
-			_G[name.."Right"]:SetAlpha(1.0);
+			_G[name .. "Left"]:SetAlpha(1.0);
+			_G[name .. "Middle"]:SetAlpha(1.0);
+			_G[name .. "Right"]:SetAlpha(1.0);
 			tab.text:SetVertexColor(HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b);
 			_G[frame]:Show();
 		else
-			_G[name.."Left"]:SetAlpha(0.75);
-			_G[name.."Middle"]:SetAlpha(0.75);
-			_G[name.."Right"]:SetAlpha(0.75);
+			_G[name .. "Left"]:SetAlpha(0.75);
+			_G[name .. "Middle"]:SetAlpha(0.75);
+			_G[name .. "Right"]:SetAlpha(0.75);
 			tab.text:SetVertexColor(NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b);
 			_G[frame]:Hide();
 		end
@@ -549,15 +549,15 @@ local SelectedParent = 1;
 ---------------------------------------------------
 function YarkoCooldowns.FilteringScrollUpdate()
 	wipe(SortedParentList);
-	
+
 	for k, v in pairs(TempCopy) do
 		tinsert(SortedParentList, k);
 	end
-	
+
 	sort(SortedParentList);
-	
+
 	local numEntries = #SortedParentList;
-	
+
 	if (SelectedParent > numEntries) then
 		SelectedParent = numEntries;
 	end
@@ -570,7 +570,7 @@ function YarkoCooldowns.FilteringScrollUpdate()
 
 	local button, index, parentName;
 
-	for i=1, numButtons do
+	for i = 1, numButtons do
 		button = buttons[i];
 		index = i + scrollOffset;
 		button:SetID(index);
@@ -579,15 +579,15 @@ function YarkoCooldowns.FilteringScrollUpdate()
 			parentName = SortedParentList[index];
 			button:SetText(parentName);
 			button.check:SetChecked(TempCopy[parentName] == "Y");
-			
+
 			button:Show();
 		else
 			button:Hide();
 		end
-		
+
 		displayedHeight = displayedHeight + buttonHeight;
 	end
-	
+
 	HybridScrollFrame_Update(YarkoCooldowns_OptionsPanelFilteringScrollFrame, numEntries * buttonHeight, displayedHeight);
 end
 
@@ -598,7 +598,7 @@ end
 function YarkoCooldowns.FilteringButtonOnClick(self)
 	local id = self:GetID();
 	local curval = TempCopy[SortedParentList[id]];
-	
+
 	TempCopy[SortedParentList[id]] = ((curval == "Y" and "N") or "Y");
 	YarkoCooldowns.FilteringScrollUpdate();
 end
@@ -617,6 +617,6 @@ function YarkoCooldowns.RemoveOnClick(val)
 			end
 		end
 	end
-	
+
 	YarkoCooldowns.FilteringScrollUpdate();
 end

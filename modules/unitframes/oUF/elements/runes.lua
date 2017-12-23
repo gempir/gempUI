@@ -40,7 +40,7 @@ A default texture will be applied if the sub-widgets are StatusBars and don't ha
     self.Runes = Runes
 --]]
 
-if(select(2, UnitClass('player')) ~= 'DEATHKNIGHT') then return end
+if (select(2, UnitClass('player')) ~= 'DEATHKNIGHT') then return end
 
 local _, ns = ...
 local oUF = ns.oUF
@@ -55,7 +55,7 @@ local function UpdateColor(element, runeID)
 	local spec = GetSpecialization() or 0
 
 	local color
-	if(spec ~= 0 and element.colorSpec) then
+	if (spec ~= 0 and element.colorSpec) then
 		color = element.__owner.colors.runes[spec]
 	else
 		color = element.__owner.colors.power.RUNES
@@ -66,7 +66,7 @@ local function UpdateColor(element, runeID)
 	element[runeID]:SetStatusBarColor(r, g, b)
 
 	local bg = element[runeID].bg
-	if(bg) then
+	if (bg) then
 		local mu = bg.multiplier or 1
 		bg:SetVertexColor(r * mu, g * mu, b * mu)
 	end
@@ -75,16 +75,16 @@ end
 local function Update(self, event, runeID, energized)
 	local element = self.Runes
 	local rune = element[runeID]
-	if(not rune) then return end
+	if (not rune) then return end
 
 	local start, duration, runeReady
-	if(UnitHasVehicleUI('player')) then
+	if (UnitHasVehicleUI('player')) then
 		rune:Hide()
 	else
 		start, duration, runeReady = GetRuneCooldown(runeID)
-		if(not start) then return end
+		if (not start) then return end
 
-		if(energized or runeReady) then
+		if (energized or runeReady) then
 			rune:SetMinMaxValues(0, 1)
 			rune:SetValue(1)
 			rune:SetScript('OnUpdate', nil)
@@ -109,7 +109,7 @@ local function Update(self, event, runeID, energized)
 	* duration - the duration of the rune's cooldown (number?)
 	* isReady  - indicates if the rune is ready for use (boolean)
 	--]]
-	if(element.PostUpdate) then
+	if (element.PostUpdate) then
 		return element:PostUpdate(rune, runeID, energized and 0 or start, duration, energized or runeReady)
 	end
 end
@@ -124,7 +124,7 @@ local function Path(self, event, ...)
 	* ...   - the arguments accompanying the event
 	--]]
 	local UpdateMethod = element.Override or Update
-	if(event == 'RUNE_POWER_UPDATE') then
+	if (event == 'RUNE_POWER_UPDATE') then
 		return UpdateMethod(self, event, ...)
 	else
 		--[[ Override: Runes:UpdateColor(powerType)
@@ -147,13 +147,13 @@ end
 
 local function Enable(self, unit)
 	local element = self.Runes
-	if(element and unit == 'player') then
+	if (element and unit == 'player') then
 		element.__owner = self
 		element.ForceUpdate = ForceUpdate
 
 		for i = 1, #element do
 			local rune = element[i]
-			if(rune:IsObjectType('StatusBar') and not rune:GetStatusBarTexture()) then
+			if (rune:IsObjectType('StatusBar') and not rune:GetStatusBarTexture()) then
 				rune:SetStatusBarTexture([[Interface\TargetingFrame\UI-StatusBar]])
 			end
 		end
@@ -167,7 +167,7 @@ end
 
 local function Disable(self)
 	local element = self.Runes
-	if(element) then
+	if (element) then
 		for i = 1, #element do
 			element[i]:Hide()
 		end

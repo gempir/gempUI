@@ -41,10 +41,10 @@ local Scales = {
 
 local SpecialAddon;
 
-local OutlineList = {nil, "OUTLINE", "THICKOUTLINE"};
+local OutlineList = { nil, "OUTLINE", "THICKOUTLINE" };
 
 function YarkoCooldowns.Test()
-	c=0;
+	c = 0;
 	for k, v in pairs(ActiveCounters) do
 		print(k, v, v:GetName());
 	end
@@ -58,15 +58,15 @@ end
 function YarkoCooldowns.OnEvent(self, event, ...)
 	if (event == "PLAYER_LOGIN") then
 		SpecialAddon = Bartender4;
-		
+
 		YarkoCooldowns.OptionsSetup();
-        
+
 		-- Does not work with addons that call SetCooldown() directly
 		--hooksecurefunc("CooldownFrame_SetTimer", YarkoCooldowns.CooldownSetTimer);
-		
+
 		-- So hook directly to the cooldown widget function
 		hooksecurefunc(getmetatable(ActionButton1Cooldown).__index, "SetCooldown", YarkoCooldowns.SetCooldown)
-		
+
 		return;
 	end
 
@@ -74,7 +74,7 @@ function YarkoCooldowns.OnEvent(self, event, ...)
 		for i, button in ipairs(ActionBarButtonEventsFrame.frames) do
 			if (button.cooldown:IsVisible()) then
 				local start, duration, enable, charges = GetActionCooldown(button.action);
-				
+
 				if (start and (not charges or charges == 0)) then
 					YarkoCooldowns.StartCooldown(button.cooldown, start, duration, (duration > 0 and duration < 1 and 0) or 1);
 				end
@@ -113,49 +113,49 @@ end
 
 
 function YarkoCooldowns.StartCooldown(self, start, duration, enable)
-	if (start > 0 and enable > 0 and duration > 1.5 
+	if (start > 0 and enable > 0 and duration > 1.5
 			and (start + duration - GetTime() - .01 > YarkoCooldowns_SavedVars.Minimum or ActiveCounters[self])) then
 		local frame = YarkoCooldowns.CooldownFrames[self];
-		
+
 		if (not frame) then
 			local parent = self:GetParent();
 			local parentname = parent:GetName();
 			local name, bt4frame;
-			
+
 			if (parentname) then
-				name = "YarkoCooldowns"..parentname;
-				bt4frame = (SpecialAddon and strsub(parentname,1,3) == "BT4");
+				name = "YarkoCooldowns" .. parentname;
+				bt4frame = (SpecialAddon and strsub(parentname, 1, 3) == "BT4");
 			end
-			
+
 			-- For Bartender, don't parent counter to cooldown so that button can be made trasparent and cooldown still visible
 			frame = CreateFrame("Frame", name, (not bt4frame and self) or nil, "YarkoCooldowns_CounterTemplate");
 			frame:SetPoint("CENTER", parent, "CENTER");
-			
+
 			if (bt4frame) then
 				frame:SetFrameStrata(parent:GetFrameStrata());
 			end
-			
+
 			frame:SetFrameLevel(self:GetFrameLevel() + 5);
 			--frame:SetToplevel(true);
-			
+
 			self:HookScript("OnShow", function(self) YarkoCooldowns.CooldownFrames[self]:Show(); end);
 			self:HookScript("OnHide", function(self) YarkoCooldowns.CooldownFrames[self]:Hide(); end);
-			
+
 			YarkoCooldowns.UpdateFont(frame);
 			frame:Show();
-			
+
 			frame.cooldown = self;
 			frame.bt4frame = bt4frame;
 			frame.filtername = YarkoCooldowns.GetParentFrame(parent:GetParent());
-			
+
 			YarkoCooldowns.CooldownFrames[self] = frame;
 		end
-		
+
 		frame.start = start;
 		frame.duration = duration;
 		frame.enable = enable;
 		frame.flag = false;
-		
+
 		ActiveCounters[self] = frame;
 	else
 		if (ActiveCounters[self]) then
@@ -169,83 +169,83 @@ end
 
 function YarkoCooldowns.OnUpdate(self, elapsed)
 	TimeSinceLastFlash = TimeSinceLastFlash + elapsed;
-	
+
 	if (TimeSinceLastFlash > FlashInterval) then
 		FlashFlag = not FlashFlag;
 		TimeSinceLastFlash = 0;
 	end
-	
+
 	TimeSinceLastUpdate = TimeSinceLastUpdate + elapsed;
-	
+
 	if (TimeSinceLastUpdate > UpdateInterval) then
 		for cooldown, frame in pairs(ActiveCounters) do
 			local timeleft = ((GetTime() > frame.start and frame.start + frame.duration - GetTime()) or 0);
 			local countertext1 = frame.text1;
 			local countertext2 = frame.text2;
-			
+
 			if (timeleft > 0 and frame.enable > 0) then
 				local parent = cooldown:GetParent();
 				local parentframe = frame.filtername;
-				
+
 				if (parentframe and not YarkoCooldowns_SavedVars.ParentFrames[parentframe]) then
 					YarkoCooldowns_SavedVars.ParentFrames[parentframe] = "Y";
 				end
-				
-				if ((YarkoCooldowns.Round(parent:GetWidth()) * parent:GetEffectiveScale() / UIParent:GetScale() >= YarkoCooldowns_SavedVars.Size 
-						or parent:GetParent():GetName() == "WatchFrameLines") and not cooldown.noCooldownCount 
+
+				if ((YarkoCooldowns.Round(parent:GetWidth()) * parent:GetEffectiveScale() / UIParent:GetScale() >= YarkoCooldowns_SavedVars.Size
+						or parent:GetParent():GetName() == "WatchFrameLines") and not cooldown.noCooldownCount
 						and cooldown:IsVisible() and parent:GetEffectiveAlpha() > 0
 						and (not parentframe or YarkoCooldowns_SavedVars.ParentFrames[parentframe] ~= "N")) then
 					local line1, line2, length;
-					
+
 					if (timeleft > 3600) then
-						line1 = ((YarkoCooldowns_SavedVars.Tenths == "Y" 
-							and YarkoCooldowns.TrimZeros(format("%.1f", (timeleft + 180) / 3600)))
-							or format("%d", ceil(timeleft / 3600)));
+						line1 = ((YarkoCooldowns_SavedVars.Tenths == "Y"
+								and YarkoCooldowns.TrimZeros(format("%.1f", (timeleft + 180) / 3600)))
+								or format("%d", ceil(timeleft / 3600)));
 						line2 = "h";
 					elseif (timeleft > YarkoCooldowns_SavedVars.Seconds) then
-						line1 = ((YarkoCooldowns_SavedVars.Tenths == "Y" 
-							and YarkoCooldowns.TrimZeros(format("%.1f", (timeleft + 3) / 60)))
-							or format("%d", ceil(timeleft / 60)));
+						line1 = ((YarkoCooldowns_SavedVars.Tenths == "Y"
+								and YarkoCooldowns.TrimZeros(format("%.1f", (timeleft + 3) / 60)))
+								or format("%d", ceil(timeleft / 60)));
 						line2 = "m";
 					else
-						line1 = ((timeleft <= 2 and YarkoCooldowns_SavedVars.BelowTwo == "Y" 
-							and format("%.1f", timeleft + 0.05))
-							or format("%d", ceil(timeleft)));
+						line1 = ((timeleft <= 2 and YarkoCooldowns_SavedVars.BelowTwo == "Y"
+								and format("%.1f", timeleft + 0.05))
+								or format("%d", ceil(timeleft)));
 						line2 = "";
 					end
-					
+
 					length = strlen(line1);
-					
+
 					if (strlen(line2) > 0 and length == 1) then
-						line1 = line1..line2;
+						line1 = line1 .. line2;
 						line2 = "";
 						length = length + 1;
 					end
-					
+
 					if (line1 ~= countertext1:GetText() or line2 ~= countertext2:GetText()) then
 						if (length > 4) then
 							length = 4;
 						end
-						
+
 						frame:SetScale(Scales[length] * parent:GetWidth() / ActionButton1:GetWidth()
-							* ((frame.bt4frame and parent:GetEffectiveScale()) or 1)
-							* ((strlen(line2) > 0 and (((length == 2) and .8))) or 1)
-							* ((timeleft <= 2 and YarkoCooldowns_SavedVars.BelowTwo == "Y" and .95) or 1));
-						
+								* ((frame.bt4frame and parent:GetEffectiveScale()) or 1)
+								* ((strlen(line2) > 0 and (((length == 2) and .8))) or 1)
+								* ((timeleft <= 2 and YarkoCooldowns_SavedVars.BelowTwo == "Y" and .95) or 1));
+
 						countertext1:ClearAllPoints();
-						
+
 						local x = (length == 4 and 4) or 2;
-						
+
 						if (strlen(line2) < 1) then
 							countertext1:SetPoint("CENTER", frame, "CENTER", x, -3);
 						else
 							countertext1:SetPoint("BOTTOM", frame, "TOP", x, -23);
 						end
-						
+
 						countertext1:SetText(line1);
 						countertext2:SetText(line2);
 					end
-					
+
 					if (timeleft <= YarkoCooldowns_SavedVars.FlashSeconds and YarkoCooldowns_SavedVars.Flash == "Y") then
 						if (YarkoCooldowns_SavedVars.Alternate == 1) then
 							frame.flag = FlashFlag;
@@ -261,7 +261,7 @@ function YarkoCooldowns.OnUpdate(self, elapsed)
 							frame.oldflag = true;
 						end
 					end
-					
+
 					if (frame.flag ~= frame.oldflag) then
 						YarkoCooldowns.SetCounterColor(countertext1, frame.flag);
 						YarkoCooldowns.SetCounterColor(countertext2, frame.flag);
@@ -287,26 +287,26 @@ function YarkoCooldowns.TrimZeros(instr)
 	local outstr = "";
 	local str = "";
 	local i;
-	
+
 	for i = 1, strlen(instr) do
 		if (strsub(instr, i, i) ~= "0") then
 			str = strsub(instr, i);
 			break;
 		end
 	end
-	
+
 	for i = strlen(str), 1, -1 do
 		if (strsub(str, i, i) == ".") then
 			outstr = strsub(str, 1, i - 1);
 			break;
 		end
-		
+
 		if (strsub(str, i, i) ~= "0") then
 			outstr = strsub(str, 1, i);
 			break;
 		end
 	end
-	
+
 	return outstr;
 end
 
@@ -314,7 +314,7 @@ end
 function YarkoCooldowns.UpdateFont(cooldownframe)
 	local countertext1 = cooldownframe.text1;
 	local countertext2 = cooldownframe.text2;
-	
+
 	if (YarkoCooldowns_SavedVars.Shadow == "Y") then
 		countertext1:SetShadowOffset(1, -1);
 		countertext2:SetShadowOffset(1, -1);
@@ -322,12 +322,12 @@ function YarkoCooldowns.UpdateFont(cooldownframe)
 		countertext1:SetShadowOffset(0, 0);
 		countertext2:SetShadowOffset(0, 0);
 	end
-	
-	countertext1:SetFont(YarkoCooldowns_SavedVars.FontLocation.."\\"..YarkoCooldowns_SavedVars.FontFile, 
+
+	countertext1:SetFont(YarkoCooldowns_SavedVars.FontLocation .. "\\" .. YarkoCooldowns_SavedVars.FontFile,
 		YarkoCooldowns_SavedVars.FontHeightX, OutlineList[YarkoCooldowns_SavedVars.Outline]);
-	countertext2:SetFont(YarkoCooldowns_SavedVars.FontLocation.."\\"..YarkoCooldowns_SavedVars.FontFile, 
+	countertext2:SetFont(YarkoCooldowns_SavedVars.FontLocation .. "\\" .. YarkoCooldowns_SavedVars.FontFile,
 		YarkoCooldowns_SavedVars.FontHeightX, OutlineList[YarkoCooldowns_SavedVars.Outline]);
-		
+
 	YarkoCooldowns.SetCounterColor(countertext1, cooldownframe.flag or false)
 	YarkoCooldowns.SetCounterColor(countertext2, cooldownframe.flag or false)
 end
@@ -335,10 +335,10 @@ end
 
 function YarkoCooldowns.SetCounterColor(countertext, flag)
 	if (not flag) then
-		countertext:SetTextColor(YarkoCooldowns_SavedVars.MainColor.r, 
+		countertext:SetTextColor(YarkoCooldowns_SavedVars.MainColor.r,
 			YarkoCooldowns_SavedVars.MainColor.g, YarkoCooldowns_SavedVars.MainColor.b);
 	else
-		countertext:SetTextColor(YarkoCooldowns_SavedVars.FlashColor.r, 
+		countertext:SetTextColor(YarkoCooldowns_SavedVars.FlashColor.r,
 			YarkoCooldowns_SavedVars.FlashColor.g, YarkoCooldowns_SavedVars.FlashColor.b);
 	end
 end
@@ -346,16 +346,16 @@ end
 
 function YarkoCooldowns.GetParentFrame(frame)
 	local name;
-	
+
 	repeat
 		name = frame:GetName();
 		frame = frame:GetParent();
 	until (name or not frame);
-	
+
 	return (name == "UIParent" and nil) or name;
 end
 
 
 function YarkoCooldowns.Round(num)
-  return math.floor(num + 0.5);
+	return math.floor(num + 0.5);
 end

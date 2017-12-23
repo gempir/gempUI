@@ -7,7 +7,7 @@ if (IsAddOnLoaded("Skada")) then
 	if SkadaSkinSet == true then
 
 	elseif SkadaSkinSet == nil or false then
-		
+
 		SkadaDB.hasUpgraded = true
 		SkadaDB.profiles.Default.windows[1].barslocked = true
 		SkadaDB.profiles.Default.windows[1].point = "TOPRIGHT"
@@ -36,7 +36,7 @@ if (IsAddOnLoaded("Skada")) then
 end
 
 if (IsAddOnLoaded("Skada")) then
-	SkadaSkinSet = true 
+	SkadaSkinSet = true
 end
 
 

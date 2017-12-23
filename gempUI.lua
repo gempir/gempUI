@@ -11,25 +11,25 @@ ChatFrame1:AddMessage("|cff00FF7Fgemp|rUI");
 ------ Options
 -------------------------------------------------------------------------------------
 
-G.options = {						
-	actionbars_side_two = false,			-- adds a second actionbar on the right
-	actionbars_main_three = false			-- adds a third actionbar in the middle
+G.options = {
+	actionbars_side_two = false, -- adds a second actionbar on the right
+	actionbars_main_three = false -- adds a third actionbar in the middle
 }
 
 -- positions for unitframes some of these are anchored to another 
 
 G.pos = {
-	player 			= {x = 132,  y = 189},
-	target 			= {x = -132, y = 189},
-	targetoftarget  = {x = 0, 	 y = -64},
-	focus 			= {x = -105, y = 400},
-	focustarget		= {x = 95, 	 y = 0},
-	pet				= {x = 0, 	 y = -63},
-	boss			= {x = 120,	 y = 400},
-	tank			= {x = -105, y = 150},
-	raid			= {x = 6, 	 y = -6},
-	party			= {x = 724,  y = -780},
-	arena			= {x = 120,	 y = 300},
+	player = { x = 132, y = 189 },
+	target = { x = -132, y = 189 },
+	targetoftarget = { x = 0, y = -64 },
+	focus = { x = -105, y = 400 },
+	focustarget = { x = 95, y = 0 },
+	pet = { x = 0, y = -63 },
+	boss = { x = 120, y = 400 },
+	tank = { x = -105, y = 150 },
+	raid = { x = 6, y = -6 },
+	party = { x = 724, y = -780 },
+	arena = { x = 120, y = 300 },
 }
 
 -- Nameplates
@@ -40,23 +40,23 @@ G.nameplates = {
 	fontsize = 10,
 	fontflag = 'THINOUTLINE',
 	cbheight = 8,
-	cbcolor = {r =  50,	g = 50, b =  50}
+	cbcolor = { r = 50, g = 50, b = 50 }
 }
 
 -- Colors
 
-G.color = {r =  0,	g =  0, 	b =  0, a = 0.5 }
-G.bgcolor = {r =  0,	g =  0, 	b =  0, a = 0 }
-G.bordercolor = {r =  0,	g =  0, 	b =  0, a = 1} 
+G.color = { r = 0, g = 0, b = 0, a = 0.5 }
+G.bgcolor = { r = 0, g = 0, b = 0, a = 0 }
+G.bordercolor = { r = 0, g = 0, b = 0, a = 1 }
 G.colors = {
-	special = {r = 0, g = 0.29, b = 0.58, a = 1}
+	special = { r = 0, g = 0.29, b = 0.58, a = 1 }
 }
 
 
 
 -- media stuff
 G.media = "Interface\\AddOns\\gempUI\\media\\"
-G.texture = G.media.."textures\\flat"
+G.texture = G.media .. "textures\\flat"
 
 
 G.fonts = {
@@ -76,8 +76,8 @@ G.backdrop = {
 -- useful variables
 
 V = {
-	playerlevel=UnitLevel("player"),
-	playername=UnitName("player")
+	playerlevel = UnitLevel("player"),
+	playername = UnitName("player")
 }
 
 -- Saved Variables
@@ -86,11 +86,11 @@ gempDB = {
 	autorepair = 0,
 	hideerrors = false,
 	selljunk = false,
-	xpbar  = true,
-	threatbar  = true,
+	xpbar = true,
+	threatbar = true,
 	SkadaSkinSet = false,
 	gDMG_visible = false,
-	gAC_visible  = false,
+	gAC_visible = false,
 	gWM_visible = false
 }
 

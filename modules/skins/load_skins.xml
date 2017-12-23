@@ -1,10 +1,10 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
 
 
-	<Script file="functions.lua"/>
-	<Script file="Skada.lua"/>
+    <Script file="functions.lua"/>
+    <Script file="Skada.lua"/>
 
-	<Script file="blizzard\menus.lua"/>
-	<Script file="blizzard\tooltip.lua"/>
-	<Script file="blizzard\objectivetracker.lua"/>
+    <Script file="blizzard\menus.lua"/>
+    <Script file="blizzard\tooltip.lua"/>
+    <Script file="blizzard\objectivetracker.lua"/>
 </Ui>

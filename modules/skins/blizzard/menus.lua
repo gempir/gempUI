@@ -5,29 +5,29 @@ F.rebackdrop(GameMenuFrame)
 GameMenuFrameHeader:Hide()
 
 local dummyFunc = function() end
-for id, btn in pairs({GameMenuFrame:GetChildren()}) do
+for id, btn in pairs({ GameMenuFrame:GetChildren() }) do
 	btn.Left:SetTexture(nil);
 	btn.Right:SetTexture(nil);
 	btn.Middle:SetTexture(nil);
 	btn:SetHighlightTexture(nil);
-	
+
 	btn.Left.SetTexture = dummyFunc;
 	btn.Right.SetTexture = dummyFunc;
 	btn.Middle.SetTexture = dummyFunc;
 end
 
 -- removes textures from some blizzard buttons
-GameMenuButtonHelp:SetHighlightTexture(G.media.."blizzard\\highlights\\long_button")
-GameMenuButtonStore:SetHighlightTexture(G.media.."blizzard\\highlights\\long_button")
-GameMenuButtonWhatsNew:SetHighlightTexture(G.media.."blizzard\\highlights\\long_button")
-GameMenuButtonOptions:SetHighlightTexture(G.media.."blizzard\\highlights\\long_button")
-GameMenuButtonUIOptions:SetHighlightTexture(G.media.."blizzard\\highlights\\long_button")
-GameMenuButtonKeybindings:SetHighlightTexture(G.media.."blizzard\\highlights\\long_button")
-GameMenuButtonMacros:SetHighlightTexture(G.media.."blizzard\\highlights\\long_button")
-GameMenuButtonAddons:SetHighlightTexture(G.media.."blizzard\\highlights\\long_button")
-GameMenuButtonLogout:SetHighlightTexture(G.media.."blizzard\\highlights\\long_button")
-GameMenuButtonQuit:SetHighlightTexture(G.media.."blizzard\\highlights\\long_button")
-GameMenuButtonContinue:SetHighlightTexture(G.media.."blizzard\\highlights\\long_button")
+GameMenuButtonHelp:SetHighlightTexture(G.media .. "blizzard\\highlights\\long_button")
+GameMenuButtonStore:SetHighlightTexture(G.media .. "blizzard\\highlights\\long_button")
+GameMenuButtonWhatsNew:SetHighlightTexture(G.media .. "blizzard\\highlights\\long_button")
+GameMenuButtonOptions:SetHighlightTexture(G.media .. "blizzard\\highlights\\long_button")
+GameMenuButtonUIOptions:SetHighlightTexture(G.media .. "blizzard\\highlights\\long_button")
+GameMenuButtonKeybindings:SetHighlightTexture(G.media .. "blizzard\\highlights\\long_button")
+GameMenuButtonMacros:SetHighlightTexture(G.media .. "blizzard\\highlights\\long_button")
+GameMenuButtonAddons:SetHighlightTexture(G.media .. "blizzard\\highlights\\long_button")
+GameMenuButtonLogout:SetHighlightTexture(G.media .. "blizzard\\highlights\\long_button")
+GameMenuButtonQuit:SetHighlightTexture(G.media .. "blizzard\\highlights\\long_button")
+GameMenuButtonContinue:SetHighlightTexture(G.media .. "blizzard\\highlights\\long_button")
 
 
 F.rebackdroplight(GameMenuButtonHelp)

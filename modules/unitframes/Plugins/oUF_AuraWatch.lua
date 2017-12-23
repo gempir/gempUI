@@ -15,20 +15,20 @@ local PLAYER_UNITS = {
 }
 
 local SetupGUID
-do 
-	local cache = setmetatable({}, {__type = "k"})
+do
+	local cache = setmetatable({}, { __type = "k" })
 
-	local frame = CreateFrame"Frame"
+	local frame = CreateFrame "Frame"
 	frame:SetScript("OnEvent", function(self, event)
-		for k,t in pairs(GUIDs) do
+		for k, t in pairs(GUIDs) do
 			GUIDs[k] = nil
 			wipe(t)
 			cache[t] = true
 		end
 	end)
-	frame:RegisterEvent"PLAYER_REGEN_ENABLED"
-	frame:RegisterEvent"PLAYER_ENTERING_WORLD"
-	
+	frame:RegisterEvent "PLAYER_REGEN_ENABLED"
+	frame:RegisterEvent "PLAYER_ENTERING_WORLD"
+
 	function SetupGUID(guid)
 		local t = next(cache)
 		if t then
@@ -72,11 +72,11 @@ end
 
 local function DefaultExpireIcon(watch, icon)
 	if not icon.onlyShowPresent then
-		if icon.cd then 
-			icon.cd:Hide() 
+		if icon.cd then
+			icon.cd:Hide()
 		end
-		if icon.count then 
-			icon.count:SetText() 
+		if icon.count then
+			icon.count:SetText()
 		end
 		icon:SetAlpha(watch.missingAlpha)
 		if icon.overlay then
@@ -102,18 +102,18 @@ do
 		if frame.unit ~= unit then return end
 		local watch = frame.AuraWatch
 		local index, icons = 1, watch.watched
-		local _, name, texture, count, duration, remaining, caster, key, icon, spellid 
+		local _, name, texture, count, duration, remaining, caster, key, icon, spellid
 		local filter = "HELPFUL"
 		local guid = UnitGUID(unit)
 		if not GUIDs[guid] then SetupGUID(guid) end
-		
+
 		for key, icon in pairs(icons) do
 			icon:Hide()
 		end
-		
+
 		while true do
 			name, _, texture, count, _, duration, remaining, caster, _, _, spellid = UnitAura(unit, index, filter)
-			if not name then 
+			if not name then
 				if filter == "HELPFUL" then
 					filter = "HARMFUL"
 					index = 1
@@ -124,7 +124,7 @@ do
 				if watch.strictMatching then
 					key = spellid
 				else
-					key = name..texture
+					key = name .. texture
 				end
 				icon = icons[key]
 				if icon and (icon.anyUnit or (caster and icon.fromUnits[caster])) then
@@ -135,13 +135,13 @@ do
 				index = index + 1
 			end
 		end
-		
+
 		for key in pairs(GUIDs[guid]) do
 			if icons[key] and not found[key] then
 				ExpireIcon(watch, icons[key])
 			end
 		end
-		
+
 		wipe(found)
 	end
 end
@@ -153,20 +153,20 @@ local function SetupIcons(self)
 	watch.watched = {}
 	if not watch.missingAlpha then watch.missingAlpha = 0.75 end
 	if not watch.presentAlpha then watch.presentAlpha = 1 end
-	
-	for _,icon in pairs(icons) do
-	
+
+	for _, icon in pairs(icons) do
+
 		local name, _, image = GetSpellInfo(icon.spellID)
-		if not name then error("oUF_AuraWatch error: no spell with "..tostring(icon.spellID).." spell ID exists") end
+		if not name then error("oUF_AuraWatch error: no spell with " .. tostring(icon.spellID) .. " spell ID exists") end
 		icon.name = name
-	
+
 		if not watch.customIcons then
 			local cd = CreateFrame("Cooldown", nil, icon)
 			cd:SetAllPoints(icon)
 			icon.cd = cd
-			
+
 			local overlay = icon:CreateTexture(nil, "OVERLAY")
-			overlay:SetTexture"Interface\\Buttons\\UI-Debuff-Overlays"
+			overlay:SetTexture "Interface\\Buttons\\UI-Debuff-Overlays"
 			overlay:SetAllPoints(icon)
 			overlay:SetTexCoord(.296875, .5703125, 0, .515625)
 			overlay:SetVertexColor(1, 0, 0)
@@ -190,11 +190,11 @@ local function SetupIcons(self)
 		if icon.anyUnit == nil then
 			icon.anyUnit = watch.anyUnit
 		end
-		
+
 		if watch.strictMatching then
 			watch.watched[icon.spellID] = icon
 		else
-			watch.watched[name..image] = icon
+			watch.watched[name .. image] = icon
 		end
 
 		if watch.PostCreateIcon then watch:PostCreateIcon(icon, icon.spellID, name, self) end
@@ -209,7 +209,7 @@ local function Enable(self)
 	if self.AuraWatch then
 		self.AuraWatch.__owner = self
 		self.AuraWatch.ForceUpdate = ForceUpdate
-		
+
 		self:RegisterEvent("UNIT_AURA", Update)
 		SetupIcons(self)
 		return true
@@ -221,7 +221,7 @@ end
 local function Disable(self)
 	if self.AuraWatch then
 		self:UnregisterEvent("UNIT_AURA", Update)
-		for _,icon in pairs(self.AuraWatch.icons) do
+		for _, icon in pairs(self.AuraWatch.icons) do
 			icon:Hide()
 		end
 	end

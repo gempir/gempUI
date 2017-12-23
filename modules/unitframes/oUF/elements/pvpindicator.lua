@@ -39,7 +39,7 @@ local FFA_ICON = [[Interface\TargetingFrame\UI-PVP-FFA]]
 local FACTION_ICON = [[Interface\TargetingFrame\UI-PVP-]]
 
 local function Update(self, event, unit)
-	if(unit ~= self.unit) then return end
+	if (unit ~= self.unit) then return end
 
 	local element = self.PvPIndicator
 
@@ -49,7 +49,7 @@ local function Update(self, event, unit)
 	* self - the PvPIndicator element
 	* unit - the unit for which the update has been triggered (string)
 	--]]
-	if(element.PreUpdate) then
+	if (element.PreUpdate) then
 		element:PreUpdate(unit)
 	end
 
@@ -57,8 +57,8 @@ local function Update(self, event, unit)
 	local prestigeLevel = UnitPrestige(unit)
 	local factionGroup = UnitFactionGroup(unit)
 
-	if(UnitIsPVPFreeForAll(unit)) then
-		if(element.Prestige and prestigeLevel > 0) then
+	if (UnitIsPVPFreeForAll(unit)) then
+		if (element.Prestige and prestigeLevel > 0) then
 			element:SetTexture(GetPrestigeInfo(prestigeLevel))
 			element:SetTexCoord(0, 1, 0, 1)
 			element.Prestige:SetAtlas('honorsystem-portrait-neutral', false)
@@ -68,16 +68,16 @@ local function Update(self, event, unit)
 		end
 
 		status = 'ffa'
-	elseif(factionGroup and factionGroup ~= 'Neutral' and UnitIsPVP(unit)) then
-		if(unit == 'player' and UnitIsMercenary(unit)) then
-			if(factionGroup == 'Horde') then
+	elseif (factionGroup and factionGroup ~= 'Neutral' and UnitIsPVP(unit)) then
+		if (unit == 'player' and UnitIsMercenary(unit)) then
+			if (factionGroup == 'Horde') then
 				factionGroup = 'Alliance'
-			elseif(factionGroup == 'Alliance') then
+			elseif (factionGroup == 'Alliance') then
 				factionGroup = 'Horde'
 			end
 		end
 
-		if(element.Prestige and prestigeLevel > 0) then
+		if (element.Prestige and prestigeLevel > 0) then
 			element:SetTexture(GetPrestigeInfo(prestigeLevel))
 			element:SetTexCoord(0, 1, 0, 1)
 			element.Prestige:SetAtlas('honorsystem-portrait-' .. factionGroup, false)
@@ -89,11 +89,11 @@ local function Update(self, event, unit)
 		status = factionGroup
 	end
 
-	if(status) then
+	if (status) then
 		element:Show()
 
-		if(element.Prestige) then
-			if(prestigeLevel > 0) then
+		if (element.Prestige) then
+			if (prestigeLevel > 0) then
 				element.Prestige:Show()
 			else
 				element.Prestige:Hide()
@@ -102,7 +102,7 @@ local function Update(self, event, unit)
 	else
 		element:Hide()
 
-		if(element.Prestige) then
+		if (element.Prestige) then
 			element.Prestige:Hide()
 		end
 	end
@@ -116,7 +116,7 @@ local function Update(self, event, unit)
 	                  'Horde']
 	* prestigeLevel - the unit's current prestige rank (number)
 	--]]
-	if(element.PostUpdate) then
+	if (element.PostUpdate) then
 		return element:PostUpdate(unit, status, prestigeLevel)
 	end
 end
@@ -129,7 +129,7 @@ local function Path(self, ...)
 	* event - the event triggering the update (string)
 	* ...   - the arguments accompanying the event
 	--]]
-	return (self.PvPIndicator.Override or Update) (self, ...)
+	return (self.PvPIndicator.Override or Update)(self, ...)
 end
 
 local function ForceUpdate(element)
@@ -138,13 +138,13 @@ end
 
 local function Enable(self)
 	local element = self.PvPIndicator
-	if(element) then
+	if (element) then
 		element.__owner = self
 		element.ForceUpdate = ForceUpdate
 
 		self:RegisterEvent('UNIT_FACTION', Path)
 
-		if(element.Prestige) then
+		if (element.Prestige) then
 			self:RegisterEvent('HONOR_PRESTIGE_UPDATE', Path)
 		end
 
@@ -154,12 +154,12 @@ end
 
 local function Disable(self)
 	local element = self.PvPIndicator
-	if(element) then
+	if (element) then
 		element:Hide()
 
 		self:UnregisterEvent('UNIT_FACTION', Path)
 
-		if(element.Prestige) then
+		if (element.Prestige) then
 			element.Prestige:Hide()
 
 			self:UnregisterEvent('HONOR_PRESTIGE_UPDATE', Path)
