@@ -13,9 +13,8 @@ ChatFrame1:AddMessage("|cff00FF7Fgemp|rUI");
 
 G.options = {						
 	actionbars_side_two = false,			-- adds a second actionbar on the right
-	actionbars_main_three = false,			-- adds a third actionbar in the middle
-	castbar_safezone = false				-- shows a safezone for the castbar 
-	}
+	actionbars_main_three = false			-- adds a third actionbar in the middle
+}
 
 -- positions for unitframes some of these are anchored to another 
 
@@ -49,16 +48,12 @@ G.nameplates = {
 G.color = {r =  0,	g =  0, 	b =  0, a = 0.5 }
 G.bgcolor = {r =  0,	g =  0, 	b =  0, a = 0 }
 G.bordercolor = {r =  0,	g =  0, 	b =  0, a = 1} 
+G.colors = {
+	special = {r = 0, g = 0.29, b = 0.58, a = 1}
+}
 
---[[
- 
- 
-               Tank = { a = 'oUF_SkaarjPlayer', x= -105, y=  150},  
-               Raid = { a = UIParent,           x=	6,  y=  -6},   
-	          Party = { a = UIParent, 			x=  724,  y=  -800},
-              Arena = { a = 'oUF_SkaarjTarget', x=  120, y=  300},	
 
-]]
+
 -- media stuff
 G.media = "Interface\\AddOns\\gempUI\\media\\"
 G.texture = G.media.."textures\\flat"

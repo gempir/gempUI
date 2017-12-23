@@ -225,7 +225,11 @@ local castbar = function(self, unit)
 	elseif self.unit == 'target' then
 		cb:SetPoint(unpack(cfg.target_cb.pos))
 		cb:SetSize(cfg.target_cb.width, cfg.target_cb.height)
-	    cb.Icon:SetSize(cfg.target_cb.height, cfg.target_cb.height)
+		cb.Icon:SetSize(cfg.target_cb.height, cfg.target_cb.height)
+		cb.Shield = cb:CreateTexture(nil, 'OVERLAY')
+		cb.Shield:SetSize(cb:GetHeight(), cb:GetHeight())
+		cb.Shield:SetPoint('LEFT', cb.Icon)
+		cb.Shield:SetTexture(G.media.."textures\\shield")
 	elseif self.unit == 'focus' then
 		cb:SetPoint(unpack(cfg.focus_cb.pos))
 		cb:SetSize(cfg.focus_cb.width, cfg.focus_cb.height)
@@ -1069,6 +1073,8 @@ oUF:RegisterStyle("gempUI", function(self, unit)
 	cb.Spark:SetVertexColor(1, 1, 1)
 
 
+
+
 	cb.OnUpdate = OnCastbarUpdate
 	cb.PostCastStart = PostCastStart
 	cb.PostChannelStart = PostCastStart
@@ -1081,6 +1087,11 @@ oUF:RegisterStyle("gempUI", function(self, unit)
 	cb.Backdrop = F.createBorderFrame(cb, cb, true)
 	cb.IBackdrop = F.createBorderFrame(cb, cb.Icon, true)
 	self.Castbar = cb
+
+	self.Castbar.Shield = self.Castbar:CreateTexture(nil, 'OVERLAY')
+    self.Castbar.Shield:SetSize(self.Castbar:GetHeight(), self.Castbar:GetHeight())
+	self.Castbar.Shield:SetPoint('LEFT', self.Castbar.Icon)
+	self.Castbar.Shield:SetTexture(G.media.."textures\\shield")
 
 	self:SetScale(UIParent:GetEffectiveScale()*1)
 	self:SetSize(G.nameplates.width, G.nameplates.height)
