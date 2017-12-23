@@ -7,13 +7,11 @@ growthvertical = 1 -- Growth Direction. 1 = down, 2 = up
 growthhorizontal = 1 -- Growth Direction. 1 = left, 2 = right
 font = G.fonts.square
 
--- Default Spawn Positions
 local positions = {
 	[1] = { p = "TOPRIGHT", a = UIParent, x = -181, y = 3 }, -- Buff Anchor
 	[2] = { p = "TOPRIGHT", a = UIParent, x = -181, y = -143 }, -- Debuff Anchor
 	[3] = { p = "TOPRIGHT", a = UIParent, x = 0, y = -110 }, -- Enchant Anchor
 }
---End Config
 
 local function anchor(frame, r, g, b, pos, anchor, x, y)
 	frame:SetBackdrop({

@@ -3,15 +3,7 @@ local F, G, V = unpack(select(2, ...))
 Minimap:ClearAllPoints()
 Minimap:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", -6, -6)
 Minimap:SetSize(178, 178)
-
-Minimap:SetBackdrop({
-	bgFile = "Interface\\ChatFrame\\ChatFrameBackground",
-	edgeFile = "Interface\\Buttons\\WHITE8x8",
-	edgeSize = 1,
-	insets = { left = -0, right = -0, top = -0, bottom = -0 }
-})
-Minimap:SetBackdropColor(0, 0, 0, 1)
-Minimap:SetBackdropBorderColor(G.bordercolor.r, G.bordercolor.g, G.bordercolor.b, G.bordercolor.a)
+F.addBackdrop(Minimap)
 
 -- displays time/clock 
 if not IsAddOnLoaded("Blizzard_TimeManager") then
@@ -91,9 +83,9 @@ QueueStatusFrame:SetBackdrop({
 	edgeSize = 1,
 	insets = { left = -0, right = -0, top = -0, bottom = -0 }
 })
-QueueStatusFrame:SetBackdropColor(G.color.r, G.color.g, G.color.b, G.color.a)
+QueueStatusFrame:SetBackdropColor(unpack(G.colors.base))
 QueueStatusFrame:SetBackdropBorderColor(0, 0, 0, 1)
-QueueStatusFrame:SetBackdropBorderColor(G.bordercolor.r, G.bordercolor.g, G.bordercolor.b, G.bordercolor.a)
+QueueStatusFrame:SetBackdropBorderColor(unpack(G.colors.border))
 
 --Tracking
 

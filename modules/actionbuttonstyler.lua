@@ -1,8 +1,5 @@
 local F, G, V = unpack(select(2, ...))
 
--- // rActionButtonStyler
--- // zork - 2012
-
 -----------------------------
 -- INIT
 -----------------------------

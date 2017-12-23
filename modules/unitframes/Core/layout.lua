@@ -55,7 +55,7 @@ local auraIcon = function(auras, button)
 	button.overlay:SetTexture(nil)
 	button.icon:SetTexCoord(.1, .9, .1, .9)
 	button:SetBackdrop(backdrop)
-	button:SetBackdropColor(G.bordercolor.r, G.bordercolor.g, G.bordercolor.b, G.bordercolor.a)
+	button:SetBackdropColor(unpack(G.colors.border))
 
 	button.glow = CreateFrame('Frame', nil, button)
 	button.glow:SetPoint('TOPLEFT', button, 'TOPLEFT', -4, 4)
@@ -206,17 +206,17 @@ local PostCastFailed = function(self, event, unit)
 end
 
 local castbar = function(self, unit)
-	local cb = createStatusbar(self, cfg.texture, nil, nil, nil, G.color.r, G.color.g, G.color.b, G.color.a)
+	local cb = createStatusbar(self, cfg.texture, nil, nil, nil, unpack(G.colors.base))
 
 	cb.Time = fs(cb, 'OVERLAY', cfg.font, cfg.fontsize, cfg.fontflag, 1, 1, 1)
 	cb.Time:SetPoint('RIGHT', cb, -2, 0)
 	cb.Text = fs(cb, 'OVERLAY', cfg.font, cfg.fontsize, cfg.fontflag, 1, 1, 1, 'LEFT')
 	cb.Text:SetPoint('LEFT', cb, 2, 0)
 	cb.Text:SetPoint('RIGHT', cb.Time, 'LEFT')
-	cb.CastingColor = { G.color.r, G.color.g, G.color.b, G.color.a }
-	cb.CompleteColor = { 0.12, 0.86, 0.15, G.color.a }
-	cb.FailColor = { 1.0, 0.09, 0, G.color.a }
-	cb.ChannelingColor = { 0.32, 0.3, G.color.a }
+	cb.CastingColor = G.colors.base
+	cb.CompleteColor = { 0.12, 0.86, 0.15, G.colors.base[4] }
+	cb.FailColor = { 1.0, 0.09, 0, G.colors.base[4] }
+	cb.ChannelingColor = { 0.32, 0.3, G.colors.base[4] }
 	cb.Icon = cb:CreateTexture(nil, 'ARTWORK')
 	cb.Icon:SetPoint('TOPRIGHT', cb, 'TOPLEFT', -1, 0)
 	cb.Icon:SetTexCoord(.1, .9, .1, .9)
@@ -267,13 +267,13 @@ local castbar = function(self, unit)
 	cb.PostCastFailed = PostCastFailed
 	cb.PostCastInterrupted = PostCastFailed
 
-	cb.Backdrop = F.createBorderFrame(cb, cb, true)
-	cb.IBackdrop = F.createBorderFrame(cb, cb.Icon, true)
+	cb.Backdrop = F.createBorder(cb, cb, true)
+	cb.IBackdrop = F.createBorder(cb, cb.Icon, true)
 	self.Castbar = cb
 end
 
 local Health = function(self)
-	local h = createStatusbar(self, G.texture, nil, nil, nil, G.color.r, G.color.g, G.color.b, G.color.a)
+	local h = createStatusbar(self, G.texture, nil, nil, nil, unpack(G.colors.base))
 	h:SetPoint 'TOP'
 	h:SetPoint 'LEFT'
 	h:SetPoint 'RIGHT'
@@ -285,7 +285,7 @@ local Health = function(self)
 end
 
 local Power = function(self)
-	local p = createStatusbar(self, cfg.texture, nil, nil, nil, G.color.r, G.color.g, G.color.b, G.color.a)
+	local p = createStatusbar(self, cfg.texture, nil, nil, nil, unpack(G.colors.base))
 	p:SetPoint('LEFT', self.Health, 'LEFT', 1, 0)
 	p:SetPoint('RIGHT', self.Health, 'RIGHT', -1, 0)
 	p:SetPoint('TOP', self.Health, 'BOTTOM', 0, 0)
@@ -296,7 +296,7 @@ local Power = function(self)
 	pbg:SetAllPoints(p)
 	pbg:SetTexture(cfg.texture)
 
-	F.createBorderFrame(p, p, true)
+	F.createBorder(p, p, true)
 
 	p.colorClass = true
 	p.colorReaction = true
@@ -327,7 +327,7 @@ local function Shared(self, unit)
 
 	self:RegisterForClicks('AnyUp')
 
-	self.framebd = F.createBorderFrame(self, self, false)
+	self.framebd = F.createBorder(self, self, false)
 
 	Health(self)
 
@@ -386,9 +386,9 @@ local UnitSpecific = {
 		ct.text:SetText('|cffAF5050j|r')
 		self.CombatIndicator = ct
 
-		local altp = createStatusbar(self, G.texture, nil, 30, 180, G.color.r, G.color.g, G.color.b, G.color.a)
+		local altp = createStatusbar(self, G.texture, nil, 30, 180, unpack(G.colors.base))
 		altp:SetPoint("CENTER", UIParent, "CENTER", 0, -250)
-		altp.bd = F.createBorderFrame(altp, altp)
+		altp.bd = F.createBorder(altp, altp)
 		altp.Text = fs(altp, 'OVERLAY', cfg.aura.font, cfg.aura.fontsize, cfg.aura.fontflag, 1, 1, 1)
 		altp.Text:SetPoint('CENTER')
 		self:Tag(altp.Text, '[altpower]')
@@ -415,7 +415,7 @@ local UnitSpecific = {
 			end
 
 			for i = 1, 11 do
-				Icon = createStatusbar(ClassPower, cfg.texture, nil, cfg.player.specific_power, (self:GetWidth() / ClassPower.c) - 1, G.color.r)
+				Icon = createStatusbar(ClassPower, cfg.texture, nil, cfg.player.specific_power, (self:GetWidth() / ClassPower.c) - 1, unpack(G.colors.base))
 
 				if i == 1 then
 					Icon:SetPoint('LEFT', ClassPower)
@@ -424,7 +424,7 @@ local UnitSpecific = {
 				end
 
 				ClassPower[i] = Icon
-				F.createBorderFrame(ClassPower[i], ClassPower[i])
+				F.createBorder(ClassPower[i], ClassPower[i])
 			end
 
 			self.ClassPower = ClassPower
@@ -449,7 +449,7 @@ local UnitSpecific = {
 					end
 
 					b[i].bg = b[i]:CreateTexture(nil, 'BACKGROUND')
-					F.createBorderFrame(b[i], b[i])
+					F.createBorder(b[i], b[i])
 					b[i].bg:SetAllPoints(b[i])
 					b[i].bg:SetTexture(cfg.texture)
 					b[i].bg.multiplier = .3
@@ -814,8 +814,8 @@ oUF:RegisterStyle("gempUI", function(self, unit)
 		edgeFile = [[Interface\Buttons\WHITE8x8]],
 		edgeSize = 1,
 	})
-	border:SetBackdropColor(G.color.r, G.color.g, G.color.b, G.color.a)
-	border:SetBackdropBorderColor(G.bordercolor.r, G.bordercolor.g, G.bordercolor.b, G.bordercolor.a)
+	border:SetBackdropColor(unpack(G.colors.base))
+	border:SetBackdropBorderColor(unpack(G.colors.border))
 	border:SetPoint("BOTTOM", 0, -1)
 	border:Show()
 
@@ -834,14 +834,14 @@ oUF:RegisterStyle("gempUI", function(self, unit)
 	self:Tag(self.Name, '[name]')
 
 
-	local cb = createStatusbar(self, G.texture, nil, nil, nil, G.color.r, G.color.g, G.color.b, G.color.a)
+	local cb = createStatusbar(self, G.texture, nil, nil, nil, unpack(G.colors.base))
 
 	cb.Text = fs(cb, 'OVERLAY', G.fonts.square, G.nameplates.fontsize - 1, G.nameplates.fontflag, 1, 1, 1, 'LEFT')
 	cb.Text:SetPoint('LEFT', cb, 2, 0)
-	cb.CastingColor = { G.color.r, G.color.g, G.color.b, G.color.a }
-	cb.CompleteColor = { 0.12, 0.86, 0.15, G.color.a }
-	cb.FailColor = { 1.0, 0.09, 0, G.color.a }
-	cb.ChannelingColor = { 0.32, 0.3, G.color.a }
+	cb.CastingColor = G.colors.base
+	cb.CompleteColor = { 0.12, 0.86, 0.15, G.colors.base[4] }
+	cb.FailColor = { 1.0, 0.09, 0, G.colors.base[4] }
+	cb.ChannelingColor = { 0.32, 0.3, G.colors.base[4] }
 	cb.Icon = cb:CreateTexture(nil, 'ARTWORK')
 	cb.Icon:SetPoint('TOPRIGHT', cb, 'TOPLEFT', -1, 0)
 	cb.Icon:SetTexCoord(.1, .9, .1, .9)
@@ -869,8 +869,8 @@ oUF:RegisterStyle("gempUI", function(self, unit)
 	cb.PostCastInterrupted = PostCastFailed
 
 
-	cb.Backdrop = F.createBorderFrame(cb, cb, true)
-	cb.IBackdrop = F.createBorderFrame(cb, cb.Icon, true)
+	cb.Backdrop = F.createBorder(cb, cb, true)
+	cb.IBackdrop = F.createBorder(cb, cb.Icon, true)
 	self.Castbar = cb
 
 	self.Castbar.Shield = self.Castbar:CreateTexture(nil, 'OVERLAY')
@@ -991,7 +991,7 @@ oUF:Factory(function(self)
 								if cfg.class_colorbars then
 									f.Health:SetStatusBarColor(class_color.r, class_color.g, class_color.b)
 								else
-									f.Health:SetStatusBarColor(cfg.Color.Health.r, cfg.Color.Health.g, cfg.Color.Health.b, cfg.Color.Health.a)
+									f.Health:SetStatusBarColor(unpack(G.colors.base))
 								end
 								f.Spec:SetText(spec .. '  -  ' .. LOCALIZED_CLASS_NAMES_MALE[class])
 								f:Show()

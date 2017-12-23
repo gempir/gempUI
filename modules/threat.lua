@@ -7,8 +7,6 @@ local position_x = 0
 local position_y = -6
 local width = 250
 local height = 15
-local bgcolor = { G.color.r, G.color.g, G.color.b, G.color.a }
-local bordercolor = { G.bordercolor.r, G.bordercolor.g, G.bordercolor.b }
 local font = { "Interface\\Addons\\gempUI\\media\\fonts\\square.ttf", 12, "THINOUTLINE" }
 -----------------------------
 
@@ -20,8 +18,8 @@ gThreat:SetHeight(height)
 gThreat:SetStatusBarTexture("Interface\\AddOns\\gempUI\\media\\textures\\flat")
 gThreat:SetStatusBarColor(0 / 255, 150 / 255, 50 / 255)
 gThreat:SetMinMaxValues(0, 100)
-gThreat:SetBackdrop({ bgFile = "Interface\\ChatFrame\\ChatFrameBackground", insets = { left = 0, right = 0, top = 0, bottom = 0 } })
-gThreat:SetBackdropColor(unpack(bgcolor))
+F.addBackdrop(gThreat)
+F.createBorder(gThreat)
 gThreat:Hide()
 
 local threatText = gThreat:CreateFontString(nil, "OVERLAY")
@@ -61,20 +59,6 @@ local function eventHandler(self, event, ...)
 end
 
 gThreat:SetScript("OnEvent", eventHandler);
-
-local border = CreateFrame("frame", nil, gThreat)
-border:ClearAllPoints()
-border:SetPoint("CENTER", gThreat, "CENTER", 0, 0)
-border:SetSize(width + 2, height + 2)
-border:SetFrameStrata("BACKGROUND")
-border:SetBackdrop({
-	bgFile = "Interface\\ChatFrame\\ChatFrameBackground",
-	edgeFile = "Interface\\Buttons\\WHITE8x8",
-	edgeSize = 1,
-	insets = { left = -0, right = -0, top = -0, bottom = -0 }
-})
-border:SetBackdropColor(0, 0, 0, 1)
-border:SetBackdropBorderColor(unpack(bordercolor))
 
 local frame = CreateFrame("frame")
 frame:RegisterEvent("PLAYER_REGEN_ENABLED")

@@ -22,9 +22,9 @@ if (IsAddOnLoaded("Skada")) then
 		SkadaDB.profiles.Default.icon.hide = true
 		-- Barcolors
 		SkadaDB.profiles.Default.windows[1].barbgcolor.a = 0
-		SkadaDB.profiles.Default.windows[1].barcolor.r = G.color.r
-		SkadaDB.profiles.Default.windows[1].barcolor.g = G.color.g
-		SkadaDB.profiles.Default.windows[1].barcolor.b = G.color.b
+		SkadaDB.profiles.Default.windows[1].barcolor.r = G.colors.base[1]
+		SkadaDB.profiles.Default.windows[1].barcolor.g = G.colors.base[2]
+		SkadaDB.profiles.Default.windows[1].barcolor.b = G.colors.base[3]
 		-- Position
 		SkadaDB.profiles.Default.windows[1].y = -208
 		SkadaDB.profiles.Default.windows[1].x = -7

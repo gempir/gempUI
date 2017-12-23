@@ -2,7 +2,7 @@ local addon, core = ...
 
 core[1] = {} -- F, functions
 core[2] = {} -- G, gempUI related stuff like options or media
-core[3] = {} -- V, variables 
+core[3] = {} -- V, variables
 
 local F, G, V = unpack(select(2, ...))
 
@@ -15,8 +15,6 @@ G.options = {
 	actionbars_side_two = false, -- adds a second actionbar on the right
 	actionbars_main_three = false -- adds a third actionbar in the middle
 }
-
--- positions for unitframes some of these are anchored to another 
 
 G.pos = {
 	player = { x = 132, y = 189 },
@@ -32,8 +30,6 @@ G.pos = {
 	arena = { x = 120, y = 300 },
 }
 
--- Nameplates
-
 G.nameplates = {
 	width = 120,
 	height = 10,
@@ -43,18 +39,13 @@ G.nameplates = {
 	cbcolor = { r = 50, g = 50, b = 50 }
 }
 
--- Colors
-
-G.color = { r = 0, g = 0, b = 0, a = 0.5 }
-G.bgcolor = { r = 0, g = 0, b = 0, a = 0 }
-G.bordercolor = { r = 0, g = 0, b = 0, a = 1 }
 G.colors = {
-	special = { r = 0, g = 0.29, b = 0.58, a = 1 }
+	base = { 0, 0, 0, 0.5 },
+	bg = { 0, 0, 0, 0 },
+	border = { 0, 0, 0, 1 },
+	special = { 0, 0.29, 0.58, 1 }
 }
 
-
-
--- media stuff
 G.media = "Interface\\AddOns\\gempUI\\media\\"
 G.texture = G.media .. "textures\\flat"
 
@@ -73,7 +64,6 @@ G.backdrop = {
 	edgeSize = 1,
 }
 
--- useful variables
 
 V = {
 	playerlevel = UnitLevel("player"),
@@ -98,27 +88,28 @@ gempDB = {
 -------------------------------------------------------------------------------------
 ------ Credits
 -------------------------------------------------------------------------------------
+--[[
 
--- Used General Font is Roboto by Google
--- Interface\\Addons\\gempUI\\media\\fonts\\roboto.ttf
+Used General Font is Roboto by Google
+Interface\\Addons\\gempUI\\media\\fonts\\roboto.ttf
 
--- The 2nd Font is called SquareFont from dafont user "agustinluisbou92" or "Bou Fonts"
--- Interface\\Addons\\gempUI\\media\\fonts\\square.ttf
+The 2nd Font is called SquareFont from dafont user "agustinluisbou92" or "Bou Fonts"
+Interface\\Addons\\gempUI\\media\\fonts\\square.ttf
 
--- This UI is a compilation of a lot of Addons and some stuff is written by me (gempir)
--- A lot of Credit goes to these great people who wrote these addons and people who helped me, most of them can be found on wowinterface.com
+This UI is a compilation of a lot of Addons and some stuff is written by me (gempir)
+A lot of Credit goes to these great people who wrote these addons and people who helped me, most of them can be found on wowinterface.com
 
--- Zork - rTooltip, rActionButtonStyler
--- Skaarj - ouF_Skaarj
--- Yarko - Cooldowns
--- nightcracker, Coote - ncHoverbind 
--- Monolit - m_Actionbars (monoActionbars)
--- Tuller - TullaRange
--- Blooblahguy - bBuffs
--- 10leej - Click Menu - Copyright (c) 2015 10leej (MIT License)
--- Miziak,saulhudson - IronMicroExperience based on MicroExperience
+Zork - rTooltip, rActionButtonStyler
+Skaarj - ouF_Skaarj
+Yarko - Cooldowns
+nightcracker, Coote - ncHoverbind
+Monolit - m_Actionbars (monoActionbars)
+Tuller - TullaRange
+Blooblahguy - bBuffs
+10leej - Click Menu - Copyright (c) 2015 10leej (MIT License)
+Miziak,saulhudson - IronMicroExperience based on MicroExperience
 
--- General cool People 
--- Mayron, Resike, Fizzlemizz, Seerah, Leatrix, semlar, Clamsoda, jeruku
+General cool People
+Mayron, Resike, Fizzlemizz, Seerah, Leatrix, semlar, Clamsoda, jeruku
 
-
+]] --

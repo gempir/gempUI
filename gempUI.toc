@@ -1,6 +1,6 @@
-## Interface: 60200
-## Title: |cff00FF7F gemp|rUI v1.0
-## Notes: gempUI v1.0
+## Interface: 70200
+## Title: |cff00FF7F gemp|rUI
+## Notes: gempUI
 ## OptionalDeps: Skada, LibSharedMedia-3.0
 ## SavedVariables: gempDB
 

@@ -1,57 +1,12 @@
 local F, G, V = unpack(select(2, ...))
 
--- thanks to Resike for these two
--- these get Info about specific frames
-function GetFrameInfoFromCursor()
-	local fn = GetMouseFocus():GetName()
-	local f = _G[fn]
-	print("|cFF50C0FF" .. "<---------------------------------------------->" .. "|r")
-	print("|cFF50C0FF" .. "Frame:" .. "|r", fn)
-	local p = f:GetParent()
-	print("|cFF50C0FF" .. "Parent:" .. "|r", p:GetName())
-	for i = 1, f:GetNumPoints() do
-		local point, relativeTo, relativePoint, xOfs, yOfs = f:GetPoint(i)
-		if point and relativeTo and relativePoint and xOfs and yOfs then
-			print(i .. ".", "|cFF50C0FF" .. "p:" .. "|r", point, "|cFF50C0FF" .. "rfn:" .. "|r", relativeTo:GetName(), "|cFF50C0FF" .. "rp:" .. "|r", relativePoint, "|cFF50C0FF" .. "x:" .. "|r", xOfs, "|cFF50C0FF" .. "y:" .. "|r", yOfs)
-		end
-	end
-	print("|cFF50C0FF" .. "Scale:" .. "|r", f:GetScale())
-	print("|cFF50C0FF" .. "Effective Scale:" .. "|r", f:GetEffectiveScale())
-	print("|cFF50C0FF" .. "Protected:" .. "|r", f:IsProtected())
-	print("|cFF50C0FF" .. "Strata:" .. "|r", f:GetFrameStrata())
-	print("|cFF50C0FF" .. "Level:" .. "|r", f:GetFrameLevel())
-	print("|cFF50C0FF" .. "Width:" .. "|r", f:GetWidth())
-	print("|cFF50C0FF" .. "Height:" .. "|r", f:GetHeight())
-end
-
-function GetFrameInfo(f)
-	local fn = f:GetName()
-	print("|cFF50C0FF" .. "<---------------------------------------------->" .. "|r")
-	print("|cFF50C0FF" .. "Frame:" .. "|r", fn)
-	local p = f:GetParent()
-	print("|cFF50C0FF" .. "Parent:" .. "|r", p:GetName())
-	for i = 1, f:GetNumPoints() do
-		local point, relativeTo, relativePoint, xOfs, yOfs = f:GetPoint(i)
-		if point and relativeTo and relativePoint and xOfs and yOfs then
-			print(i .. ".", "|cFF50C0FF" .. "p:" .. "|r", point, "|cFF50C0FF" .. "rfn:" .. "|r", relativeTo:GetName(), "|cFF50C0FF" .. "rp:" .. "|r", relativePoint, "|cFF50C0FF" .. "x:" .. "|r", xOfs, "|cFF50C0FF" .. "y:" .. "|r", yOfs)
-		end
-	end
-	print("|cFF50C0FF" .. "Scale:" .. "|r", f:GetScale())
-	print("|cFF50C0FF" .. "Effective Scale:" .. "|r", f:GetEffectiveScale())
-	print("|cFF50C0FF" .. "Protected:" .. "|r", f:IsProtected())
-	print("|cFF50C0FF" .. "Strata:" .. "|r", f:GetFrameStrata())
-	print("|cFF50C0FF" .. "Level:" .. "|r", f:GetFrameLevel())
-	print("|cFF50C0FF" .. "Width:" .. "|r", f:GetWidth())
-	print("|cFF50C0FF" .. "Height:" .. "|r", f:GetHeight())
-end
-
 --[[
  create a frame that adds a 1px border
  * object parent - parent of new frame
  * object anchor - frame that the new frame will be attached to
  * bool extend - 1px outside of the anchor or outside
 ]] --
-function F.createBorderFrame(parent, anchor, extend)
+function F.createBorder(parent, anchor, extend)
 	local frame = CreateFrame('Frame', nil, parent)
 	frame:SetFrameStrata('MEDIUM')
 	if extend then
@@ -66,10 +21,37 @@ function F.createBorderFrame(parent, anchor, extend)
 		edgeSize = 1
 	})
 	frame:SetBackdropColor(0, 0, 0, 0)
-	frame:SetBackdropBorderColor(G.bordercolor.r, G.bordercolor.g, G.bordercolor.b, G.bordercolor.a)
+	frame:SetBackdropBorderColor(unpack(G.colors.border))
 	return frame
 end
 
+function F.createOverlay(element, anchor)
+	if not anchor then
+		anchor = element
+	end
 
+	local buttonOverlay = CreateFrame("Frame", nil, parent)
+	buttonOverlay:SetPoint("TOPLEFT", anchor, "TOPLEFT", 1, -1)
+	buttonOverlay:SetPoint("BOTTOMRIGHT", anchor, "BOTTOMRIGHT", -1, 1)
+	buttonOverlay:SetBackdrop({
+		bgFile = [[Interface\Buttons\WHITE8x8]]
+	})
+	buttonOverlay:SetBackdropColor(1,1,1,0.15)
+	buttonOverlay:Hide()
+
+	element:SetScript('OnEnter', function() buttonOverlay:Show() end)
+	element:SetScript('OnLeave', function() buttonOverlay:Hide() end)
+end
+
+function F.addBackdrop(frame)
+	frame:SetBackdrop({
+		bgFile = "Interface\\ChatFrame\\ChatFrameBackground",
+		edgeFile = "Interface\\Buttons\\WHITE8x8",
+		edgeSize = 1,
+		insets = { left = 0, right = 0, top = 0, bottom = 0 }
+	})
+	frame:SetBackdropColor(unpack(G.colors.base))
+	frame:SetBackdropBorderColor(unpack(G.colors.border))
+end
 
 

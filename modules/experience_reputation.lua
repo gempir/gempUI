@@ -105,16 +105,7 @@ frame:SetScript("OnEvent", eventHandler);
 
 
 
-gXpbarp:SetBackdrop({
-	bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
-	edgeFile = "Interface\\Buttons\\WHITE8x8",
-	tile = false,
-	tileSize = 0,
-	edgeSize = 1,
-	insets = { left = 0, right = 0, top = 0, bottom = 0 }
-})
-gXpbarp:SetBackdropColor(G.color.r, G.color.g, G.color.b, G.color.a)
-gXpbarp:SetBackdropBorderColor(G.bordercolor.r, G.bordercolor.g, G.bordercolor.b, G.bordercolor.a)
+F.addBackdrop(gXpbarp)
 
 gempXpbar = CreateFrame("statusbar", nil, UIParent)
 gempXpbar:SetPoint("CENTER", gXpbarp, "CENTER", 0, 0)

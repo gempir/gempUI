@@ -294,15 +294,6 @@ cfg.arena_cb = {
 	width = 187,
 }
 
------------------------------
--- Colors 
------------------------------
-
-cfg.Color = {
-	Health = { r = G.color.r, g = G.color.g, b = G.color.b, a = G.color.a },
-	Castbar = { r = G.color.r, g = G.color.g, b = G.color.b, a = G.color.a },
-	CPoints = { r = .96, g = 0.37, b = 0.34 },
-}
 
 ns.cfg = cfg
 

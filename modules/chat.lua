@@ -1,6 +1,5 @@
 local F, G, V = unpack(select(2, ...))
 
-
 local DefaultSetItemRef = SetItemRef
 
 local cfg = {}

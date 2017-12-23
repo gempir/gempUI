@@ -6,34 +6,14 @@ local function CreateMarkerButton(btnName, iconnum, x, y)
 	frame:SetPoint("CENTER", gWorldmarkers, x, y)
 	frame:SetWidth(22);
 	frame:SetHeight(22);
-	frame:SetBackdrop({
-		bgFile = "Interface\\ChatFrame\\ChatFrameBackground",
-		edgeFile = "Interface\\Buttons\\WHITE8x8",
-		edgeSize = 1,
-		insets = { left = -0, right = -0, top = -0, bottom = -0 }
-	})
-	frame:SetBackdropBorderColor(0, 0, 0, 0)
-	frame:SetBackdropColor(0, 0, 0, 0)
+	F.addBackdrop(frame)
 	frame:SetAttribute("type", "macro");
 
 	t = frame:CreateTexture("raidicon")
 	t:SetTexture("Interface\\TargetingFrame\\UI-RaidTargetingIcon_" .. iconnum)
 	t:SetAllPoints()
 
-	local buttonOverlay = CreateFrame("Frame", nil, frame)
-	buttonOverlay:SetWidth(22)
-	buttonOverlay:SetHeight(22)
-	buttonOverlay:SetPoint("CENTER", frame, "CENTER", 0, 0)
-	buttonOverlay:SetBackdrop({
-		bgFile = [[Interface\Buttons\WHITE8x8]],
-		edgeFile = [[Interface\Buttons\WHITE8x8]],
-		edgeSize = 1,
-	})
-	buttonOverlay:SetBackdropColor(0, 0, 0, 0)
-	buttonOverlay:SetBackdropBorderColor(0, 0, 0, 0)
-
-	frame:SetScript('OnEnter', function() buttonOverlay:SetBackdropColor(1, 1, 1, 0.15) end)
-	frame:SetScript('OnLeave', function() buttonOverlay:SetBackdropColor(0, 0, 0, 0) end)
+	F.createOverlay(frame)
 end
 
 CreateMarkerButton("WM_YellowFlareSet", 1, -77, -24);
@@ -67,14 +47,7 @@ local function CreateMarkerClearButton(btnName, x, y)
 	frame:SetPoint("CENTER", gWorldmarkers, x, y)
 	frame:SetWidth(22);
 	frame:SetHeight(22);
-	frame:SetBackdrop({
-		bgFile = "Interface\\ChatFrame\\ChatFrameBackground",
-		edgeFile = "Interface\\Buttons\\WHITE8x8",
-		edgeSize = 1,
-		insets = { left = -0, right = -0, top = -0, bottom = -0 }
-	})
-	frame:SetBackdropBorderColor(0, 0, 0, 0)
-	frame:SetBackdropColor(0, 0, 0, 0)
+	F.addBackdrop(frame)
 	frame:SetAttribute("type", "macro");
 
 	t = frame:CreateFontString("raidicon")
@@ -82,20 +55,7 @@ local function CreateMarkerClearButton(btnName, x, y)
 	t:SetText("X");
 	t:SetPoint("CENTER", frame, "CENTER", 0, 0);
 
-	local buttonOverlay = CreateFrame("Frame", nil, frame)
-	buttonOverlay:SetWidth(22)
-	buttonOverlay:SetHeight(22)
-	buttonOverlay:SetPoint("CENTER", frame, "CENTER", 0, 0)
-	buttonOverlay:SetBackdrop({
-		bgFile = [[Interface\Buttons\WHITE8x8]],
-		edgeFile = [[Interface\Buttons\WHITE8x8]],
-		edgeSize = 1,
-	})
-	buttonOverlay:SetBackdropColor(0, 0, 0, 0)
-	buttonOverlay:SetBackdropBorderColor(0, 0, 0, 0)
-
-	frame:SetScript('OnEnter', function() buttonOverlay:SetBackdropColor(1, 1, 1, 0.15) end)
-	frame:SetScript('OnLeave', function() buttonOverlay:SetBackdropColor(0, 0, 0, 0) end)
+	F.createOverlay(frame)
 end
 
 
@@ -132,14 +92,7 @@ local function CreateRaidButton(btnName, text, x, y)
 	frame:SetPoint("CENTER", gWorldmarkers, x, y)
 	frame:SetWidth(60);
 	frame:SetHeight(25);
-	frame:SetBackdrop({
-		bgFile = "Interface\\ChatFrame\\ChatFrameBackground",
-		edgeFile = "Interface\\Buttons\\WHITE8x8",
-		edgeSize = 1,
-		insets = { left = -0, right = -0, top = -0, bottom = -0 }
-	})
-	frame:SetBackdropBorderColor(G.bordercolor.r, G.bordercolor.g, G.bordercolor.b, G.bordercolor.a)
-	frame:SetBackdropColor(0, 0, 0, 0)
+	F.addBackdrop(frame)
 	frame:SetAttribute("type", "macro");
 
 	t = frame:CreateFontString("raidbutton")
@@ -147,20 +100,7 @@ local function CreateRaidButton(btnName, text, x, y)
 	t:SetText(text);
 	t:SetPoint("CENTER", frame, "CENTER", 2, 0);
 
-	local buttonOverlay = CreateFrame("Frame", nil, frame)
-	buttonOverlay:SetWidth(58)
-	buttonOverlay:SetHeight(24)
-	buttonOverlay:SetPoint("CENTER", frame, "CENTER", 0, 0)
-	buttonOverlay:SetBackdrop({
-		bgFile = [[Interface\Buttons\WHITE8x8]],
-		edgeFile = [[Interface\Buttons\WHITE8x8]],
-		edgeSize = 1,
-	})
-	buttonOverlay:SetBackdropColor(0, 0, 0, 0)
-	buttonOverlay:SetBackdropBorderColor(0, 0, 0, 0)
-
-	frame:SetScript('OnEnter', function() buttonOverlay:SetBackdropColor(1, 1, 1, 0.15) end)
-	frame:SetScript('OnLeave', function() buttonOverlay:SetBackdropColor(0, 0, 0, 0) end)
+	F.createOverlay(frame)
 end
 
 CreateRaidButton("wReadycheck", "Ready", -59, 23);

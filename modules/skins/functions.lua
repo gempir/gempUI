@@ -7,8 +7,8 @@ function F.rebackdrop(frame)
 		edgeFile = [[Interface\Buttons\WHITE8x8]],
 		edgeSize = 1,
 	})
-	frame:SetBackdropColor(G.color.r, G.color.g, G.color.b, G.color.a)
-	frame:SetBackdropBorderColor(G.bordercolor.r, G.bordercolor.g, G.bordercolor.b, G.bordercolor.a)
+	frame:SetBackdropColor(unpack(G.colors.base))
+	frame:SetBackdropBorderColor(unpack(G.colors.border))
 end
 
 function F.rebackdroplight(frame)
@@ -18,6 +18,6 @@ function F.rebackdroplight(frame)
 		edgeFile = [[Interface\Buttons\WHITE8x8]],
 		edgeSize = 1,
 	})
-	frame:SetBackdropColor(G.color.r + 0.05, G.color.g + 0.05, G.color.b + 0.05, G.color.a)
-	frame:SetBackdropBorderColor(G.bordercolor.r, G.bordercolor.g, G.bordercolor.b, G.bordercolor.a)
+	frame:SetBackdropColor(G.colors.base[1] + 0.05, G.colors.base[2] + 0.05, G.colors.base[3] + 0.05, G.colors.base[4])
+	frame:SetBackdropBorderColor(unpack(G.colors.border))
 end
