@@ -1,4 +1,7 @@
-<Ui xmlns="http://www.blizzard.com/wow/ui/">	
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
+
+
+	<Script file="functions.lua"/>
 	<Script file="Skada.lua"/>
 
 	<Script file="blizzard\menus.lua"/>

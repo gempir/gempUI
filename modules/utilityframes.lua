@@ -1,6 +1,60 @@
 local F, G, V = unpack(select(2, ...))
 
 
+local addonName, eventHandlers = ..., { }
+
+function hideerrorsfunc()
+	if gempDB.hideerrors then
+		local allowedErrors = { }
+
+		eventHandlers['UI_ERROR_MESSAGE'] = function(message)
+			if allowedErrors[message] then
+				UIErrorsFrame:AddMessage(message, 1, .1, .1)
+			end
+		end
+
+		UIErrorsFrame:UnregisterEvent('UI_ERROR_MESSAGE')
+	end
+end
+
+-- auto junk sell
+function selljunk()
+
+	if gempDB.selljunk then
+		for bag = 0,4,1 do for slot = 1, GetContainerNumSlots(bag),
+
+		1 do local name = GetContainerItemLink(bag,slot)
+
+			if name and string.find(name,"ff9d9d9d") then
+				UseContainerItem(bag,slot)
+			end
+		end
+		end
+	end
+end
+
+-- autorepair / autojunkseller
+function autorepair()
+
+	if CanMerchantRepair() then
+		local cost = GetRepairAllCost()
+		local guildName, guildRankName, guildRankIndex = GetGuildInfo('player');
+
+		if gempDB.autorepair == 1 then
+			RepairAllItems()
+			if cost > 0 then
+			end
+		elseif gempDB.autorepair == 2 then
+			RepairAllItems(1)
+			if cost > 0 then
+			end
+		elseif gempDB.autorepair == 0 then
+
+		end
+
+	end
+
+end
 
 -- no Idea why this is needed, gempDB default in gempUI.lua should already default the vars but for some reason it doesn't
 if gempDB.autorepair == nil then
@@ -407,7 +461,7 @@ local gAC_3button = CreateFrame("Button", nil, gAC_3)
 	  		if gempDB.selljunk == true then
 				gAC_3:SetBackdropColor(0/255, 84/255, 28/255, G.color.a)
 				print("|cff00FF7F[gemp]|r Junk will be sold");
-				F.selljunk();
+				selljunk();
 			elseif gempDB.selljunk == false then
 				gAC_3:SetBackdropColor(150/255, 10/255, 10/255, G.color.a)
 				print("|cff00FF7F[gemp]|r Junk won't be sold");
@@ -598,16 +652,12 @@ local function eventHandler(self, event, ...)
 	
 end
 frame:SetScript("OnEvent", eventHandler);
-
----------------------------------------------------------------------------------
-
-
 local frame = CreateFrame("FRAME", "MerchantEventCheck");
 frame:RegisterEvent("MERCHANT_SHOW");
 local function eventHandler(self, event, ...)
 
-	F.selljunk()
-	F.autorepair()
+	selljunk()
+	autorepair()
 
 end
 frame:SetScript("OnEvent", eventHandler);
