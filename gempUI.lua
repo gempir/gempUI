@@ -39,6 +39,7 @@ G.nameplates = {
 	width = 120,
 	height = 10,
 	fontsize = 10,
+	fontflag = 'THINOUTLINE',
 	cbheight = 8,
 	cbcolor = {r =  50,	g = 50, b =  50}
 }

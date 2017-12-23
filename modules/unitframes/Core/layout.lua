@@ -155,23 +155,6 @@ local OnCastbarUpdate = function(self, elapsed)
 			self.channeling = nil
 			return
 		end
-		if parent.unit == 'player' then
-			if self.delay ~= 0 then
-				self.Time:SetFormattedText('', duration, self.max, self.delay )
-			elseif self.Lag then
-				if self.SafeZone.timeDiff >= (self.max*.5) or self.SafeZone.timeDiff == 0 then
-					self.Time:SetFormattedText('', duration, self.max)
-					self.Lag:SetFormattedText('')
-				else
-					self.Time:SetFormattedText('', duration, self.max)
-					self.Lag:SetFormattedText('', self.SafeZone.timeDiff * 1000)
-				end
-			else
-				self.Time:SetFormattedText('', duration, self.max)
-			end
-		else
-			self.Time:SetFormattedText('', duration, self.casting and self.max + self.delay or self.max - self.delay)
-		end
 		self.duration = duration
 		self:SetValue(duration)
 		self.Spark:SetPoint('CENTER', self, 'LEFT', (duration / self.max) * self:GetWidth(), 0)
@@ -195,22 +178,6 @@ local PostCastStart = function(self, unit)
 		self.cast = true
 	else
 		self.cast = false
-	end
-	if unit == 'vehicle' then
-		self.SafeZone:Hide()
-		self.Lag:Hide()
-	elseif unit == 'player' then
-		local sf = self.SafeZone
-		if not sf then return end
-		if not sf.sendTime then sf.sendTime = GetTime() end
-		sf.timeDiff = GetTime() - sf.sendTime
-		sf.timeDiff = sf.timeDiff > self.max and self.max or sf.timeDiff
-		if sf.timeDiff >= (self.max*.5) or sf.timeDiff == 0 then
-			sf:SetWidth(0.01)
-		else
-			sf:SetWidth(self:GetWidth() * sf.timeDiff / self.max)
-		end
-		if not UnitInVehicle('player') then sf:Show() else sf:Hide() end
 	end
 	if unit ~= 'player' and self.interrupt and UnitCanAttack('player', unit) then
         self:SetStatusBarColor(1, .9, .4)
@@ -1077,39 +1044,47 @@ oUF:RegisterStyle("gempUI", function(self, unit)
 	self.Name:SetPoint("BOTTOM", self, "TOP", 0, 6)	
 	self:Tag(self.Name, '[name]')
 
-	self.Castbar = CreateFrame("StatusBar", nil, self)
-	self.Castbar:SetFrameLevel(3)
-	self.Castbar:SetStatusBarTexture(G.texture)
-	self.Castbar:SetStatusBarColor(G.color.r, G.color.g, G.color.b, G.color.a)
-	self.Castbar:SetPoint("TOPLEFT", self.Health, "BOTTOMLEFT", 0, -20)
-	self.Castbar:SetPoint("BOTTOMRIGHT", self.Health, "BOTTOMRIGHT", 0, -20)
-	self.Castbar.CastingColor = {G.color.r, G.color.g, G.color.b, G.color.a}
-	self.Castbar.CompleteColor = {0.12, 0.86, 0.15, G.color.a}
-	self.Castbar.FailColor = {1.0, 0.09, 0, G.color.a}
-	self.Castbar.ChannelingColor = {0.32, 0.3, G.color.a}
+
+	local cb = createStatusbar(self, G.texture, nil, nil, nil, G.color.r, G.color.g, G.color.b, G.color.a)	
 	
-	self.Castbar.Text = self.Castbar:CreateFontString(nil, "OVERLAY")
-	self.Castbar.Text:SetFont(G.fonts.square, G.nameplates.cbheight*0.85, "OUTLINE")
-	self.Castbar.Text:SetJustifyH("RIGHT")
-	self.Castbar.Text:SetPoint("CENTER", self.Castbar, "CENTER")
+	cb.Text = fs(cb, 'OVERLAY', G.fonts.square, G.nameplates.fontsize - 1, G.nameplates.fontflag, 1, 1, 1, 'LEFT')
+    cb.Text:SetPoint('LEFT', cb, 2, 0)
+	cb.CastingColor = {G.color.r, G.color.g, G.color.b, G.color.a}
+	cb.CompleteColor = {0.12, 0.86, 0.15, G.color.a}
+	cb.FailColor = {1.0, 0.09, 0, G.color.a}
+	cb.ChannelingColor = {0.32, 0.3, G.color.a}
+	cb.Icon = cb:CreateTexture(nil, 'ARTWORK')
+	cb.Icon:SetPoint('TOPRIGHT', cb, 'TOPLEFT', -1, 0)
+	cb.Icon:SetTexCoord(.1, .9, .1, .9)
+
+	cb:SetPoint("TOPLEFT", self.Health, "BOTTOMLEFT", G.nameplates.height + 1, -1)
+	cb:SetSize(G.nameplates.width - G.nameplates.height - 1, G.nameplates.height)
+	cb.Icon:SetSize(cb:GetHeight(), cb:GetHeight())
 	
-	self.Castbar.Icon = self.Castbar:CreateTexture(nil, "OVERLAY")
-	self.Castbar.Icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
-	self.Castbar.Icon:SetDrawLayer('ARTWORK')
-	self.Castbar.Icon:SetSize(G.nameplates.cbheight+6, G.nameplates.cbheight+6)
-	self.Castbar.Icon:SetPoint("BOTTOMRIGHT",self.Castbar, "BOTTOMLEFT", 0, 0)
+	cb.Spark = cb:CreateTexture(nil,'OVERLAY')
+	cb.Spark:SetTexture([=[Interface\Buttons\WHITE8x8]=])
+	cb.Spark:SetBlendMode('Add')
+	cb.Spark:SetHeight(cb:GetHeight() - 2)
+	cb.Spark:SetWidth(1)
+	cb.Spark:SetVertexColor(1, 1, 1)
+
+
+	cb.OnUpdate = OnCastbarUpdate
+	cb.PostCastStart = PostCastStart
+	cb.PostChannelStart = PostCastStart
+	cb.PostCastStop = PostCastStop
+	cb.PostChannelStop = PostCastStop
+	cb.PostCastFailed = PostCastFailed
+	cb.PostCastInterrupted = PostCastFailed
+
 	
-	self.Castbar.PostChannelStart = kickable
-	self.Castbar.PostChannelUpdate = kickable
-	self.Castbar.PostCastStart = kickable
-	self.Castbar.PostCastDelayed = kickable
-	self.Castbar.PostCastNotInterruptible = kickable
-	self.Castbar.PostCastInterruptible = kickable
-	
-	-- set size and points
+	cb.Backdrop = F.createBorderFrame(cb, cb, true)
+	cb.IBackdrop = F.createBorderFrame(cb, cb.Icon, true)
+	self.Castbar = cb
+
 	self:SetScale(UIParent:GetEffectiveScale()*1)
 	self:SetSize(G.nameplates.width, G.nameplates.height)
-	self:SetPoint("CENTER", 0, -50)
+	self:SetPoint("CENTER", 0, -25)
 end)
 
 oUF:SpawnNamePlates()
