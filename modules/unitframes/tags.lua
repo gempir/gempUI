@@ -1,8 +1,7 @@
 local F, G, V = unpack(select(2, ...))
-local _, ns = ...
-local oUF = ns.oUF or oUF
+local name, ns = ...
+local oUF = ns.oUF 
 local cfg = ns.cfg
-local class = select(2, UnitClass('player'))
 
 local sValue = function(val)
 	if (val >= 1e6) then
@@ -36,10 +35,10 @@ oUF.colors.power['POWER_TYPE_BLOOD_POWER'] = { 0.7, 0, 1 }
 
 oUF.Tags.Methods['color'] = function(u, r)
 	local reaction = UnitReaction(u, 'player')
-	if (UnitIsPlayer(u)) and not cfg.class_colorbars then
+	if (UnitIsPlayer(u)) then
 		local _, class = UnitClass(u)
 		return hex(oUF.colors.class[class])
-	elseif reaction and not (UnitIsPlayer(u)) and not cfg.class_colorbars then
+	elseif reaction and not (UnitIsPlayer(u)) then
 		return hex(oUF.colors.reaction[reaction])
 	else
 		return hex(1, 1, 1)

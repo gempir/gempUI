@@ -1,7 +1,8 @@
-local name, ns = ...
-local cfg = CreateFrame('Frame')
-local _, class = UnitClass('player')
 local F, G, V = unpack(select(2, ...))
+
+local name, ns = ...
+local cfg = {}
+
 -----------------------------
 -- Media
 -----------------------------
@@ -154,16 +155,6 @@ cfg.aura = {
 -----------------------------
 -- Plugins
 -----------------------------
-
---RaidDebuffs
-cfg.RaidDebuffs = {
-	enable = true,
-	pos = { 'CENTER' },
-	size = 20,
-	ShowDispelableDebuff = true,
-	FilterDispellableDebuff = true,
-	MatchBySpellName = false,
-}
 
 --AuraWatch
 cfg.aw = {

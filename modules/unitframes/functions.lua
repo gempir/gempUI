@@ -1,6 +1,4 @@
 local F, G, V = unpack(select(2, ...))
-local name, ns = ...
-local cfg = ns.cfg
 
 framebd = function(parent, anchor)
 	local frame = CreateFrame('Frame', nil, parent)
@@ -42,7 +40,7 @@ end
 function fs(parent, layer, font, fontsiz, outline, r, g, b, justify)
 	local string = parent:CreateFontString(nil, layer)
 	string:SetFont(font, fontsiz, outline)
-	string:SetShadowOffset(cfg.shadowoffsetX, cfg.shadowoffsetY)
+	string:SetShadowOffset(0, 0)
 	string:SetTextColor(r, g, b)
 	if justify then
 		string:SetJustifyH(justify)

@@ -160,6 +160,7 @@ end
 
 local gAutomatorConfig = CreateFrame("Frame", "gAutomatorConfig", UIParent);
 
+gAutomatorConfig:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", -6, -207);
 F.addBackdrop(gAutomatorConfig)
 gAutomatorConfig:SetWidth(178);
 gAutomatorConfig:SetHeight(73);

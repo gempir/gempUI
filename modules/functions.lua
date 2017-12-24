@@ -45,7 +45,7 @@ end
 
 function F.addBackdrop(frame)
 	frame:SetBackdrop({
-		bgFile = "Interface\\ChatFrame\\ChatFrameBackground",
+		bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
 		edgeFile = "Interface\\Buttons\\WHITE8x8",
 		edgeSize = 1,
 		insets = { left = 0, right = 0, top = 0, bottom = 0 }

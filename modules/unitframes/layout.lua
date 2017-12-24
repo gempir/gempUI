@@ -1,11 +1,12 @@
 local F, G, V = unpack(select(2, ...))
 local name, ns = ...
-local oUF = ns.oUF or oUF
+local oUF = ns.oUF 
 local cfg = ns.cfg
-local _, class = UnitClass('player')
+
+
 local class_color = RAID_CLASS_COLORS[class]
 local powerType, powerTypeString = UnitPowerType('player')
-
+local class = select(2, UnitClass('player'))
 
 local backdrop = {
 	bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
@@ -1080,3 +1081,4 @@ oUF:Factory(function(self)
 		raid:SetPoint('TOPLEFT', cfg.unit_positions.Raid.a, 'TOPLEFT', cfg.unit_positions.Raid.x, cfg.unit_positions.Raid.y)
 	end
 end)
+

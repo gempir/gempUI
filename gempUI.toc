@@ -10,9 +10,5 @@ libs\load_libs.xml
 gempUI.lua
 
 modules\load_modules.xml
-modules\unitframes\load_unitframes.xml
-modules\cooldowns\load_cooldowns.xml
-modules\blizzard\load_blizzard.xml
-modules\skins\load_skins.xml
 
 
