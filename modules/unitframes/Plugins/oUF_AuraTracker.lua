@@ -1,8 +1,5 @@
 local _, ns = ...
-local cfg = ns.cfg
 local oUF = ns.oUF or oUF
-
-if not cfg.uf.arena then return end
 
 local function GetAuras()
 	return {

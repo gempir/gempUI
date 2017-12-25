@@ -4,6 +4,9 @@ local oUF = ns.oUF
 local cfg = ns.cfg
 
 
+local raidicons = G.media .. "unitframes\\raidicons"
+local symbol = G.media .. "unitframes\\symbol.ttf"
+
 local class_color = RAID_CLASS_COLORS[class]
 local powerType, powerTypeString = UnitPowerType('player')
 local class = select(2, UnitClass('player'))
@@ -45,12 +48,12 @@ end
 local auraIcon = function(auras, button)
 	local c = button.count
 	c:ClearAllPoints()
-	c:SetPoint('BOTTOMRIGHT', 3, -1)
+	c:SetPoint('TOPRIGHT', -1, 0)
 	c:SetFontObject(nil)
-	c:SetFont(cfg.aura.font, cfg.aura.fontsize, cfg.aura.fontflag)
+	c:SetFont(G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag)
 	c:SetTextColor(1, 1, 1)
 
-	auras.disableCooldown = cfg.aura.disableCooldown
+	auras.disableCooldown = false
 	auras.showDebuffType = true
 
 	button.overlay:SetTexture(nil)
@@ -63,13 +66,13 @@ local auraIcon = function(auras, button)
 	button.glow:SetPoint('BOTTOMRIGHT', button, 'BOTTOMRIGHT', 4, -4)
 	button.glow:SetFrameLevel(button:GetFrameLevel() - 1)
 	button.glow:SetBackdrop({
-		bgFile = '',
-		edgeFile = cfg.glow,
+		bgFile = "",
+		edgeFile = "",
 		edgeSize = 5,
 		insets = { left = 3, right = 3, top = 3, bottom = 3, },
 	})
 
-	local remaining = fs(button, 'OVERLAY', cfg.aura.font, cfg.aura.fontsize, cfg.aura.fontflag, 1, 1, 1)
+	local remaining = fs(button, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
 	remaining:SetPoint('TOPLEFT')
 	button.remaining = remaining
 end
@@ -113,37 +116,8 @@ local CustomFilter = function(icons, ...)
 	end
 end
 
-local PostUpdateHealth = function(health, unit)
-	if (UnitIsDead(unit)) then
-		health:SetValue(0)
-	elseif (UnitIsGhost(unit)) then
-		health:SetValue(0)
-	elseif not (UnitIsConnected(unit)) then
-		health:SetValue(0)
-	end
-end
-
-local PostUpdatePower = function(Power, unit, min, max)
-	local h = Power:GetParent().Health
-	if max == 0 and cfg.options.hidepower then
-		Power:Hide()
-		if unit == 'boss' then
-			h:SetHeight(cfg.party.health + cfg.party.power + 1)
-		else
-			h:SetHeight(cfg.player.health + cfg.player.power + 1)
-		end
-	else
-		Power:Show()
-		if unit == 'boss' then
-			h:SetHeight(cfg.party.health)
-		else
-			h:SetHeight(cfg.player.health)
-		end
-	end
-end
-
 local AWIcon = function(AWatch, icon, spellID, name, self)
-	local count = fs(icon, 'OVERLAY', cfg.aura.font, cfg.aura.fontsize, cfg.aura.fontflag, 1, 1, 1)
+	local count = fs(icon, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
 	count:SetPoint('BOTTOMRIGHT', icon, 5, -5)
 	icon.count = count
 	icon.cd:SetReverse(true)
@@ -207,11 +181,11 @@ local PostCastFailed = function(self, event, unit)
 end
 
 local castbar = function(self, unit)
-	local cb = createStatusbar(self, cfg.texture, nil, nil, nil, unpack(G.colors.base))
+	local cb = createStatusbar(self, G.texture, nil, nil, nil, unpack(G.colors.base))
 
-	cb.Time = fs(cb, 'OVERLAY', cfg.font, cfg.fontsize, cfg.fontflag, 1, 1, 1)
+	cb.Time = fs(cb, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
 	cb.Time:SetPoint('RIGHT', cb, -2, 0)
-	cb.Text = fs(cb, 'OVERLAY', cfg.font, cfg.fontsize, cfg.fontflag, 1, 1, 1, 'LEFT')
+	cb.Text = fs(cb, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1, 'LEFT')
 	cb.Text:SetPoint('LEFT', cb, 2, 0)
 	cb.Text:SetPoint('RIGHT', cb.Time, 'LEFT')
 	cb.CastingColor = G.colors.base
@@ -223,34 +197,17 @@ local castbar = function(self, unit)
 	cb.Icon:SetTexCoord(.1, .9, .1, .9)
 
 	if self.unit == 'player' then
-		cb:SetPoint(unpack(cfg.player_cb.pos))
-		cb:SetSize(cfg.player_cb.width, cfg.player_cb.height)
-		cb.Icon:SetSize(cfg.player_cb.height, cfg.player_cb.height)
+		cb:SetPoint('TOPRIGHT', "oUF_gempUIPlayer", "BOTTOMRIGHT", G.unitframes.player.castbar.xOff - 1, G.unitframes.player.castbar.yOff)
+		cb:SetSize(G.unitframes.player.castbar.width - G.unitframes.player.castbar.height - 3, G.unitframes.player.castbar.height)
+		cb.Icon:SetSize(cb:GetHeight(), cb:GetHeight())
 	elseif self.unit == 'target' then
-		cb:SetPoint(unpack(cfg.target_cb.pos))
-		cb:SetSize(cfg.target_cb.width, cfg.target_cb.height)
-		cb.Icon:SetSize(cfg.target_cb.height, cfg.target_cb.height)
+		cb:SetPoint('TOPRIGHT', "oUF_gempUITarget", "BOTTOMRIGHT", G.unitframes.target.castbar.xOff - 1, G.unitframes.target.castbar.yOff)
+		cb:SetSize(G.unitframes.target.castbar.width - G.unitframes.target.castbar.height - 3, G.unitframes.target.castbar.height)
+		cb.Icon:SetSize(cb:GetHeight(), cb:GetHeight())
 		cb.Shield = cb:CreateTexture(nil, 'OVERLAY')
 		cb.Shield:SetSize(cb:GetHeight(), cb:GetHeight())
 		cb.Shield:SetPoint('LEFT', cb.Icon)
 		cb.Shield:SetTexture(G.media .. "textures\\shield")
-	elseif self.unit == 'focus' then
-		cb:SetPoint(unpack(cfg.focus_cb.pos))
-		cb:SetSize(cfg.focus_cb.width, cfg.focus_cb.height)
-		cb.Icon:SetSize(cfg.focus_cb.height, cfg.focus_cb.height)
-	elseif self.unit == 'boss' then
-		cb:SetPoint(unpack(cfg.boss_cb.pos))
-		cb:SetSize(cfg.boss_cb.width, cfg.boss_cb.height)
-		cb:SetFrameStrata("HIGH")
-		cb.Icon:SetSize(cfg.boss_cb.height, cfg.boss_cb.height)
-	elseif self.unit == 'party' then
-		cb:SetPoint(unpack(cfg.party_cb.pos))
-		cb:SetSize(cfg.party_cb.width, cfg.party_cb.height)
-		cb.Icon:SetSize(cfg.party_cb.height, cfg.party_cb.height)
-	elseif self.unit == 'arena' then
-		cb:SetPoint(unpack(cfg.arena_cb.pos))
-		cb:SetSize(cfg.arena_cb.width, cfg.arena_cb.height)
-		cb.Icon:SetSize(cfg.arena_cb.height, cfg.arena_cb.height)
 	end
 
 	cb.Spark = cb:CreateTexture(nil, 'OVERLAY')
@@ -282,20 +239,19 @@ local Health = function(self)
 	h.frequentUpdates = false
 
 	self.Health = h
-	self.Health.PostUpdate = PostUpdateHealth
 end
 
 local Power = function(self)
-	local p = createStatusbar(self, cfg.texture, nil, nil, nil, unpack(G.colors.base))
+	local p = createStatusbar(self, G.texture, nil, nil, nil, unpack(G.colors.base))
 	p:SetPoint('LEFT', self.Health, 'LEFT', 1, 0)
 	p:SetPoint('RIGHT', self.Health, 'RIGHT', -1, 0)
-	p:SetPoint('TOP', self.Health, 'BOTTOM', 0, 0)
+	p:SetPoint('TOP', self.Health, 'BOTTOM', 0, -1)
 
 	if unit == 'player' and powerType ~= 0 then p.frequentUpdates = true end
 
 	local pbg = p:CreateTexture(nil, 'BACKGROUND')
 	pbg:SetAllPoints(p)
-	pbg:SetTexture(cfg.texture)
+	pbg:SetTexture(G.texture)
 
 	F.createBorder(p, p, true)
 
@@ -333,7 +289,7 @@ local function Shared(self, unit)
 	Health(self)
 
 	local ricon = self.Health:CreateTexture(nil, 'OVERLAY')
-	ricon:SetTexture(cfg.raidicons)
+	ricon:SetTexture(raidicons)
 	ricon:SetSize(20, 20)
 	ricon:SetPoint('TOP', 0, 10)
 	self.RaidTargetIndicator = ricon
@@ -348,7 +304,7 @@ local function Shared(self, unit)
 
 	self.SpellRange = {
 		insideAlpha = 1,
-		outsideAlpha = cfg.options.range_alpha
+		outsideAlpha = 0.3
 	}
 end
 
@@ -363,16 +319,16 @@ local UnitSpecific = {
 		PetCastingBarFrame.Show = function() end
 		PetCastingBarFrame:Hide()
 
-		self:SetSize(cfg.player.width, cfg.player.health + cfg.player.power + 1)
-		self.Health:SetHeight(cfg.player.health)
-		self.Power:SetHeight(cfg.player.power)
+		self:SetSize(G.unitframes.player.width, G.unitframes.player.health + G.unitframes.player.power - 2)
+		self.Health:SetHeight(G.unitframes.player.health)
+		self.Power:SetHeight(G.unitframes.player.power)
 
-		local name = fs(self.Health, 'OVERLAY', cfg.font, cfg.fontsize, cfg.fontflag, 1, 1, 1)
+		local name = fs(self.Health, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
 		name:SetPoint('LEFT', 4, 0)
 		name:SetJustifyH 'LEFT'
 		self:Tag(name, '[color][long:name]')
 
-		local htext = fs(self.Health, 'OVERLAY', cfg.font, cfg.fontsize, cfg.fontflag, 1, 1, 1)
+		local htext = fs(self.Health, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
 		htext:SetPoint('RIGHT', -2, 0)
 		if powerType ~= 0 then htext.frequentUpdates = .1 end
 		self:Tag(htext, '[player:hp][player:power]')
@@ -381,7 +337,7 @@ local UnitSpecific = {
 		ct:SetSize(10, 10)
 		ct:SetPoint('CENTER')
 		ct:SetAlpha(0.5)
-		ct.text = fs(ct, 'OVERLAY', cfg.symbol, 14, '', 1, 1, 1)
+		ct.text = fs(ct, 'OVERLAY', symbol, 14, '', 1, 1, 1)
 		ct.text:SetShadowOffset(1, -1)
 		ct.text:SetPoint('CENTER')
 		ct.text:SetText('|cffAF5050j|r')
@@ -390,7 +346,7 @@ local UnitSpecific = {
 		local altp = createStatusbar(self, G.texture, nil, 30, 180, unpack(G.colors.base))
 		altp:SetPoint("CENTER", UIParent, "CENTER", 0, -250)
 		altp.bd = F.createBorder(altp, altp)
-		altp.Text = fs(altp, 'OVERLAY', cfg.aura.font, cfg.aura.fontsize, cfg.aura.fontflag, 1, 1, 1)
+		altp.Text = fs(altp, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
 		altp.Text:SetPoint('CENTER')
 		self:Tag(altp.Text, '[altpower]')
 		altp:EnableMouse(true)
@@ -402,7 +358,7 @@ local UnitSpecific = {
 		if (class == 'PRIEST' or class == 'PALADIN' or class == 'MONK') then
 			local ClassPower = CreateFrame('Frame', nil, self)
 			ClassPower:SetPoint('TOPRIGHT', self.Power, 'BOTTOMRIGHT', 1, 0)
-			ClassPower:SetSize(cfg.player.width, cfg.player.specific_power)
+			ClassPower:SetSize(G.unitframes.player.width, G.unitframes.player.special)
 
 			if class == 'PRIEST' then
 				local numMax = UnitPowerMax('player', SPELL_POWER_SHADOW_ORBS)
@@ -416,7 +372,7 @@ local UnitSpecific = {
 			end
 
 			for i = 1, 11 do
-				Icon = createStatusbar(ClassPower, cfg.texture, nil, cfg.player.specific_power, (self:GetWidth() / ClassPower.c) - 1, unpack(G.colors.base))
+				Icon = createStatusbar(ClassPower, G.texture, nil, G.unitframes.player.special, (self:GetWidth() / ClassPower.c) - 1, unpack(G.colors.base))
 
 				if i == 1 then
 					Icon:SetPoint('LEFT', ClassPower)
@@ -433,262 +389,231 @@ local UnitSpecific = {
 
 
 
-		if cfg.options.specific_power then
-			if class == 'DEATHKNIGHT' then
-				local b = CreateFrame('Frame', nil, self)
-				b:SetPoint('TOPRIGHT', self.Power, 'BOTTOMRIGHT', 1, 0)
-				b:SetSize(cfg.player.width, cfg.player.specific_power)
+		if class == 'DEATHKNIGHT' then
+			local b = CreateFrame('Frame', nil, self)
+			b:SetPoint('TOPRIGHT', self.Power, 'BOTTOMRIGHT', 1, 0)
+			b:SetSize(G.unitframes.player.width, G.unitframes.player.special)
 
-				local i = 6
-				for index = 1, 6 do
-					b[i] = createStatusbar(b, cfg.texture, nil, cfg.player.specific_power, (cfg.player.width + 1) / 6 - 1, 1, 1, 1, 1)
+			local i = 6
+			for index = 1, 6 do
+				b[i] = createStatusbar(b, G.texture, nil, G.unitframes.player.special, (self:GetWidth() + 1) / 6 - 1, 1, 1, 1, 1)
 
-					if i == 6 then
-						b[i]:SetPoint('RIGHT', b)
-					else
-						b[i]:SetPoint('RIGHT', b[i + 1], 'LEFT', -1, 0)
-					end
-
-					b[i].bg = b[i]:CreateTexture(nil, 'BACKGROUND')
-					F.createBorder(b[i], b[i])
-					b[i].bg:SetAllPoints(b[i])
-					b[i].bg:SetTexture(cfg.texture)
-					b[i].bg.multiplier = .3
-
-					i = i - 1
+				if i == 6 then
+					b[i]:SetPoint('RIGHT', b)
+				else
+					b[i]:SetPoint('RIGHT', b[i + 1], 'LEFT', -1, 0)
 				end
-				self.Runes = b
+
+				b[i].bg = b[i]:CreateTexture(nil, 'BACKGROUND')
+				F.createBorder(b[i], b[i])
+				b[i].bg:SetAllPoints(b[i])
+				b[i].bg:SetTexture(G.texture)
+				b[i].bg.multiplier = .3
+
+				i = i - 1
 			end
+			self.Runes = b
 		end
 
-
-		if cfg.aura.player_debuffs then
-			local d = CreateFrame('Frame', nil, self)
-			d.size = 24
-			d.spacing = 4
-			d.num = cfg.aura.player_debuffs_num
-			d:SetPoint('BOTTOMLEFT', self, 'TOPLEFT', 1, 7)
-			d:SetSize(cfg.player.width, d.size)
-			d.initialAnchor = 'TOPLEFT'
-			d.PostCreateIcon = auraIcon
-			d.PostUpdateIcon = PostUpdateIcon
-			d.CustomFilter = CustomFilter
-			self.Debuffs = d
-		end
+		local d = CreateFrame('Frame', nil, self)
+		d.size = 24
+		d.spacing = 4
+		d.num = 18
+		d:SetPoint('BOTTOMLEFT', self, 'TOPLEFT', 1, 7)
+		d:SetSize(G.unitframes.player.width, d.size)
+		d.initialAnchor = 'TOPLEFT'
+		d.PostCreateIcon = auraIcon
+		d.PostUpdateIcon = PostUpdateIcon
+		d.CustomFilter = CustomFilter
+		self.Debuffs = d
 	end,
 	target = function(self, unit)
 		Shared(self, unit)
 		Power(self)
 		Icons(self)
+		castbar(self)
 
-		if cfg.target_cb.enable then castbar(self) end
+		self:SetSize(G.unitframes.target.width, G.unitframes.target.health + G.unitframes.target.power - 2)
+		self.Health:SetHeight(G.unitframes.target.health)
+		self.Power:SetHeight(G.unitframes.target.power)
 
-		self:SetSize(cfg.player.width, cfg.player.health + cfg.player.power + 1)
-		self.Power:SetHeight(cfg.player.power)
-		self.Power.PostUpdate = PostUpdatePower
-
-		local name = fs(self.Health, 'OVERLAY', cfg.font, cfg.fontsize, cfg.fontflag, 1, 1, 1)
+		local name = fs(self.Health, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
 		name:SetPoint('LEFT', 4, 0)
 		name:SetJustifyH 'LEFT'
 		self:Tag(name, '[lvl] [color][long:name]')
 
-		local htext = fs(self.Health, 'OVERLAY', cfg.font, cfg.fontsize, cfg.fontflag, 1, 1, 1)
+		local htext = fs(self.Health, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
 		htext:SetPoint('RIGHT', -2, 0)
 		htext.frequentUpdates = .1
 		self:Tag(htext, '[player:hp]')
 
-		local q = fs(self.Health, 'OVERLAY', cfg.font, 16, cfg.fontflag, 1, 1, 1)
-		q:SetPoint('CENTER')
-		q:SetText('|cff8AFF30!|r')
-		self.QuestIndicator = q
+		local b = CreateFrame('Frame', nil, self)
+		b.size = 24
+		b.spacing = 4
+		b.num = 8
+		b:SetSize(b.size * b.num / 2 + b.spacing * (b.num / 2 - 1), b.size)
+		b:SetPoint('TOPLEFT', self, 'TOPRIGHT', 5, -1)
+		b.initialAnchor = 'TOPLEFT'
+		b['growth-y'] = 'DOWN'
+		b.PostCreateIcon = auraIcon
+		b.PostUpdateIcon = PostUpdateIcon
+		self.Buffs = b
 
-		if cfg.aura.target_buffs then
-			local b = CreateFrame('Frame', nil, self)
-			b.size = 24
-			b.spacing = 4
-			b.num = cfg.aura.target_buffs_num
-			b:SetSize(b.size * b.num / 2 + b.spacing * (b.num / 2 - 1), b.size)
-			b:SetPoint('TOPLEFT', self, 'TOPRIGHT', 5, -1)
-			b.initialAnchor = 'TOPLEFT'
-			b['growth-y'] = 'DOWN'
-			b.PostCreateIcon = auraIcon
-			b.PostUpdateIcon = PostUpdateIcon
-			self.Buffs = b
-		end
-
-		if cfg.aura.target_debuffs then
-			local d = CreateFrame('Frame', nil, self)
-			d.size = 24
-			d.spacing = 4
-			d.num = cfg.aura.target_debuffs_num
-			d:SetPoint('BOTTOMLEFT', self, 'TOPLEFT', 1, 7)
-			d:SetSize(cfg.player.width, d.size)
-			d.initialAnchor = 'TOPLEFT'
-			d.onlyShowPlayer = cfg.aura.onlyShowPlayer
-			d.PostCreateIcon = auraIcon
-			d.PostUpdateIcon = PostUpdateIcon
-			d.CustomFilter = CustomFilter
-			self.Debuffs = d
-		end
+		local d = CreateFrame('Frame', nil, self)
+		d.size = 24
+		d.spacing = 4
+		d.num = 18
+		d:SetPoint('BOTTOMLEFT', self, 'TOPLEFT', 1, 7)
+		d:SetSize(G.unitframes.player.width, d.size)
+		d.initialAnchor = 'TOPLEFT'
+		d.onlyShowPlayer = false
+		d.PostCreateIcon = auraIcon
+		d.PostUpdateIcon = PostUpdateIcon
+		d.CustomFilter = CustomFilter
+		self.Debuffs = d
 	end,
 	focus = function(self, unit)
 		Shared(self, unit)
 		Power(self)
 		Icons(self)
 
-		if cfg.focus_cb.enable then castbar(self) end
+		self:SetSize(G.unitframes.focus.width, G.unitframes.focus.health + G.unitframes.focus.power - 2)
+		self.Health:SetHeight(G.unitframes.focus.health)
+		self.Power:SetHeight(G.unitframes.focus.power)
 
-		self:SetSize(cfg.party.width, cfg.party.health + cfg.player.power + 5)
-		self.Power:SetHeight(cfg.player.power)
-		self.Power.PostUpdate = PostUpdatePower
-
-		local name = fs(self.Health, 'OVERLAY', cfg.font, cfg.fontsize, cfg.fontflag, 1, 1, 1)
+		local name = fs(self.Health, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
 		name:SetPoint('LEFT', 4, 0)
 		name:SetJustifyH 'LEFT'
 		self:Tag(name, '[color][short:name]')
 
-		local htext = fs(self.Health, 'OVERLAY', cfg.font, cfg.fontsize, cfg.fontflag, 1, 1, 1)
+		local htext = fs(self.Health, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
 		htext:SetPoint('RIGHT', -2, 0)
 		self:Tag(htext, '[party:hp]')
 
-		if cfg.aura.focus_debuffs then
-			local d = CreateFrame('Frame', nil, self)
-			d.size = 24
-			d.spacing = 4
-			d.num = cfg.aura.focus_debuffs_num
-			d:SetPoint('BOTTOMLEFT', self, 'TOPLEFT', 1, 7)
-			d:SetSize(cfg.party.width, d.size)
-			d.initialAnchor = 'TOPLEFT'
-			d.PostCreateIcon = auraIcon
-			d.PostUpdateIcon = PostUpdateIcon
-			self.Debuffs = d
-		end
+		local d = CreateFrame('Frame', nil, self)
+		d.size = 24
+		d.spacing = 4
+		d.num = 8
+		d:SetPoint('BOTTOMLEFT', self, 'TOPLEFT', 1, 7)
+		d:SetSize(G.unitframes.focus.width, d.size)
+		d.initialAnchor = 'TOPLEFT'
+		d.PostCreateIcon = auraIcon
+		d.PostUpdateIcon = PostUpdateIcon
+		self.Debuffs = d
 
-		if cfg.aura.focus_buffs then
-			local b = CreateFrame('Frame', nil, self)
-			b.size = 24
-			b.spacing = 4
-			b.num = cfg.aura.focus_buffs_num
-			b:SetSize(b.num / 2 * b.size + b.spacing * (b.num / 2 - 1), b.size)
-			b:SetPoint('TOPRIGHT', self, 'TOPLEFT', -5, 0)
-			b.initialAnchor = 'TOPRIGHT'
-			b['growth-x'] = 'LEFT'
-			b['growth-y'] = 'DOWN'
-			b.PostCreateIcon = auraIcon
-			b.PostUpdateIcon = PostUpdateIcon
-			self.Buffs = b
-		end
+		local b = CreateFrame('Frame', nil, self)
+		b.size = 24
+		b.spacing = 4
+		b.num = 12
+		b:SetSize(b.num / 2 * b.size + b.spacing * (b.num / 2 - 1), b.size)
+		b:SetPoint('TOPRIGHT', self, 'TOPLEFT', -5, 0)
+		b.initialAnchor = 'TOPRIGHT'
+		b['growth-x'] = 'LEFT'
+		b['growth-y'] = 'DOWN'
+		b.PostCreateIcon = auraIcon
+		b.PostUpdateIcon = PostUpdateIcon
+		self.Buffs = b
 	end,
 	boss = function(self, unit)
 		Shared(self, unit)
 		Power(self)
 
 		self.Health.frequentUpdates = true
-
-		if cfg.boss_cb.enable then castbar(self) end
-
 		self.SpellRange.outsideAlpha = 1
 
-		self:SetSize(cfg.party.width, cfg.party.health + 13)
-		self.Power:SetHeight(cfg.player.power)
-		self.Power.PostUpdate = PostUpdatePower
+		self:SetSize(G.unitframes.boss.width,G.unitframes.boss.health + G.unitframes.boss.power - 2)
+		self.Health:SetHeight(G.unitframes.boss.health)
+		self.Power:SetHeight(G.unitframes.boss.power)
 
-		local name = fs(self.Health, 'OVERLAY', cfg.font, cfg.fontsize, cfg.fontflag, 1, 1, 1)
+		local name = fs(self.Health, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
 		name:SetPoint('LEFT', 4, 0)
 		name:SetJustifyH 'LEFT'
 		self:Tag(name, '[color][long:name]')
 
-		local htext = fs(self.Health, 'OVERLAY', cfg.font, cfg.fontsize, cfg.fontflag, 1, 1, 1)
+		local htext = fs(self.Health, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
 		htext:SetPoint('RIGHT', -2, 0)
 		self:Tag(htext, '[boss:hp]')
 
-		if cfg.aura.boss_buffs then
-			local b = CreateFrame('Frame', nil, self)
-			b.size = 24
-			b.spacing = 4
-			b.num = cfg.aura.boss_buffs_num
-			b:SetSize(b.num * b.size + b.spacing * (b.num - 1), b.size)
-			b:SetPoint('TOPRIGHT', self, 'TOPLEFT', -5, 0)
-			b.initialAnchor = 'TOPRIGHT'
-			b['growth-x'] = 'LEFT'
-			b.PostCreateIcon = auraIcon
-			b.PostUpdateIcon = PostUpdateIcon
-			self.Buffs = b
-		end
+		local b = CreateFrame('Frame', nil, self)
+		b.size = 24
+		b.spacing = 4
+		b.num = 4
+		b:SetSize(b.num * b.size + b.spacing * (b.num - 1), b.size)
+		b:SetPoint('TOPRIGHT', self, 'TOPLEFT', -5, 0)
+		b.initialAnchor = 'TOPRIGHT'
+		b['growth-x'] = 'LEFT'
+		b.PostCreateIcon = auraIcon
+		b.PostUpdateIcon = PostUpdateIcon
+		self.Buffs = b
 
-		if cfg.aura.boss_debuffs then
-			local d = CreateFrame('Frame', nil, self)
-			d.size = 24
-			d.spacing = 4
-			d.num = cfg.aura.boss_debuffs_num
-			d:SetSize(d.num * d.size + d.spacing * (d.num - 1), d.size)
-			d:SetPoint('TOPLEFT', self, 'TOPRIGHT', 5, 0)
-			d.initialAnchor = 'TOPLEFT'
-			d.onlyShowPlayer = true
-			d.PostCreateIcon = auraIcon
-			d.PostUpdateIcon = PostUpdateIcon
-			self.Debuffs = d
-		end
+		local d = CreateFrame('Frame', nil, self)
+		d.size = 24
+		d.spacing = 4
+		d.num = 4
+		d:SetSize(d.num * d.size + d.spacing * (d.num - 1), d.size)
+		d:SetPoint('TOPLEFT', self, 'TOPRIGHT', 5, 0)
+		d.initialAnchor = 'TOPLEFT'
+		d.onlyShowPlayer = true
+		d.PostCreateIcon = auraIcon
+		d.PostUpdateIcon = PostUpdateIcon
+		self.Debuffs = d
 	end,
 	pet = function(self, unit)
 		Shared(self, unit)
 
-		self:SetSize(cfg.target.width, cfg.target.height)
+		self:SetSize(G.unitframes.pet.width, G.unitframes.pet.health - 2)
 
-		local name = fs(self.Health, 'OVERLAY', cfg.font, cfg.fontsize, cfg.fontflag, 1, 1, 1)
+		local name = fs(self.Health, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
 		name:SetPoint('CENTER', self.Health)
 		self:Tag(name, '[color][short:name]')
 	end,
 	partytarget = function(self, unit)
 		Shared(self, unit)
 
-		local name = fs(self.Health, 'OVERLAY', cfg.font, cfg.fontsize, cfg.fontflag, 1, 1, 1)
+		local name = fs(self.Health, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
 		name:SetPoint('CENTER', self.Health)
 		self:Tag(name, '[color][short:name]')
 	end,
 	targettarget = function(self, unit)
 		Shared(self, unit)
 
-		self:SetSize(cfg.target.width, cfg.target.height)
+		self:SetSize(G.unitframes.targettarget.width, G.unitframes.targettarget.health)
 
-		local name = fs(self.Health, 'OVERLAY', cfg.font, cfg.fontsize, cfg.fontflag, 1, 1, 1)
+		local name = fs(self.Health, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
 		name:SetPoint('CENTER')
 		self:Tag(name, '[color][short:name]')
 
-		if cfg.aura.targettarget_debuffs then
-			local d = CreateFrame('Frame', nil, self)
-			d.size = 24
-			d.spacing = 4
-			d.num = cfg.aura.targettarget_debuffs_num
-			d:SetSize(d.num * d.size + d.spacing * (d.num - 1), d.size)
-			d:SetPoint('TOPLEFT', self, 'TOPRIGHT', 5, -1)
-			d.initialAnchor = 'TOPLEFT'
-			d.PostCreateIcon = auraIcon
-			d.PostUpdateIcon = PostUpdateIcon
-			self.Debuffs = d
-		end
+		local d = CreateFrame('Frame', nil, self)
+		d.size = 24
+		d.spacing = 4
+		d.num = 4
+		d:SetSize(d.num * d.size + d.spacing * (d.num - 1), d.size)
+		d:SetPoint('TOPLEFT', self, 'TOPRIGHT', 5, -1)
+		d.initialAnchor = 'TOPLEFT'
+		d.PostCreateIcon = auraIcon
+		d.PostUpdateIcon = PostUpdateIcon
+		self.Debuffs = d
 	end,
 	party = function(self, unit)
 		Shared(self, unit)
 		Power(self)
 		Icons(self)
 
-		if cfg.party_cb.enable then castbar(self) end
+		self:SetSize(G.unitframes.party.width, G.unitframes.party.health + G.unitframes.party.power - 2)
+		self.Health:SetHeight(G.unitframes.party.health)
+		self.Power:SetHeight(G.unitframes.party.power)
 
-		self.Health:SetHeight(cfg.party.health)
-		self.Power:SetHeight(cfg.party.power)
-
-		local lfd = fs(self.Health, 'OVERLAY', cfg.symbol, 13, OUTLINE, 1, 1, 1)
+		local lfd = fs(self.Health, 'OVERLAY', symbol, 13, "OUTLINE", 1, 1, 1)
 		lfd:SetPoint('LEFT', 4, 0)
 		lfd:SetJustifyH 'LEFT'
 		self:Tag(lfd, '[LFD]')
 
-		local name = fs(self.Health, 'OVERLAY', cfg.font, cfg.fontsize, cfg.fontflag, 1, 1, 1)
+		local name = fs(self.Health, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
 		name:SetPoint('LEFT', lfd, 'RIGHT', 0, 0)
 		name:SetJustifyH 'LEFT'
 		self:Tag(name, ' [color][short:name] [lvl]')
 
-		local htext = fs(self.Health, 'OVERLAY', cfg.font, cfg.fontsize, cfg.fontflag, 1, 1, 1)
+		local htext = fs(self.Health, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
 		htext:SetPoint('RIGHT', -2, 0)
 		self:Tag(htext, '[party:hp]')
 
@@ -697,19 +622,17 @@ local UnitSpecific = {
 		rc:SetSize(12, 12)
 		self.ReadyCheckIndicator = rc
 
-		if cfg.aura.party_buffs then
-			local d = CreateFrame('Frame', nil, self)
-			d.size = 24
-			d.spacing = 4
-			d.num = cfg.aura.party_buffs_num
-			d:SetSize(d.num * d.size + d.spacing * (d.num - 1), d.size)
-			d:SetPoint('TOPRIGHT', self, 'TOPLEFT', -5, -1)
-			d.initialAnchor = 'TOPRIGHT'
-			d['growth-x'] = 'LEFT'
-			d.PostCreateIcon = auraIcon
-			d.PostUpdateIcon = PostUpdateIcon
+		local d = CreateFrame('Frame', nil, self)
+		d.size = 24
+		d.spacing = 4
+		d.num = 4
+		d:SetSize(d.num * d.size + d.spacing * (d.num - 1), d.size)
+		d:SetPoint('TOPRIGHT', self, 'TOPLEFT', -5, -1)
+		d.initialAnchor = 'TOPRIGHT'
+		d['growth-x'] = 'LEFT'
+		d.PostCreateIcon = auraIcon
+		d.PostUpdateIcon = PostUpdateIcon
 			self.Debuffs = d
-		end
 	end,
 	arena = function(self, unit)
 		Shared(self, unit)
@@ -717,48 +640,39 @@ local UnitSpecific = {
 		Power(self)
 		Icons(self)
 
-		if cfg.arena_cb.enable then castbar(self) end
+		self:SetSize(G.unitframes.arena.width, G.unitframes.arena.health + G.unitframes.arena.power - 2)
+		self.Health:SetHeight(G.unitframes.arena.health)
+		self.Power:SetHeight(G.unitframes.arena.power)
 
-		self:SetSize(cfg.party.width, cfg.party.health + cfg.party.power + 1)
-		self.Health:SetHeight(cfg.party.health)
-		self.Power:SetHeight(cfg.party.power)
-
-		local name = fs(self.Health, 'OVERLAY', cfg.font, cfg.fontsize, cfg.fontflag, 1, 1, 1)
+		local name = fs(self.Health, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
 		name:SetPoint('LEFT', 4, 0)
 		name:SetJustifyH 'LEFT'
 		self:Tag(name, '[color][long:name]')
 
-		local htext = fs(self.Health, 'OVERLAY', cfg.font, cfg.fontsize, cfg.fontflag, 1, 1, 1)
+		local htext = fs(self.Health, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
 		htext:SetPoint('RIGHT', -2, 0)
 		self:Tag(htext, '[party:hp]')
-
-
-		local t = CreateFrame('Frame', nil, self)
-		t:SetSize(cfg.party.health + cfg.party.power + 1, cfg.party.health + cfg.party.power + 1)
-		t:SetPoint('TOPRIGHT', self, 'TOPLEFT', -3, 0)
-		t.framebd = framebd(t, t)
-		self.Trinket = t
 	end,
 	raid = function(self, unit)
 		Shared(self, unit)
-
 		Power(self)
 		Icons(self)
 
-		self.Health:SetHeight(cfg.raid.health)
-		self.Power:SetHeight(cfg.raid.power)
+		self:SetSize(G.unitframes.raid.width, G.unitframes.raid.health + G.unitframes.raid.power)
+		self.Health:SetHeight(G.unitframes.raid.health)
+		self.Power:SetHeight(G.unitframes.raid.power)
 
-		local name = fs(self.Health, 'OVERLAY', cfg.font, cfg.fontsize, cfg.fontflag, 1, 1, 1)
+		local name = fs(self.Health, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
 		name:SetPoint('LEFT', 5, 5)
 		name:SetJustifyH 'LEFT'
 		self:Tag(name, '[color][veryshort:name]')
 
-		local htext = fs(self.Health, 'OVERLAY', cfg.font, cfg.fontsize, cfg.fontflag, 1, 1, 1)
+		local htext = fs(self.Health, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
 		htext:SetPoint('RIGHT', -5, -8)
 		htext:SetJustifyH 'RIGHT'
 		self:Tag(htext, '[raid:hp]')
 
-		local lfd = fs(self.Health, 'OVERLAY', cfg.symbol, 12, '', 1, 1, 1)
+		local lfd = fs(self.Health, 'OVERLAY', symbol, 12, '', 1, 1, 1)
 		lfd:SetPoint('BOTTOMLEFT', 6, 1)
 		self:Tag(lfd, '[LFD]')
 
@@ -792,113 +706,21 @@ local UnitSpecific = {
 
 UnitSpecific.focustarget = UnitSpecific.pet
 
--- Nameplates
-oUF:RegisterStyle("gempUI", function(self, unit)
-	if not unit:match("nameplate") then
-		return
-	end
-
-	local health = CreateFrame("StatusBar", nil, self)
-	health:SetAllPoints()
-	health:SetStatusBarTexture("Interface\\BUTTONS\\WHITE8X8")
-	health.colorHealth = true
-	health.colorTapping = true
-	health.colorDisconnected = true
-	health.frequentUpdates = true
-
-	local border = CreateFrame("Frame", nil, health)
-	border:SetFrameStrata("BACKGROUND")
-	border:SetWidth(G.nameplates.width + 2)
-	border:SetHeight(G.nameplates.height + 2)
-	border:SetBackdrop({
-		bgFile = [[Interface\Buttons\WHITE8x8]],
-		edgeFile = [[Interface\Buttons\WHITE8x8]],
-		edgeSize = 1,
-	})
-	border:SetBackdropColor(unpack(G.colors.base))
-	border:SetBackdropBorderColor(unpack(G.colors.border))
-	border:SetPoint("BOTTOM", 0, -1)
-	border:Show()
 
 
-	self.Health = health
-
-
-	self.Namecontainer = CreateFrame("frame", nil, self)
-	self.Name = self.Namecontainer:CreateFontString(nil)
-	self.Name:SetShadowOffset(1, -1)
-	self.Name:SetTextColor(1, 1, 1)
-	self.Name:ClearAllPoints()
-	self.Name:SetFont(G.fonts.square, G.nameplates.fontsize)
-	self.Name:SetShadowColor(0, 0, 0)
-	self.Name:SetPoint("BOTTOM", self, "TOP", 0, 6)
-	self:Tag(self.Name, '[name]')
-
-
-	local cb = createStatusbar(self, G.texture, nil, nil, nil, unpack(G.colors.base))
-
-	cb.Text = fs(cb, 'OVERLAY', G.fonts.square, G.nameplates.fontsize - 1, G.nameplates.fontflag, 1, 1, 1, 'LEFT')
-	cb.Text:SetPoint('LEFT', cb, 2, 0)
-	cb.CastingColor = G.colors.base
-	cb.CompleteColor = { 0.12, 0.86, 0.15, G.colors.base[4] }
-	cb.FailColor = { 1.0, 0.09, 0, G.colors.base[4] }
-	cb.ChannelingColor = { 0.32, 0.3, G.colors.base[4] }
-	cb.Icon = cb:CreateTexture(nil, 'ARTWORK')
-	cb.Icon:SetPoint('TOPRIGHT', cb, 'TOPLEFT', -1, 0)
-	cb.Icon:SetTexCoord(.1, .9, .1, .9)
-
-	cb:SetPoint("TOPLEFT", self.Health, "BOTTOMLEFT", G.nameplates.height + 1, -1)
-	cb:SetSize(G.nameplates.width - G.nameplates.height - 1, G.nameplates.height)
-	cb.Icon:SetSize(cb:GetHeight(), cb:GetHeight())
-
-	cb.Spark = cb:CreateTexture(nil, 'OVERLAY')
-	cb.Spark:SetTexture([=[Interface\Buttons\WHITE8x8]=])
-	cb.Spark:SetBlendMode('Add')
-	cb.Spark:SetHeight(cb:GetHeight() - 2)
-	cb.Spark:SetWidth(1)
-	cb.Spark:SetVertexColor(1, 1, 1)
-
-
-
-
-	cb.OnUpdate = OnCastbarUpdate
-	cb.PostCastStart = PostCastStart
-	cb.PostChannelStart = PostCastStart
-	cb.PostCastStop = PostCastStop
-	cb.PostChannelStop = PostCastStop
-	cb.PostCastFailed = PostCastFailed
-	cb.PostCastInterrupted = PostCastFailed
-
-
-	cb.Backdrop = F.createBorder(cb, cb, true)
-	cb.IBackdrop = F.createBorder(cb, cb.Icon, true)
-	self.Castbar = cb
-
-	self.Castbar.Shield = self.Castbar:CreateTexture(nil, 'OVERLAY')
-	self.Castbar.Shield:SetSize(self.Castbar:GetHeight(), self.Castbar:GetHeight())
-	self.Castbar.Shield:SetPoint('LEFT', self.Castbar.Icon)
-	self.Castbar.Shield:SetTexture(G.media .. "textures\\shield")
-
-	self:SetScale(UIParent:GetEffectiveScale() * 1)
-	self:SetSize(G.nameplates.width, G.nameplates.height)
-	self:SetPoint("CENTER", 0, -25)
-end)
-
-oUF:SpawnNamePlates()
-
-oUF:RegisterStyle('Skaarj', Shared)
+oUF:RegisterStyle('gempUI', Shared)
 
 for unit, layout in next, UnitSpecific do
-	oUF:RegisterStyle('Skaarj - ' .. unit:gsub('^%l', string.upper), layout)
+	oUF:RegisterStyle('gempUI - ' .. unit:gsub('^%l', string.upper), layout)
 end
 
 local spawnHelper = function(self, unit, ...)
 	if (UnitSpecific[unit]) then
-		self:SetActiveStyle('Skaarj - ' .. unit:gsub('^%l', string.upper))
+		self:SetActiveStyle('gempUI - ' .. unit:gsub('^%l', string.upper))
 	elseif (UnitSpecific[unit:match('[^%d]+')]) then
-		self:SetActiveStyle('Skaarj - ' .. unit:match('[^%d]+'):gsub('^%l', string.upper))
+		self:SetActiveStyle('gempUI - ' .. unit:match('[^%d]+'):gsub('^%l', string.upper))
 	else
-		self:SetActiveStyle 'Skaarj'
+		self:SetActiveStyle 'gempUI'
 	end
 	local object = self:Spawn(unit)
 	object:SetPoint(...)
@@ -906,179 +728,162 @@ local spawnHelper = function(self, unit, ...)
 end
 
 oUF:Factory(function(self)
-	spawnHelper(self, 'player', 'TOP', cfg.unit_positions.Player.a, 'BOTTOM', cfg.unit_positions.Player.x, cfg.unit_positions.Player.y)
-	spawnHelper(self, 'target', 'TOP', cfg.unit_positions.Target.a, 'BOTTOM', cfg.unit_positions.Target.x, cfg.unit_positions.Target.y)
-	spawnHelper(self, 'targettarget', 'RIGHT', cfg.unit_positions.Targettarget.a, cfg.unit_positions.Targettarget.x, cfg.unit_positions.Targettarget.y)
-	spawnHelper(self, 'focus', 'RIGHT', cfg.unit_positions.Focus.a, 'TOPLEFT', cfg.unit_positions.Focus.x, cfg.unit_positions.Focus.y)
-	spawnHelper(self, 'focustarget', 'TOPRIGHT', cfg.unit_positions.Focustarget.a, cfg.unit_positions.Focustarget.x, cfg.unit_positions.Focustarget.y)
-	spawnHelper(self, 'pet', 'LEFT', cfg.unit_positions.Pet.a, cfg.unit_positions.Pet.x, cfg.unit_positions.Pet.y)
+	spawnHelper(self, 'player', 'TOP', UIParent, 'BOTTOM', G.unitframes.player.xOff, G.unitframes.player.yOff)
+	spawnHelper(self, 'target', 'TOP', UIParent, 'BOTTOM', G.unitframes.target.xOff, G.unitframes.target.yOff)
+	spawnHelper(self, 'targettarget', 'RIGHT', "oUF_gempUITarget", "RIGHT",G.unitframes.targettarget.xOff, G.unitframes.targettarget.yOff)
+	spawnHelper(self, 'focus', 'TOP', UIParent, 'CENTER', G.unitframes.focus.xOff, G.unitframes.focus.yOff)
+	spawnHelper(self, 'focustarget', 'TOPLEFT', "oUF_gempUIFocus", "TOPRIGHT", G.unitframes.focustarget.xOff, G.unitframes.focustarget.yOff)
+	spawnHelper(self, 'pet', 'LEFT', "oUF_gempUIPlayer", "LEFT",  G.unitframes.pet.xOff,  G.unitframes.pet.yOff)
 
-	if cfg.uf.boss then
-		for i = 1, MAX_BOSS_FRAMES do
-			spawnHelper(self, 'boss' .. i, 'LEFT', cfg.unit_positions.Boss.a, 'RIGHT', cfg.unit_positions.Boss.x, cfg.unit_positions.Boss.y - (70 * i))
+	for i = 1, MAX_BOSS_FRAMES do
+		spawnHelper(self, 'boss' .. i, 'LEFT', "oUF_gempUITarget", 'RIGHT', G.unitframes.boss.xOff, G.unitframes.boss.yOff - (70 * i))
+	end
+
+	local arena = {}
+	self:SetActiveStyle 'gempUI - Arena'
+	for i = 1, 5 do
+		arena[i] = self:Spawn('arena' .. i, 'oUF_Arena' .. i)
+		if i == 1 then
+			arena[i]:SetPoint('LEFT', "oUF_gempUITarget", 'RIGHT',  G.unitframes.arena.xOff,  G.unitframes.arena.yOff)
+		else
+			arena[i]:SetPoint('TOP', arena[i - 1], 'BOTTOM', 0, -23)
+		end
+	end
+	local arenatarget = {}
+	self:SetActiveStyle 'gempUI - Pet'
+	for i = 1, 5 do
+		arenatarget[i] = self:Spawn('arena' .. i .. 'target', 'oUF_Arena' .. i .. 'target')
+		if i == 1 then
+			arenatarget[i]:SetPoint('TOPLEFT', arena[i], 'TOPRIGHT', 5, 0)
+		else
+			arenatarget[i]:SetPoint('TOP', arenatarget[i - 1], 'BOTTOM', 0, -27)
 		end
 	end
 
-	if cfg.uf.arena then
-		local arena = {}
-		self:SetActiveStyle 'Skaarj - Arena'
-		for i = 1, 5 do
-			arena[i] = self:Spawn('arena' .. i, 'oUF_Arena' .. i)
-			if i == 1 then
-				arena[i]:SetPoint('LEFT', cfg.unit_positions.Arena.a, 'RIGHT', cfg.unit_positions.Arena.x, cfg.unit_positions.Arena.y)
-			else
-				arena[i]:SetPoint('TOP', arena[i - 1], 'BOTTOM', 0, -23)
+	local arenaprep = {}
+	for i = 1, 5 do
+		arenaprep[i] = CreateFrame('Frame', 'oUF_ArenaPrep' .. i, UIParent)
+		arenaprep[i]:SetAllPoints(_G['oUF_Arena' .. i])
+		arenaprep[i]:SetFrameStrata('BACKGROUND')
+		arenaprep[i].framebd = framebd(arenaprep[i], arenaprep[i])
+
+		arenaprep[i].Health = CreateFrame('StatusBar', nil, arenaprep[i])
+		arenaprep[i].Health:SetAllPoints()
+		arenaprep[i].Health:SetStatusBarTexture(G.texture)
+
+		arenaprep[i].Spec = fs(arenaprep[i].Health, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
+		arenaprep[i].Spec:SetPoint('CENTER')
+		arenaprep[i].Spec:SetJustifyH 'CENTER'
+
+		arenaprep[i]:Hide()
+	end
+
+	local arenaprepupdate = CreateFrame('Frame')
+	arenaprepupdate:RegisterEvent('PLAYER_LOGIN')
+	arenaprepupdate:RegisterEvent('PLAYER_ENTERING_WORLD')
+	arenaprepupdate:RegisterEvent('ARENA_OPPONENT_UPDATE')
+	arenaprepupdate:RegisterEvent('ARENA_PREP_OPPONENT_SPECIALIZATIONS')
+	arenaprepupdate:SetScript('OnEvent', function(self, event)
+		if event == 'PLAYER_LOGIN' then
+			for i = 1, 5 do
+				arenaprep[i]:SetAllPoints(_G['oUF_Arena' .. i])
 			end
-		end
-		local arenatarget = {}
-		self:SetActiveStyle 'Skaarj - Pet'
-		for i = 1, 5 do
-			arenatarget[i] = self:Spawn('arena' .. i .. 'target', 'oUF_Arena' .. i .. 'target')
-			if i == 1 then
-				arenatarget[i]:SetPoint('TOPLEFT', arena[i], 'TOPRIGHT', 5, 0)
-			else
-				arenatarget[i]:SetPoint('TOP', arenatarget[i - 1], 'BOTTOM', 0, -27)
+		elseif event == 'ARENA_OPPONENT_UPDATE' then
+			for i = 1, 5 do
+				arenaprep[i]:Hide()
 			end
-		end
+		else
+			local numOpps = GetNumArenaOpponentSpecs()
 
-		local arenaprep = {}
-		for i = 1, 5 do
-			arenaprep[i] = CreateFrame('Frame', 'oUF_ArenaPrep' .. i, UIParent)
-			arenaprep[i]:SetAllPoints(_G['oUF_Arena' .. i])
-			arenaprep[i]:SetFrameStrata('BACKGROUND')
-			arenaprep[i].framebd = framebd(arenaprep[i], arenaprep[i])
-
-			arenaprep[i].Health = CreateFrame('StatusBar', nil, arenaprep[i])
-			arenaprep[i].Health:SetAllPoints()
-			arenaprep[i].Health:SetStatusBarTexture(cfg.texture)
-
-			arenaprep[i].Spec = fs(arenaprep[i].Health, 'OVERLAY', cfg.font, cfg.fontsize, cfg.fontflag, 1, 1, 1)
-			arenaprep[i].Spec:SetPoint('CENTER')
-			arenaprep[i].Spec:SetJustifyH 'CENTER'
-
-			arenaprep[i]:Hide()
-		end
-
-		local arenaprepupdate = CreateFrame('Frame')
-		arenaprepupdate:RegisterEvent('PLAYER_LOGIN')
-		arenaprepupdate:RegisterEvent('PLAYER_ENTERING_WORLD')
-		arenaprepupdate:RegisterEvent('ARENA_OPPONENT_UPDATE')
-		arenaprepupdate:RegisterEvent('ARENA_PREP_OPPONENT_SPECIALIZATIONS')
-		arenaprepupdate:SetScript('OnEvent', function(self, event)
-			if event == 'PLAYER_LOGIN' then
+			if numOpps > 0 then
 				for i = 1, 5 do
-					arenaprep[i]:SetAllPoints(_G['oUF_Arena' .. i])
+					local f = arenaprep[i]
+
+					if i <= numOpps then
+						local s = GetArenaOpponentSpec(i)
+						local _, spec, class = nil, 'UNKNOWN', 'UNKNOWN'
+
+						if s and s > 0 then
+							_, spec, _, _, _, _, class = GetSpecializationInfoByID(s)
+						end
+
+						if class and spec then
+							f.Health:SetStatusBarColor(unpack(G.colors.base))
+							f.Spec:SetText(spec .. '  -  ' .. LOCALIZED_CLASS_NAMES_MALE[class])
+							f:Show()
+						end
+					else
+						f:Hide()
+					end
 				end
-			elseif event == 'ARENA_OPPONENT_UPDATE' then
+			else
 				for i = 1, 5 do
 					arenaprep[i]:Hide()
 				end
-			else
-				local numOpps = GetNumArenaOpponentSpecs()
-
-				if numOpps > 0 then
-					for i = 1, 5 do
-						local f = arenaprep[i]
-
-						if i <= numOpps then
-							local s = GetArenaOpponentSpec(i)
-							local _, spec, class = nil, 'UNKNOWN', 'UNKNOWN'
-
-							if s and s > 0 then
-								_, spec, _, _, _, _, class = GetSpecializationInfoByID(s)
-							end
-
-							if class and spec then
-								if cfg.class_colorbars then
-									f.Health:SetStatusBarColor(class_color.r, class_color.g, class_color.b)
-								else
-									f.Health:SetStatusBarColor(unpack(G.colors.base))
-								end
-								f.Spec:SetText(spec .. '  -  ' .. LOCALIZED_CLASS_NAMES_MALE[class])
-								f:Show()
-							end
-						else
-							f:Hide()
-						end
-					end
-				else
-					for i = 1, 5 do
-						arenaprep[i]:Hide()
-					end
-				end
 			end
-		end)
-	end
-
-	if cfg.uf.party then
-		for i = 1, MAX_PARTY_MEMBERS do
-			local pet = 'PartyMemberFrame' .. i .. 'PetFrame'
-			_G[pet]:SetParent(Hider)
-			_G[pet .. 'HealthBar']:UnregisterAllEvents()
 		end
+	end)
 
-		self:SetActiveStyle 'Skaarj - Raid'
-		local party = self:SpawnHeader(nil, nil, 'party', 'showPlayer',
-			cfg.options.showPlayer, 'showSolo', false, 'showParty', true, 'point', 'LEFT', 'xOffset', 5, 'yOffset', -5,
-			'oUF-initialConfigFunction', ([[
-			self:SetHeight(%d)
-			self:SetWidth(%d)
-			]]):format(cfg.raid.health + cfg.raid.power + 1, cfg.raid.width))
-		party:SetPoint('TOPLEFT', cfg.unit_positions.Party.a, 'TOPLEFT', cfg.unit_positions.Party.x, cfg.unit_positions.Party.y)
+	for i = 1, MAX_PARTY_MEMBERS do
+		local pet = 'PartyMemberFrame' .. i .. 'PetFrame'
+		_G[pet]:SetParent(Hider)
+		_G[pet .. 'HealthBar']:UnregisterAllEvents()
 	end
 
-	if cfg.uf.tank then
-		self:SetActiveStyle 'Skaarj - Party'
-		local maintank = self:SpawnHeader(nil, nil, 'raid',
-			'showRaid', true, 'showSolo', false, 'groupFilter', 'MAINTANK', 'yOffset', -23,
-			'oUF-initialConfigFunction', ([[
-			self:SetHeight(%d)
-			self:SetWidth(%d)
-		]]):format(cfg.party.health + cfg.party.power + 1, cfg.party.width))
-		maintank:SetPoint('RIGHT', cfg.unit_positions.Tank.a, 'LEFT', cfg.unit_positions.Tank.x, cfg.unit_positions.Tank.y)
+	self:SetActiveStyle 'gempUI - Raid'
+	local party = self:SpawnHeader(nil, nil, 'party', 'showPlayer',
+		false, 'showSolo', false, 'showParty', true, 'point', 'LEFT', 'xOffset', 5, 'yOffset', -5,
+		'oUF-initialConfigFunction', ([[
+		self:SetHeight(%d)
+		self:SetWidth(%d)
+		]]):format(G.unitframes.raid.health + G.unitframes.raid.power - 2, G.unitframes.raid.width))
+	party:SetPoint('TOPLEFT', UIParent, 'TOPLEFT', G.unitframes.party.xOff, G.unitframes.party.yOff)
 
-		if cfg.uf.tank_target then
-			self:SetActiveStyle 'Skaarj - Partytarget'
-			local maintanktarget = self:SpawnHeader(nil, nil, 'raid',
-				'showRaid', true, 'showSolo', false, 'groupFilter', 'MAINTANK', 'yOffset', -23,
-				'oUF-initialConfigFunction', ([[
-			self:SetAttribute('unitsuffix', 'target')
-			self:SetHeight(%d)
-			self:SetWidth(%d)
-			]]):format(cfg.target.height, cfg.target.width))
-			maintanktarget:SetPoint('TOPLEFT', 'oUF_SkaarjPartyMainTank', 'TOPRIGHT', 6, 0)
-		end
+	self:SetActiveStyle 'gempUI - Party'
+	local maintank = self:SpawnHeader(nil, nil, 'raid',
+		'showRaid', true, 'showSolo', false, 'groupFilter', 'MAINTANK', 'yOffset', -23,
+		'oUF-initialConfigFunction', ([[
+		self:SetHeight(%d)
+		self:SetWidth(%d)
+	]]):format(G.unitframes.tank.health + G.unitframes.tank.power + 1, G.unitframes.tank.width))
+	maintank:SetPoint('RIGHT', "oUF_gempUIPlayer", 'LEFT', G.unitframes.tank.xOff, G.unitframes.tank.yOff)
+
+	self:SetActiveStyle 'gempUI - Partytarget'
+	local maintanktarget = self:SpawnHeader(nil, nil, 'raid',
+		'showRaid', true, 'showSolo', false, 'groupFilter', 'MAINTANK', 'yOffset', -23,
+		'oUF-initialConfigFunction', ([[
+	self:SetAttribute('unitsuffix', 'target')
+	self:SetHeight(%d)
+	self:SetWidth(%d)
+	]]):format(G.unitframes.tanktarget.health, G.unitframes.tanktarget.width))
+	maintanktarget:SetPoint('TOPLEFT', 'oUF_gempUIPartyMainTank', 'TOPRIGHT', 6, 0)
+	
+	if IsAddOnLoaded('Blizzard_CompactRaidFrames') then
+		CompactRaidFrameManager:SetParent(Hider)
+		CompactUnitFrameProfiles:UnregisterAllEvents()
 	end
 
-	if cfg.options.disableRaidFrameManager then
-		if IsAddOnLoaded('Blizzard_CompactRaidFrames') then
-			CompactRaidFrameManager:SetParent(Hider)
-			CompactUnitFrameProfiles:UnregisterAllEvents()
-		end
-	end
-
-	if cfg.uf.raid then
-		self:SetActiveStyle 'Skaarj - Raid'
-		local raid = oUF:SpawnHeader(nil, nil, 'raid,solo', --'custom [@raid6,exists] show; hide'
-			'showPlayer', true,
-			'showSolo', false,
-			'showParty', false,
-			'showRaid', true,
-			'xoffset', 5,
-			'yOffset', -5,
-			'point', 'TOP',
-			'groupFilter', '1,2,3,4,5,6,7,8',
-			'groupingOrder', '1,2,3,4,5,6,7,8',
-			'groupBy', 'GROUP',
-			'maxColumns', 8,
-			'unitsPerColumn', 5,
-			'columnSpacing', 5,
-			'columnAnchorPoint', 'LEFT',
-			'oUF-initialConfigFunction', ([[
-			self:SetHeight(%d)
-			self:SetWidth(%d)
-		]]):format(cfg.raid.health + cfg.raid.power + 1, cfg.raid.width))
-		raid:SetPoint('TOPLEFT', cfg.unit_positions.Raid.a, 'TOPLEFT', cfg.unit_positions.Raid.x, cfg.unit_positions.Raid.y)
-	end
+	self:SetActiveStyle 'gempUI - Raid'
+	local raid = oUF:SpawnHeader(nil, nil, 'raid,solo', --'custom [@raid6,exists] show; hide'
+		'showPlayer', true,
+		'showSolo', false,
+		'showParty', false,
+		'showRaid', true,
+		'xoffset', 5,
+		'yOffset', -5,
+		'point', 'TOP',
+		'groupFilter', '1,2,3,4,5,6,7,8',
+		'groupingOrder', '1,2,3,4,5,6,7,8',
+		'groupBy', 'GROUP',
+		'maxColumns', 8,
+		'unitsPerColumn', 5,
+		'columnSpacing', 5,
+		'columnAnchorPoint', 'LEFT',
+		'oUF-initialConfigFunction', ([[
+		self:SetHeight(%d)
+		self:SetWidth(%d)
+	]]):format(G.unitframes.raid.health + G.unitframes.raid.power - 2, G.unitframes.raid.width))
+	raid:SetPoint('TOPLEFT', UIParent, 'TOPLEFT', G.unitframes.raid.xOff, G.unitframes.raid.yOff)
 end)
+
 

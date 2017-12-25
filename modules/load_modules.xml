@@ -2,8 +2,6 @@
     <Script file="functions.lua"/>
     <Script file="sharedmedia.lua"/>
     
-    <!-- UnitFrames -->
-    <Include file="unitframes\load_unitframes.xml"/>
     <!-- Skins -->
     <Include file="skins\load_skins.xml"/>
     <!-- Cooldowns -->
@@ -11,6 +9,7 @@
     <!-- Blizzard -->
     <Include file="blizzard\load_blizzard.xml"/>
 
+    <Script file="nameplates.lua"/>
     <Script file="experience_reputation.lua"/>
     <Script file="threat.lua"/>
     <Script file="utilityframes.lua"/>
@@ -25,4 +24,7 @@
     <Script file="actionbuttonstyler.lua"/>
     <Script file="actionbars.lua"/>
     <Script file="chat.lua"/>
+
+    <!-- UnitFrames -->
+    <Include file="unitframes\load_unitframes.xml"/>
 </Ui>

@@ -1,9 +1,6 @@
 local _, ns = ...
-local cfg = ns.cfg
 local oUF = ns.oUF or _G.oUF
 assert(oUF, "oUF_AuraWatch cannot find an instance of oUF. If your oUF is embedded into a layout, it may not be embedded properly.")
-
-if not cfg.aw.enable then return end
 
 local UnitAura, UnitGUID = UnitAura, UnitGUID
 local GUIDs = {}

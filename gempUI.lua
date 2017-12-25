@@ -1,4 +1,5 @@
 local addon, core = ...
+local name, ns = ...
 
 core[1] = {} -- F, functions
 core[2] = {} -- G, gempUI related stuff like options or media
@@ -8,27 +9,128 @@ local F, G, V = unpack(select(2, ...))
 
 ChatFrame1:AddMessage("|cff00FF7Fgemp|rUI");
 -------------------------------------------------------------------------------------
+------ Basics
+-------------------------------------------------------------------------------------
+
+G.media = "Interface\\AddOns\\gempUI\\media\\"
+G.texture = G.media .. "textures\\flat"
+
+G.fonts = {
+	square = "Interface\\Addons\\gempUI\\media\\fonts\\square.ttf",
+	roboto = "Interface\\Addons\\gempUI\\media\\fonts\\roboto.ttf",
+	roboto_bold = "Interface\\Addons\\gempUI\\media\\fonts\\roboto_bold.ttf",
+	roboto_bolditalic = "Interface\\Addons\\gempUI\\media\\fonts\\roboto_bolditalic.ttf",
+	roboto_italic = "Interface\\Addons\\gempUI\\media\\fonts\\roboto_italic.ttf"
+}
+
+-------------------------------------------------------------------------------------
 ------ Options
 -------------------------------------------------------------------------------------
+
+
+G.unitframes = {
+	font = G.fonts.square,
+	fontsize = 11,
+	fontflag = "THINOUTLINE",
+	player = {
+		width = 210,
+		health = 24,
+		power = 3, -- rage, mana etc.
+		special = 5, -- holy power, runes etc.
+		xOff = -132,
+		yOff = 180,
+		castbar = {
+			width = 210,
+			height = 15,
+			xOff = 0,
+			yOff = -10
+		}
+	},
+	target = {
+		width = 210,
+		health = 24,
+		power = 3,
+		xOff = 132,
+		yOff = 180,
+		castbar = {
+			width = 210,
+			height = 15,
+			xOff = 0,
+			yOff = -10
+		}
+	},
+	targettarget = {
+		width = 80,
+		health = 27,
+		xOff = 0,
+		yOff = -64,
+	},
+	party = {
+		width = 166,
+		health = 24,
+		power = 3,
+		xOff = 724,
+		yOff = -780
+	},
+	tank = {
+		width = 166,
+		health = 24,
+		power = 3,
+		xOff = -105,
+		yOff = 150
+	},
+	tanktarget = {
+		width = 80,
+		health = 27
+	},
+	raid = {
+		width = 60,
+		health = 30,
+		power = 2,
+		xOff = 6,
+		yOff = -6
+	},
+	arena = {
+		width = 166,
+		health = 24,
+		power = 3,
+		xOff = 120,
+		yOff = 300
+	},
+	pet = {
+		width = 80,
+		health = 27,
+		xOff = 0,
+		yOff = -64
+	},
+	focus = {
+		width = 166,
+		health = 24,
+		power = 3,
+		xOff = -550,
+		yOff = -20
+	},
+	focustarget = {
+		xOff = 5,
+		yOff = 0
+	},
+	boss = {
+		width = 166,
+		health = 24,
+		power = 3, 
+		xOff = 120,
+		yOff = 400
+	},
+}
+
+
+
 
 G.options = {
 	actionbars_side_two = false, -- adds a second actionbar on the right
 	actionbars_main_three = false -- adds a third actionbar in the middle
 }
 
-G.pos = {
-	player = { x = 132, y = 189 },
-	target = { x = -132, y = 189 },
-	targetoftarget = { x = 0, y = -64 },
-	focus = { x = -105, y = 400 },
-	focustarget = { x = 95, y = 0 },
-	pet = { x = 0, y = -63 },
-	boss = { x = 120, y = 400 },
-	tank = { x = -105, y = 150 },
-	raid = { x = 6, y = -6 },
-	party = { x = 724, y = -780 },
-	arena = { x = 120, y = 300 },
-}
 
 G.nameplates = {
 	width = 120,
@@ -46,18 +148,6 @@ G.colors = {
 	special = { 0, 0.29, 0.58, 1 }
 }
 
-G.media = "Interface\\AddOns\\gempUI\\media\\"
-G.texture = G.media .. "textures\\flat"
-
-
-G.fonts = {
-	square = "Interface\\Addons\\gempUI\\media\\fonts\\square.ttf",
-	roboto = "Interface\\Addons\\gempUI\\media\\fonts\\roboto.ttf",
-	roboto_bold = "Interface\\Addons\\gempUI\\media\\fonts\\roboto_bold.ttf",
-	roboto_bolditalic = "Interface\\Addons\\gempUI\\media\\fonts\\roboto_bolditalic.ttf",
-	roboto_italic = "Interface\\Addons\\gempUI\\media\\fonts\\roboto_italic.ttf"
-}
-
 G.backdrop = {
 	bgFile = [[Interface\Buttons\WHITE8x8]],
 	edgeFile = [[Interface\Buttons\WHITE8x8]],
@@ -66,6 +156,7 @@ G.backdrop = {
 
 
 V = {
+	oUF = ns.oUF,
 	playerlevel = UnitLevel("player"),
 	playername = UnitName("player")
 }
