@@ -304,7 +304,7 @@ local function Shared(self, unit)
 
 	self.SpellRange = {
 		insideAlpha = 1,
-		outsideAlpha = 0.3
+		outsideAlpha = 0.5
 	}
 end
 
@@ -521,8 +521,8 @@ local UnitSpecific = {
 		self.Health.frequentUpdates = true
 		self.SpellRange.outsideAlpha = 1
 
-		self:SetSize(G.unitframes.boss.width,G.unitframes.boss.health + G.unitframes.boss.power - 2)
-		self.Health:SetHeight(G.unitframes.boss.health)
+		self:SetSize(G.unitframes.boss.width,G.unitframes.boss.health + G.unitframes.boss.power)
+		self.Health:SetHeight(G.unitframes.boss.health - 2)
 		self.Power:SetHeight(G.unitframes.boss.power)
 
 		local name = fs(self.Health, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
@@ -659,7 +659,7 @@ local UnitSpecific = {
 		Icons(self)
 
 		self:SetSize(G.unitframes.raid.width, G.unitframes.raid.health + G.unitframes.raid.power)
-		self.Health:SetHeight(G.unitframes.raid.health)
+		self.Health:SetHeight(G.unitframes.raid.health - 2)
 		self.Power:SetHeight(G.unitframes.raid.power)
 
 		local name = fs(self.Health, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
