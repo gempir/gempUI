@@ -7,6 +7,10 @@ local F, G, V = unpack(select(2, ...))
  * bool extend - 1px outside of the anchor or outside
 ]] --
 function F.createBorder(parent, anchor, extend)
+	if not anchor then
+		anchor = parent
+	end
+
 	local frame = CreateFrame('Frame', nil, parent)
 	frame:SetFrameStrata('MEDIUM')
 	if extend then

@@ -6,9 +6,8 @@ local function CreateMarkerButton(btnName, iconnum, x, y)
 	frame:SetPoint("CENTER", gWorldmarkers, x, y)
 	frame:SetWidth(22);
 	frame:SetHeight(22);
-	F.addBackdrop(frame)
 	frame:SetAttribute("type", "macro");
-
+	
 	t = frame:CreateTexture("raidicon")
 	t:SetTexture("Interface\\TargetingFrame\\UI-RaidTargetingIcon_" .. iconnum)
 	t:SetAllPoints()
@@ -47,7 +46,6 @@ local function CreateMarkerClearButton(btnName, x, y)
 	frame:SetPoint("CENTER", gWorldmarkers, x, y)
 	frame:SetWidth(22);
 	frame:SetHeight(22);
-	F.addBackdrop(frame)
 	frame:SetAttribute("type", "macro");
 
 	t = frame:CreateFontString("raidicon")
@@ -92,14 +90,14 @@ local function CreateRaidButton(btnName, text, x, y)
 	frame:SetPoint("CENTER", gWorldmarkers, x, y)
 	frame:SetWidth(60);
 	frame:SetHeight(25);
-	F.addBackdrop(frame)
 	frame:SetAttribute("type", "macro");
-
+	
 	t = frame:CreateFontString("raidbutton")
 	t:SetFont("Interface\\AddOns\\gempUI\\media\\fonts\\square.ttf", 13, "THINOUTLINE");
 	t:SetText(text);
 	t:SetPoint("CENTER", frame, "CENTER", 2, 0);
 
+	F.createBorder(frame)
 	F.createOverlay(frame)
 end
 

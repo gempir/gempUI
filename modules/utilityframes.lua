@@ -1,19 +1,21 @@
 local F, G, V = unpack(select(2, ...))
 
-
 local addonName, eventHandlers = ..., { }
+
+local errorFrame = CreateFrame("Frame")
+errorFrame:SetScript('OnEvent', function(self, event, messageType, message)
+	if not UnitAffectingCombat("player") then
+		UIErrorsFrame:AddMessage(message, 1, .1, .1)
+	end		
+end)
 
 function hideerrorsfunc()
 	if gempDB.hideerrors then
-		local allowedErrors = { }
-
-		eventHandlers['UI_ERROR_MESSAGE'] = function(message)
-			if allowedErrors[message] then
-				UIErrorsFrame:AddMessage(message, 1, .1, .1)
-			end
-		end
-
-		UIErrorsFrame:UnregisterEvent('UI_ERROR_MESSAGE')
+		UIErrorsFrame:UnregisterEvent("UI_ERROR_MESSAGE")
+		errorFrame:RegisterEvent("UI_ERROR_MESSAGE")
+	else 
+		UIErrorsFrame:RegisterEvent("UI_ERROR_MESSAGE")
+		errorFrame:UnregisterEvent("UI_ERROR_MESSAGE")
 	end
 end
 
@@ -271,11 +273,11 @@ local gAC_1button = CreateFrame("Button", nil, gAC_1)
 
 	  		if gempDB.hideerrors == true then
 				gAC_1:SetBackdropColor(0/255, 84/255, 28/255, G.colors.base[4])
-				print("|cff00FF7F[gemp]|r Errors are hidden");
+				print("|cff00FF7F[gemp]|r Errors in combat are hidden");
 				hideerrorsfunc();
 			elseif gempDB.hideerrors == false then
 				gAC_1:SetBackdropColor(150/255, 10/255, 10/255, G.colors.base[4])
-				print("|cff00FF7F[gemp]|r Errors are not hidden");
+				print("|cff00FF7F[gemp]|r Errors in combat are not hidden");
 				UIErrorsFrame:RegisterEvent('UI_ERROR_MESSAGE')
 			end
 	  end)
