@@ -80,7 +80,6 @@ if (IsAddOnLoaded("Skada")) then
 		if not gDamage:IsShown() then
 			gDamage:Show();
 			gDMG_visible = true;
-			gXpbarp:SetPoint("TOP", Minimap, "TOP", 0, -274)
 		elseif gAutomatorConfig:IsShown() then
 			Skada:ToggleWindow();
 		elseif gWorldmarkers:IsShown() then
@@ -135,14 +134,7 @@ gWorldmarkers:Hide();
 
 
 function gWM_Toggle()
-	if gDMG_visible == true then
-		gDamage:Hide()
-		gDMG_visible = false
-		SkadaToggleWindowIfLoaded()
-
-		gWorldmarkers:Show()
-		gWM_visible = true
-	elseif gAC_visible == true then
+	if gAC_visible == true then
 		gAutomatorConfig:Hide()
 		gAC_visible = false
 
@@ -182,15 +174,6 @@ function gAC_Toggle()
 
 		gAutomatorConfig:Show();
 		gAC_visible = true;
-
-	elseif(gDMG_visible == true) then
-		gDamage:Hide();
-		gDMG_visible = false;
-		SkadaToggleWindowIfLoaded();
-
-		gAutomatorConfig:Show();
-		gAC_visible = true;
-
 	else
 		gAutomatorConfig:Show();
 		gAC_visible = true;
@@ -203,30 +186,16 @@ end
 -----------------------------------------------------------------------------
 
 local gDamage = CreateFrame("Frame", "gDamage", UIParent);
-gDamage:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", -6, -207);
+gDamage:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", -183, -6);
 F.addBackdrop(gDamage)
 gDamage:SetWidth(178);
-gDamage:SetHeight(74);
+gDamage:SetHeight(202);
 gDamage:SetFrameStrata("LOW")
 gDamage:Hide();
 
 
 function gDMG_Toggle()
-	if(gAC_visible == true) then
-		gAutomatorConfig:Hide();
-		gAC_visible = false;
-
-		gDamage:Show();
-		gDMG_visible = true;
-		SkadaToggleWindowIfLoaded();
-	elseif(gWM_visible == true) then
-		gWorldmarkers:Hide();
-		gWM_visible = false;
-
-		gDamage:Show();
-		gDMG_visible = true;
-		SkadaToggleWindowIfLoaded();
-	elseif(gDMG_visible == true) then
+	if gDMG_visible then
 		gDamage:Hide();
 		gDMG_visible = false;
 		SkadaToggleWindowIfLoaded();

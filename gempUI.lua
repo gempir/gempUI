@@ -39,6 +39,11 @@ G.aurawatch = {
 		DEATHKNIGHT = {
 			195181, -- Bone Shield
 			53365, -- Unholy Strength
+		},
+		WARRIOR = {
+			184362, -- Enrage
+			1719, -- Battlecry
+			107574, -- Avatar
 		}
 	}
 }

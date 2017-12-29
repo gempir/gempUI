@@ -15,8 +15,7 @@ local function OnUpdate(self)
 --		Calculate needed values
 		local elapsed=now-start;
         local remain=math.max(0,duration-elapsed);
-        
-        ptr:SetFont(G.cooldowns.font, G.cooldowns.fontsize, "THICKOUTLINE")
+        ptr:SetFont(G.cooldowns.font, self:GetHeight() / 2, "THICKOUTLINE")
 
 --		Colorize text
         if elapsed<0 then	

@@ -5,26 +5,20 @@ local F, G, V = unpack(select(2, ...))
 -- WORLDMARKERS BUTTON
 -------------------------------------------------------
 
-local wmButton = CreateFrame("Button", "button_gWorldmarkers", UIParent)
-wmButton:SetPoint("CENTER", UIParent, "TOPRIGHT", -154, -196)
-wmButton:SetWidth(60)
-wmButton:SetHeight(25)
-wmButton:RegisterForClicks("LeftButtonDown")
-wmButton:SetScript("OnClick", function()
-	wmButton:SetFrameStrata("BACKGROUND")
+local dmgButton = CreateFrame("Button", "button_gDamage", UIParent)
+dmgButton:SetPoint("CENTER", UIParent, "TOPRIGHT", -154, -196)
+dmgButton:SetWidth(60)
+dmgButton:SetHeight(25)
+dmgButton:RegisterForClicks("LeftButtonDown")
+dmgButton:SetFrameStrata("BACKGROUND")
+dmgButton:SetScript("OnClick", function()
 
+	gDMG_Toggle()
 
-	if gWM_visible then
-		gXpbarp:SetPoint("TOP", Minimap, "TOP", 0, -201)
-	elseif not gWM_visible then
-		gXpbarp:SetPoint("TOP", Minimap, "TOP", 0, -271)
-	end
-
-	gWM_Toggle()
 end)
 
-F.addBackdrop(wmButton)
-F.createOverlay(wmButton)
+F.addBackdrop(dmgButton)
+F.createOverlay(dmgButton)
 
 
 -------------------------------------------------------
@@ -56,23 +50,23 @@ F.createOverlay(amButton)
 -------------------------------------------------------
 -- DAMAGE ADDON BUTTON 
 -------------------------------------------------------
-local dmgButton = CreateFrame("Button", "button_gDamage", UIParent)
+local wmButton = CreateFrame("Button", "button_gWorldmarkers", UIParent)
 
-dmgButton:SetPoint("CENTER", UIParent, "TOPRIGHT", -36, -196)
-dmgButton:SetWidth(60)
-dmgButton:SetHeight(25)
-dmgButton:SetFrameStrata("BACKGROUND")
-dmgButton:RegisterForClicks("LeftButtonDown")
-dmgButton:SetScript("OnClick", function()
+wmButton:SetPoint("CENTER", UIParent, "TOPRIGHT", -36, -196)
+wmButton:SetWidth(60)
+wmButton:SetHeight(25)
+wmButton:SetFrameStrata("BACKGROUND")
+wmButton:RegisterForClicks("LeftButtonDown")
+wmButton:SetScript("OnClick", function()
 
-	if gDMG_visible then
+	if gWM_visible then
 		gXpbarp:SetPoint("TOP", Minimap, "TOP", 0, -201)
-	elseif not gDMG_visible then
-		gXpbarp:SetPoint("TOP", Minimap, "TOP", 0, -274)
+	elseif not gWM_visible then
+		gXpbarp:SetPoint("TOP", Minimap, "TOP", 0, -271)
 	end
 
-	gDMG_Toggle()
+	gWM_Toggle()
 end)
 
-F.addBackdrop(dmgButton)
-F.createOverlay(dmgButton)
+F.addBackdrop(wmButton)
+F.createOverlay(wmButton)

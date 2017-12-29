@@ -26,8 +26,8 @@ if (IsAddOnLoaded("Skada")) then
 		SkadaDB.profiles.Default.windows[1].barcolor.g = G.colors.base[2]
 		SkadaDB.profiles.Default.windows[1].barcolor.b = G.colors.base[3]
 		-- Position
-		SkadaDB.profiles.Default.windows[1].y = -208
-		SkadaDB.profiles.Default.windows[1].x = -7
+		SkadaDB.profiles.Default.windows[1].x = -184
+		SkadaDB.profiles.Default.windows[1].y = -7
 
 		if not SkadaDB.profiles.Default.windows[1].background then
 			SkadaDB.profiles.Default.windows[1].background = {}

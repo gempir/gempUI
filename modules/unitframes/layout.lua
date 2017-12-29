@@ -62,15 +62,17 @@ local createAuraWatch = function(self, unit)
 		auras.PostCreateIcon = AWIcon
 		-- Set any other AuraWatch settings
 		auras.icons = {}
-		for i, sid in pairs(G.aurawatch.spellIDs[class]) do
-			local icon = CreateFrame("Frame", nil, self)
-			icon.spellID = sid
-			-- set the dimensions and positions
-			icon:SetWidth(36)
-			icon:SetHeight(36)
-			icon:SetPoint("BOTTOMLEFT", self, "TOPLEFT", -40 + (i * 40), 40)
-			auras.icons[sid] = icon
-			-- Set any other AuraWatch icon settings
+		if G.aurawatch.spellIDs[class] then 
+			for i, sid in pairs(G.aurawatch.spellIDs[class]) do
+				local icon = CreateFrame("Frame", nil, self)
+				icon.spellID = sid
+				-- set the dimensions and positions
+				icon:SetWidth(36)
+				icon:SetHeight(36)
+				icon:SetPoint("BOTTOMLEFT", self, "TOPLEFT", -40 + (i * 40), 40)
+				auras.icons[sid] = icon
+				-- Set any other AuraWatch icon settings
+			end
 		end
 		self.AuraWatch = auras
 end
@@ -119,9 +121,11 @@ end
 
 local FilterAuraWatch = function(icons, ...)
 	local _, icon, name, _, _, _, _, _, _, caster, _, _, spellID = ...
-	for k, v in pairs(G.aurawatch.spellIDs[class]) do
-		if v == spellID then 
-			return false
+	if G.aurawatch.spellIDs[class] then 
+		for k, v in pairs(G.aurawatch.spellIDs[class]) do
+			if v == spellID then 
+				return false
+			end
 		end
 	end
 	return true

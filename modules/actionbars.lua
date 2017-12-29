@@ -140,7 +140,7 @@ cfg.bars = {
 	["ExitVehicleButton"] = {
 		disable = false,
 		user_placed = true, -- if user_placed is set to false exit vehicle button will be 'docked' into bar1
-		position = { a = "BOTTOM", x = -260, y = 150 }, -- only if user_placed = true
+		position = { a = "BOTTOM", x = -260, y = 50 }, -- only if user_placed = true
 		button_size = 28, -- only if user_placed = true
 	},
 	["ExtraButton"] = {
