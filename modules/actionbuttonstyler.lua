@@ -44,21 +44,21 @@ cfg.color = {
 
 cfg.hotkeys = {
 	show = true,
-	fontsize = 12,
-	pos1 = { a1 = "TOPRIGHT", x = -2, y = -5 },
-	pos2 = { a1 = "TOPLEFT", x = -2, y = -5 }, --important! two points are needed to make the hotkeyname be inside of the button
+	fontsize = 10,
+	pos1 = { a1 = "TOPRIGHT", x = -2, y = -4 },
+	pos2 = { a1 = "TOPLEFT", x = -2, y = -4 }, --important! two points are needed to make the hotkeyname be inside of the button
 }
 
 cfg.macroname = {
 	show = true,
-	fontsize = 12,
-	pos1 = { a1 = "BOTTOMLEFT", x = 1, y = -1 },
-	pos2 = { a1 = "BOTTOMRIGHT", x = 1, y = -1 }, --important! two points are needed to make the macroname be inside of the button
+	fontsize = 8,
+	pos1 = { a1 = "BOTTOMLEFT", x = 1, y = 0 },
+	pos2 = { a1 = "BOTTOMRIGHT", x = 1, y = 0 }, --important! two points are needed to make the macroname be inside of the button
 }
 
 cfg.itemcount = {
 	show = true,
-	fontsize = 12,
+	fontsize = 14,
 	pos1 = { a1 = "BOTTOMRIGHT", x = -1, y = 1 },
 }
 

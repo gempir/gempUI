@@ -4,12 +4,11 @@
     
     <!-- Skins -->
     <Include file="skins\load_skins.xml"/>
-    <!-- Cooldowns -->
-    <Include file="cooldowns\load_cooldowns.xml"/>
     <!-- Blizzard -->
     <Include file="blizzard\load_blizzard.xml"/>
 
     <Script file="nameplates.lua"/>
+    <Script file="cooldowns.lua"/>
     <Script file="experience_reputation.lua"/>
     <Script file="threat.lua"/>
     <Script file="utilityframes.lua"/>

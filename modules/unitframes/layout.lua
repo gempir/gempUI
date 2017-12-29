@@ -45,6 +45,36 @@ local FormatTime = function(s)
 	return format('%d', fmod(s, minute))
 end
 
+local AWIcon = function(AWatch, icon, spellID, name, self)			
+	local count = fs(icon, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
+	count:SetPoint('BOTTOMRIGHT', icon, 1, 0)
+	icon.count = count
+	icon.cd:SetReverse(true)
+	icon.icon:SetTexCoord(.1, .9, .1, .9)
+	F.createBorder(icon)
+end
+
+local createAuraWatch = function(self, unit)
+	local auras = {}
+		
+		auras.presentAlpha = 1
+		auras.missingAlpha = 0
+		auras.PostCreateIcon = AWIcon
+		-- Set any other AuraWatch settings
+		auras.icons = {}
+		for i, sid in pairs(G.aurawatch.spellIDs[class]) do
+			local icon = CreateFrame("Frame", nil, self)
+			icon.spellID = sid
+			-- set the dimensions and positions
+			icon:SetWidth(36)
+			icon:SetHeight(36)
+			icon:SetPoint("BOTTOMLEFT", self, "TOPLEFT", -40 + (i * 40), 40)
+			auras.icons[sid] = icon
+			-- Set any other AuraWatch icon settings
+		end
+		self.AuraWatch = auras
+end
+
 local auraIcon = function(auras, button)
 	local c = button.count
 	c:ClearAllPoints()
@@ -78,29 +108,23 @@ local auraIcon = function(auras, button)
 end
 
 local PostUpdateIcon = function(icons, unit, icon, index, offset)
-	local name, _, _, _, dtype, duration, expirationTime, unitCaster = UnitAura(unit, index, icon.filter)
+	local name, _, _, _, dtype, duration, expirationTime, unitCaster, _, _, spellID = UnitAura(unit, index, icon.filter)
 	local texture = icon.icon
 	if icon.isPlayer or UnitIsFriend('player', unit) or not icon.isDebuff then
 		texture:SetDesaturated(false)
 	else
 		texture:SetDesaturated(true)
 	end
-	if duration and duration > 0 then
-		icon.remaining:Show()
-	else
-		icon.remaining:Hide()
-	end
+end
 
-	local r, g, b = icon.overlay:GetVertexColor()
-	if icon.isDebuff then
-		icon.glow:SetBackdropBorderColor(r, g, b, 1)
-	else
-		icon.glow:SetBackdropBorderColor(0, 0, 0, 1)
+local FilterAuraWatch = function(icons, ...)
+	local _, icon, name, _, _, _, _, _, _, caster, _, _, spellID = ...
+	for k, v in pairs(G.aurawatch.spellIDs[class]) do
+		if v == spellID then 
+			return false
+		end
 	end
-
-	icon.duration = duration
-	icon.expires = expirationTime
-	icon:SetScript('OnUpdate', CreateAuraTimer)
+	return true
 end
 
 local CustomFilter = function(icons, ...)
@@ -114,13 +138,6 @@ local CustomFilter = function(icons, ...)
 		icon.owner = caster
 		return true
 	end
-end
-
-local AWIcon = function(AWatch, icon, spellID, name, self)
-	local count = fs(icon, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
-	count:SetPoint('BOTTOMRIGHT', icon, 5, -5)
-	icon.count = count
-	icon.cd:SetReverse(true)
 end
 
 local OnCastbarUpdate = function(self, elapsed)
@@ -314,6 +331,7 @@ local UnitSpecific = {
 		Power(self)
 		Icons(self)
 		castbar(self)
+		createAuraWatch(self)
 
 		PetCastingBarFrame:UnregisterAllEvents()
 		PetCastingBarFrame.Show = function() end
@@ -344,7 +362,7 @@ local UnitSpecific = {
 		self.CombatIndicator = ct
 
 		local altp = createStatusbar(self, G.texture, nil, 30, 180, unpack(G.colors.base))
-		altp:SetPoint("CENTER", UIParent, "CENTER", 0, -250)
+		altp:SetPoint("CENTER", UIParent, "CENTER", 0, -150)
 		altp.bd = F.createBorder(altp, altp)
 		altp.Text = fs(altp, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
 		altp.Text:SetPoint('CENTER')
@@ -352,8 +370,6 @@ local UnitSpecific = {
 		altp:EnableMouse(true)
 		altp.colorTexture = true
 		self.AlternativePower = altp
-
-
 
 		if (class == 'PRIEST' or class == 'PALADIN' or class == 'MONK') then
 			local ClassPower = CreateFrame('Frame', nil, self)
@@ -415,8 +431,22 @@ local UnitSpecific = {
 			self.Runes = b
 		end
 
+		local b = CreateFrame('Frame', nil, self)
+		b.size = 27
+		b.spacing = 4
+		b.num = 18
+		b:SetSize(b.size * b.num / 2 + b.spacing * (b.num / 2 - 1), b.size)
+		b:SetPoint('TOPRIGHT', self, 'TOPLEFT', -5, -1)
+		b.initialAnchor = 'TOPRIGHT'
+		b['growth-y'] = 'DOWN'
+		b['growth-x'] = 'LEFT'
+		b.PostCreateIcon = auraIcon
+		b.PostUpdateIcon = PostUpdateIcon
+		b.CustomFilter = FilterAuraWatch
+		self.Buffs = b
+
 		local d = CreateFrame('Frame', nil, self)
-		d.size = 24
+		d.size = 27
 		d.spacing = 4
 		d.num = 18
 		d:SetPoint('BOTTOMLEFT', self, 'TOPLEFT', 1, 7)
@@ -448,9 +478,9 @@ local UnitSpecific = {
 		self:Tag(htext, '[player:hp]')
 
 		local b = CreateFrame('Frame', nil, self)
-		b.size = 24
+		b.size = 27
 		b.spacing = 4
-		b.num = 8
+		b.num = 18
 		b:SetSize(b.size * b.num / 2 + b.spacing * (b.num / 2 - 1), b.size)
 		b:SetPoint('TOPLEFT', self, 'TOPRIGHT', 5, -1)
 		b.initialAnchor = 'TOPLEFT'
@@ -460,7 +490,7 @@ local UnitSpecific = {
 		self.Buffs = b
 
 		local d = CreateFrame('Frame', nil, self)
-		d.size = 24
+		d.size = 27
 		d.spacing = 4
 		d.num = 18
 		d:SetPoint('BOTTOMLEFT', self, 'TOPLEFT', 1, 7)

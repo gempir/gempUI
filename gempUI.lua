@@ -27,6 +27,21 @@ G.fonts = {
 ------ Options
 -------------------------------------------------------------------------------------
 
+G.cooldowns = {
+	font = G.fonts.square,
+	fontsize = 16,
+	fontflag = "THINOUTLINE",
+}
+
+--AuraWatch Spells
+G.aurawatch = {
+	spellIDs = {
+		DEATHKNIGHT = {
+			195181, -- Bone Shield
+			53365, -- Unholy Strength
+		}
+	}
+}
 
 G.unitframes = {
 	font = G.fonts.square,
@@ -40,10 +55,14 @@ G.unitframes = {
 		xOff = -132,
 		yOff = 180,
 		castbar = {
+			width = 310,
+			height = 25,
+			xOff = 175,
+			yOff = -39
+		},
+		aurabar = {
 			width = 210,
-			height = 15,
-			xOff = 0,
-			yOff = -10
+			height = 24
 		}
 	},
 	target = {
@@ -69,8 +88,8 @@ G.unitframes = {
 		width = 166,
 		health = 24,
 		power = 3,
-		xOff = 724,
-		yOff = -780
+		xOff = 6,
+		yOff = -6
 	},
 	tank = {
 		width = 166,

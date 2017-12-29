@@ -8,6 +8,8 @@ oUF:RegisterStyle("gempUI - Nameplates", function(self, unit)
 		return
 	end
 
+	
+
 	local health = CreateFrame("StatusBar", nil, self)
 	health:SetAllPoints()
 	health:SetStatusBarTexture("Interface\\BUTTONS\\WHITE8X8")
@@ -87,6 +89,8 @@ oUF:RegisterStyle("gempUI - Nameplates", function(self, unit)
 	self.Castbar.Shield:SetPoint('LEFT', self.Castbar.Icon)
 	self.Castbar.Shield:SetTexture(G.media .. "textures\\shield")
 
+	self:EnableMouse(false) -- For some off reason we need this so we can click our plates..??
+	self.Health:EnableMouse(false) 
 	self:SetScale(UIParent:GetEffectiveScale() * 1)
 	self:SetSize(G.nameplates.width, G.nameplates.height)
 	self:SetPoint("CENTER", 0, -25)
