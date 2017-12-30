@@ -1,8 +1,8 @@
 local F, G, V = unpack(select(2, ...))
 
 Minimap:ClearAllPoints()
-Minimap:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", -6, -6)
-Minimap:SetSize(178, 178)
+Minimap:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", -22, -6)
+Minimap:SetSize(162, 162)
 F.addBackdrop(Minimap)
 
 -- displays time/clock 

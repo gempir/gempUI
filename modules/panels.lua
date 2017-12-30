@@ -31,7 +31,7 @@ end
 local gempUI_sidepanel = CreateFrame("Frame", nil, UIParent)
 gempUI_sidepanel:SetFrameStrata("BACKGROUND")
 gempUI_sidepanel:SetWidth(47 + extrabars_2)
-gempUI_sidepanel:SetHeight(476)
+gempUI_sidepanel:SetHeight(318)
 F.addBackdrop(gempUI_sidepanel)
 gempUI_sidepanel:SetPoint("RIGHT", 1, 0)
 gempUI_sidepanel:Show()
@@ -45,7 +45,7 @@ gempUI_bagpanel:SetFrameStrata("BACKGROUND")
 gempUI_bagpanel:SetWidth(47 + extrabars_2)
 gempUI_bagpanel:SetHeight(144)
 F.addBackdrop(gempUI_bagpanel)
-gempUI_bagpanel:SetPoint("RIGHT", 1, -309)
+gempUI_bagpanel:SetPoint("RIGHT", 1, -230)
 gempUI_bagpanel:Hide()
 
 

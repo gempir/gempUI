@@ -78,20 +78,20 @@ if (IsAddOnLoaded("Skada")) then
 	local function eventHandler(self, event, ...)
 	 if SkadaBarWindowSkada:IsShown() then
 		if not gDamage:IsShown() then
-			gDamage:Show();
-			gDMG_visible = true;
+			gDamage:Show()
+			gDMG_visible = true
 		elseif gAutomatorConfig:IsShown() then
-			Skada:ToggleWindow();
+			Skada:ToggleWindow()
 		elseif gWorldmarkers:IsShown() then
-			Skada:ToggleWindow();
+			Skada:ToggleWindow()
 		end
 	  elseif not SkadaBarWindowSkada:IsShown() then
 	  	if gDMG_visible == true then
-	  		Skada:ToggleWindow();
+	  		Skada:ToggleWindow()
 	  	end
 	 end
 	end
-	frame:SetScript("OnEvent", eventHandler);
+	frame:SetScript("OnEvent", eventHandler)
 end
 
 -------------------------------------------------------------------------------
@@ -99,7 +99,7 @@ end
 -------------------------------------------------------------------------------
 local function SkadaToggleWindowIfLoaded()
 	if (IsAddOnLoaded("Skada")) then
-		Skada:ToggleWindow();
+		Skada:ToggleWindow()
 	end
 end
 -------------------------------------------------------------------------------
@@ -125,7 +125,7 @@ local frame = CreateFrame("FRAME", "LoadCheck");
 -----------------------------------------------------------------------------
 
 gWorldmarkers = CreateFrame("Frame", "gWorldmarkers", UIParent);
-gWorldmarkers:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", -6, -207);
+gWorldmarkers:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", -6, -191);
 F.addBackdrop(gWorldmarkers)
 gWorldmarkers:SetWidth(178);
 gWorldmarkers:SetHeight(71);
@@ -134,7 +134,13 @@ gWorldmarkers:Hide();
 
 
 function gWM_Toggle()
-	if gAC_visible == true then
+	if gDMG_visible == true then
+		gDamage:Hide()
+		gDMG_visible = false
+		SkadaToggleWindowIfLoaded()
+		gWorldmarkers:Show()
+		gWM_visible = true
+	elseif gAC_visible then
 		gAutomatorConfig:Hide()
 		gAC_visible = false
 
@@ -154,31 +160,35 @@ end
 
 local gAutomatorConfig = CreateFrame("Frame", "gAutomatorConfig", UIParent);
 
-gAutomatorConfig:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", -6, -207);
+gAutomatorConfig:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", -6, -191);
 F.addBackdrop(gAutomatorConfig)
-gAutomatorConfig:SetWidth(178);
-gAutomatorConfig:SetHeight(73);
+gAutomatorConfig:SetWidth(178)
+gAutomatorConfig:SetHeight(73)
 gAutomatorConfig:SetFrameStrata("background")
-gAutomatorConfig:Hide();
+gAutomatorConfig:Hide()
 
 
 
 function gAC_Toggle()
 	if(gAC_visible == true) then
-		gAutomatorConfig:Hide();
-		gAC_visible = false;
+		gAutomatorConfig:Hide()
+		gAC_visible = false
 
 	elseif(gWM_visible == true) then
-		gWorldmarkers:Hide();
-		gWM_visible = false;
+		gWorldmarkers:Hide()
+		gWM_visible = false
 
-		gAutomatorConfig:Show();
-		gAC_visible = true;
+		gAutomatorConfig:Show()
+		gAC_visible = true
+	elseif(gDMG_visible == true) then
+		gDamage:Hide()
+		gDMG_visible = false
+		SkadaToggleWindowIfLoaded()
+		gAutomatorConfig:Show()
+		gAC_visible = true
 	else
-		gAutomatorConfig:Show();
-		gAC_visible = true;
-
-
+		gAutomatorConfig:Show()
+		gAC_visible = true
 	end
 end
 
@@ -186,23 +196,36 @@ end
 -----------------------------------------------------------------------------
 
 local gDamage = CreateFrame("Frame", "gDamage", UIParent);
-gDamage:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", -183, -6);
+gDamage:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", -6, -191);
 F.addBackdrop(gDamage)
 gDamage:SetWidth(178);
-gDamage:SetHeight(202);
+gDamage:SetHeight(146);
 gDamage:SetFrameStrata("LOW")
 gDamage:Hide();
 
 
 function gDMG_Toggle()
-	if gDMG_visible then
-		gDamage:Hide();
-		gDMG_visible = false;
-		SkadaToggleWindowIfLoaded();
+	if gAC_visible then
+		gAutomatorConfig:Hide()
+		gAC_visible = false
+
+		gDamage:Show()
+		gDMG_visible = true
+		SkadaToggleWindowIfLoaded()
+	elseif gWM_visible then
+		gWorldmarkers:Hide()
+		gWM_visible = false
+		gDamage:Show()
+		gDMG_visible = true
+		SkadaToggleWindowIfLoaded()
+	elseif gDMG_visible then
+		gDamage:Hide()
+		gDMG_visible = false
+		SkadaToggleWindowIfLoaded()
 	else
-		gDamage:Show();
-		gDMG_visible = true;
-		SkadaToggleWindowIfLoaded();
+		gDamage:Show()
+		gDMG_visible = true
+		SkadaToggleWindowIfLoaded()
 	end
 end
 

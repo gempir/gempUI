@@ -2,6 +2,23 @@ local F, G, V = unpack(select(2, ...))
 local name, ns = ...
 local oUF = ns.oUF
 
+local CustomFilter = function(icons, ...)
+	local _, icon, name, _, _, _, _, _, _, caster = ...
+	if (caster == 'player' or caster == 'vechicle') then
+		return true
+	end
+	return false
+end
+
+local auraIcon = function(auras, button)
+	auras.disableCooldown = false
+	auras.showDebuffType = true
+
+	button.overlay:SetTexture(nil)
+	button.icon:SetTexCoord(.1, .9, .1, .9)
+	F.createBorder(button)
+end
+
 -- Nameplates
 oUF:RegisterStyle("gempUI - Nameplates", function(self, unit)
 	if not unit:match("nameplate") then
@@ -43,7 +60,7 @@ oUF:RegisterStyle("gempUI - Nameplates", function(self, unit)
 	self.Name:ClearAllPoints()
 	self.Name:SetFont(G.fonts.square, G.nameplates.fontsize)
 	self.Name:SetShadowColor(0, 0, 0)
-	self.Name:SetPoint("BOTTOM", self, "TOP", 0, 6)
+	self.Name:SetPoint("BOTTOM", self, "TOP", 0, 2)
 	self:Tag(self.Name, '[name]')
 
 
@@ -88,6 +105,20 @@ oUF:RegisterStyle("gempUI - Nameplates", function(self, unit)
 	self.Castbar.Shield:SetSize(self.Castbar:GetHeight(), self.Castbar:GetHeight())
 	self.Castbar.Shield:SetPoint('LEFT', self.Castbar.Icon)
 	self.Castbar.Shield:SetTexture(G.media .. "textures\\shield")
+
+	self.Debuffs = CreateFrame("Frame", nil, self)
+	self.Debuffs:ClearAllPoints()
+	self.Debuffs:SetPoint("BOTTOMLEFT", self, "TOPLEFT", -1, 13)
+	self.Debuffs:SetSize(cb:GetWidth(), 24)
+	self.Debuffs.size = 24
+	self.Debuffs:EnableMouse(false)
+	self.Debuffs.onlyShowPlayer = true
+	self.Debuffs.size = 24
+	self.Debuffs.initialAnchor  = "BOTTOMLEFT"
+	self.Debuffs.spacing = 4
+	self.Debuffs.num = 20
+	self.Debuffs['growth-y'] = "UP"
+	self.Debuffs.PostCreateIcon = auraIcon
 
 	self:EnableMouse(false) -- For some off reason we need this so we can click our plates..??
 	self.Health:EnableMouse(false) 

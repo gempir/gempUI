@@ -67,7 +67,7 @@ cfg.bars = {
 		fadeout_alpha = 0.0,
 		orientation = "VERTICAL",
 		rows = 1,
-		buttons = 12,
+		buttons = 8,
 		button_size = cfg.mAB.size,
 		button_spacing = cfg.mAB.spacing,
 		position = { a = "RIGHT", x = -4, y = 0 },

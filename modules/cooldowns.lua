@@ -34,7 +34,7 @@ end
 hooksecurefunc(getmetatable(CreateFrame("Cooldown")).__index,"SetCooldown",function(self,start,duration,enabled)
 	if CDText[self] == nil then--	Table can contain false if no FontString found
 		self:SetHideCountdownNumbers(false);--	SetHide to false means show
-
+		
 		local txt=self:GetRegions();
 		if txt then--	Sanity Check
 			txt:ClearAllPoints();

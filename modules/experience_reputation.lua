@@ -5,8 +5,8 @@ local F, G, V = unpack(select(2, ...))
 ------------------------------------------------------------------------
 
 -- Bar settings
-local width = 180
-local height = 19
+local width = 19
+local height = 164
 
 -- Tooltip settings
 local ttanchorpoint = "BOTTOMLEFT"
@@ -80,35 +80,17 @@ end
 
 --	Create the panel and bars
 gXpbarp = CreateFrame("Frame", nil, UIParent)
-gXpbarp:SetFrameStrata("BACKGROUND")
+gXpbarp:SetFrameStrata("LOW")
 gXpbarp:SetHeight(height - 2)
 gXpbarp:SetWidth(width - 2)
-gXpbarp:SetFrameStrata("BACKGROUND")
-gXpbarp:SetPoint("TOP", Minimap, "TOP", 0, -201)
-
-
-local frame = CreateFrame("FRAME", "check");
-frame:RegisterEvent("PLAYER_ENTERING_WORLD");
-local function eventHandler(self, event, ...)
-	if gWM_visible then
-		gXpbarp:SetPoint("TOP", Minimap, "TOP", 0, -271)
-	elseif gAC_visible then
-		gXpbarp:SetPoint("TOP", Minimap, "TOP", 0, -273)
-	elseif gDMG_visible then
-		gXpbarp:SetPoint("TOP", Minimap, "TOP", 0, -274)
-	else
-		gXpbarp:SetPoint("TOP", Minimap, "TOP", 0, -201)
-	end
-end
-
-frame:SetScript("OnEvent", eventHandler);
-
+gXpbarp:SetPoint("LEFT", Minimap, "RIGHT", -1, 0)
 
 
 F.addBackdrop(gXpbarp)
 
 gempXpbar = CreateFrame("statusbar", nil, UIParent)
 gempXpbar:SetPoint("CENTER", gXpbarp, "CENTER", 0, 0)
+gempXpbar:SetOrientation("VERTICAL")
 gempXpbar:SetWidth(width - 4)
 gempXpbar:SetHeight(height - 4)
 gempXpbar:SetStatusBarTexture(TEXTURE)
