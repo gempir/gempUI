@@ -112,6 +112,9 @@ end
 local PostUpdateIcon = function(icons, unit, icon, index, offset)
 	local name, _, _, _, dtype, duration, expirationTime, unitCaster, _, _, spellID = UnitAura(unit, index, icon.filter)
 	local texture = icon.icon
+	icon:SetScript("OnClick", function()
+		CancelUnitBuff("player", index)
+	end)
 	if icon.isPlayer or UnitIsFriend('player', unit) or not icon.isDebuff then
 		texture:SetDesaturated(false)
 	else
