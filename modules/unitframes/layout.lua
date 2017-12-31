@@ -67,9 +67,9 @@ local createAuraWatch = function(self, unit)
 				local icon = CreateFrame("Frame", nil, self)
 				icon.spellID = sid
 				-- set the dimensions and positions
-				icon:SetWidth(36)
-				icon:SetHeight(36)
-				icon:SetPoint("BOTTOMLEFT", self, "TOPLEFT", -40 + (i * 40), 40)
+				icon:SetWidth(48)
+				icon:SetHeight(48)
+				icon:SetPoint("BOTTOMLEFT", self, "TOPLEFT", -52 + (i * 52), 42)
 				auras.icons[sid] = icon
 				-- Set any other AuraWatch icon settings
 			end
@@ -78,35 +78,12 @@ local createAuraWatch = function(self, unit)
 end
 
 local auraIcon = function(auras, button)
-	local c = button.count
-	c:ClearAllPoints()
-	c:SetPoint('TOPRIGHT', -1, 0)
-	c:SetFontObject(nil)
-	c:SetFont(G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag)
-	c:SetTextColor(1, 1, 1)
-
 	auras.disableCooldown = false
 	auras.showDebuffType = true
 
 	button.overlay:SetTexture(nil)
 	button.icon:SetTexCoord(.1, .9, .1, .9)
-	button:SetBackdrop(backdrop)
-	button:SetBackdropColor(unpack(G.colors.border))
-
-	button.glow = CreateFrame('Frame', nil, button)
-	button.glow:SetPoint('TOPLEFT', button, 'TOPLEFT', -4, 4)
-	button.glow:SetPoint('BOTTOMRIGHT', button, 'BOTTOMRIGHT', 4, -4)
-	button.glow:SetFrameLevel(button:GetFrameLevel() - 1)
-	button.glow:SetBackdrop({
-		bgFile = "",
-		edgeFile = "",
-		edgeSize = 5,
-		insets = { left = 3, right = 3, top = 3, bottom = 3, },
-	})
-
-	local remaining = fs(button, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
-	remaining:SetPoint('TOPLEFT')
-	button.remaining = remaining
+	F.createBorder(button, button, true)
 end
 
 local PostUpdateIcon = function(icons, unit, icon, index, offset)
@@ -572,11 +549,11 @@ local UnitSpecific = {
 		self:Tag(htext, '[boss:hp]')
 
 		local b = CreateFrame('Frame', nil, self)
-		b.size = 24
+		b.size = 25
 		b.spacing = 4
 		b.num = 4
 		b:SetSize(b.num * b.size + b.spacing * (b.num - 1), b.size)
-		b:SetPoint('TOPRIGHT', self, 'TOPLEFT', -5, 0)
+		b:SetPoint('TOPRIGHT', self, 'TOPLEFT', -5, -1)
 		b.initialAnchor = 'TOPRIGHT'
 		b['growth-x'] = 'LEFT'
 		b.PostCreateIcon = auraIcon
@@ -584,11 +561,11 @@ local UnitSpecific = {
 		self.Buffs = b
 
 		local d = CreateFrame('Frame', nil, self)
-		d.size = 24
+		d.size = 25
 		d.spacing = 4
 		d.num = 4
 		d:SetSize(d.num * d.size + d.spacing * (d.num - 1), d.size)
-		d:SetPoint('TOPLEFT', self, 'TOPRIGHT', 5, 0)
+		d:SetPoint('TOPLEFT', self, 'TOPRIGHT', 5, -1)
 		d.initialAnchor = 'TOPLEFT'
 		d.onlyShowPlayer = true
 		d.PostCreateIcon = auraIcon

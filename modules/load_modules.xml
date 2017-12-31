@@ -10,7 +10,6 @@
     <Script file="nameplates.lua"/>
     <Script file="cooldowns.lua"/>
     <Script file="experience_reputation.lua"/>
-    <Script file="threat.lua"/>
     <Script file="utilityframes.lua"/>
     <Script file="buttons.lua"/>
     <Script file="worldmarkers.lua"/>

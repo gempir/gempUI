@@ -12,7 +12,7 @@ function F.createBorder(parent, anchor, extend)
 	end
 
 	local frame = CreateFrame('Frame', nil, parent)
-	frame:SetFrameStrata('MEDIUM')
+	frame:SetFrameStrata('LOW')
 	if extend then
 		frame:SetPoint('TOPLEFT', anchor, 'TOPLEFT', -1, 1)
 		frame:SetPoint('BOTTOMRIGHT', anchor, 'BOTTOMRIGHT', 1, -1)

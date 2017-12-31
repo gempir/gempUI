@@ -16,7 +16,7 @@ local auraIcon = function(auras, button)
 
 	button.overlay:SetTexture(nil)
 	button.icon:SetTexCoord(.1, .9, .1, .9)
-	F.createBorder(button)
+	F.createBorder(button, button, true)
 end
 
 -- Nameplates
@@ -108,11 +108,12 @@ oUF:RegisterStyle("gempUI - Nameplates", function(self, unit)
 
 	self.Debuffs = CreateFrame("Frame", nil, self)
 	self.Debuffs:ClearAllPoints()
-	self.Debuffs:SetPoint("BOTTOMLEFT", self, "TOPLEFT", -1, 13)
+	self.Debuffs:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 13)
 	self.Debuffs:SetSize(cb:GetWidth(), 24)
 	self.Debuffs.size = 24
 	self.Debuffs:EnableMouse(false)
 	self.Debuffs.onlyShowPlayer = true
+	self.Debuffs.disableMouse = true
 	self.Debuffs.size = 24
 	self.Debuffs.initialAnchor  = "BOTTOMLEFT"
 	self.Debuffs.spacing = 4

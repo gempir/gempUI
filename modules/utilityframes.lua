@@ -241,9 +241,9 @@ end
 -------------------------------------------------------------------------------
 
 local gAC_1 = CreateFrame("Frame",nil, gAutomatorConfig)
-gAC_1:SetWidth(60)
+gAC_1:SetWidth(90)
 gAC_1:SetHeight(25)
-gAC_1:SetPoint("CENTER", gAutomatorConfig, "CENTER", -59, 24)
+gAC_1:SetPoint("CENTER", gAutomatorConfig, "CENTER", -44, 24)
 F.addBackdrop(gAC_1)
 gAC_1:EnableMouse()
 
@@ -432,9 +432,9 @@ frame:SetScript("OnEvent", eventHandler);
 -------------------------------------------------------------------------------
 
 local gAC_4 = CreateFrame("Frame",nil, gAutomatorConfig)
-gAC_4:SetWidth(60)
+gAC_4:SetWidth(89)
 gAC_4:SetHeight(25)
-gAC_4:SetPoint("CENTER", gAutomatorConfig, "CENTER", 0, 24)
+gAC_4:SetPoint("CENTER", gAutomatorConfig, "CENTER", 45, 24)
 F.addBackdrop(gAC_4)
 gAC_4:EnableMouse()
 
@@ -514,71 +514,8 @@ local function eventHandler(self, event, ...)
 end
 frame:SetScript("OnEvent", eventHandler);
 
----------------------------------------------------------------------------------
-
--------------------------------------------------------------------------------
------- Config for the XP Bar Text
--------------------------------------------------------------------------------
-
-local gAC_5 = CreateFrame("Frame",nil, gAutomatorConfig)
-gAC_5:SetWidth(60)
-gAC_5:SetHeight(25)
-gAC_5:SetPoint("CENTER", gAutomatorConfig, "CENTER", 59, 24)
-F.addBackdrop(gAC_5)
-gAC_5:EnableMouse()
 
 
-
-local gAC_5button = CreateFrame("Button", nil, gAC_5)
-      gAC_5button:SetWidth(60)
-      gAC_5button:SetHeight(25)
-      gAC_5button:SetPoint("CENTER", gAC_5, "CENTER", 0,0)
-	  gAC_5button:EnableMouse()
-	  gAC_5button:SetScript("OnMouseDown", function(self, button)
-
-	  	if gempDB.threatbar then
-	  		gempDB.threatbar = false
-	  	elseif not gempDB.threatbar then
-	  		gempDB.threatbar = true
-	  	else
-	  		gempDB.threatbar = true
-	  	end
-
-		  if gempDB.threatbar == true then
-			print("|cff00FF7F[gemp]|r Threatbar is now shown");
-			gAC_5:SetBackdropColor(0/255, 84/255, 28/255, G.colors.base[4])
-			gThreat:SetAlpha(1)
-		elseif gempDB.threatbar == false then
-			print("|cff00FF7F[gemp]|r Threatbar is now hidden");
-			gAC_5:SetBackdropColor(150/255, 10/255, 10/255, G.colors.base[4])
-			gThreat:SetAlpha(0)
-		end
-	end)
-
-F.createOverlay(gAC_5button, gAC_5)
-
-
-
-gACt_5 = gAC_5button:CreateFontString(nil, "OVERLAY", gAutomatorConfig);
-gACt_5:SetFont("Interface\\AddOns\\gempUI\\media\\fonts\\square.ttf", 14, "THINOUTLINE");
-gACt_5:SetText("THREAT");
-gACt_5:SetPoint("CENTER", gAC_5button, "CENTER",1,-1);
-
-
-local frame = CreateFrame("FRAME", "check");
-frame:RegisterEvent("PLAYER_ENTERING_WORLD");
-local function eventHandler(self, event, ...)
-
-		  if gempDB.threatbar == true then
-			gAC_5:SetBackdropColor(0/255, 84/255, 28/255, G.colors.base[4])
-			gThreat:SetAlpha(1)
-		elseif gempDB.threatbar == false then
-			gAC_5:SetBackdropColor(150/255, 10/255, 10/255, G.colors.base[4])
-			gThreat:SetAlpha(0)
-		end
-
-end
-frame:SetScript("OnEvent", eventHandler);
 local frame = CreateFrame("FRAME", "MerchantEventCheck");
 frame:RegisterEvent("MERCHANT_SHOW");
 local function eventHandler(self, event, ...)
