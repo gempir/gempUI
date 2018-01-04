@@ -57,24 +57,24 @@ end
 local createAuraWatch = function(self, unit)
 	local auras = {}
 		
-		auras.presentAlpha = 1
-		auras.missingAlpha = 0
-		auras.PostCreateIcon = AWIcon
-		-- Set any other AuraWatch settings
-		auras.icons = {}
-		if G.aurawatch.spellIDs[class] then 
-			for i, sid in pairs(G.aurawatch.spellIDs[class]) do
-				local icon = CreateFrame("Frame", nil, self)
-				icon.spellID = sid
-				-- set the dimensions and positions
-				icon:SetWidth(48)
-				icon:SetHeight(48)
-				icon:SetPoint("BOTTOMLEFT", self, "TOPLEFT", -52 + (i * 52), 42)
-				auras.icons[sid] = icon
-				-- Set any other AuraWatch icon settings
-			end
+	auras.presentAlpha = 1
+	auras.missingAlpha = 0
+	auras.PostCreateIcon = AWIcon
+	-- Set any other AuraWatch settings
+	auras.icons = {}
+	if G.aurawatch.spellIDs[class] then 
+		for i, sid in pairs(G.aurawatch.spellIDs[class]) do
+			local icon = CreateFrame("Frame", nil, self)
+			icon.spellID = sid
+			-- set the dimensions and positions
+			icon:SetWidth(48)
+			icon:SetHeight(48)
+			icon:SetPoint("BOTTOMLEFT", self, "TOPLEFT", -52 + (i * 52), 42)
+			auras.icons[sid] = icon
+			-- Set any other AuraWatch icon settings
 		end
-		self.AuraWatch = auras
+	end
+	self.AuraWatch = auras
 end
 
 local auraIcon = function(auras, button)
@@ -204,6 +204,14 @@ local castbar = function(self, unit)
 	elseif self.unit == 'target' then
 		cb:SetPoint('TOPRIGHT', "oUF_gempUITarget", "BOTTOMRIGHT", G.unitframes.target.castbar.xOff - 1, G.unitframes.target.castbar.yOff)
 		cb:SetSize(G.unitframes.target.castbar.width - G.unitframes.target.castbar.height - 3, G.unitframes.target.castbar.height)
+		cb.Icon:SetSize(cb:GetHeight(), cb:GetHeight())
+		cb.Shield = cb:CreateTexture(nil, 'OVERLAY')
+		cb.Shield:SetSize(cb:GetHeight(), cb:GetHeight())
+		cb.Shield:SetPoint('LEFT', cb.Icon)
+		cb.Shield:SetTexture(G.media .. "textures\\shield")
+	elseif self.unit == 'boss' then
+		cb:SetPoint('TOPRIGHT', "oUF_gempUIBoss", "BOTTOMRIGHT", G.unitframes.target.castbar.xOff - 1, G.unitframes.target.castbar.yOff)
+		cb:SetSize(G.unitframes.boss.width - G.unitframes.target.castbar.height - 3, G.unitframes.target.castbar.height)
 		cb.Icon:SetSize(cb:GetHeight(), cb:GetHeight())
 		cb.Shield = cb:CreateTexture(nil, 'OVERLAY')
 		cb.Shield:SetSize(cb:GetHeight(), cb:GetHeight())
@@ -418,8 +426,8 @@ local UnitSpecific = {
 		local b = CreateFrame('Frame', nil, self)
 		b.size = 27
 		b.spacing = 4
-		b.num = 18
-		b:SetSize(b.size * b.num / 2 + b.spacing * (b.num / 2 - 1), b.size)
+		b.num = 28
+		b:SetSize(150, b.size)
 		b:SetPoint('TOPRIGHT', self, 'TOPLEFT', -5, -1)
 		b.initialAnchor = 'TOPRIGHT'
 		b['growth-y'] = 'DOWN'
@@ -433,7 +441,7 @@ local UnitSpecific = {
 		d.size = 27
 		d.spacing = 4
 		d.num = 18
-		d:SetPoint('BOTTOMLEFT', self, 'TOPLEFT', 1, 7)
+		d:SetPoint('BOTTOMLEFT', self, 'TOPLEFT', 1, 5)
 		d:SetSize(G.unitframes.player.width, d.size)
 		d.initialAnchor = 'TOPLEFT'
 		d.PostCreateIcon = auraIcon
@@ -465,7 +473,7 @@ local UnitSpecific = {
 		b.size = 27
 		b.spacing = 4
 		b.num = 18
-		b:SetSize(b.size * b.num / 2 + b.spacing * (b.num / 2 - 1), b.size)
+		b:SetSize(150, b.size)
 		b:SetPoint('TOPLEFT', self, 'TOPRIGHT', 5, -1)
 		b.initialAnchor = 'TOPLEFT'
 		b['growth-y'] = 'DOWN'
@@ -477,7 +485,7 @@ local UnitSpecific = {
 		d.size = 27
 		d.spacing = 4
 		d.num = 18
-		d:SetPoint('BOTTOMLEFT', self, 'TOPLEFT', 1, 7)
+		d:SetPoint('BOTTOMLEFT', self, 'TOPLEFT', 1, 5)
 		d:SetSize(G.unitframes.player.width, d.size)
 		d.initialAnchor = 'TOPLEFT'
 		d.onlyShowPlayer = false
@@ -531,6 +539,7 @@ local UnitSpecific = {
 	boss = function(self, unit)
 		Shared(self, unit)
 		Power(self)
+		castbar(self)
 
 		self.Health.frequentUpdates = true
 		self.SpellRange.outsideAlpha = 1
@@ -575,7 +584,7 @@ local UnitSpecific = {
 	pet = function(self, unit)
 		Shared(self, unit)
 
-		self:SetSize(G.unitframes.pet.width, G.unitframes.pet.health - 2)
+		self:SetSize(G.unitframes.pet.width, G.unitframes.pet.health)
 
 		local name = fs(self.Health, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
 		name:SetPoint('CENTER', self.Health)
@@ -598,7 +607,7 @@ local UnitSpecific = {
 		self:Tag(name, '[color][short:name]')
 
 		local d = CreateFrame('Frame', nil, self)
-		d.size = 24
+		d.size = 25
 		d.spacing = 4
 		d.num = 4
 		d:SetSize(d.num * d.size + d.spacing * (d.num - 1), d.size)

@@ -125,7 +125,7 @@ local frame = CreateFrame("FRAME", "LoadCheck");
 -----------------------------------------------------------------------------
 
 gWorldmarkers = CreateFrame("Frame", "gWorldmarkers", UIParent);
-gWorldmarkers:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", -6, -191);
+gWorldmarkers:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", -6, -207);
 F.addBackdrop(gWorldmarkers)
 gWorldmarkers:SetWidth(178);
 gWorldmarkers:SetHeight(71);
@@ -160,7 +160,7 @@ end
 
 local gAutomatorConfig = CreateFrame("Frame", "gAutomatorConfig", UIParent);
 
-gAutomatorConfig:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", -6, -191);
+gAutomatorConfig:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", -6, -207);
 F.addBackdrop(gAutomatorConfig)
 gAutomatorConfig:SetWidth(178)
 gAutomatorConfig:SetHeight(73)
@@ -196,7 +196,7 @@ end
 -----------------------------------------------------------------------------
 
 local gDamage = CreateFrame("Frame", "gDamage", UIParent);
-gDamage:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", -6, -191);
+gDamage:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", -6, -207);
 F.addBackdrop(gDamage)
 gDamage:SetWidth(178);
 gDamage:SetHeight(146);

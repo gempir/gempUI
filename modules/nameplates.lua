@@ -108,7 +108,7 @@ oUF:RegisterStyle("gempUI - Nameplates", function(self, unit)
 
 	self.Debuffs = CreateFrame("Frame", nil, self)
 	self.Debuffs:ClearAllPoints()
-	self.Debuffs:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 13)
+	self.Debuffs:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 15)
 	self.Debuffs:SetSize(cb:GetWidth(), 24)
 	self.Debuffs.size = 24
 	self.Debuffs:EnableMouse(false)

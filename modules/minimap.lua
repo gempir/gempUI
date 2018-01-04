@@ -1,8 +1,8 @@
 local F, G, V = unpack(select(2, ...))
 
 Minimap:ClearAllPoints()
-Minimap:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", -22, -6)
-Minimap:SetSize(162, 162)
+Minimap:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", -6, -6)
+Minimap:SetSize(178, 178)
 F.addBackdrop(Minimap)
 
 -- displays time/clock 
@@ -57,19 +57,11 @@ MiniMapMailBorder:Hide()
 MiniMapMailFrame:SetScale(1.2)
 
 -- Garrison 
-GarrisonLandingPageMinimapButton:SetSize(38, 38)
+GarrisonLandingPageMinimapButton:SetSize(0,0)
 GarrisonLandingPageMinimapButton:SetAlpha(0)
 GarrisonLandingPageMinimapButton:ClearAllPoints()
 GarrisonLandingPageMinimapButton:SetParent(Minimap)
-GarrisonLandingPageMinimapButton:SetPoint("BOTTOMRIGHT", Minimap, "BOTTOMRIGHT", 1, -2)
-
-local GarrisonIcon = CreateFrame("Frame", "GarrisonIcon")
-GarrisonIcon:SetPoint("CENTER", GarrisonLandingPageMinimapButton, "CENTER", 0, 0)
-GarrisonIcon:SetSize(14, 14)
-GarrisonIcon:SetAlpha(0)
-GarrisonIcon:SetBackdrop {
-	bgFile = "Interface\\Addons\\gempUI\\media\\minimap\\garrison"
-}
+GarrisonLandingPageMinimapButton:SetPoint("BOTTOMLEFT", Minimap, "BOTTOMLEFT", 0, 0)
 
 -- Durability
 DurabilityFrame:SetPoint("CENTER", Minimap, "CENTER", -30, 0)

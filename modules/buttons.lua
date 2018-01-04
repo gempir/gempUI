@@ -1,7 +1,7 @@
 local F, G, V = unpack(select(2, ...))
 
-local msButton = CreateFrame("Button", "button_gWorldmarkers", UIParent)
-msButton:SetPoint("TOP", Minimap, "BOTTOM", -51, 1)
+msButton = CreateFrame("Button", "button_gWorldmarkers", UIParent)
+msButton:SetPoint("TOP", Minimap, "BOTTOM", -59, 1)
 msButton:SetWidth(60)
 msButton:SetHeight(25)
 msButton:SetFrameStrata("BACKGROUND")
@@ -13,9 +13,8 @@ F.addBackdrop(msButton)
 F.createOverlay(msButton)
 
 
-local clockButton = CreateFrame("Button", "button_gAutomatorConfig", UIParent)
-
-clockButton:SetPoint("TOP", Minimap, "BOTTOM", 8, 1)
+clockButton = CreateFrame("Button", "button_gAutomatorConfig", UIParent)
+clockButton:SetPoint("TOP", Minimap, "BOTTOM", 0, 1)
 clockButton:SetWidth(60)
 clockButton:SetHeight(25)
 clockButton:SetFrameStrata("BACKGROUND")
@@ -27,9 +26,8 @@ F.addBackdrop(clockButton)
 F.createOverlay(clockButton)
 
 
-local fpsButton = CreateFrame("Button", "button_gWorldmarkers", UIParent)
-
-fpsButton:SetPoint("TOP", Minimap, "BOTTOM", 67, 1)
+fpsButton = CreateFrame("Button", "button_gWorldmarkers", UIParent)
+fpsButton:SetPoint("TOP", Minimap, "BOTTOM", 59, 1)
 fpsButton:SetWidth(60)
 fpsButton:SetHeight(25)
 fpsButton:SetFrameStrata("BACKGROUND")

@@ -5,8 +5,8 @@ local F, G, V = unpack(select(2, ...))
 ------------------------------------------------------------------------
 
 -- Bar settings
-local width = 19
-local height = 164
+local width = 49
+local height = 22
 
 -- Tooltip settings
 local ttanchorpoint = "BOTTOMLEFT"
@@ -83,14 +83,14 @@ gXpbarp = CreateFrame("Frame", nil, UIParent)
 gXpbarp:SetFrameStrata("LOW")
 gXpbarp:SetHeight(height - 2)
 gXpbarp:SetWidth(width - 2)
-gXpbarp:SetPoint("LEFT", Minimap, "RIGHT", -1, 0)
+gXpbarp:SetPoint("RIGHT", UIParent, "RIGHT", 1, 168)
 
 
 F.addBackdrop(gXpbarp)
 
 gempXpbar = CreateFrame("statusbar", nil, UIParent)
 gempXpbar:SetPoint("CENTER", gXpbarp, "CENTER", 0, 0)
-gempXpbar:SetOrientation("VERTICAL")
+gempXpbar:SetOrientation("HORIZONTAL")
 gempXpbar:SetWidth(width - 4)
 gempXpbar:SetHeight(height - 4)
 gempXpbar:SetStatusBarTexture(TEXTURE)
