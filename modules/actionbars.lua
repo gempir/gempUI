@@ -24,10 +24,10 @@ cfg.bars = {
 		fadeout_alpha = 0.5,
 		orientation = "HORIZONTAL",
 		rows = 1,
-		buttons = 12,
+		buttons = 7,
 		button_size = cfg.mAB.size,
 		button_spacing = cfg.mAB.spacing,
-		position = { a = "BOTTOM", x = 0, y = 4 },
+		position = { a = "CENTER", x = 0, y = -340 },
 		custom_visibility_macro = false -- set a custom visibility macro for this bar or 'false' to disable
 		-- (e.g. "[petbattle][overridebar][vehicleui][possessbar,@vehicle,exists]hide;show")
 	},
@@ -39,10 +39,10 @@ cfg.bars = {
 		fadeout_alpha = 0.5,
 		orientation = "HORIZONTAL",
 		rows = 1,
-		buttons = 12,
+		buttons = 7,
 		button_size = cfg.mAB.size,
 		button_spacing = cfg.mAB.spacing,
-		position = { a = "BOTTOM", x = 0, y = 43 },
+		position = { a = "CENTER", x = 0, y = -379 },
 		custom_visibility_macro = false
 	},
 	["Bar3"] = {
@@ -145,7 +145,7 @@ cfg.bars = {
 	},
 	["ExtraButton"] = {
 		disable = false,
-		position = { a = "BOTTOM", x = 0, y = 250 },
+		position = { a = "BOTTOM", x = 0, y = 375 },
 	},
 	["RaidIconBar"] = {
 		hide = true,

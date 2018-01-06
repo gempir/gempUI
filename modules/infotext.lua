@@ -99,7 +99,7 @@ do
 	clockTime:SetFont("Interface\\Addons\\gempUI\\media\\fonts\\square.ttf", 14, "THINOUTLINE")
 	clockTime:SetTextColor(1, 1, 1)
 	TimeManagerClockButton:SetFrameStrata("TOOLTIP")
-	TimeManagerClockButton:SetPoint("CENTER", fpsButton, "CENTER", 0, 0)
+	TimeManagerClockButton:SetPoint("CENTER", fpsButton, "CENTER", 0, -1)
 	TimeManagerClockButton:EnableMouse(false)
 	clockTime:SetShadowOffset(0, 0)
 	clockTime:Show()

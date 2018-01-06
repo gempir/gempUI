@@ -11,10 +11,10 @@ end
 
 local gempUI_mainpanel = CreateFrame("Frame", nil, UIParent)
 gempUI_mainpanel:SetFrameStrata("BACKGROUND")
-gempUI_mainpanel:SetWidth(476)
+gempUI_mainpanel:SetWidth(280)
 gempUI_mainpanel:SetHeight(86 + extrabars_1)
 F.addBackdrop(gempUI_mainpanel)
-gempUI_mainpanel:SetPoint("BOTTOM", 0, -1)
+gempUI_mainpanel:SetPoint("CENTER", 0, -360)
 gempUI_mainpanel:Show()
 
 

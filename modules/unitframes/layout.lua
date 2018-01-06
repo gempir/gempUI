@@ -60,18 +60,16 @@ local createAuraWatch = function(self, unit)
 	auras.presentAlpha = 1
 	auras.missingAlpha = 0
 	auras.PostCreateIcon = AWIcon
-	-- Set any other AuraWatch settings
 	auras.icons = {}
 	if G.aurawatch.spellIDs[class] then 
 		for i, sid in pairs(G.aurawatch.spellIDs[class]) do
 			local icon = CreateFrame("Frame", nil, self)
 			icon.spellID = sid
-			-- set the dimensions and positions
-			icon:SetWidth(48)
-			icon:SetHeight(48)
-			icon:SetPoint("BOTTOMLEFT", self, "TOPLEFT", -52 + (i * 52), 42)
+			icon:SetWidth(44)
+			icon:SetHeight(44)
+			icon:SetPoint("CENTER", UIParent, "CENTER", (i * 52) - 170, -290)
+			icon:EnableMouse(true)
 			auras.icons[sid] = icon
-			-- Set any other AuraWatch icon settings
 		end
 	end
 	self.AuraWatch = auras
@@ -354,7 +352,7 @@ local UnitSpecific = {
 		self.CombatIndicator = ct
 
 		local altp = createStatusbar(self, G.texture, nil, 30, 180, unpack(G.colors.base))
-		altp:SetPoint("CENTER", UIParent, "CENTER", 0, -150)
+		altp:SetPoint("CENTER", UIParent, "CENTER", 0, 150)
 		altp.bd = F.createBorder(altp, altp)
 		altp.Text = fs(altp, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
 		altp.Text:SetPoint('CENTER')
@@ -427,7 +425,7 @@ local UnitSpecific = {
 		b.size = 27
 		b.spacing = 4
 		b.num = 28
-		b:SetSize(150, b.size)
+		b:SetSize(120, b.size)
 		b:SetPoint('TOPRIGHT', self, 'TOPLEFT', -5, -1)
 		b.initialAnchor = 'TOPRIGHT'
 		b['growth-y'] = 'DOWN'
@@ -473,7 +471,7 @@ local UnitSpecific = {
 		b.size = 27
 		b.spacing = 4
 		b.num = 18
-		b:SetSize(150, b.size)
+		b:SetSize(120, b.size)
 		b:SetPoint('TOPLEFT', self, 'TOPRIGHT', 5, -1)
 		b.initialAnchor = 'TOPLEFT'
 		b['growth-y'] = 'DOWN'
