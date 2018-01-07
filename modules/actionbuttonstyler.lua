@@ -169,12 +169,19 @@ local function styleExtraActionButton(bu)
 	--hotkey
 	ho:Hide()
 	--add button normaltexture
-	bu:SetNormalTexture(cfg.textures.normal)
-	local nt = bu:GetNormalTexture()
-	nt:SetVertexColor(cfg.color.normal.r, cfg.color.normal.g, cfg.color.normal.b, 1)
-	nt:SetAllPoints(bu)
-	--apply background
-	if not bu.bg then applyBackground(bu) end
+	bu:SetNormalTexture(nil)
+	
+	local frame = CreateFrame('Frame', nil, bu)
+	frame:SetFrameStrata('HIGH')
+	frame:SetPoint('TOPLEFT', bu, 'TOPLEFT', -1, 1)
+	frame:SetPoint('BOTTOMRIGHT', bu, 'BOTTOMRIGHT', 1, -1)
+	frame:SetBackdrop({
+		edgeFile = "Interface\\Buttons\\WHITE8x8",
+		edgeSize = 1
+	})
+	frame:SetBackdropColor(0, 0, 0, 0)
+	frame:SetBackdropBorderColor(unpack(G.colors.border))
+
 	bu.rabs_styled = true
 end
 

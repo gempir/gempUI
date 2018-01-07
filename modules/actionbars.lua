@@ -714,13 +714,13 @@ end
 extrabtn = CreateFrame("Frame", "ExtraBtn_holder", UIParent)
 if not cfg.bars["ExtraButton"].disable then
 	extrabtn:SetPoint(cfg.bars["ExtraButton"].position.a, cfg.bars["ExtraButton"].position.x, cfg.bars["ExtraButton"].position.y)
-	extrabtn:SetSize(160, 80)
+	extrabtn:SetSize(36, 36)
 
 	ExtraActionBarFrame:SetParent(extrabtn)
 	ExtraActionBarFrame:ClearAllPoints()
 	ExtraActionBarFrame:SetPoint("CENTER", extrabtn, "CENTER", 0, 0)
 
-	--ExtraActionButton1.noResize = true
+	-- ExtraActionButton1.noResize = true
 	ExtraActionBarFrame.ignoreFramePositionManager = true
 end
 
