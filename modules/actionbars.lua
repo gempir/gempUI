@@ -724,56 +724,40 @@ if not cfg.bars["ExtraButton"].disable then
 	ExtraActionBarFrame.ignoreFramePositionManager = true
 end
 
--- exit vehicle button for the lazy ones
-local ve = CreateFrame("BUTTON", "ExitVehicle_holder", UIParent, "SecureHandlerClickTemplate")
-ve:SetSize(cfg.bars["Bar1"].button_size + 10, cfg.bars["Bar1"].button_size + 10)
-if cfg.bars["ExitVehicleButton"].user_placed then
-	ve:SetPoint(cfg.bars["ExitVehicleButton"].position.a, cfg.bars["ExitVehicleButton"].position.x, cfg.bars["ExitVehicleButton"].position.y)
-	if cfg.bars["ExitVehicleButton"].button_size then ve:SetSize(cfg.bars["ExitVehicleButton"].button_size + 10, cfg.bars["ExitVehicleButton"].button_size + 10) end
-else
-	local btn = 'ActionButton' .. cfg.bars["Bar1"].buttons
-	ve:SetPoint("CENTER", btn, "CENTER", cfg.bars["Bar1"].button_spacing / 2, 0)
-end
-ve:RegisterForClicks("AnyUp")
-ve:SetScript("OnClick", function() VehicleExit() end)
-ve:SetNormalTexture("Interface\\Vehicles\\UI-Vehicles-Button-Exit-Up")
-ve:SetPushedTexture("Interface\\Vehicles\\UI-Vehicles-Button-Exit-Down")
-ve:SetHighlightTexture("Interface\\Vehicles\\UI-Vehicles-Button-Exit-Down")
-ve:SetAlpha(0)
 
--- adding border so it fits our bars general style
-local veh = CreateFrame("Frame", nil, ve)
-veh:SetAllPoints(ve)
-veh:SetParent(ve)
-veh:SetFrameLevel(31)
-veh:EnableMouse(false)
-local veb = veh:CreateTexture(cfg.mAB.media.textures_normal)
-veb:SetTexture(cfg.mAB.media.textures_normal)
-veb:SetPoint("TOPLEFT", 4, -5)
-veb:SetPoint("BOTTOMRIGHT", -6, 5)
-veb:SetVertexColor(0, 0, 0)
-ve:Hide()
-if not cfg.bars["ExitVehicleButton"].disable then
-	ve:Show()
-	RegisterStateDriver(ve, "visibility", "[vehicleui] show;hide")
-	ve:RegisterEvent("UNIT_ENTERING_VEHICLE")
-	ve:RegisterEvent("UNIT_ENTERED_VEHICLE")
-	ve:RegisterEvent("UNIT_EXITING_VEHICLE")
-	ve:RegisterEvent("UNIT_EXITED_VEHICLE")
-	ve:RegisterEvent("ZONE_CHANGED_NEW_AREA")
-	ve:SetScript("OnEvent", function(self, event, ...)
-		local arg1 = ...;
-		if (((event == "UNIT_ENTERING_VEHICLE") or (event == "UNIT_ENTERED_VEHICLE")) and arg1 == "player") then
-			ve:SetAlpha(1)
-			ve:SetScript("OnEnter", function(self)
-				veb:SetVertexColor(unpack(cfg.buttons.colors.highlight))
-			end)
-			ve:SetScript("OnLeave", function(self) veb:SetVertexColor(unpack(cfg.buttons.colors.normal)) end)
-		elseif (((event == "UNIT_EXITING_VEHICLE") or (event == "UNIT_EXITED_VEHICLE")) and arg1 == "player") or (event == "ZONE_CHANGED_NEW_AREA" and not UnitHasVehicleUI("player")) then
-			ve:SetAlpha(0)
-		end
-	end)
-end
+exitVehicle = CreateFrame("Button", "ExitVehicleButton", UIParent)
+exitVehicle:SetPoint("CENTER", -159, -389)
+exitVehicle:SetWidth(28)
+exitVehicle:SetHeight(28)
+F.createBorder(exitVehicle)
+F.createOverlay(exitVehicle)
+exitVehicle:Hide()
+
+exitVehicle:SetScript("OnClick", function(self, button) 
+	if UnitOnTaxi("player") then TaxiRequestEarlyLanding() else VehicleExit() end
+end)
+
+local exitIcon = exitVehicle:CreateTexture("BACKGROUND")
+exitIcon:SetTexture(G.media .. "actionbars\\vehicleexit")
+exitIcon:SetPoint("TOPLEFT", exitVehicle, "TOPLEFT", 1, -1)
+exitIcon:SetPoint("BOTTOMRIGHT", exitVehicle, "BOTTOMRIGHT", -1, 1)
+exitIcon:SetTexCoord(.1, .9, .1, .9)
+
+exitVehicle:RegisterEvent("UNIT_ENTERING_VEHICLE")
+exitVehicle:RegisterEvent("UNIT_ENTERED_VEHICLE")
+exitVehicle:RegisterEvent("UNIT_EXITING_VEHICLE")
+exitVehicle:RegisterEvent("UNIT_EXITED_VEHICLE")
+exitVehicle:RegisterEvent("ZONE_CHANGED_NEW_AREA")
+exitVehicle:SetScript("OnEvent", function(self, event, ...)
+	local arg1 = ...;
+	if (((event == "UNIT_ENTERING_VEHICLE") or (event == "UNIT_ENTERED_VEHICLE")) and arg1 == "player") then
+		exitVehicle:Show()
+	elseif (((event == "UNIT_EXITING_VEHICLE") or (event == "UNIT_EXITED_VEHICLE")) and arg1 == "player") or (event == "ZONE_CHANGED_NEW_AREA" and not UnitHasVehicleUI("player")) then
+		exitVehicle:Hide()
+	end
+end)
+
+
 
 -- MicroMenu
 

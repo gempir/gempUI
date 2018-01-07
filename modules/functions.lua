@@ -41,6 +41,7 @@ function F.createOverlay(element, anchor)
 		bgFile = [[Interface\Buttons\WHITE8x8]]
 	})
 	buttonOverlay:SetBackdropColor(1,1,1,0.15)
+	buttonOverlay:SetFrameLevel(element:GetFrameLevel() + 1)
 	buttonOverlay:Hide()
 
 	element:SetScript('OnEnter', function() buttonOverlay:Show() end)
