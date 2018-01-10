@@ -14,13 +14,13 @@
     <Script file="buttons.lua"/>
     <Script file="worldmarkers.lua"/>
     <Script file="tooltip.lua"/>
-    <Script file="panels.lua"/>
     <Script file="minimap.lua"/>
     <Script file="infotext.lua"/>
     <Script file="fonts.lua"/>
     <Script file="actionbuttonstyler.lua"/>
     <Script file="actionbars.lua"/>
     <Script file="chat.lua"/>
+    <Script file="panels.lua"/>
 
     <!-- UnitFrames -->
     <Include file="unitframes\load_unitframes.xml"/>

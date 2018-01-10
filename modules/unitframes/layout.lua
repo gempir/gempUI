@@ -196,8 +196,8 @@ local castbar = function(self, unit)
 	cb.Icon:SetTexCoord(.1, .9, .1, .9)
 
 	if self.unit == 'player' then
-		cb:SetPoint('TOPRIGHT', "oUF_gempUIPlayer", "BOTTOMRIGHT", G.unitframes.player.castbar.xOff - 1, G.unitframes.player.castbar.yOff)
-		cb:SetSize(G.unitframes.player.castbar.width - G.unitframes.player.castbar.height - 3, G.unitframes.player.castbar.height)
+		cb:SetPoint('TOPLEFT', "gempUI_mainpanel", "BOTTOMLEFT", 27, -6)
+		cb:SetPoint('BOTTOMRIGHT', "gempUI_mainpanel", "BOTTOMRIGHT", -1, -31)
 		cb.Icon:SetSize(cb:GetHeight(), cb:GetHeight())
 	elseif self.unit == 'target' then
 		cb:SetPoint('TOPRIGHT', "oUF_gempUITarget", "BOTTOMRIGHT", G.unitframes.target.castbar.xOff - 1, G.unitframes.target.castbar.yOff)
@@ -238,12 +238,17 @@ local castbar = function(self, unit)
 end
 
 local Health = function(self)
-	local h = createStatusbar(self, G.texture, nil, nil, nil, unpack(G.colors.base))
-	h:SetPoint 'TOP'
-	h:SetPoint 'LEFT'
-	h:SetPoint 'RIGHT'
-
-	h.frequentUpdates = false
+	-- Position and size
+    local h = CreateFrame('StatusBar', nil, self)
+    h:SetPoint('TOP')
+    h:SetPoint('LEFT')
+	h:SetPoint('RIGHT')
+	h:SetStatusBarTexture(G.texture)
+	h:SetStatusBarColor(unpack(G.colors.base))
+	F.createBorder(h)
+    -- Options
+    h.frequentUpdates = true
+    h.colorDisconnected = true
 
 	self.Health = h
 end
@@ -252,19 +257,20 @@ local Power = function(self)
 	local p = createStatusbar(self, G.texture, nil, nil, nil, unpack(G.colors.base))
 	p:SetPoint('LEFT', self.Health, 'LEFT', 1, 0)
 	p:SetPoint('RIGHT', self.Health, 'RIGHT', -1, 0)
-	p:SetPoint('TOP', self.Health, 'BOTTOM', 0, -1)
+	p:SetPoint('TOP', self.Health, 'BOTTOM', 0, 0)
 
 	if unit == 'player' and powerType ~= 0 then p.frequentUpdates = true end
 
 	local pbg = p:CreateTexture(nil, 'BACKGROUND')
 	pbg:SetAllPoints(p)
 	pbg:SetTexture(G.texture)
+	pbg:SetVertexColor(unpack(G.colors.base))
 
 	F.createBorder(p, p, true)
 
 	p.colorClass = true
 	p.colorReaction = true
-	pbg.multiplier = .4
+	pbg.multiplier = 0
 
 	p.bg = pbg
 	self.Power = p
@@ -308,11 +314,6 @@ local function Shared(self, unit)
 	hl:SetBlendMode('ADD')
 	hl:Hide()
 	self.Highlight = hl
-
-	self.SpellRange = {
-		insideAlpha = 1,
-		outsideAlpha = 0.5
-	}
 end
 
 local UnitSpecific = {
@@ -327,27 +328,24 @@ local UnitSpecific = {
 		PetCastingBarFrame.Show = function() end
 		PetCastingBarFrame:Hide()
 
-		self:SetSize(G.unitframes.player.width, G.unitframes.player.health + G.unitframes.player.power - 2)
+		self:SetSize(G.unitframes.player.width, G.unitframes.player.health)
 		self.Health:SetHeight(G.unitframes.player.health)
 		self.Power:SetHeight(G.unitframes.player.power)
 
-		local name = fs(self.Health, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
-		name:SetPoint('LEFT', 4, 0)
-		name:SetJustifyH 'LEFT'
-		self:Tag(name, '[color][long:name]')
-
-		local htext = fs(self.Health, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
+		local htext = fs(self.Health, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, "", 1, 1, 1)
 		htext:SetPoint('RIGHT', -2, 0)
+		htext:SetShadowOffset(1, -1)
 		if powerType ~= 0 then htext.frequentUpdates = .1 end
 		self:Tag(htext, '[player:hp][player:power]')
+		
+
 
 		local ct = CreateFrame('Frame', nil, self.Health)
 		ct:SetSize(10, 10)
-		ct:SetPoint('CENTER')
-		ct:SetAlpha(0.5)
+		ct:SetPoint('LEFT', 5, 0)
 		ct.text = fs(ct, 'OVERLAY', symbol, 14, '', 1, 1, 1)
 		ct.text:SetShadowOffset(1, -1)
-		ct.text:SetPoint('CENTER')
+		ct.text:SetPoint('LEFT')
 		ct.text:SetText('|cffAF5050j|r')
 		self.CombatIndicator = ct
 
@@ -414,7 +412,7 @@ local UnitSpecific = {
 				F.createBorder(b[i], b[i])
 				b[i].bg:SetAllPoints(b[i])
 				b[i].bg:SetTexture(G.texture)
-				b[i].bg.multiplier = .3
+				b[i].bg.multiplier = .2
 
 				i = i - 1
 			end
@@ -426,7 +424,7 @@ local UnitSpecific = {
 		b.spacing = 4
 		b.num = 28
 		b:SetSize(120, b.size)
-		b:SetPoint('TOPRIGHT', self, 'TOPLEFT', -5, -1)
+		b:SetPoint('TOPRIGHT', self, 'TOPLEFT', -7, -1)
 		b.initialAnchor = 'TOPRIGHT'
 		b['growth-y'] = 'DOWN'
 		b['growth-x'] = 'LEFT'
@@ -439,7 +437,7 @@ local UnitSpecific = {
 		d.size = 27
 		d.spacing = 4
 		d.num = 18
-		d:SetPoint('BOTTOMLEFT', self, 'TOPLEFT', 1, 5)
+		d:SetPoint('BOTTOMLEFT', self, 'TOPLEFT', 1, 7)
 		d:SetSize(G.unitframes.player.width, d.size)
 		d.initialAnchor = 'TOPLEFT'
 		d.PostCreateIcon = auraIcon
@@ -453,14 +451,14 @@ local UnitSpecific = {
 		Icons(self)
 		castbar(self)
 
-		self:SetSize(G.unitframes.target.width, G.unitframes.target.health + G.unitframes.target.power - 2)
+		self:SetSize(G.unitframes.target.width, G.unitframes.target.health)
 		self.Health:SetHeight(G.unitframes.target.health)
 		self.Power:SetHeight(G.unitframes.target.power)
 
 		local name = fs(self.Health, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
 		name:SetPoint('LEFT', 4, 0)
 		name:SetJustifyH 'LEFT'
-		self:Tag(name, '[lvl] [color][long:name]')
+		self:Tag(name, '[color][short:name]')
 
 		local htext = fs(self.Health, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
 		htext:SetPoint('RIGHT', -2, 0)
@@ -472,7 +470,7 @@ local UnitSpecific = {
 		b.spacing = 4
 		b.num = 18
 		b:SetSize(120, b.size)
-		b:SetPoint('TOPLEFT', self, 'TOPRIGHT', 5, -1)
+		b:SetPoint('TOPLEFT', self, 'TOPRIGHT', 7, -1)
 		b.initialAnchor = 'TOPLEFT'
 		b['growth-y'] = 'DOWN'
 		b.PostCreateIcon = auraIcon
@@ -483,7 +481,7 @@ local UnitSpecific = {
 		d.size = 27
 		d.spacing = 4
 		d.num = 18
-		d:SetPoint('BOTTOMLEFT', self, 'TOPLEFT', 1, 5)
+		d:SetPoint('BOTTOMLEFT', self, 'TOPLEFT', 1, 7)
 		d:SetSize(G.unitframes.player.width, d.size)
 		d.initialAnchor = 'TOPLEFT'
 		d.onlyShowPlayer = false
@@ -540,7 +538,6 @@ local UnitSpecific = {
 		castbar(self)
 
 		self.Health.frequentUpdates = true
-		self.SpellRange.outsideAlpha = 1
 
 		self:SetSize(G.unitframes.boss.width,G.unitframes.boss.health + G.unitframes.boss.power)
 		self.Health:SetHeight(G.unitframes.boss.health - 2)
@@ -676,25 +673,25 @@ local UnitSpecific = {
 	end,
 	raid = function(self, unit)
 		Shared(self, unit)
-		Power(self)
 		Icons(self)
 
-		self:SetSize(G.unitframes.raid.width, G.unitframes.raid.health + G.unitframes.raid.power)
-		self.Health:SetHeight(G.unitframes.raid.health - 2)
-		self.Power:SetHeight(G.unitframes.raid.power)
+		self:SetSize(G.unitframes.raid.width, G.unitframes.raid.health)
+		self.Health:SetHeight(G.unitframes.raid.health)
+		self.Health.colorClass = true
 
-		local name = fs(self.Health, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
-		name:SetPoint('LEFT', 5, 5)
+		local name = fs(self.Health, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize - 3, G.unitframes.fontflag, 1, 1, 1)
+		name:SetPoint('TOPLEFT', 2, -4)
 		name:SetJustifyH 'LEFT'
-		self:Tag(name, '[color][veryshort:name]')
+		self:Tag(name, '[veryshort:name]')
 
-		local htext = fs(self.Health, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
+		local htext = fs(self.Health, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize - 2, G.unitframes.fontflag, 1, 1, 1)
 		htext:SetPoint('RIGHT', -5, -8)
 		htext:SetJustifyH 'RIGHT'
 		self:Tag(htext, '[raid:hp]')
 
-		local lfd = fs(self.Health, 'OVERLAY', symbol, 12, '', 1, 1, 1)
-		lfd:SetPoint('BOTTOMLEFT', 6, 1)
+		local lfd = fs(self.Health, 'OVERLAY', symbol, 10, '', 1, 1, 1)
+		lfd:SetShadowOffset(1, -1)
+		lfd:SetPoint('TOPRIGHT', 0, -2)
 		self:Tag(lfd, '[LFD]')
 
 		self.RaidTargetIndicator:SetSize(14, 14)
@@ -749,8 +746,8 @@ local spawnHelper = function(self, unit, ...)
 end
 
 oUF:Factory(function(self)
-	spawnHelper(self, 'player', 'TOP', UIParent, 'BOTTOM', G.unitframes.player.xOff, G.unitframes.player.yOff)
-	spawnHelper(self, 'target', 'TOP', UIParent, 'BOTTOM', G.unitframes.target.xOff, G.unitframes.target.yOff)
+	spawnHelper(self, 'player', 'TOPRIGHT', "gempUI_mainpanel", 'TOPLEFT', -6, 0)
+	spawnHelper(self, 'target', 'TOPLEFT', "gempUI_mainpanel", 'TOPRIGHT', 6, 0)
 	spawnHelper(self, 'targettarget', 'RIGHT', "oUF_gempUITarget", "RIGHT",G.unitframes.targettarget.xOff, G.unitframes.targettarget.yOff)
 	spawnHelper(self, 'focus', 'TOP', UIParent, 'CENTER', G.unitframes.focus.xOff, G.unitframes.focus.yOff)
 	spawnHelper(self, 'focustarget', 'TOPLEFT', "oUF_gempUIFocus", "TOPRIGHT", G.unitframes.focustarget.xOff, G.unitframes.focustarget.yOff)
@@ -851,13 +848,13 @@ oUF:Factory(function(self)
 		_G[pet .. 'HealthBar']:UnregisterAllEvents()
 	end
 
-	self:SetActiveStyle 'gempUI - Raid'
+	self:SetActiveStyle 'gempUI - Party'
 	local party = self:SpawnHeader(nil, nil, 'party', 'showPlayer',
-		false, 'showSolo', false, 'showParty', true, 'point', 'LEFT', 'xOffset', 5, 'yOffset', -5,
+		false, 'showSolo', false, 'showParty', true, 'xOffset', 5, 'yOffset', -10,
 		'oUF-initialConfigFunction', ([[
 		self:SetHeight(%d)
 		self:SetWidth(%d)
-		]]):format(G.unitframes.raid.health + G.unitframes.raid.power - 2, G.unitframes.raid.width))
+		]]):format(G.unitframes.party.health + G.unitframes.party.power - 2, G.unitframes.party.width))
 	party:SetPoint('TOPLEFT', UIParent, 'TOPLEFT', G.unitframes.party.xOff, G.unitframes.party.yOff)
 
 	self:SetActiveStyle 'gempUI - Party'
@@ -903,7 +900,7 @@ oUF:Factory(function(self)
 		'oUF-initialConfigFunction', ([[
 		self:SetHeight(%d)
 		self:SetWidth(%d)
-	]]):format(G.unitframes.raid.health + G.unitframes.raid.power - 2, G.unitframes.raid.width))
+	]]):format(G.unitframes.raid.health - 2, G.unitframes.raid.width))
 	raid:SetPoint('TOPLEFT', UIParent, 'TOPLEFT', G.unitframes.raid.xOff, G.unitframes.raid.yOff)
 end)
 

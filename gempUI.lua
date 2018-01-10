@@ -44,21 +44,23 @@ G.aurawatch = {
 			184362, -- Enrage
 			1719, -- Battlecry
 			107574, -- Avatar
+		},
+		PALADIN = {
+			188370, -- Consecration
+			132403, -- Shield of the Righteous
 		}
 	}
 }
 
 G.unitframes = {
 	font = G.fonts.square,
-	fontsize = 11,
+	fontsize = 13,
 	fontflag = "THINOUTLINE",
 	player = {
-		width = 210,
-		health = 24,
-		power = 3, -- rage, mana etc.
-		special = 5, -- holy power, runes etc.
-		xOff = -250,
-		yOff = 223,
+		width = 180,
+		health = 30,
+		power = 8, -- rage, mana etc.
+		special = 8, -- holy power, runes etc.
 		castbar = {
 			width = 280,
 			height = 25,
@@ -71,11 +73,9 @@ G.unitframes = {
 		}
 	},
 	target = {
-		width = 210,
-		health = 24,
-		power = 3,
-		xOff = 250,
-		yOff = 223,
+		width = 180,
+		health = 30,
+		power = 8,
 		castbar = {
 			width = 210,
 			height = 15,
@@ -110,7 +110,6 @@ G.unitframes = {
 	raid = {
 		width = 60,
 		health = 30,
-		power = 2,
 		xOff = 6,
 		yOff = -6
 	},

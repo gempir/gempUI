@@ -157,8 +157,6 @@ oUF.Tags.Methods['raid:hp'] = function(u)
 		return '|cff559655 Ghost|r'
 	elseif not UnitIsConnected(u) then
 		return '|cff559655 D/C|r'
-	elseif incheal > 0 and true then
-		return '|cff00FF00+' .. sValue(incheal) .. '|r'
 	elseif (per < 90) and true then
 		return '|cffAF5050-' .. sValue(d) .. '|r'
 	else

@@ -24,7 +24,7 @@ cfg.bars = {
 		fadeout_alpha = 0.5,
 		orientation = "HORIZONTAL",
 		rows = 1,
-		buttons = 7,
+		buttons = 6,
 		button_size = cfg.mAB.size,
 		button_spacing = cfg.mAB.spacing,
 		position = { a = "CENTER", x = 0, y = -340 },
@@ -39,24 +39,24 @@ cfg.bars = {
 		fadeout_alpha = 0.5,
 		orientation = "HORIZONTAL",
 		rows = 1,
-		buttons = 7,
+		buttons = 6,
 		button_size = cfg.mAB.size,
 		button_spacing = cfg.mAB.spacing,
 		position = { a = "CENTER", x = 0, y = -379 },
 		custom_visibility_macro = false
 	},
 	["Bar3"] = {
-		hide_bar = true,
+		hide_bar = false,
 		show_in_combat = false,
 		show_on_mouseover = false,
 		bar_alpha = 1,
 		fadeout_alpha = 0.5,
 		orientation = "HORIZONTAL",
 		rows = 1,
-		buttons = 12,
+		buttons = 6,
 		button_size = cfg.mAB.size,
 		button_spacing = cfg.mAB.spacing,
-		position = { a = "BOTTOM", x = 0, y = 82 },
+		position = { a = "CENTER", x = 0, y = -418 },
 		custom_visibility_macro = false
 	},
 	["Bar4"] = {
@@ -137,12 +137,6 @@ cfg.bars = {
 		lock_to_CharacterFrame = false, -- position MicroMenu bar right on top of your CharacterFrame
 		position = { a = "BOTTOMRIGHT", x = -545, y = 0 }, -- if not locked
 	},
-	["ExitVehicleButton"] = {
-		disable = false,
-		user_placed = true, -- if user_placed is set to false exit vehicle button will be 'docked' into bar1
-		position = { a = "BOTTOM", x = -260, y = 50 }, -- only if user_placed = true
-		button_size = 28, -- only if user_placed = true
-	},
 	["ExtraButton"] = {
 		disable = false,
 		position = { a = "BOTTOM", x = 0, y = 375 },
@@ -192,23 +186,6 @@ cfg.buttons = {
 		equipped = { .3, .6, .3 }
 	}
 }
-
-
-if G.options.actionbars_main_three then
-	cfg.bars.Bar3.hide_bar = false
-elseif not G.options.actionbars_main_three then
-	cfg.bars.Bar3.hide_bar = true
-end
-
-if G.options.actionbars_side_two then
-	cfg.bars.Bar4.hide_bar = false
-	cfg.bars.Bar5.hide_bar = false
-elseif not G.options.actionbars_side_two then
-	cfg.bars.Bar4.hide_bar = false
-	cfg.bars.Bar5.hide_bar = true
-end
-
-
 
 -- HANDOVER
 ns.cfg = cfg
@@ -726,7 +703,7 @@ end
 
 
 exitVehicle = CreateFrame("Button", "ExitVehicleButton", UIParent)
-exitVehicle:SetPoint("CENTER", -159, -389)
+exitVehicle:SetPoint("BOTTOMRIGHT", "Bar2_holder", "BOTTOMLEFT", -10, -5)
 exitVehicle:SetWidth(28)
 exitVehicle:SetHeight(28)
 F.createBorder(exitVehicle)

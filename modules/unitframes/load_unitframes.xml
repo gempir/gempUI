@@ -1,8 +1,4 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
-    <Script file="Plugins\oUF_SpellRange.lua"/>
-    <Script file="Plugins\oUF_RaidDebuffs.lua"/>
-    <Script file="Plugins\oUF_AuraTracker.lua"/>
-    <Script file="Plugins\oUF_Trinkets.lua"/>
     <Script file="Plugins\oUF_AuraWatch.lua"/>
     <Script file="functions.lua"/>
     <Script file="tags.lua"/>
