@@ -38,7 +38,7 @@ hooksecurefunc(getmetatable(CreateFrame("Cooldown")).__index,"SetCooldown",funct
 		local txt=self:GetRegions();
 		if txt then--	Sanity Check
 			txt:ClearAllPoints();
-			txt:SetPoint("CENTER", 1, 0);
+			txt:SetPoint("CENTER", 1, 1);
 			self:HookScript("OnUpdate",OnUpdate);
 		end
 		CDText[self]=txt or false;--	Cast nil to false so we don't run on same frame again

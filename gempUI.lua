@@ -90,7 +90,7 @@ G.unitframes = {
 	},
 	party = {
 		width = 166,
-		health = 24,
+		health = 26,
 		power = 3,
 		xOff = 6,
 		yOff = -6
@@ -138,7 +138,7 @@ G.unitframes = {
 	},
 	boss = {
 		width = 166,
-		health = 24,
+		health = 27,
 		power = 3, 
 		xOff = 120,
 		yOff = 400
@@ -158,7 +158,7 @@ G.nameplates = {
 	width = 120,
 	height = 10,
 	fontsize = 10,
-	fontflag = 'THINOUTLINE',
+	fontflag = '',
 	cbheight = 8,
 	cbcolor = { r = 50, g = 50, b = 50 }
 }

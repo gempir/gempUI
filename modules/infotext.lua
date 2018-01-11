@@ -90,7 +90,7 @@ do
 
 
 	local fpsText = f:CreateFontString(nil, "OVERLAY")
-	fpsText:SetPoint("CENTER", clockButton, "CENTER", 0, 0)
+	fpsText:SetPoint("CENTER", fpsButton, "CENTER", 0, 0)
 	f.fpsText = fpsText
 	f.fpsText:SetFont(G.fonts.square, 14, '')
 	f.fpsText:SetShadowOffset(1, -1)
@@ -102,7 +102,7 @@ do
 	clockTime:SetShadowOffset(1, -1)
 	clockTime:SetTextColor(1, 1, 1)
 	TimeManagerClockButton:SetFrameStrata("TOOLTIP")
-	TimeManagerClockButton:SetPoint("CENTER", fpsButton, "CENTER", 0, -1)
+	TimeManagerClockButton:SetPoint("CENTER", clockButton, "CENTER", 0, -1)
 	TimeManagerClockButton:EnableMouse(false)
 	clockTime:SetShadowOffset(0, 0)
 	clockTime:Show()

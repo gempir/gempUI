@@ -2,6 +2,8 @@ local F, G, V = unpack(select(2, ...))
 local name, ns = ...
 local oUF = ns.oUF
 
+local raidicons = G.media .. "unitframes\\raidicons"
+
 local CustomFilter = function(icons, ...)
 	local _, icon, name, _, _, _, _, _, _, caster = ...
 	if (caster == 'player' or caster == 'vechicle') then
@@ -63,10 +65,16 @@ oUF:RegisterStyle("gempUI - Nameplates", function(self, unit)
 	self.Name:SetPoint("BOTTOM", self, "TOP", 0, 2)
 	self:Tag(self.Name, '[name]')
 
+	local ricon = self.Health:CreateTexture(nil, 'OVERLAY')
+	ricon:SetTexture(raidicons)
+	ricon:SetSize(15, 15)
+	ricon:SetPoint('TOP', 0, 2)
+	self.RaidTargetIndicator = ricon
 
 	local cb = createStatusbar(self, G.texture, nil, nil, nil, unpack(G.colors.base))
 
 	cb.Text = fs(cb, 'OVERLAY', G.fonts.square, G.nameplates.fontsize - 1, G.nameplates.fontflag, 1, 1, 1, 'LEFT')
+	cb.Text:SetShadowOffset(1, -1)
 	cb.Text:SetPoint('LEFT', cb, 2, 0)
 	cb.CastingColor = G.colors.base
 	cb.CompleteColor = { 0.12, 0.86, 0.15, G.colors.base[4] }

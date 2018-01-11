@@ -1,6 +1,6 @@
 local F, G, V = unpack(select(2, ...))
 
-msButton = CreateFrame("Button", "button_gWorldmarkers", UIParent)
+msButton = CreateFrame("Button", "button_gDamage", UIParent)
 msButton:SetPoint("TOP", Minimap, "BOTTOM", -59, 1)
 msButton:SetWidth(60)
 msButton:SetHeight(25)

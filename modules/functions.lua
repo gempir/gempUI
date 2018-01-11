@@ -12,7 +12,7 @@ function F.createBorder(parent, anchor, extend)
 	end
 
 	local frame = CreateFrame('Frame', nil, parent)
-	frame:SetFrameStrata('LOW')
+	frame:SetFrameStrata('BACKGROUND')
 	if extend then
 		frame:SetPoint('TOPLEFT', anchor, 'TOPLEFT', -1, 1)
 		frame:SetPoint('BOTTOMRIGHT', anchor, 'BOTTOMRIGHT', 1, -1)
@@ -35,6 +35,13 @@ function F.createFontString(parent)
 	fs:SetShadowOffset(1, -1);
 	fs:SetPoint("CENTER", parent, "CENTER", 0, 0);
 	return fs
+end
+
+function F.sendToChat(cmd) 
+	local editbox=ChatEdit_ChooseBoxForSend(DEFAULT_CHAT_FRAME);
+	ChatEdit_ActivateChat(editbox);
+	editbox:SetText(cmd);
+	ChatEdit_OnEnterPressed(editbox);
 end
 
 function F.createOverlay(element, anchor)

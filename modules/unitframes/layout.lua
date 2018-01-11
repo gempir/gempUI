@@ -51,7 +51,7 @@ local AWIcon = function(AWatch, icon, spellID, name, self)
 	icon.count = count
 	icon.cd:SetReverse(true)
 	icon.icon:SetTexCoord(.1, .9, .1, .9)
-	F.createBorder(icon)
+	F.createBorder(icon, icon, true)
 end
 
 local createAuraWatch = function(self, unit)
@@ -67,7 +67,7 @@ local createAuraWatch = function(self, unit)
 			icon.spellID = sid
 			icon:SetWidth(44)
 			icon:SetHeight(44)
-			icon:SetPoint("CENTER", UIParent, "CENTER", (i * 52) - 170, -290)
+			icon:SetPoint("CENTER", UIParent, "CENTER", (i * 52) - 150, -290)
 			icon:EnableMouse(true)
 			auras.icons[sid] = icon
 		end
@@ -196,8 +196,8 @@ local castbar = function(self, unit)
 		cb:SetPoint('BOTTOMRIGHT', "gempUI_mainpanel", "BOTTOMRIGHT", -1, -31)
 		cb.Icon:SetSize(cb:GetHeight(), cb:GetHeight())
 	elseif self.unit == 'target' then
-		cb:SetPoint('TOPRIGHT', "oUF_gempUITarget", "BOTTOMRIGHT", G.unitframes.target.castbar.xOff - 1, G.unitframes.target.castbar.yOff)
-		cb:SetSize(G.unitframes.target.castbar.width - G.unitframes.target.castbar.height - 3, G.unitframes.target.castbar.height)
+		cb:SetPoint('TOPRIGHT', "oUF_gempUITarget", "BOTTOMLEFT", 16, -6)
+		cb:SetPoint('BOTTOMRIGHT', "oUF_gempUITarget", "BOTTOMRIGHT", -1, -22)
 		cb.Icon:SetSize(cb:GetHeight(), cb:GetHeight())
 		cb.Shield = cb:CreateTexture(nil, 'OVERLAY')
 		cb.Shield:SetSize(cb:GetHeight(), cb:GetHeight())
@@ -244,7 +244,7 @@ local Health = function(self)
 	F.createBorder(h)
     -- Options
     h.frequentUpdates = true
-    h.colorDisconnected = true
+    h.colorDisconnected = false
 
 	self.Health = h
 end
@@ -274,11 +274,11 @@ end
 
 local function Icons(self)
 	self.LeaderIndicator = self.Health:CreateTexture(nil, 'OVERLAY')
-	self.LeaderIndicator:SetPoint('BOTTOMLEFT', self.Health, 'TOPLEFT', 0, -3)
+	self.LeaderIndicator:SetPoint('BOTTOMLEFT', self.Health, 'TOPLEFT', 0, -5)
 	self.LeaderIndicator:SetSize(12, 12)
 
 	self.AssistantIndicator = self.Health:CreateTexture(nil, 'OVERLAY')
-	self.AssistantIndicator:SetPoint('BOTTOMLEFT', self.Health, 'TOPLEFT', 0, -3)
+	self.AssistantIndicator:SetPoint('BOTTOMLEFT', self.Health, 'TOPLEFT', 0, -5)
 	self.AssistantIndicator:SetSize(12, 12)
 
 	self.MasterLooterIndicator = self.Health:CreateTexture(nil, 'OVERLAY')
@@ -299,8 +299,8 @@ local function Shared(self, unit)
 
 	local ricon = self.Health:CreateTexture(nil, 'OVERLAY')
 	ricon:SetTexture(raidicons)
-	ricon:SetSize(20, 20)
-	ricon:SetPoint('TOP', 0, 10)
+	ricon:SetSize(15, 15)
+	ricon:SetPoint('TOP', 0, 8)
 	self.RaidTargetIndicator = ricon
 
 	local hl = self.Health:CreateTexture(nil, 'OVERLAY')
@@ -329,11 +329,10 @@ local UnitSpecific = {
 		self.Power:SetHeight(G.unitframes.player.power)
 
 		local htext = fs(self.Health, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
-		htext:SetPoint('RIGHT', -2, 0)
+		htext:SetPoint('RIGHT', -4, 0)
 		if powerType ~= 0 then htext.frequentUpdates = .1 end
 		self:Tag(htext, '[player:hp][player:power]')
 		
-
 
 		local ct = CreateFrame('Frame', nil, self.Health)
 		ct:SetSize(10, 10)
@@ -345,7 +344,7 @@ local UnitSpecific = {
 		self.CombatIndicator = ct
 
 		local altp = createStatusbar(self, G.texture, nil, 30, 180, unpack(G.colors.base))
-		altp:SetPoint("CENTER", UIParent, "CENTER", 0, 150)
+		altp:SetPoint("CENTER", UIParent, "CENTER", 0, -180)
 		altp.bd = F.createBorder(altp, altp)
 		altp.Text = fs(altp, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
 		altp.Text:SetPoint('CENTER')
@@ -390,12 +389,16 @@ local UnitSpecific = {
 
 		if class == 'DEATHKNIGHT' then
 			local b = CreateFrame('Frame', nil, self)
-			b:SetPoint('TOPRIGHT', self.Power, 'BOTTOMRIGHT', 1, 0)
+			b:SetPoint('TOPRIGHT', self.Power, 'BOTTOMRIGHT', 0, -1)
 			b:SetSize(G.unitframes.player.width, G.unitframes.player.special)
 
 			local i = 6
 			for index = 1, 6 do
-				b[i] = createStatusbar(b, G.texture, nil, G.unitframes.player.special, (self:GetWidth() + 1) / 6 - 1, 1, 1, 1, 1)
+				local minus = 1
+				if i == 6 then 
+					minus = 2
+				end
+				b[i] = createStatusbar(b, G.texture, nil, G.unitframes.player.special, (self:GetWidth() / 6) - minus, 1, 1, 1, 1)
 
 				if i == 6 then
 					b[i]:SetPoint('RIGHT', b)
@@ -404,13 +407,16 @@ local UnitSpecific = {
 				end
 
 				b[i].bg = b[i]:CreateTexture(nil, 'BACKGROUND')
-				F.createBorder(b[i], b[i])
+				F.createBorder(b[i], b[i], true)
 				b[i].bg:SetAllPoints(b[i])
 				b[i].bg:SetTexture(G.texture)
-				b[i].bg.multiplier = .2
+				b[i].bg:SetVertexColor(0,0,0)
+				b[i].bg.multiplier = .1
 
 				i = i - 1
 			end
+
+			b.colorSpec = true
 			self.Runes = b
 		end
 
@@ -455,7 +461,7 @@ local UnitSpecific = {
 		self:Tag(name, '[color][short:name]')
 
 		local htext = fs(self.Health, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
-		htext:SetPoint('RIGHT', -2, 0)
+		htext:SetPoint('RIGHT', -4, 0)
 		htext.frequentUpdates = .1
 		self:Tag(htext, '[player:hp]')
 
@@ -528,14 +534,12 @@ local UnitSpecific = {
 	end,
 	boss = function(self, unit)
 		Shared(self, unit)
-		Power(self)
 		castbar(self)
 
 		self.Health.frequentUpdates = true
 
-		self:SetSize(G.unitframes.boss.width,G.unitframes.boss.health + G.unitframes.boss.power)
-		self.Health:SetHeight(G.unitframes.boss.health - 2)
-		self.Power:SetHeight(G.unitframes.boss.power)
+		self:SetSize(G.unitframes.boss.width, G.unitframes.boss.health)
+		self.Health:SetHeight(G.unitframes.boss.health)
 
 		local name = fs(self.Health, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
 		name:SetPoint('LEFT', 4, 0)
@@ -582,7 +586,7 @@ local UnitSpecific = {
 	partytarget = function(self, unit)
 		Shared(self, unit)
 
-		local name = fs(self.Health, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
+		local name = fs(self.Health, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize - 2, G.unitframes.fontflag, 1, 1, 1)
 		name:SetPoint('CENTER', self.Health)
 		self:Tag(name, '[color][short:name]')
 	end,
@@ -620,7 +624,7 @@ local UnitSpecific = {
 		lfd:SetJustifyH 'LEFT'
 		self:Tag(lfd, '[LFD]')
 
-		local name = fs(self.Health, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
+		local name = fs(self.Health, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize - 2, G.unitframes.fontflag, 1, 1, 1)
 		name:SetPoint('LEFT', lfd, 'RIGHT', 0, 0)
 		name:SetJustifyH 'LEFT'
 		self:Tag(name, ' [color][short:name] [lvl]')
@@ -639,12 +643,12 @@ local UnitSpecific = {
 		d.spacing = 4
 		d.num = 4
 		d:SetSize(d.num * d.size + d.spacing * (d.num - 1), d.size)
-		d:SetPoint('TOPRIGHT', self, 'TOPLEFT', -5, -1)
-		d.initialAnchor = 'TOPRIGHT'
-		d['growth-x'] = 'LEFT'
+		d:SetPoint('TOPLEFT', self, 'TOPRIGHT', 7, -1)
+		d.initialAnchor = 'TOPLEFT'
+		d['growth-x'] = 'RIGHT'
 		d.PostCreateIcon = auraIcon
 		d.PostUpdateIcon = PostUpdateIcon
-			self.Debuffs = d
+		self.Debuffs = d
 	end,
 	arena = function(self, unit)
 		Shared(self, unit)

@@ -154,9 +154,9 @@ cfg.bars = {
 		position = { a = "RIGHT", x = -10, y = -77 },
 	},
 	["WorldMarkerBar"] = {
-		hide = true,
+		hide = false,
 		disable_in_combat = true,
-		show_on_mouseover = true,
+		show_on_mouseover = false,
 		bar_alpha = 1,
 		fadeout_alpha = 0.5,
 		orientation = "VERTICAL",
