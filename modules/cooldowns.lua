@@ -15,7 +15,7 @@ local function OnUpdate(self)
 --		Calculate needed values
 		local elapsed=now-start;
         local remain=math.max(0,duration-elapsed);
-        ptr:SetFont(G.cooldowns.font, self:GetHeight() / 2, "THICKOUTLINE")
+        ptr:SetFont(G.cooldowns.font, self:GetHeight() / 2.2, G.cooldowns.fontflag)
 
 --		Colorize text
         if elapsed<0 then	
@@ -38,7 +38,7 @@ hooksecurefunc(getmetatable(CreateFrame("Cooldown")).__index,"SetCooldown",funct
 		local txt=self:GetRegions();
 		if txt then--	Sanity Check
 			txt:ClearAllPoints();
-			txt:SetPoint("CENTER", 1, -1);
+			txt:SetPoint("CENTER", 1, 0);
 			self:HookScript("OnUpdate",OnUpdate);
 		end
 		CDText[self]=txt or false;--	Cast nil to false so we don't run on same frame again

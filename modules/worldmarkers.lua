@@ -48,10 +48,8 @@ local function CreateMarkerClearButton(btnName, x, y)
 	frame:SetHeight(22);
 	frame:SetAttribute("type", "macro");
 
-	t = frame:CreateFontString("raidicon")
-	t:SetFont("Interface\\AddOns\\gempUI\\media\\fonts\\roboto.ttf", 14, "THINOUTLINE");
+	t = F.createFontString(frame)
 	t:SetText("X");
-	t:SetPoint("CENTER", frame, "CENTER", 0, 0);
 
 	F.createOverlay(frame)
 end
@@ -92,8 +90,7 @@ local function CreateRaidButton(btnName, text, x, y)
 	frame:SetHeight(25);
 	frame:SetAttribute("type", "macro");
 	
-	t = frame:CreateFontString("raidbutton")
-	t:SetFont("Interface\\AddOns\\gempUI\\media\\fonts\\square.ttf", 13, "THINOUTLINE");
+	t = F.createFontString(frame)
 	t:SetText(text);
 	t:SetPoint("CENTER", frame, "CENTER", 2, 0);
 

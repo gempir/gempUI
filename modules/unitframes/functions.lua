@@ -40,7 +40,7 @@ end
 function fs(parent, layer, font, fontsiz, outline, r, g, b, justify)
 	local string = parent:CreateFontString(nil, layer)
 	string:SetFont(font, fontsiz, outline)
-	string:SetShadowOffset(0, 0)
+	string:SetShadowOffset(1, -1)
 	string:SetTextColor(r, g, b)
 	if justify then
 		string:SetJustifyH(justify)

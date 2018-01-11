@@ -29,8 +29,7 @@ G.fonts = {
 
 G.cooldowns = {
 	font = G.fonts.square,
-	fontsize = 16,
-	fontflag = "THINOUTLINE",
+	fontflag = "MONOCHROMEOUTLINE",
 }
 
 --AuraWatch Spells
@@ -55,9 +54,9 @@ G.aurawatch = {
 G.unitframes = {
 	font = G.fonts.square,
 	fontsize = 13,
-	fontflag = "THINOUTLINE",
+	fontflag = "",
 	player = {
-		width = 180,
+		width = 184,
 		health = 30,
 		power = 8, -- rage, mana etc.
 		special = 8, -- holy power, runes etc.
@@ -73,7 +72,7 @@ G.unitframes = {
 		}
 	},
 	target = {
-		width = 180,
+		width = 184,
 		health = 30,
 		power = 8,
 		castbar = {

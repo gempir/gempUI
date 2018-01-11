@@ -47,7 +47,7 @@ end
 
 local AWIcon = function(AWatch, icon, spellID, name, self)			
 	local count = fs(icon, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
-	count:SetPoint('BOTTOMRIGHT', icon, 1, 0)
+	count:SetPoint('BOTTOMRIGHT', icon, 0, 0)
 	icon.count = count
 	icon.cd:SetReverse(true)
 	icon.icon:SetTexCoord(.1, .9, .1, .9)
@@ -79,6 +79,14 @@ local auraIcon = function(auras, button)
 	auras.disableCooldown = false
 	auras.showDebuffType = true
 
+	local overlay = CreateFrame("Frame", nil, button)
+	overlay:SetFrameStrata("MEDIUM")
+	overlay:SetAllPoints(button)
+	
+	button.count:SetParent(overlay)
+	button.count:SetFont(G.fonts.square, 10, "MONOCHROMEOUTLINE")
+	button.count:SetPoint('BOTTOMRIGHT', button, 'BOTTOMRIGHT', 3, 0)
+
 	button.overlay:SetTexture(nil)
 	button.icon:SetTexCoord(.1, .9, .1, .9)
 	F.createBorder(button, button, true)
@@ -95,18 +103,6 @@ local PostUpdateIcon = function(icons, unit, icon, index, offset)
 	else
 		texture:SetDesaturated(true)
 	end
-end
-
-local FilterAuraWatch = function(icons, ...)
-	local _, icon, name, _, _, _, _, _, _, caster, _, _, spellID = ...
-	if G.aurawatch.spellIDs[class] then 
-		for k, v in pairs(G.aurawatch.spellIDs[class]) do
-			if v == spellID then 
-				return false
-			end
-		end
-	end
-	return true
 end
 
 local CustomFilter = function(icons, ...)
@@ -332,9 +328,8 @@ local UnitSpecific = {
 		self.Health:SetHeight(G.unitframes.player.health)
 		self.Power:SetHeight(G.unitframes.player.power)
 
-		local htext = fs(self.Health, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, "", 1, 1, 1)
+		local htext = fs(self.Health, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
 		htext:SetPoint('RIGHT', -2, 0)
-		htext:SetShadowOffset(1, -1)
 		if powerType ~= 0 then htext.frequentUpdates = .1 end
 		self:Tag(htext, '[player:hp][player:power]')
 		
@@ -430,7 +425,6 @@ local UnitSpecific = {
 		b['growth-x'] = 'LEFT'
 		b.PostCreateIcon = auraIcon
 		b.PostUpdateIcon = PostUpdateIcon
-		b.CustomFilter = FilterAuraWatch
 		self.Buffs = b
 
 		local d = CreateFrame('Frame', nil, self)
@@ -617,11 +611,11 @@ local UnitSpecific = {
 		Power(self)
 		Icons(self)
 
-		self:SetSize(G.unitframes.party.width, G.unitframes.party.health + G.unitframes.party.power - 2)
+		self:SetSize(G.unitframes.party.width, G.unitframes.party.health)
 		self.Health:SetHeight(G.unitframes.party.health)
 		self.Power:SetHeight(G.unitframes.party.power)
 
-		local lfd = fs(self.Health, 'OVERLAY', symbol, 13, "OUTLINE", 1, 1, 1)
+		local lfd = fs(self.Health, 'OVERLAY', symbol, 12, "", 1, 1, 1)
 		lfd:SetPoint('LEFT', 4, 0)
 		lfd:SetJustifyH 'LEFT'
 		self:Tag(lfd, '[LFD]')
@@ -677,10 +671,11 @@ local UnitSpecific = {
 
 		self:SetSize(G.unitframes.raid.width, G.unitframes.raid.health)
 		self.Health:SetHeight(G.unitframes.raid.health)
+		F.addBackdrop(self.Health)
 		self.Health.colorClass = true
 
 		local name = fs(self.Health, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize - 3, G.unitframes.fontflag, 1, 1, 1)
-		name:SetPoint('TOPLEFT', 2, -4)
+		name:SetPoint('TOPLEFT', 2, -3)
 		name:SetJustifyH 'LEFT'
 		self:Tag(name, '[veryshort:name]')
 
@@ -691,7 +686,7 @@ local UnitSpecific = {
 
 		local lfd = fs(self.Health, 'OVERLAY', symbol, 10, '', 1, 1, 1)
 		lfd:SetShadowOffset(1, -1)
-		lfd:SetPoint('TOPRIGHT', 0, -2)
+		lfd:SetPoint('TOPRIGHT', -1, -2)
 		self:Tag(lfd, '[LFD]')
 
 		self.RaidTargetIndicator:SetSize(14, 14)

@@ -29,6 +29,14 @@ function F.createBorder(parent, anchor, extend)
 	return frame
 end
 
+function F.createFontString(parent) 
+	local fs = parent:CreateFontString(nil, "OVERLAY");
+	fs:SetFont(G.fonts.square, 14, "");
+	fs:SetShadowOffset(1, -1);
+	fs:SetPoint("CENTER", parent, "CENTER", 0, 0);
+	return fs
+end
+
 function F.createOverlay(element, anchor)
 	if not anchor then
 		anchor = element

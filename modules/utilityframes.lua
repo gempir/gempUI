@@ -276,8 +276,7 @@ local gAC_1button = CreateFrame("Button", nil, gAC_1)
 
 F.createOverlay(gAC_1button, gAC_1)
 
-gACt_1 = gAC_1button:CreateFontString(nil, "OVERLAY", gAutomatorConfig);
-gACt_1:SetFont("Interface\\AddOns\\gempUI\\media\\fonts\\square.ttf", 14, "THINOUTLINE");
+gACt_1 = F.createFontString(gAC_1button)
 gACt_1:SetText("Errors");
 gACt_1:SetPoint("CENTER", gAC_1button, "CENTER", 1,-1);
 
@@ -341,8 +340,7 @@ F.createOverlay(gAC_2button, gAC_2)
 
 
 
-gACt_2 = gAC_2button:CreateFontString(nil, "OVERLAY", gAutomatorConfig);
-gACt_2:SetFont("Interface\\AddOns\\gempUI\\media\\fonts\\square.ttf", 14, "THINOUTLINE");
+gACt_2 = F.createFontString(gAC_2button)
 gACt_2:SetPoint("CENTER", gAC_2button, "CENTER", 0,-1);
 
 if gempDB.autorepair == 1 then
@@ -411,8 +409,7 @@ local gAC_3button = CreateFrame("Button", nil, gAC_3)
 F.createOverlay(gAC_3button, gAC_3)
 
 
-gACt_3 = gAC_3button:CreateFontString(nil, "OVERLAY", gAutomatorConfig);
-gACt_3:SetFont("Interface\\AddOns\\gempUI\\media\\fonts\\square.ttf", 14, "THINOUTLINE");
+gACt_3 = F.createFontString(gAC_3button)
 gACt_3:SetText("Sell Junk");
 gACt_3:SetPoint("CENTER", gAC_3button, "CENTER", 0,-1);
 
@@ -492,8 +489,7 @@ else
 	rep_or_xp_text = "EXPBar"
 end
 
-gACt_4 = gAC_4button:CreateFontString(nil, "OVERLAY", gAutomatorConfig);
-gACt_4:SetFont("Interface\\AddOns\\gempUI\\media\\fonts\\square.ttf", 14, "THINOUTLINE");
+gACt_4 = F.createFontString(gAC_4button)
 gACt_4:SetText(rep_or_xp_text);
 gACt_4:SetPoint("CENTER", gAC_4button, "CENTER",1,-1);
 

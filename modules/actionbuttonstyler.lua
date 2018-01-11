@@ -45,21 +45,21 @@ cfg.color = {
 cfg.hotkeys = {
 	show = true,
 	fontsize = 10,
-	pos1 = { a1 = "TOPRIGHT", x = -2, y = -4 },
-	pos2 = { a1 = "TOPLEFT", x = -2, y = -4 }, --important! two points are needed to make the hotkeyname be inside of the button
+	pos1 = { a1 = "TOPRIGHT", x = -2, y = -2 },
+	pos2 = { a1 = "TOPLEFT", x = -2, y = -2 }, --important! two points are needed to make the hotkeyname be inside of the button
 }
 
 cfg.macroname = {
 	show = true,
 	fontsize = 8,
-	pos1 = { a1 = "BOTTOMLEFT", x = 1, y = 0 },
-	pos2 = { a1 = "BOTTOMRIGHT", x = 1, y = 0 }, --important! two points are needed to make the macroname be inside of the button
+	pos1 = { a1 = "BOTTOMLEFT", x = 0, y = 0 },
+	pos2 = { a1 = "BOTTOMRIGHT", x = 0, y = 0 }, --important! two points are needed to make the macroname be inside of the button
 }
 
 cfg.itemcount = {
 	show = true,
 	fontsize = 14,
-	pos1 = { a1 = "BOTTOMRIGHT", x = -1, y = 1 },
+	pos1 = { a1 = "BOTTOMRIGHT", x = 0, y = 1 },
 }
 
 cfg.cooldown = {
@@ -209,7 +209,8 @@ local function styleActionButton(bu)
 	if fobs then fobs:SetTexture(nil) end
 	bo:SetTexture(nil) --hide the border (plain ugly, sry blizz)
 	--hotkey
-	ho:SetFont(cfg.font, cfg.hotkeys.fontsize, "OUTLINE")
+	ho:SetFont(cfg.font, cfg.hotkeys.fontsize, "")
+	ho:SetShadowOffset(1, -1)
 	ho:ClearAllPoints()
 	ho:SetPoint(cfg.hotkeys.pos1.a1, bu, cfg.hotkeys.pos1.x, cfg.hotkeys.pos1.y)
 	ho:SetPoint(cfg.hotkeys.pos2.a1, bu, cfg.hotkeys.pos2.x, cfg.hotkeys.pos2.y)
@@ -217,7 +218,8 @@ local function styleActionButton(bu)
 		ho:Hide()
 	end
 	--macro name
-	na:SetFont(cfg.font, cfg.macroname.fontsize, "OUTLINE")
+	na:SetFont(cfg.font, cfg.macroname.fontsize, "")
+	na:SetShadowOffset(1, -1)
 	na:ClearAllPoints()
 	na:SetPoint(cfg.macroname.pos1.a1, bu, cfg.macroname.pos1.x, cfg.macroname.pos1.y)
 	na:SetPoint(cfg.macroname.pos2.a1, bu, cfg.macroname.pos2.x, cfg.macroname.pos2.y)
@@ -225,7 +227,7 @@ local function styleActionButton(bu)
 		na:Hide()
 	end
 	--item stack count
-	co:SetFont(cfg.font, cfg.itemcount.fontsize, "OUTLINE")
+	co:SetFont(cfg.font, cfg.itemcount.fontsize, "MONOCHROMEOUTLINE")
 	co:ClearAllPoints()
 	co:SetPoint(cfg.itemcount.pos1.a1, bu, cfg.itemcount.pos1.x, cfg.itemcount.pos1.y)
 	if not dominos and not bartender4 and not cfg.itemcount.show then

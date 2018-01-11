@@ -84,19 +84,22 @@ do
 	local latText = f:CreateFontString(nil, "OVERLAY")
 	latText:SetPoint("CENTER", msButton, "CENTER", 0, 0)
 	f.latText = latText
-	f.latText:SetFont("Interface\\Addons\\gempUI\\media\\fonts\\square.ttf", 14, 'THINOUTLINE')
+	f.latText:SetFont(G.fonts.square, 14, '')
+	f.latText:SetShadowOffset(1, -1)
 	f.latText:SetTextColor(1, 1, 1)
 
 
 	local fpsText = f:CreateFontString(nil, "OVERLAY")
 	fpsText:SetPoint("CENTER", clockButton, "CENTER", 0, 0)
 	f.fpsText = fpsText
-	f.fpsText:SetFont("Interface\\Addons\\gempUI\\media\\fonts\\square.ttf", 14, 'THINOUTLINE')
+	f.fpsText:SetFont(G.fonts.square, 14, '')
+	f.fpsText:SetShadowOffset(1, -1)
 	f.fpsText:SetTextColor(1, 1, 1)
 
 	local clockFrame, clockTime = TimeManagerClockButton:GetRegions()
 	clockFrame:Hide()
-	clockTime:SetFont("Interface\\Addons\\gempUI\\media\\fonts\\square.ttf", 14, "THINOUTLINE")
+	clockTime:SetFont(G.fonts.square, 14, '')
+	clockTime:SetShadowOffset(1, -1)
 	clockTime:SetTextColor(1, 1, 1)
 	TimeManagerClockButton:SetFrameStrata("TOOLTIP")
 	TimeManagerClockButton:SetPoint("CENTER", fpsButton, "CENTER", 0, -1)
