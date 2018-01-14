@@ -74,13 +74,7 @@ G.unitframes = {
 	target = {
 		width = 184,
 		health = 30,
-		power = 8,
-		castbar = {
-			width = 210,
-			height = 15,
-			xOff = 0,
-			yOff = -10
-		}
+		power = 8
 	},
 	targettarget = {
 		width = 80,
@@ -92,8 +86,8 @@ G.unitframes = {
 		width = 166,
 		health = 26,
 		power = 3,
-		xOff = 6,
-		yOff = -6
+		xOff = 200,
+		yOff = -600
 	},
 	tank = {
 		width = 166,
@@ -180,7 +174,10 @@ G.backdrop = {
 V = {
 	oUF = ns.oUF,
 	playerlevel = UnitLevel("player"),
-	playername = UnitName("player")
+	playername = UnitName("player"),
+	options = {
+		expbar = true
+	}
 }
 
 -- Saved Variables

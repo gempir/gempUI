@@ -196,8 +196,8 @@ local castbar = function(self, unit)
 		cb:SetPoint('BOTTOMRIGHT', "gempUI_mainpanel", "BOTTOMRIGHT", -1, -31)
 		cb.Icon:SetSize(cb:GetHeight(), cb:GetHeight())
 	elseif self.unit == 'target' then
-		cb:SetPoint('TOPRIGHT', "oUF_gempUITarget", "BOTTOMLEFT", 16, -6)
-		cb:SetPoint('BOTTOMRIGHT', "oUF_gempUITarget", "BOTTOMRIGHT", -1, -22)
+		cb:SetPoint('TOPRIGHT', "oUF_gempUITarget", "BOTTOMRIGHT", -1, -7)
+		cb:SetSize(G.unitframes.target.width - 15, 12)
 		cb.Icon:SetSize(cb:GetHeight(), cb:GetHeight())
 		cb.Shield = cb:CreateTexture(nil, 'OVERLAY')
 		cb.Shield:SetSize(cb:GetHeight(), cb:GetHeight())
@@ -234,15 +234,13 @@ local castbar = function(self, unit)
 end
 
 local Health = function(self)
-	-- Position and size
     local h = CreateFrame('StatusBar', nil, self)
     h:SetPoint('TOP')
     h:SetPoint('LEFT')
 	h:SetPoint('RIGHT')
 	h:SetStatusBarTexture(G.texture)
 	h:SetStatusBarColor(unpack(G.colors.base))
-	F.createBorder(h)
-    -- Options
+
     h.frequentUpdates = true
     h.colorDisconnected = false
 
@@ -304,9 +302,10 @@ local function Shared(self, unit)
 	self.RaidTargetIndicator = ricon
 
 	local hl = self.Health:CreateTexture(nil, 'OVERLAY')
-	hl:SetAllPoints(self)
+	hl:SetPoint("TOPLEFT", self, "TOPLEFT", 1, -1)
+	hl:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", -1, 1)
 	hl:SetTexture([=[Interface\Buttons\WHITE8x8]=])
-	hl:SetVertexColor(1, 1, 1, .05)
+	hl:SetVertexColor(1, 1, 1, .1)
 	hl:SetBlendMode('ADD')
 	hl:Hide()
 	self.Highlight = hl
@@ -324,7 +323,7 @@ local UnitSpecific = {
 		PetCastingBarFrame.Show = function() end
 		PetCastingBarFrame:Hide()
 
-		self:SetSize(G.unitframes.player.width, G.unitframes.player.health)
+		self:SetSize(G.unitframes.player.width, G.unitframes.player.health + G.unitframes.player.power + 1)
 		self.Health:SetHeight(G.unitframes.player.health)
 		self.Power:SetHeight(G.unitframes.player.power)
 
@@ -355,7 +354,7 @@ local UnitSpecific = {
 
 		if (class == 'PRIEST' or class == 'PALADIN' or class == 'MONK') then
 			local ClassPower = CreateFrame('Frame', nil, self)
-			ClassPower:SetPoint('TOPRIGHT', self.Power, 'BOTTOMRIGHT', 1, 0)
+			ClassPower:SetPoint('TOPRIGHT', self.Power, 'BOTTOMRIGHT', 2, -1)
 			ClassPower:SetSize(G.unitframes.player.width, G.unitframes.player.special)
 
 			if class == 'PRIEST' then
@@ -379,7 +378,7 @@ local UnitSpecific = {
 				end
 
 				ClassPower[i] = Icon
-				F.createBorder(ClassPower[i], ClassPower[i])
+				F.createBorder(ClassPower[i], ClassPower[i], true)
 			end
 
 			self.ClassPower = ClassPower
@@ -451,7 +450,7 @@ local UnitSpecific = {
 		Icons(self)
 		castbar(self)
 
-		self:SetSize(G.unitframes.target.width, G.unitframes.target.health)
+		self:SetSize(G.unitframes.target.width, G.unitframes.target.health + G.unitframes.target.power + 1)
 		self.Health:SetHeight(G.unitframes.target.health)
 		self.Power:SetHeight(G.unitframes.target.power)
 
@@ -495,7 +494,7 @@ local UnitSpecific = {
 		Power(self)
 		Icons(self)
 
-		self:SetSize(G.unitframes.focus.width, G.unitframes.focus.health + G.unitframes.focus.power - 2)
+		self:SetSize(G.unitframes.focus.width, G.unitframes.focus.health + G.unitframes.focus.power + 1)
 		self.Health:SetHeight(G.unitframes.focus.health)
 		self.Power:SetHeight(G.unitframes.focus.power)
 
@@ -615,7 +614,7 @@ local UnitSpecific = {
 		Power(self)
 		Icons(self)
 
-		self:SetSize(G.unitframes.party.width, G.unitframes.party.health)
+		self:SetSize(G.unitframes.party.width, G.unitframes.party.health + G.unitframes.party.power + 1)
 		self.Health:SetHeight(G.unitframes.party.health)
 		self.Power:SetHeight(G.unitframes.party.power)
 
@@ -643,9 +642,9 @@ local UnitSpecific = {
 		d.spacing = 4
 		d.num = 4
 		d:SetSize(d.num * d.size + d.spacing * (d.num - 1), d.size)
-		d:SetPoint('TOPLEFT', self, 'TOPRIGHT', 7, -1)
-		d.initialAnchor = 'TOPLEFT'
-		d['growth-x'] = 'RIGHT'
+		d:SetPoint('TOPRIGHT', self, 'TOPLEFT', -7, -1)
+		d.initialAnchor = 'TOPRIGHT'
+		d['growth-x'] = 'LEFT'
 		d.PostCreateIcon = auraIcon
 		d.PostUpdateIcon = PostUpdateIcon
 		self.Debuffs = d
@@ -673,9 +672,11 @@ local UnitSpecific = {
 		Shared(self, unit)
 		Icons(self)
 
+		self.framebd:Hide() -- hide Shared bd
+		self.framebd = F.createBorder(self, self, true)
+
 		self:SetSize(G.unitframes.raid.width, G.unitframes.raid.health)
-		self.Health:SetHeight(G.unitframes.raid.health)
-		F.addBackdrop(self.Health)
+		F.addBackdropNoBorder(self)
 		self.Health.colorClass = true
 
 		local name = fs(self.Health, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize - 3, G.unitframes.fontflag, 1, 1, 1)
@@ -701,23 +702,14 @@ local UnitSpecific = {
 		rc:SetSize(12, 12)
 		self.ReadyCheckIndicator = rc
 
-		local tborder = CreateFrame('Frame', nil, self)
-		tborder:SetPoint('TOPLEFT', self, 'TOPLEFT')
-		tborder:SetPoint('BOTTOMRIGHT', self, 'BOTTOMRIGHT')
-		tborder:SetBackdrop(backdrop)
-		tborder:SetBackdropColor(.8, .8, .8, 1)
-		tborder:SetFrameLevel(1)
-		tborder:Hide()
-		self.TargetBorder = tborder
-
-		local fborder = CreateFrame('Frame', nil, self)
-		fborder:SetPoint('TOPLEFT', self, 'TOPLEFT')
-		fborder:SetPoint('BOTTOMRIGHT', self, 'BOTTOMRIGHT')
-		fborder:SetBackdrop(backdrop)
-		fborder:SetBackdropColor(.6, .8, 0, 1)
-		fborder:SetFrameLevel(1)
-		fborder:Hide()
-		self.FocusHighlight = fborder
+		local hl = self.Health:CreateTexture(nil, 'OVERLAY')
+		hl:SetPoint("TOPLEFT", self, "TOPLEFT", 0, 0)
+		hl:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", 0, 0)
+		hl:SetTexture([=[Interface\Buttons\WHITE8x8]=])
+		hl:SetVertexColor(1, 1, 1, .1)
+		hl:SetBlendMode('ADD')
+		hl:Hide()
+		self.Highlight = hl
 	end,
 }
 
@@ -782,7 +774,6 @@ oUF:Factory(function(self)
 		arenaprep[i] = CreateFrame('Frame', 'oUF_ArenaPrep' .. i, UIParent)
 		arenaprep[i]:SetAllPoints(_G['oUF_Arena' .. i])
 		arenaprep[i]:SetFrameStrata('BACKGROUND')
-		arenaprep[i].framebd = framebd(arenaprep[i], arenaprep[i])
 
 		arenaprep[i].Health = CreateFrame('StatusBar', nil, arenaprep[i])
 		arenaprep[i].Health:SetAllPoints()
@@ -899,7 +890,7 @@ oUF:Factory(function(self)
 		'oUF-initialConfigFunction', ([[
 		self:SetHeight(%d)
 		self:SetWidth(%d)
-	]]):format(G.unitframes.raid.health - 2, G.unitframes.raid.width))
+	]]):format(G.unitframes.raid.health, G.unitframes.raid.width))
 	raid:SetPoint('TOPLEFT', UIParent, 'TOPLEFT', G.unitframes.raid.xOff, G.unitframes.raid.yOff)
 end)
 

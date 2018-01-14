@@ -8,6 +8,7 @@
 libs\load_libs.xml
 
 gempUI.lua
+gempUI_config.lua
 
 modules\load_modules.xml
 

@@ -74,4 +74,11 @@ function F.addBackdrop(frame)
 	frame:SetBackdropBorderColor(unpack(G.colors.border))
 end
 
+function F.addBackdropNoBorder(frame)
+	frame:SetBackdrop({
+		bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=]
+	})
+	frame:SetBackdropColor(unpack(G.colors.base))
+end
+
 

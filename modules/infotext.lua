@@ -104,7 +104,6 @@ do
 	TimeManagerClockButton:SetFrameStrata("TOOLTIP")
 	TimeManagerClockButton:SetPoint("CENTER", clockButton, "CENTER", 0, -1)
 	TimeManagerClockButton:EnableMouse(false)
-	clockTime:SetShadowOffset(0, 0)
 	clockTime:Show()
 
 
