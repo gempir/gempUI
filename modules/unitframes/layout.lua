@@ -105,17 +105,18 @@ local PostUpdateIcon = function(icons, unit, icon, index, offset)
 	end
 end
 
+local showEnemyDebuffs = true
+F.onOptionsLoaded(function() 
+	showEnemyDebuffs = gempDB.enemyDebuffs
+end)
 local CustomFilter = function(icons, ...)
 	local _, icon, name, _, _, _, _, _, _, caster = ...
-	local isPlayer
+
 	if (caster == 'player' or caster == 'vechicle') then
-		isPlayer = true
-	end
-	if ((icons.onlyShowPlayer and isPlayer) or (not icons.onlyShowPlayer and name)) then
-		icon.isPlayer = isPlayer
-		icon.owner = caster
 		return true
 	end
+
+	return showEnemyDebuffs
 end
 
 local OnCastbarUpdate = function(self, elapsed)
@@ -186,7 +187,7 @@ local castbar = function(self, unit)
 	cb.CastingColor = G.colors.base
 	cb.CompleteColor = { 0.12, 0.86, 0.15, G.colors.base[4] }
 	cb.FailColor = { 1.0, 0.09, 0, G.colors.base[4] }
-	cb.ChannelingColor = { 0.32, 0.3, G.colors.base[4] }
+	cb.ChannelingColor = G.colors.base
 	cb.Icon = cb:CreateTexture(nil, 'ARTWORK')
 	cb.Icon:SetPoint('TOPRIGHT', cb, 'TOPLEFT', -1, 0)
 	cb.Icon:SetTexCoord(.1, .9, .1, .9)
@@ -331,7 +332,6 @@ local UnitSpecific = {
 		htext:SetPoint('RIGHT', -4, 0)
 		if powerType ~= 0 then htext.frequentUpdates = .1 end
 		self:Tag(htext, '[player:hp][player:power]')
-		
 
 		local ct = CreateFrame('Frame', nil, self.Health)
 		ct:SetSize(10, 10)
@@ -483,7 +483,6 @@ local UnitSpecific = {
 		d:SetPoint('BOTTOMLEFT', self, 'TOPLEFT', 1, 7)
 		d:SetSize(G.unitframes.player.width, d.size)
 		d.initialAnchor = 'TOPLEFT'
-		d.onlyShowPlayer = false
 		d.PostCreateIcon = auraIcon
 		d.PostUpdateIcon = PostUpdateIcon
 		d.CustomFilter = CustomFilter
@@ -568,7 +567,6 @@ local UnitSpecific = {
 		d:SetSize(d.num * d.size + d.spacing * (d.num - 1), d.size)
 		d:SetPoint('TOPLEFT', self, 'TOPRIGHT', 5, -1)
 		d.initialAnchor = 'TOPLEFT'
-		d.onlyShowPlayer = true
 		d.PostCreateIcon = auraIcon
 		d.PostUpdateIcon = PostUpdateIcon
 		self.Debuffs = d
@@ -695,7 +693,7 @@ local UnitSpecific = {
 		self:Tag(lfd, '[LFD]')
 
 		self.RaidTargetIndicator:SetSize(14, 14)
-		self.RaidTargetIndicator:SetPoint('TOP', self.Health, 0, 8)
+		self.RaidTargetIndicator:SetPoint('TOP', self.Health, 0, 5)
 
 		local rc = self.Health:CreateTexture(nil, 'OVERLAY')
 		rc:SetPoint('BOTTOM')

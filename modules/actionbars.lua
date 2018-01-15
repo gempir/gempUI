@@ -139,7 +139,7 @@ cfg.bars = {
 	},
 	["ExtraButton"] = {
 		disable = false,
-		position = { a = "BOTTOM", x = 0, y = 375 },
+		position = { a = "BOTTOM", x = 0, y = 400 },
 	},
 	["RaidIconBar"] = {
 		hide = true,
@@ -688,14 +688,14 @@ end
 
 
 -- ExtraBar button implementation
-extrabtn = CreateFrame("Frame", "ExtraBtn_holder", UIParent)
+V.extraButton = CreateFrame("Frame", "ExtraBtn_holder", UIParent)
 if not cfg.bars["ExtraButton"].disable then
-	extrabtn:SetPoint(cfg.bars["ExtraButton"].position.a, cfg.bars["ExtraButton"].position.x, cfg.bars["ExtraButton"].position.y)
-	extrabtn:SetSize(36, 36)
+	V.extraButton:SetPoint(cfg.bars["ExtraButton"].position.a, cfg.bars["ExtraButton"].position.x, cfg.bars["ExtraButton"].position.y)
+	V.extraButton:SetSize(36, 36)
 
-	ExtraActionBarFrame:SetParent(extrabtn)
+	ExtraActionBarFrame:SetParent(V.extraButton)
 	ExtraActionBarFrame:ClearAllPoints()
-	ExtraActionBarFrame:SetPoint("CENTER", extrabtn, "CENTER", 0, 0)
+	ExtraActionBarFrame:SetPoint("CENTER", V.extraButton, "CENTER", 0, 0)
 
 	-- ExtraActionButton1.noResize = true
 	ExtraActionBarFrame.ignoreFramePositionManager = true
@@ -1208,13 +1208,7 @@ SlashCmdList.MOUSEOVERBIND = function()
 	end
 end
 
-if (IsAddOnLoaded("HealBot")) then
-	SLASH_MOUSEOVERBIND1 = "/hvb"
-else
-	SLASH_MOUSEOVERBIND1 = "/kb"
-end
---SLASH_MOUSEOVERBIND1 = "/hvb"
-SLASH_MOUSEOVERBIND2 = "/hoverbind"
+SLASH_MOUSEOVERBIND1 = "/hb"
 
 --------------------------------------- HOVERBIND END --------------------------------------------
 

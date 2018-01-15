@@ -79,7 +79,7 @@ oUF:RegisterStyle("gempUI - Nameplates", function(self, unit)
 	cb.CastingColor = G.colors.base
 	cb.CompleteColor = { 0.12, 0.86, 0.15, G.colors.base[4] }
 	cb.FailColor = { 1.0, 0.09, 0, G.colors.base[4] }
-	cb.ChannelingColor = { 0.32, 0.3, G.colors.base[4] }
+	cb.ChannelingColor = G.colors.base
 	cb.Icon = cb:CreateTexture(nil, 'ARTWORK')
 	cb.Icon:SetPoint('TOPRIGHT', cb, 'TOPLEFT', -1, 0)
 	cb.Icon:SetTexCoord(.1, .9, .1, .9)

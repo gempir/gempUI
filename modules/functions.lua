@@ -81,4 +81,21 @@ function F.addBackdropNoBorder(frame)
 	frame:SetBackdropColor(unpack(G.colors.base))
 end
 
+-- options
 
+local optionFunctions = {}
+
+local frame = CreateFrame("FRAME", "SavedVarsFrame");
+frame:RegisterEvent("ADDON_LOADED")
+frame:SetScript("OnEvent", function(self, event, arg1)
+	if arg1 == "gempUI" then
+		self:UnregisterEvent("ADDON_LOADED")
+		for key,value in pairs(optionFunctions) do --actualcode
+			value()
+		end
+	end 
+end)
+
+function F.onOptionsLoaded(func)
+    table.insert(optionFunctions, func)
+end

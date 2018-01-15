@@ -1,4 +1,4 @@
-## Interface: 70200
+## Interface: 70300
 ## Title: |cff00FF7F gemp|rUI
 ## Notes: gempUI
 ## OptionalDeps: Skada, LibSharedMedia-3.0
@@ -8,7 +8,7 @@
 libs\load_libs.xml
 
 gempUI.lua
-gempUI_config.lua
+config.lua
 
 modules\load_modules.xml
 

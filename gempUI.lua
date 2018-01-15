@@ -175,9 +175,6 @@ V = {
 	oUF = ns.oUF,
 	playerlevel = UnitLevel("player"),
 	playername = UnitName("player"),
-	options = {
-		expbar = true
-	}
 }
 
 -- Saved Variables
@@ -191,7 +188,11 @@ gempDB = {
 	SkadaSkinSet = false,
 	gDMG_visible = false,
 	gAC_visible = false,
-	gWM_visible = false
+	gWM_visible = false,
+	enemyDebuffs = false,
+	sellJunk = false,
+	autoRepair = false,
+	hideErrors = false,
 }
 
 

@@ -20,7 +20,12 @@ clockButton:SetHeight(25)
 clockButton:SetFrameStrata("BACKGROUND")
 clockButton:RegisterForClicks("LeftButtonDown")
 clockButton:SetScript("OnClick", function()
-	gAC_Toggle()
+	if ( not IsAddOnLoaded("Blizzard_Calendar") ) then
+		UIParentLoadAddOn("Blizzard_Calendar");
+	end
+	if ( Calendar_Toggle ) then
+		Calendar_Toggle();
+	end
 end)
 F.addBackdrop(clockButton)
 F.createOverlay(clockButton)
