@@ -2,7 +2,7 @@ local addon, core = ...
 local name, ns = ...
 
 core[1] = {} -- F, functions
-core[2] = {} -- G, gempUI related stuff like options or media
+core[2] = {} -- G, globals like fonts, textures, media, Ace3
 core[3] = {} -- V, variables
 
 local F, G, V = unpack(select(2, ...))
@@ -80,7 +80,7 @@ G.unitframes = {
 		width = 80,
 		health = 27,
 		xOff = 0,
-		yOff = -60,
+		yOff = -92,
 	},
 	party = {
 		width = 166,
@@ -139,15 +139,6 @@ G.unitframes = {
 	},
 }
 
-
-
-
-G.options = {
-	actionbars_side_two = false, -- adds a second actionbar on the right
-	actionbars_main_three = false -- adds a third actionbar in the middle
-}
-
-
 G.nameplates = {
 	width = 120,
 	height = 10,
@@ -177,25 +168,6 @@ V = {
 	playername = UnitName("player"),
 }
 
--- Saved Variables
--- default
-gempDB = {
-	autorepair = 0,
-	hideerrors = false,
-	selljunk = false,
-	xpbar = true,
-	threatbar = true,
-	SkadaSkinSet = false,
-	gDMG_visible = false,
-	gAC_visible = false,
-	gWM_visible = false,
-	enemyDebuffs = false,
-	sellJunk = false,
-	autoRepair = false,
-	hideErrors = false,
-}
-
-
 -------------------------------------------------------------------------------------
 ------ Credits
 -------------------------------------------------------------------------------------
@@ -210,17 +182,12 @@ Interface\\Addons\\gempUI\\media\\fonts\\square.ttf
 This UI is a compilation of a lot of Addons and some stuff is written by me (gempir)
 A lot of Credit goes to these great people who wrote these addons and people who helped me, most of them can be found on wowinterface.com
 
-Zork - rTooltip, rActionButtonStyler
+Zork - rTooltip, rActionButtonStyler, rActionbar
 Skaarj - ouF_Skaarj
-Yarko - Cooldowns
 nightcracker, Coote - ncHoverbind
-Monolit - m_Actionbars (monoActionbars)
-Tuller - TullaRange
-Blooblahguy - bBuffs
 10leej - Click Menu - Copyright (c) 2015 10leej (MIT License)
-Miziak,saulhudson - IronMicroExperience based on MicroExperience
 
-General cool People
-Mayron, Resike, Fizzlemizz, Seerah, Leatrix, semlar, Clamsoda, jeruku
+General cool People who helped me out
+Haste, Mayron, Resike, Fizzlemizz, Seerah, Leatrix, semlar, Clamsoda, jeruku
 
 ]] --

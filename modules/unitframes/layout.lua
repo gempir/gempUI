@@ -107,7 +107,7 @@ end
 
 local showEnemyDebuffs = true
 F.onOptionsLoaded(function() 
-	showEnemyDebuffs = gempDB.enemyDebuffs
+	showEnemyDebuffs = G.ace:GetAllEnemyDebuffs()
 end)
 local CustomFilter = function(icons, ...)
 	local _, icon, name, _, _, _, _, _, _, caster = ...
@@ -441,7 +441,6 @@ local UnitSpecific = {
 		d.initialAnchor = 'TOPLEFT'
 		d.PostCreateIcon = auraIcon
 		d.PostUpdateIcon = PostUpdateIcon
-		d.CustomFilter = CustomFilter
 		self.Debuffs = d
 	end,
 	target = function(self, unit)

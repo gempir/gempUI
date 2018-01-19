@@ -165,6 +165,9 @@ cfg.bars = {
 		button_spacing = cfg.mAB.spacing,
 		position = { a = "RIGHT", x = -10, y = 122 },
 	},
+	["ExitVehicleButton"] = {
+		position = { a = "BOTTOM", x = 0, y = 0 },
+	},
 }
 
 cfg.buttons = {
@@ -448,31 +451,6 @@ local myclass = select(2, UnitClass("player"))
 --if not cfg.enable_action_bars then return end
 if IsAddOnLoaded("Dominos") then return end
 
--- compatibility
--- for 1280*XXX, 1360*XXX, 1440*XXX resolutions
-local width, _ = string.match((({ GetScreenResolutions() })[GetCurrentResolution()] or ""), "(%d+).-(%d+)")
-if width == "1280" or width == "1360" or width == "1440" then
-	if cfg.bars["Bar6"].position.a == "BOTTOMRIGHT" and cfg.bars["Bar6"].position.x == -26 and cfg.bars["Bar6"].position.y == 260 and cfg.bars["Bar6"].orientation == "HORIZONTAL" then
-		cfg.bars["Bar6"].orientation = "VERTICAL"
-		cfg.bars["Bar6"].position = { a = "RIGHT", x = -105, y = 0 }
-	end
-	if cfg.bars["Bar5"].position.a == "BOTTOMRIGHT" and cfg.bars["Bar5"].position.x == -26 and cfg.bars["Bar5"].position.y == 225 and cfg.bars["Bar5"].orientation == "HORIZONTAL" then
-		cfg.bars["Bar5"].orientation = "VERTICAL"
-		cfg.bars["Bar5"].position = { a = "RIGHT", x = -70, y = 0 }
-	end
-	if cfg.bars["Bar4"].position.a == "BOTTOMRIGHT" and cfg.bars["Bar4"].position.x == -26 and cfg.bars["Bar4"].position.y == 190 and cfg.bars["Bar4"].orientation == "HORIZONTAL" then
-		cfg.bars["Bar4"].orientation = "VERTICAL"
-		cfg.bars["Bar4"].position = { a = "RIGHT", x = -35, y = 0 }
-	end
-	if cfg.bars["StanceBar"].position.a == "BOTTOMRIGHT" and cfg.bars["StanceBar"].position.x == -218 and cfg.bars["StanceBar"].position.y == 295 and cfg.bars["StanceBar"].orientation == "HORIZONTAL" then
-		cfg.bars["StanceBar"].orientation = "VERTICAL"
-		cfg.bars["StanceBar"].position = { a = "BOTTOM", x = -96, y = 115 }
-	end
-	if cfg.bars["MicroMenu"].position.a == "BOTTOMRIGHT" and cfg.bars["MicroMenu"].position.x == -25 and cfg.bars["MicroMenu"].position.y == 300 then
-		cfg.bars["MicroMenu"].position = { a = "BOTTOMRIGHT", x = -150, y = 200 }
-	end
-end
-
 -- enabling default action bars
 local f = CreateFrame "Frame"
 f:RegisterEvent("PLAYER_ENTERING_WORLD")
@@ -548,6 +526,7 @@ rightbar = mAB.CreateHolder("Bar5_holder", cfg.bars["Bar5"].position)
 local extrabar = mAB.CreateHolder("Bar6_holder", cfg.bars["Bar6"].position)
 local stancebar = mAB.CreateHolder("StanceBar_holder", cfg.bars["StanceBar"].position)
 local petbar = mAB.CreateHolder("PetBar_holder", { a = cfg.bars["PetBar"].position.a, x = cfg.bars["PetBar"].position.x * 1.25, y = cfg.bars["PetBar"].position.y * 1.25 })
+local exitVehicle = mAB.CreateHolder("ExitVehicle_holder", cfg.bars["ExitVehicleButton"].position)
 --local extrabtn = mAB.CreateHolder("ExtraBtn_holder", cfg.ExtraButton["Position"])
 
 --- - Forging action bars
@@ -703,7 +682,7 @@ end
 
 
 exitVehicle = CreateFrame("Button", "ExitVehicleButton", UIParent)
-exitVehicle:SetPoint("BOTTOMRIGHT", "Bar2_holder", "BOTTOMLEFT", -10, -5)
+exitVehicle:SetPoint("BOTTOM", UIParent, cfg.bars["ExitVehicleButton"].position.a, cfg.bars["ExitVehicleButton"].position.x, cfg.bars["ExitVehicleButton"].position.y)
 exitVehicle:SetWidth(28)
 exitVehicle:SetHeight(28)
 F.createBorder(exitVehicle)

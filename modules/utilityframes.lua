@@ -131,7 +131,7 @@ local frame = CreateFrame("FRAME", "MerchantEventCheck");
 frame:RegisterEvent("MERCHANT_SHOW");
 frame:SetScript("OnEvent", function() 
 
-	if gempDB.sellJunk then 
+	if G.ace:GetSellJunk() then 
 		for bag = 0,4,1 do for slot = 1, GetContainerNumSlots(bag),
 			1 do local name = GetContainerItemLink(bag,slot)
 
@@ -142,7 +142,7 @@ frame:SetScript("OnEvent", function()
 		end
 	end
 
-	if gempDB.autoRepair then 
+	if G.ace:GetAutoRepair() then 
 		if (CanMerchantRepair()) then	
 			repairAllCost, canRepair = GetRepairAllCost();
 			if (canRepair and repairAllCost > 0) then

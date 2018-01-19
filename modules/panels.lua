@@ -1,13 +1,5 @@
 local F, G, V = unpack(select(2, ...))
 
--- main_middle_panel
-
-if G.options.actionbars_main_three then
-	extrabars_1 = 39
-elseif not G.options.actionbars_main_three then
-	extrabars_1 = 0
-end
-
 
 gempUI_mainpanel = CreateFrame("Frame", nil, UIParent)
 gempUI_mainpanel:SetFrameStrata("BACKGROUND")
@@ -17,19 +9,9 @@ gempUI_mainpanel:SetPoint("BOTTOMRIGHT", "Bar3_holder", "BOTTOMRIGHT", 5, -5)
 gempUI_mainpanel:Show()
 
 
-
--- main_side_panel
-
-if G.options.actionbars_side_two then
-	extrabars_2 = 39
-elseif not G.options.actionbars_side_two then
-	extrabars_2 = 0
-end
-
-
 local gempUI_sidepanel = CreateFrame("Frame", nil, UIParent)
 gempUI_sidepanel:SetFrameStrata("BACKGROUND")
-gempUI_sidepanel:SetWidth(47 + extrabars_2)
+gempUI_sidepanel:SetWidth(47)
 gempUI_sidepanel:SetHeight(318)
 F.addBackdrop(gempUI_sidepanel)
 gempUI_sidepanel:SetPoint("RIGHT", 1, 0)
@@ -41,7 +23,7 @@ gempUI_sidepanel:Show()
 
 gempUI_bagpanel = CreateFrame("Frame", nil, UIParent)
 gempUI_bagpanel:SetFrameStrata("BACKGROUND")
-gempUI_bagpanel:SetWidth(47 + extrabars_2)
+gempUI_bagpanel:SetWidth(47)
 gempUI_bagpanel:SetHeight(144)
 F.addBackdrop(gempUI_bagpanel)
 gempUI_bagpanel:SetPoint("RIGHT", 1, -230)
