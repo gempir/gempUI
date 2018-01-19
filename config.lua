@@ -6,41 +6,48 @@ local options = {
     name = "gempUI",
     handler = G.ace,
     type = 'group',
+    childGroups = "tab",
     args = {
-        allEnemyDebuffs = {
-            type = "toggle",
-            name = "Show all enemy debuffs",
-            desc = "Will show more than just your debuffs on target frames",
-            get = "GetAllEnemyDebuffs",
-            set = "SetAllEnemyDebuffs",
-        },
-        sellJunk = {
-            type = "toggle",
-            name = "Sell junk",
-            desc = "Automatically vendor greys",
-            get = "GetSellJunk",
-            set = "SetJellJunk",
-        },
-        autoRepair = {
-            type = "toggle",
-            name = "Auto repair",
-            desc = "Automatically repair Guild first then personal",
-            get = "GetAutoRepair",
-            set = "SetAutoRepair",
-        },
-        hideErrors = {
-            type = "select",
-            name = "Hide Errors",
-            desc = "Mute Blizzard error frame",
-            values = {
-                always = "Hide errors in combat",
-                combat = "Hide errors always",
-                never = "Never hide errors"
-            },
-            get = "GetHideErrors",
-            set = "SetHideErrors",
-        },
-    },
+        general = {
+            name = "General",
+            type = 'group',
+            args = {
+                allEnemyDebuffs = {
+                    type = "toggle",
+                    name = "Show all enemy debuffs",
+                    desc = "Will show more than just your debuffs on target frames",
+                    get = "GetAllEnemyDebuffs",
+                    set = "SetAllEnemyDebuffs",
+                },
+                sellJunk = {
+                    type = "toggle",
+                    name = "Sell junk",
+                    desc = "Automatically vendor greys",
+                    get = "GetSellJunk",
+                    set = "SetJellJunk",
+                },
+                autoRepair = {
+                    type = "toggle",
+                    name = "Auto repair",
+                    desc = "Automatically repair Guild first then personal",
+                    get = "GetAutoRepair",
+                    set = "SetAutoRepair",
+                },
+                hideErrors = {
+                    type = "select",
+                    name = "Hide Errors",
+                    desc = "Mute Blizzard error frame",
+                    values = {
+                        combat = "Hide errors in combat",
+                        always = "Always hide errors",
+                        never = "Never hide errors"
+                    },
+                    get = "GetHideErrors",
+                    set = "SetHideErrors",
+                },
+            }
+        }
+    }
 }
 
 local defaults = {
@@ -54,6 +61,7 @@ local defaults = {
 
 function G.ace:OnInitialize()
     self.db = LibStub("AceDB-3.0"):New("gempDB", defaults, true)
+    options.args.profiles = LibStub("AceDBOptions-3.0"):GetOptionsTable(self.db)
 
 
     LibStub("AceConfig-3.0"):RegisterOptionsTable("gempUI", options)

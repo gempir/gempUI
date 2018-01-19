@@ -3,7 +3,7 @@
 ## Notes: gempUI
 ## OptionalDeps: Skada, LibSharedMedia-3.0
 ## SavedVariables: gempDB
-
+## X-Embeds: Ace3
 
 libs\load_libs.xml
 
