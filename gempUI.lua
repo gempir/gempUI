@@ -168,6 +168,17 @@ V = {
 	playername = UnitName("player"),
 }
 
+------ Shared Media
+local LSM = LibStub("LibSharedMedia-3.0")
+
+LSM:Register("statusbar", "Flat", G.texture)
+LSM:Register("font", "Square", G.fonts.square)
+
+LSM:Register(LSM.MediaType.FONT, "Roboto", G.fonts.roboto)
+LSM:Register(LSM.MediaType.FONT, "Roboto Bold", G.fonts.roboto_bold)
+LSM:Register(LSM.MediaType.FONT, "Roboto Bold Italic", G.fonts.roboto_bolditalic)
+LSM:Register(LSM.MediaType.FONT, "Roboto Italic", G.fonts.roboto_italic)
+
 -------------------------------------------------------------------------------------
 ------ Credits
 -------------------------------------------------------------------------------------

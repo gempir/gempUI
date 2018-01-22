@@ -27,7 +27,7 @@ cfg.bars = {
 		buttons = 6,
 		button_size = cfg.mAB.size,
 		button_spacing = cfg.mAB.spacing,
-		position = { a = "CENTER", x = 0, y = -340 },
+		position = { a = "CENTER", x = 0, y = -390 },
 		custom_visibility_macro = false -- set a custom visibility macro for this bar or 'false' to disable
 		-- (e.g. "[petbattle][overridebar][vehicleui][possessbar,@vehicle,exists]hide;show")
 	},
@@ -42,7 +42,7 @@ cfg.bars = {
 		buttons = 6,
 		button_size = cfg.mAB.size,
 		button_spacing = cfg.mAB.spacing,
-		position = { a = "CENTER", x = 0, y = -379 },
+		position = { a = "CENTER", x = 0, y = -429 },
 		custom_visibility_macro = false
 	},
 	["Bar3"] = {
@@ -56,7 +56,7 @@ cfg.bars = {
 		buttons = 6,
 		button_size = cfg.mAB.size,
 		button_spacing = cfg.mAB.spacing,
-		position = { a = "CENTER", x = 0, y = -418 },
+		position = { a = "CENTER", x = 0, y = -468 },
 		custom_visibility_macro = false
 	},
 	["Bar4"] = {

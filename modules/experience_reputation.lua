@@ -97,8 +97,6 @@ gempXpbar:SetStatusBarTexture(TEXTURE)
 gempXpbar:SetStatusBarColor(unpack(grepbarcolor))
 gempXpbar:EnableMouse()
 
-
-
 local text = gempXpbar:CreateFontString(nil, "OVERLAY")
 text:SetPoint("CENTER", gempXpbar, "CENTER", 0, 0)
 text:SetFontObject(font)

@@ -1,6 +1,5 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
     <Script file="functions.lua"/>
-    <Script file="sharedmedia.lua"/>
     
     <!-- Skins -->
     <Include file="skins\load_skins.xml"/>

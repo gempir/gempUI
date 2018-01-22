@@ -67,7 +67,7 @@ local createAuraWatch = function(self, unit)
 			icon.spellID = sid
 			icon:SetWidth(44)
 			icon:SetHeight(44)
-			icon:SetPoint("CENTER", UIParent, "CENTER", (i * 52) - 150, -290)
+			icon:SetPoint("BOTTOMLEFT", gempUI_mainpanel, "TOPLEFT", 1 + (i * 52) - 52, 7)
 			icon:EnableMouse(true)
 			auras.icons[sid] = icon
 		end
@@ -107,7 +107,7 @@ end
 
 local showEnemyDebuffs = true
 F.onOptionsLoaded(function() 
-	showEnemyDebuffs = G.ace:GetAllEnemyDebuffs()
+	-- showEnemyDebuffs = G.ace:GetAllEnemyDebuffs()
 end)
 local CustomFilter = function(icons, ...)
 	local _, icon, name, _, _, _, _, _, _, caster = ...
@@ -352,7 +352,7 @@ local UnitSpecific = {
 		altp.colorTexture = true
 		self.AlternativePower = altp
 
-		if (class == 'PRIEST' or class == 'PALADIN' or class == 'MONK') then
+		if (class == 'PRIEST' or class == 'PALADIN' or class == 'MONK' or class == 'ROGUE') then
 			local ClassPower = CreateFrame('Frame', nil, self)
 			ClassPower:SetPoint('TOPRIGHT', self.Power, 'BOTTOMRIGHT', 2, -1)
 			ClassPower:SetSize(G.unitframes.player.width, G.unitframes.player.special)
@@ -365,6 +365,9 @@ local UnitSpecific = {
 				ClassPower.c = numMax
 			elseif class == 'MONK' then
 				local numMax = UnitPowerMax('player', SPELL_POWER_CHI)
+				ClassPower.c = numMax
+			elseif class == 'ROGUE' then
+				local numMax = UnitPowerMax('player', SPELL_POWER_COMBO_POINTS)
 				ClassPower.c = numMax
 			end
 

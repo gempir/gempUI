@@ -2,26 +2,19 @@ local F, G, V = unpack(select(2, ...))
 
 local addonName, eventHandlers = ..., { }
 
-local errorFrame = CreateFrame("Frame")
-errorFrame:SetScript('OnEvent', function(self, event, messageType, message)
-	if not UnitAffectingCombat("player") then
-		UIErrorsFrame:AddMessage(message, 1, .1, .1)
-	end		
-end)
+-- local errorFrame = CreateFrame("Frame")
+-- errorFrame:SetScript('OnEvent', function(self, event, messageType, message)
+-- 	-- if G.ace:GetHideErrors() == "never" then
+-- 	-- 	UIErrorsFrame:AddMessage(message, 1, .1, .1)
+-- 	-- elseif  G.ace:GetHideErrors() == "combat" and not UnitAffectingCombat("player") then
+-- 	-- 	UIErrorsFrame:AddMessage(message, 1, .1, .1)
+-- 	-- elseif  G.ace:GetHideErrors() == "always" then
+-- 	-- end		
+-- end)
 
-function setErrorVisibility()
-	if gempDB.hideErrors then
-		UIErrorsFrame:UnregisterEvent("UI_ERROR_MESSAGE")
-		errorFrame:RegisterEvent("UI_ERROR_MESSAGE")
-	else 
-		UIErrorsFrame:RegisterEvent("UI_ERROR_MESSAGE")
-		errorFrame:UnregisterEvent("UI_ERROR_MESSAGE")
-	end
-end
+-- UIErrorsFrame:UnregisterEvent("UI_ERROR_MESSAGE")
+-- errorFrame:RegisterEvent("UI_ERROR_MESSAGE")
 
-F.onOptionsLoaded(function() 
-	setErrorVisibility()
-end)
 
 -------------------------------------------------------------------------------
 ---------- Checks if Skada is active and parents it to the dmg frame of the minimap
