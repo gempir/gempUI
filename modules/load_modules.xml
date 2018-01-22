@@ -5,6 +5,8 @@
     <Include file="skins\load_skins.xml"/>
     <!-- Blizzard -->
     <Include file="blizzard\load_blizzard.xml"/>
+    <!-- Actionbars -->
+    <Include file="actionbars\load_actionbars.xml"/>
 
     <Script file="nameplates.lua"/>
     <Script file="cooldowns.lua"/>
@@ -16,8 +18,6 @@
     <Script file="minimap.lua"/>
     <Script file="infotext.lua"/>
     <Script file="fonts.lua"/>
-    <Script file="actionbuttonstyler.lua"/>
-    <Script file="actionbars.lua"/>
     <Script file="chat.lua"/>
     <Script file="panels.lua"/>
 

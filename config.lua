@@ -73,17 +73,240 @@ local options = {
                     name = "Bar 1",
                     type = 'group',
                     args = {
+                        hidden = {
+                            order = 0,
+                            name = "Hidden",
+                            type = "toggle",
+                            get = function()
+                                return G.ace.db.profile.actionbars.bar1.hidden
+                            end,
+                            set = function(info, value)
+                                G.ace.db.profile.actionbars.bar1.hidden = value
+                                G.mAB.RefreshBar("Bar1", "ActionButton")
+                            end
+                        },
+                        orientation = {
+                            order = 1,
+                            name = "Orientation",
+                            type = "select",
+                            values = {
+                                HORIZONTAL = "Horizontal",
+                                VERTICAL = "Vertical",
+                            },
+                            get = function()
+                                return G.ace.db.profile.actionbars.bar1.orientation
+                            end,
+                            set = function(info, value)
+                                G.ace.db.profile.actionbars.bar1.orientation = value
+                                G.mAB.RefreshBar("Bar1", "ActionButton")
+                            end
+                        },
                         length = {
+                            order = 2,
+                            name = "Buttons",
                             type = "range",
                             min = 1,
                             max = 12,
                             step = 1,
-                            name = "Buttons",
                             get = function()
-                                return G.ace.db.profile.bar1.length
+                                return G.ace.db.profile.actionbars.bar1.length
                             end,
                             set = function(info, value)
-                                G.ace.db.profile.bar1.length = value
+                                G.ace.db.profile.actionbars.bar1.length = value
+                                G.mAB.RefreshBar("Bar1", "ActionButton")
+                            end
+                        },
+                        size = {
+                            order = 3,
+                            name = "Size",
+                            desc = "NOT WORKING",
+                            type = "range",
+                            min = 25,
+                            max = 75,
+                            step = 1,
+                            get = function()
+                                return G.ace.db.profile.actionbars.bar1.size
+                            end,
+                            set = function(info, value)
+                                G.ace.db.profile.actionbars.bar1.size = value
+                                G.mAB.RefreshBar("Bar1", "ActionButton")
+                            end
+                        },
+                        spacing = {
+                            order = 4,
+                            name = "Spacing",
+                            type = "range",
+                            min = 1,
+                            max = 50,
+                            step = 1,
+                            get = function()
+                                return G.ace.db.profile.actionbars.bar1.spacing
+                            end,
+                            set = function(info, value)
+                                G.ace.db.profile.actionbars.bar1.spacing = value
+                                G.mAB.RefreshBar("Bar1", "ActionButton")
+                            end
+                        },
+                        rows = {
+                            order = 5,
+                            name = "Rows",
+                            type = "range",
+                            min = 1,
+                            max = 3,
+                            step = 1,
+                            get = function()
+                                return G.ace.db.profile.actionbars.bar1.rows
+                            end,
+                            set = function(info, value)
+                                G.ace.db.profile.actionbars.bar1.rows = value
+                                G.mAB.RefreshBar("Bar1", "ActionButton")
+                            end
+                        },
+                        x = {
+                            order = 6,
+                            name = "Position X",
+                            type = "input",
+                            get = function()
+                                return tostring(G.ace.db.profile.actionbars.bar1.x)
+                            end,
+                            set = function(info, value)
+                                value = tonumber(value)
+                                G.ace.db.profile.actionbars.bar1.x = value
+                                G.mAB.RefreshBar("Bar1", "ActionButton")
+                            end
+                        },
+                        y = {
+                            order = 7,
+                            name = "Position Y",
+                            type = "input",
+                            get = function()
+                                return tostring(G.ace.db.profile.actionbars.bar1.y)
+                            end,
+                            set = function(info, value)
+                                value = tonumber(value)
+                                G.ace.db.profile.actionbars.bar1.y = value
+                                G.mAB.RefreshBar("Bar1", "ActionButton")
+                            end
+                        },
+                    }
+                },
+                bar2 = {
+                    name = "Bar 2",
+                    type = 'group',
+                    args = {
+                        hidden = {
+                            order = 0,
+                            name = "Hidden",
+                            type = "toggle",
+                            get = function()
+                                return G.ace.db.profile.actionbars.bar2.hidden
+                            end,
+                            set = function(info, value)
+                                G.ace.db.profile.actionbars.bar2.hidden = value
+                                G.mAB.RefreshBar("Bar2", "MultiBarBottomLeftButton")
+                            end
+                        },
+                        orientation = {
+                            order = 1,
+                            name = "Orientation",
+                            type = "select",
+                            values = {
+                                HORIZONTAL = "Horizontal",
+                                VERTICAL = "Vertical",
+                            },
+                            get = function()
+                                return G.ace.db.profile.actionbars.bar2.orientation
+                            end,
+                            set = function(info, value)
+                                G.ace.db.profile.actionbars.bar2.orientation = value
+                                G.mAB.RefreshBar("Bar2", "MultiBarBottomLeftButton")
+                            end
+                        },
+                        length = {
+                            order = 2,
+                            name = "Buttons",
+                            type = "range",
+                            min = 1,
+                            max = 12,
+                            step = 1,
+                            get = function()
+                                return G.ace.db.profile.actionbars.bar2.length
+                            end,
+                            set = function(info, value)
+                                G.ace.db.profile.actionbars.bar2.length = value
+                                G.mAB.RefreshBar("Bar2", "MultiBarBottomLeftButton")
+                            end
+                        },
+                        size = {
+                            order = 3,
+                            name = "Size",
+                            desc = "NOT WORKING",
+                            type = "range",
+                            min = 25,
+                            max = 75,
+                            step = 1,
+                            get = function()
+                                return G.ace.db.profile.actionbars.bar2.size
+                            end,
+                            set = function(info, value)
+                                G.ace.db.profile.actionbars.bar2.size = value
+                                G.mAB.RefreshBar("Bar2", "MultiBarBottomLeftButton")
+                            end
+                        },
+                        spacing = {
+                            order = 4,
+                            name = "Spacing",
+                            type = "range",
+                            min = 1,
+                            max = 50,
+                            step = 1,
+                            get = function()
+                                return G.ace.db.profile.actionbars.bar2.spacing
+                            end,
+                            set = function(info, value)
+                                G.ace.db.profile.actionbars.bar2.spacing = value
+                                G.mAB.RefreshBar("Bar2", "MultiBarBottomLeftButton")
+                            end
+                        },
+                        rows = {
+                            order = 5,
+                            name = "Rows",
+                            type = "range",
+                            min = 1,
+                            max = 3,
+                            step = 1,
+                            get = function()
+                                return G.ace.db.profile.actionbars.bar2.rows
+                            end,
+                            set = function(info, value)
+                                G.ace.db.profile.actionbars.bar2.rows = value
+                                G.mAB.RefreshBar("Bar2", "MultiBarBottomLeftButton")
+                            end
+                        },
+                        x = {
+                            order = 6,
+                            name = "Position X",
+                            type = "input",
+                            get = function()
+                                return tostring(G.ace.db.profile.actionbars.bar2.x)
+                            end,
+                            set = function(info, value)
+                                value = tonumber(value)
+                                G.ace.db.profile.actionbars.bar2.x = value
+                                G.mAB.RefreshBar("Bar2", "MultiBarBottomLeftButton")
+                            end
+                        },
+                        y = {
+                            order = 7,
+                            name = "Position Y",
+                            type = "input",
+                            get = function()
+                                return tostring(G.ace.db.profile.actionbars.bar2.y)
+                            end,
+                            set = function(info, value)
+                                value = tonumber(value)
+                                G.ace.db.profile.actionbars.bar2.y = value
+                                G.mAB.RefreshBar("Bar2", "MultiBarBottomLeftButton")
                             end
                         },
                     }
@@ -99,8 +322,27 @@ local defaults = {
         sellJunk = true,
         autoRepair = true,
         hideErrors = "never",
-        bar1 = {
-            length = 8
+        actionbars = {
+            bar1 = {
+                hidden = false,
+                orientation = "HORIZONTAL",
+                length = 6,
+                size = 37,
+                x = 0,
+                y = -390,
+                spacing = 2,
+                rows = 1
+            },
+            bar2 = {
+                hidden = false,
+                orientation = "HORIZONTAL",
+                length = 6,
+                size = 37,
+                x = 0,
+                y = -429,
+                spacing = 2,
+                rows = 1
+            }
         }
     }
 }

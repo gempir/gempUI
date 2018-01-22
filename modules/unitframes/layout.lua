@@ -107,7 +107,7 @@ end
 
 local showEnemyDebuffs = true
 F.onOptionsLoaded(function() 
-	-- showEnemyDebuffs = G.ace:GetAllEnemyDebuffs()
+	showEnemyDebuffs = G.ace.db.profile.allEnemyDebuffs
 end)
 local CustomFilter = function(icons, ...)
 	local _, icon, name, _, _, _, _, _, _, caster = ...

@@ -74,8 +74,8 @@ do
 	local timeframe = CreateFrame("Frame")
 	timeframe:SetScript("OnUpdate", TinyMainbarInfo_OnUpdate)
 
-	local f = CreateFrame("Frame", "TinyMainbarInfoFrame", MainMenuBarArtFrame)
-	f:SetFrameLevel(f:GetParent():GetFrameLevel() + 1)
+	local f = CreateFrame("Frame", "TinyMainbarInfoFrame")
+	f:SetFrameLevel(1)
 	f:SetScript("OnEvent", TinyMainbarInfo_OnEvent)
 	f:SetScript("OnUpdate", TinyMainbarInfo_OnUpdate2)
 
@@ -84,7 +84,7 @@ do
 	local latText = f:CreateFontString(nil, "OVERLAY")
 	latText:SetPoint("CENTER", msButton, "CENTER", 0, 0)
 	f.latText = latText
-	f.latText:SetFont(G.fonts.square, 14, '')
+	f.latText:SetFont(G.fonts.square, 10, '')
 	f.latText:SetShadowOffset(1, -1)
 	f.latText:SetTextColor(1, 1, 1)
 
@@ -92,7 +92,7 @@ do
 	local fpsText = f:CreateFontString(nil, "OVERLAY")
 	fpsText:SetPoint("CENTER", fpsButton, "CENTER", 0, 0)
 	f.fpsText = fpsText
-	f.fpsText:SetFont(G.fonts.square, 14, '')
+	f.fpsText:SetFont(G.fonts.square, 10, '')
 	f.fpsText:SetShadowOffset(1, -1)
 	f.fpsText:SetTextColor(1, 1, 1)
 

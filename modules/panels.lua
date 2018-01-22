@@ -1,13 +1,17 @@
 local F, G, V = unpack(select(2, ...))
 
 
-gempUI_mainpanel = CreateFrame("Frame", nil, UIParent)
-gempUI_mainpanel:SetFrameStrata("BACKGROUND")
-F.addBackdrop(gempUI_mainpanel)
-gempUI_mainpanel:SetPoint("TOPLEFT", "Bar1_holder", "TOPLEFT", -5, 5)
-gempUI_mainpanel:SetPoint("BOTTOMRIGHT", "Bar3_holder", "BOTTOMRIGHT", 5, -5)
-gempUI_mainpanel:Show()
 
+
+
+F.onOptionsLoaded(function() 
+	gempUI_mainpanel = CreateFrame("Frame", nil, UIParent)
+	gempUI_mainpanel:SetFrameStrata("BACKGROUND")
+	F.addBackdrop(gempUI_mainpanel)
+	gempUI_mainpanel:SetPoint("BOTTOM", UIParent, "BOTTOM", 0, 48)
+	gempUI_mainpanel:SetSize(242, 126)
+	gempUI_mainpanel:Show()
+end)
 
 local gempUI_sidepanel = CreateFrame("Frame", nil, UIParent)
 gempUI_sidepanel:SetFrameStrata("BACKGROUND")

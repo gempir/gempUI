@@ -1,0 +1,6 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
+    <Script file="bars.lua"/>
+    <Script file="style.lua"/> 
+    <Script file="hoverbind.lua"/> 
+    <Script file="range.lua"/> 
+</Ui>
