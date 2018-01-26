@@ -105,10 +105,7 @@ local PostUpdateIcon = function(icons, unit, icon, index, offset)
 	end
 end
 
-local showEnemyDebuffs = true
-F.onOptionsLoaded(function() 
-	showEnemyDebuffs = G.ace.db.profile.allEnemyDebuffs
-end)
+
 local CustomFilter = function(icons, ...)
 	local _, icon, name, _, _, _, _, _, _, caster = ...
 
@@ -116,7 +113,7 @@ local CustomFilter = function(icons, ...)
 		return true
 	end
 
-	return showEnemyDebuffs
+	return G.ace.db.profile.allEnemyDebuffs
 end
 
 local OnCastbarUpdate = function(self, elapsed)

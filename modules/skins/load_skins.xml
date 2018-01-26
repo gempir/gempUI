@@ -2,7 +2,6 @@
 
 
     <Script file="functions.lua"/>
-    <Script file="Skada.lua"/>
 
     <Script file="blizzard\menus.lua"/>
     <Script file="blizzard\tooltip.lua"/>
