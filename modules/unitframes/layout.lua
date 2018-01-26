@@ -182,7 +182,7 @@ local castbar = function(self, unit)
 	cb.Time = fs(cb, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
 	cb.Time:SetPoint('RIGHT', cb, -2, 0)
 	cb.Text = fs(cb, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1, 'LEFT')
-	cb.Text:SetPoint('LEFT', cb, 2, 0)
+	cb.Text:SetPoint('LEFT', cb, 2, -1)
 	cb.Text:SetPoint('RIGHT', cb.Time, 'LEFT')
 	cb.CastingColor = G.colors.base
 	cb.CompleteColor = { 0.12, 0.86, 0.15, G.colors.base[4] }
