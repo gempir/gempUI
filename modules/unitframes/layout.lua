@@ -58,19 +58,25 @@ end
 
 local createAuraWatch = function(self, unit)
 	local auras = {}
-		
 	auras.presentAlpha = 1
 	auras.missingAlpha = 0
 	auras.PostCreateIcon = AWIcon
 	auras.icons = {}
-	if G.aurawatch.spellIDs[class] then 
-		for i, sid in pairs(G.aurawatch.spellIDs[class]) do
-			local icon = CreateFrame("Frame", nil, self)
+	if G.ace.db.profile.auraWatch[class] then 
+		local i = 1
+		for sid, name in pairs(G.ace.db.profile.auraWatch[class]) do
+			local icon = CreateFrame("Button", nil, self)
 			icon.spellID = sid
 			icon:SetWidth(44)
 			icon:SetHeight(44)
 			icon:SetPoint("BOTTOMLEFT", gempUI_mainpanel, "TOPLEFT", 1 + (i * 52) - 52, 7)
 			icon:EnableMouse(true)
+			icon:RegisterForClicks("MiddleButtonUp")
+			icon:SetScript("OnClick", function()
+				G.ace.db.profile.auraWatch[class][sid] = nil
+				F.print(GetSpellLink(sid) .. " is no longer tracked. /reload to see changes")
+			end)
+			i = i + 1
 			auras.icons[sid] = icon
 		end
 	end
@@ -92,14 +98,27 @@ local auraIcon = function(auras, button)
 	button.overlay:SetTexture(nil)
 	button.icon:SetTexCoord(.1, .9, .1, .9)
 	F.createBorder(button, button, true)
+
+	button:RegisterForClicks("MiddleButtonUp")
 end
 
 local PostUpdateIcon = function(icons, unit, icon, index, offset)
 	local name, _, _, _, dtype, duration, expirationTime, unitCaster, _, _, spellID = UnitAura(unit, index, icon.filter)
 	local texture = icon.icon
-	icon:SetScript("OnClick", function()
-		CancelUnitBuff("player", index)
-	end)
+	if unit == "player" then
+		icon:SetScript("OnClick", function(self, button)
+			if button == "RightButton" then
+				CancelUnitBuff("player", index)
+			elseif button == "MiddleButton" then
+				if G.ace.db.profile.auraWatch[class] == nil then
+					G.ace.db.profile.auraWatch[class] = {}
+				end
+				G.ace.db.profile.auraWatch[class][spellID] = name
+				F.print(GetSpellLink(spellID) .. " is now tracked. /reload to see changes.")
+			end
+		end)
+	end
+	
 	if icon.isPlayer or UnitIsFriend('player', unit) or not icon.isDebuff then
 		texture:SetDesaturated(false)
 	else

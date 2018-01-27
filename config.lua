@@ -436,6 +436,7 @@ local defaults = {
         sellJunk = true,
         autoRepair = true,
         hideErrors = "never",
+        auraWatch = {},
         unitframes = {
             player = {
                 width = 184,

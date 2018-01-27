@@ -32,25 +32,6 @@ G.cooldowns = {
 	fontflag = "MONOCHROMEOUTLINE",
 }
 
---AuraWatch Spells
-G.aurawatch = {
-	spellIDs = {
-		DEATHKNIGHT = {
-			195181, -- Bone Shield
-			53365, -- Unholy Strength
-		},
-		WARRIOR = {
-			184362, -- Enrage
-			1719, -- Battlecry
-			107574, -- Avatar
-		},
-		PALADIN = {
-			188370, -- Consecration
-			132403, -- Shield of the Righteous
-		}
-	}
-}
-
 G.unitframes = {
 	font = G.fonts.square,
 	fontsize = 13,

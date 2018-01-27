@@ -81,6 +81,11 @@ function F.addBackdropNoBorder(frame)
 	frame:SetBackdropColor(unpack(G.colors.base))
 end
 
+function F.print(message)
+	print("|cff00FF7Fg|rUI | ".. message)
+end
+
+	
 -- options
 
 local optionFunctions = {}
@@ -99,3 +104,4 @@ end)
 function F.onOptionsLoaded(func)
     table.insert(optionFunctions, func)
 end
+
