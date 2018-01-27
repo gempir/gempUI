@@ -62,7 +62,6 @@ G.unitframes = {
 		special = 8, -- holy power, runes etc.
 		castbar = {
 			width = 280,
-			height = 25,
 			xOff = 285,
 			yOff = -67
 		},

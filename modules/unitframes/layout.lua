@@ -11,6 +11,8 @@ local class_color = RAID_CLASS_COLORS[class]
 local powerType, powerTypeString = UnitPowerType('player')
 local class = select(2, UnitClass('player'))
 
+local unitframes = {}
+
 local backdrop = {
 	bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
 	insets = { top = -1, left = -1, bottom = -1, right = -1 },
@@ -113,7 +115,7 @@ local CustomFilter = function(icons, ...)
 		return true
 	end
 
-	return G.ace.db.profile.allEnemyDebuffs
+	return G.ace.db.profile.unitframes['target'].allDebuffs
 end
 
 local OnCastbarUpdate = function(self, elapsed)
@@ -179,7 +181,7 @@ local castbar = function(self, unit)
 	cb.Time = fs(cb, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
 	cb.Time:SetPoint('RIGHT', cb, -2, 0)
 	cb.Text = fs(cb, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1, 'LEFT')
-	cb.Text:SetPoint('LEFT', cb, 2, -1)
+	cb.Text:SetPoint('LEFT', cb, 2, 0)
 	cb.Text:SetPoint('RIGHT', cb.Time, 'LEFT')
 	cb.CastingColor = G.colors.base
 	cb.CompleteColor = { 0.12, 0.86, 0.15, G.colors.base[4] }
@@ -190,12 +192,12 @@ local castbar = function(self, unit)
 	cb.Icon:SetTexCoord(.1, .9, .1, .9)
 
 	if self.unit == 'player' then
-		cb:SetPoint('TOPLEFT', "gempUI_mainpanel", "BOTTOMLEFT", 27, -6)
-		cb:SetPoint('BOTTOMRIGHT', "gempUI_mainpanel", "BOTTOMRIGHT", -1, -31)
+		cb:SetPoint('CENTER', UIParent, G.ace.db.profile.unitframes['player'].castbarX + (G.ace.db.profile.unitframes["player"].castbarHeight / 2) + 1, G.ace.db.profile.unitframes['player'].castbarY)
+		cb:SetSize(G.ace.db.profile.unitframes["player"].castbarWidth - G.ace.db.profile.unitframes["player"].castbarHeight - 1, G.ace.db.profile.unitframes["player"].castbarHeight)
 		cb.Icon:SetSize(cb:GetHeight(), cb:GetHeight())
 	elseif self.unit == 'target' then
-		cb:SetPoint('TOPRIGHT', "oUF_gempUITarget", "BOTTOMRIGHT", -1, -7)
-		cb:SetSize(G.unitframes.target.width - 15, 12)
+		cb:SetPoint('CENTER', UIParent, G.ace.db.profile.unitframes['target'].castbarX + (G.ace.db.profile.unitframes["target"].castbarHeight / 2) + 1, G.ace.db.profile.unitframes['target'].castbarY)
+		cb:SetSize(G.ace.db.profile.unitframes["target"].castbarWidth - G.ace.db.profile.unitframes["target"].castbarHeight - 1, G.ace.db.profile.unitframes["target"].castbarHeight)
 		cb.Icon:SetSize(cb:GetHeight(), cb:GetHeight())
 		cb.Shield = cb:CreateTexture(nil, 'OVERLAY')
 		cb.Shield:SetSize(cb:GetHeight(), cb:GetHeight())
@@ -214,7 +216,7 @@ local castbar = function(self, unit)
 	cb.Spark = cb:CreateTexture(nil, 'OVERLAY')
 	cb.Spark:SetTexture([=[Interface\Buttons\WHITE8x8]=])
 	cb.Spark:SetBlendMode('Add')
-	cb.Spark:SetHeight(cb:GetHeight() - 2)
+	cb.Spark:SetHeight(cb:GetHeight())
 	cb.Spark:SetWidth(1)
 	cb.Spark:SetVertexColor(1, 1, 1)
 
@@ -321,14 +323,21 @@ local UnitSpecific = {
 		PetCastingBarFrame.Show = function() end
 		PetCastingBarFrame:Hide()
 
-		self:SetSize(G.unitframes.player.width, G.unitframes.player.health + G.unitframes.player.power + 1)
-		self.Health:SetHeight(G.unitframes.player.health)
-		self.Power:SetHeight(G.unitframes.player.power)
+		self:SetSize(G.ace.db.profile.unitframes['player'].width, G.ace.db.profile.unitframes['player'].health + G.ace.db.profile.unitframes['player'].power + 1)
+		self.Health:SetHeight(G.ace.db.profile.unitframes['player'].health)
+		self.Power:SetHeight(G.ace.db.profile.unitframes['player'].power)
 
 		local htext = fs(self.Health, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
 		htext:SetPoint('RIGHT', -4, 0)
 		if powerType ~= 0 then htext.frequentUpdates = .1 end
 		self:Tag(htext, '[player:hp][player:power]')
+
+		if G.ace.db.profile.unitframes['player'].showName then
+			local name = fs(self.Health, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
+			name:SetPoint('LEFT', 4, 0)
+			name:SetJustifyH'LEFT'
+			self:Tag(name, '[color][long:name]')
+		end
 
 		local ct = CreateFrame('Frame', nil, self.Health)
 		ct:SetSize(10, 10)
@@ -449,9 +458,9 @@ local UnitSpecific = {
 		Icons(self)
 		castbar(self)
 
-		self:SetSize(G.unitframes.target.width, G.unitframes.target.health + G.unitframes.target.power + 1)
-		self.Health:SetHeight(G.unitframes.target.health)
-		self.Power:SetHeight(G.unitframes.target.power)
+		self:SetSize(G.ace.db.profile.unitframes['target'].width, G.ace.db.profile.unitframes['target'].health + G.ace.db.profile.unitframes['target'].power + 1)
+		self.Health:SetHeight(G.ace.db.profile.unitframes['target'].health)
+		self.Power:SetHeight(G.ace.db.profile.unitframes['target'].power)
 
 		local name = fs(self.Health, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
 		name:SetPoint('LEFT', 4, 0)
@@ -589,7 +598,7 @@ local UnitSpecific = {
 	targettarget = function(self, unit)
 		Shared(self, unit)
 
-		self:SetSize(G.unitframes.targettarget.width, G.unitframes.targettarget.health)
+		self:SetSize(G.ace.db.profile.unitframes['targettarget'].width, G.ace.db.profile.unitframes['targettarget'].health)
 
 		local name = fs(self.Health, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
 		name:SetPoint('CENTER')
@@ -733,10 +742,16 @@ local spawnHelper = function(self, unit, ...)
 	return object
 end
 
+function refreshUnitframePositions()
+	for unit,object in pairs(unitframes) do
+		object:SetPoint("CENTER", G.ace.db.profile.unitframes[unit].x, G.ace.db.profile.unitframes[unit].y)
+	end
+end
+
 oUF:Factory(function(self)
-	spawnHelper(self, 'player', 'TOPRIGHT', "gempUI_mainpanel", 'TOPLEFT', -6, 0)
-	spawnHelper(self, 'target', 'TOPLEFT', "gempUI_mainpanel", 'TOPRIGHT', 6, 0)
-	spawnHelper(self, 'targettarget', 'RIGHT', "oUF_gempUITarget", "RIGHT",G.unitframes.targettarget.xOff, G.unitframes.targettarget.yOff)
+	unitframes["player"] = spawnHelper(self, 'player', 'CENTER', G.ace.db.profile.unitframes["player"].x, G.ace.db.profile.unitframes["player"].y)
+	unitframes["target"] = spawnHelper(self, 'target', 'CENTER', G.ace.db.profile.unitframes["target"].x, G.ace.db.profile.unitframes["target"].y)
+	unitframes["targettarget"] = spawnHelper(self, 'targettarget', "CENTER", G.ace.db.profile.unitframes["targettarget"].x, G.ace.db.profile.unitframes["targettarget"].y)
 	spawnHelper(self, 'focus', 'TOP', UIParent, 'CENTER', G.unitframes.focus.xOff, G.unitframes.focus.yOff)
 	spawnHelper(self, 'focustarget', 'TOPLEFT', "oUF_gempUIFocus", "TOPRIGHT", G.unitframes.focustarget.xOff, G.unitframes.focustarget.yOff)
 	spawnHelper(self, 'pet', 'LEFT', "oUF_gempUIPlayer", "LEFT",  G.unitframes.pet.xOff,  G.unitframes.pet.yOff)
@@ -890,5 +905,3 @@ oUF:Factory(function(self)
 	]]):format(G.unitframes.raid.health, G.unitframes.raid.width))
 	raid:SetPoint('TOPLEFT', UIParent, 'TOPLEFT', G.unitframes.raid.xOff, G.unitframes.raid.yOff)
 end)
-
-
