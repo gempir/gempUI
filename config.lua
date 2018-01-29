@@ -210,6 +210,97 @@ local options = {
                                 G.ace.db.profile.unitframes['player'].castbarHeight = value
                             end
                         },
+                        auraBarsHeader = {
+                            order = 11,
+                            name = "AuraBars",
+                            type = "header",
+                        },
+                        auraBarsX = {
+                            order = 12,
+                            name = "Position X",
+                            desc = "Relative to player frame | /reload to see changes",
+                            type = "input",
+                            get = function()
+                                return tostring(G.ace.db.profile.unitframes['player'].auraBarsX)
+                            end,
+                            set = function(info, value)
+                                value = tonumber(value)
+                                G.ace.db.profile.unitframes['player'].auraBarsX = value
+                            end
+                        },
+                        auraBarsY = {
+                            order = 13,
+                            name = "Position Y",
+                            desc = "Relative to player frame | /reload to see changes",
+                            type = "input",
+                            get = function()
+                                return tostring(G.ace.db.profile.unitframes['player'].auraBarsY)
+                            end,
+                            set = function(info, value)
+                                value = tonumber(value)
+                                G.ace.db.profile.unitframes['player'].auraBarsY = value
+                            end
+                        },
+                        auraBarsWidth = {
+                            order = 14,
+                            name = "Width",
+                            desc = "/reload to see changes",
+                            min = 10,
+                            max = 600,
+                            step = 1,
+                            type = "range",
+                            get = function()
+                                return G.ace.db.profile.unitframes['player'].auraBarsWidth
+                            end,
+                            set = function(info, value)
+                                G.ace.db.profile.unitframes['player'].auraBarsWidth = value
+                            end
+                        },
+                        auraBarsHeight = {
+                            order = 15,
+                            name = "Height",
+                            desc = "/reload to see changes",
+                            min = 2,
+                            max = 50,
+                            step = 1,
+                            type = "range",
+                            get = function()
+                                return G.ace.db.profile.unitframes['player'].auraBarsHeight
+                            end,
+                            set = function(info, value)
+                                G.ace.db.profile.unitframes['player'].auraBarsHeight = value
+                            end
+                        },
+                        auraBarsSpacing = {
+                            order = 16,
+                            name = "Spacing",
+                            desc = "/reload to see changes",
+                            min = -1,
+                            max = 50,
+                            step = 1,
+                            type = "range",
+                            get = function()
+                                return G.ace.db.profile.unitframes['player'].auraBarsSpacing
+                            end,
+                            set = function(info, value)
+                                G.ace.db.profile.unitframes['player'].auraBarsSpacing = value
+                            end
+                        },
+                        auraBarsFontSize = {
+                            order = 17,
+                            name = "FontSize",
+                            desc = "/reload to see changes",
+                            min = 6,
+                            max = 60,
+                            step = 1,
+                            type = "range",
+                            get = function()
+                                return G.ace.db.profile.unitframes['player'].auraBarsFontSize
+                            end,
+                            set = function(info, value)
+                                G.ace.db.profile.unitframes['player'].auraBarsFontSize = value
+                            end
+                        },
                     }
                 },
                 target = {
@@ -361,6 +452,97 @@ local options = {
                                 G.ace.db.profile.unitframes['target'].castbarHeight = value
                             end
                         },
+                        auraBarsHeader = {
+                            order = 11,
+                            name = "AuraBars",
+                            type = "header",
+                        },
+                        auraBarsX = {
+                            order = 12,
+                            name = "Position X",
+                            desc = "Relative to target frame | /reload to see changes",
+                            type = "input",
+                            get = function()
+                                return tostring(G.ace.db.profile.unitframes['target'].auraBarsX)
+                            end,
+                            set = function(info, value)
+                                value = tonumber(value)
+                                G.ace.db.profile.unitframes['target'].auraBarsX = value
+                            end
+                        },
+                        auraBarsY = {
+                            order = 13,
+                            name = "Position Y",
+                            desc = "Relative to target frame | /reload to see changes",
+                            type = "input",
+                            get = function()
+                                return tostring(G.ace.db.profile.unitframes['target'].auraBarsY)
+                            end,
+                            set = function(info, value)
+                                value = tonumber(value)
+                                G.ace.db.profile.unitframes['target'].auraBarsY = value
+                            end
+                        },
+                        auraBarsWidth = {
+                            order = 14,
+                            name = "Width",
+                            desc = "/reload to see changes",
+                            min = 10,
+                            max = 600,
+                            step = 1,
+                            type = "range",
+                            get = function()
+                                return G.ace.db.profile.unitframes['target'].auraBarsWidth
+                            end,
+                            set = function(info, value)
+                                G.ace.db.profile.unitframes['target'].auraBarsWidth = value
+                            end
+                        },
+                        auraBarsHeight = {
+                            order = 15,
+                            name = "Height",
+                            desc = "/reload to see changes",
+                            min = 2,
+                            max = 50,
+                            step = 1,
+                            type = "range",
+                            get = function()
+                                return G.ace.db.profile.unitframes['target'].auraBarsHeight
+                            end,
+                            set = function(info, value)
+                                G.ace.db.profile.unitframes['target'].auraBarsHeight = value
+                            end
+                        },
+                        auraBarsSpacing = {
+                            order = 16,
+                            name = "Spacing",
+                            desc = "/reload to see changes",
+                            min = -1,
+                            max = 50,
+                            step = 1,
+                            type = "range",
+                            get = function()
+                                return G.ace.db.profile.unitframes['target'].auraBarsSpacing
+                            end,
+                            set = function(info, value)
+                                G.ace.db.profile.unitframes['target'].auraBarsSpacing = value
+                            end
+                        },
+                        auraBarsFontSize = {
+                            order = 17,
+                            name = "FontSize",
+                            desc = "/reload to see changes",
+                            min = 6,
+                            max = 60,
+                            step = 1,
+                            type = "range",
+                            get = function()
+                                return G.ace.db.profile.unitframes['target'].auraBarsFontSize
+                            end,
+                            set = function(info, value)
+                                G.ace.db.profile.unitframes['target'].auraBarsFontSize = value
+                            end
+                        },
                     }
                 },
                 targettarget = {
@@ -449,6 +631,12 @@ local defaults = {
                 castbarY = -512,
                 castbarWidth = 240,
                 castbarHeight = 25,
+                auraBarsX = 157,
+                auraBarsY = 25,
+                auraBarsWidth = 118,
+                auraBarsHeight = 32,
+                auraBarsSpacing = -1,
+                auraBarsFontSize = 28,
             },
             target = {
                 width = 184,
@@ -461,6 +649,12 @@ local defaults = {
                 castbarY = -420,
                 castbarWidth = 182,
                 castbarHeight = 16,
+                auraBarsX = -157,
+                auraBarsY = 25,
+                auraBarsWidth = 118,
+                auraBarsHeight = 32,
+                auraBarsSpacing = -1,
+                auraBarsFontSize = 28,
             },
             targettarget = {
                 width = 80,
@@ -501,13 +695,15 @@ function G.ace:OnInitialize()
         if arg1 == "gempUI" then
             self:UnregisterEvent("ADDON_LOADED")
             G.ace.db = LibStub("AceDB-3.0"):New("gempDB", defaults, true)
+
             options.args.profiles = LibStub("AceDBOptions-3.0"):GetOptionsTable(G.ace.db)
+            LibStub("AceConfig-3.0"):RegisterOptionsTable("gempUI", options)
+            self.optionsFrame = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("gempUI", "gempUI")
         end 
     end)
     
 
 
-    LibStub("AceConfig-3.0"):RegisterOptionsTable("gempUI", options)
-    self.optionsFrame = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("gempUI", "gempUI")
+   
 end
 

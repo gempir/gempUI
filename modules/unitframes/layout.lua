@@ -13,11 +13,6 @@ local class = select(2, UnitClass('player'))
 
 local unitframes = {}
 
-local backdrop = {
-	bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
-	insets = { top = -1, left = -1, bottom = -1, right = -1 },
-}
-
 local OnEnter = function(self)
 	UnitFrame_OnEnter(self)
 	if self.Highlight then
@@ -32,55 +27,28 @@ local OnLeave = function(self)
 	end
 end
 
-local GetTime = GetTime
-local floor, fmod = floor, math.fmod
-local day, hour, minute = 86400, 3600, 60
-
-local FormatTime = function(s)
-	if s >= day then
-		return format('%dd', floor(s / day + 0.5))
-	elseif s >= hour then
-		return format('%dh', floor(s / hour + 0.5))
-	elseif s >= minute then
-		return format('%dm', floor(s / minute + 0.5))
-	end
-	return format('%d', fmod(s, minute))
+local function auraWatchFilter(name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, nameplateShowPersonal, spellID)
+	return G.ace.db.profile.auraWatch[spellID]
 end
 
-local AWIcon = function(AWatch, icon, spellID, name, self)			
-	local count = fs(icon, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
-	count:SetPoint('BOTTOMRIGHT', icon, 0, 0)
-	icon.count = count
-	icon.cd:SetReverse(true)
-	icon.icon:SetTexCoord(.1, .9, .1, .9)
-	F.createBorder(icon, icon, true)
-end
+local function createAuraBars(self, unit)
+	self.AuraBars = CreateFrame("Frame", nil, self)
+	self.AuraBars:SetSize(G.ace.db.profile.unitframes[unit].auraBarsWidth, 1)
+	self.AuraBars.auraBarHeight = G.ace.db.profile.unitframes[unit].auraBarsHeight
+	self.AuraBars:SetPoint("CENTER", G.ace.db.profile.unitframes[unit].auraBarsX, G.ace.db.profile.unitframes[unit].auraBarsY)
 
-local createAuraWatch = function(self, unit)
-	local auras = {}
-	auras.presentAlpha = 1
-	auras.missingAlpha = 0
-	auras.PostCreateIcon = AWIcon
-	auras.icons = {}
-	if G.ace.db.profile.auraWatch[class] then 
-		local i = 1
-		for sid, name in pairs(G.ace.db.profile.auraWatch[class]) do
-			local icon = CreateFrame("Button", nil, self)
-			icon.spellID = sid
-			icon:SetWidth(44)
-			icon:SetHeight(44)
-			icon:SetPoint("BOTTOMLEFT", gempUI_mainpanel, "TOPLEFT", 1 + (i * 52) - 52, 7)
-			icon:EnableMouse(true)
-			icon:RegisterForClicks("MiddleButtonUp")
-			icon:SetScript("OnClick", function()
-				G.ace.db.profile.auraWatch[class][sid] = nil
-				F.print(GetSpellLink(sid) .. " is no longer tracked. /reload to see changes")
-			end)
-			i = i + 1
-			auras.icons[sid] = icon
-		end
+	self.AuraBars.auraBarTexture = G.texture
+	self.AuraBars.color = G.colors.base
+	self.AuraBars.bgalpha = 0
+	self.AuraBars.spacing = G.ace.db.profile.unitframes[unit].auraBarsSpacing
+	self.AuraBars.sort = true
+	self.AuraBars.spellTimeFont = G.unitframes.font
+	self.AuraBars.spellTimeSize = G.ace.db.profile.unitframes[unit].auraBarsFontSize
+	self.AuraBars.filter = auraWatchFilter
+
+	if unit == "target" then 
+		self.AuraBars.reverse = true
 	end
-	self.AuraWatch = auras
 end
 
 local auraIcon = function(auras, button)
@@ -99,7 +67,7 @@ local auraIcon = function(auras, button)
 	button.icon:SetTexCoord(.1, .9, .1, .9)
 	F.createBorder(button, button, true)
 
-	button:RegisterForClicks("MiddleButtonUp")
+	button:RegisterForClicks("MiddleButtonUp", "RightButtonUp")
 end
 
 local PostUpdateIcon = function(icons, unit, icon, index, offset)
@@ -110,11 +78,13 @@ local PostUpdateIcon = function(icons, unit, icon, index, offset)
 			if button == "RightButton" then
 				CancelUnitBuff("player", index)
 			elseif button == "MiddleButton" then
-				if G.ace.db.profile.auraWatch[class] == nil then
-					G.ace.db.profile.auraWatch[class] = {}
+				if G.ace.db.profile.auraWatch[spellID] then 
+					G.ace.db.profile.auraWatch[spellID] = nil
+					F.print(GetSpellLink(spellID) .. " is no longer tracked")
+				else 
+					G.ace.db.profile.auraWatch[spellID] = name
+					F.print(GetSpellLink(spellID) .. " is now tracked")
 				end
-				G.ace.db.profile.auraWatch[class][spellID] = name
-				F.print(GetSpellLink(spellID) .. " is now tracked. /reload to see changes.")
 			end
 		end)
 	end
@@ -336,7 +306,7 @@ local UnitSpecific = {
 		Power(self)
 		Icons(self)
 		castbar(self)
-		createAuraWatch(self)
+		createAuraBars(self, unit)
 
 		PetCastingBarFrame:UnregisterAllEvents()
 		PetCastingBarFrame.Show = function() end
@@ -476,6 +446,7 @@ local UnitSpecific = {
 		Power(self)
 		Icons(self)
 		castbar(self)
+		createAuraBars(self, unit)
 
 		self:SetSize(G.ace.db.profile.unitframes['target'].width, G.ace.db.profile.unitframes['target'].health + G.ace.db.profile.unitframes['target'].power + 1)
 		self.Health:SetHeight(G.ace.db.profile.unitframes['target'].health)

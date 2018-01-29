@@ -146,6 +146,7 @@ V = {
 	oUF = ns.oUF,
 	playerlevel = UnitLevel("player"),
 	playername = UnitName("player"),
+	class = select(2, UnitClass('player'))
 }
 
 ------ Shared Media
