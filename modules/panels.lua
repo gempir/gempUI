@@ -1,17 +1,34 @@
 local F, G, V = unpack(select(2, ...))
 
+local panels = G.ace:NewModule("Panels")
+
+panels.store = {}
+
+function panels:SetPanel(name, parent, x, y, width, height, hidden)
+	local panel = nil
+	if self.store[name] then
+		panel = self.store[name]
+	else 
+		panel = CreateFrame("Frame", nil, parent)
+	end
+
+	panel:SetFrameStrata("BACKGROUND")
+	F.addBackdrop(panel)
+	panel:SetPoint("CENTER", parent, "CENTER", x, y)
+	panel:SetSize(width, height)
+	
+	if hidden then
+		panel:Hide()
+	else 
+		panel:Show()
+	end
+
+	self.store[name] = panel
+end
 
 
 
-
-F.onOptionsLoaded(function() 
-	gempUI_mainpanel = CreateFrame("Frame", nil, UIParent)
-	gempUI_mainpanel:SetFrameStrata("BACKGROUND")
-	F.addBackdrop(gempUI_mainpanel)
-	gempUI_mainpanel:SetPoint("BOTTOM", UIParent, "BOTTOM", 0, 48)
-	gempUI_mainpanel:SetSize(242, 126)
-	gempUI_mainpanel:Show()
-end)
+-- old static stuff
 
 local gempUI_sidepanel = CreateFrame("Frame", nil, UIParent)
 gempUI_sidepanel:SetFrameStrata("BACKGROUND")
