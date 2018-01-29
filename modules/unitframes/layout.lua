@@ -75,7 +75,7 @@ local PostUpdateIcon = function(icons, unit, icon, index, offset)
 	local texture = icon.icon
 	
 	icon:SetScript("OnClick", function(self, button)
-		if unit == player and button == "RightButton" then
+		if unit == "player" and button == "RightButton" then
 			CancelUnitBuff("player", index)
 		elseif button == "MiddleButton" then
 			if G.ace.db.profile.auraWatch[spellID] then 
@@ -484,6 +484,11 @@ local UnitSpecific = {
 		d.PostUpdateIcon = PostUpdateIcon
 		d.CustomFilter = CustomFilter
 		self.Debuffs = d
+
+		self.SpellRange = {
+			insideAlpha = 1.0,
+			outsideAlpha = 0.4
+		}
 	end,
 	focus = function(self, unit)
 		Shared(self, unit)
@@ -643,6 +648,11 @@ local UnitSpecific = {
 		d.PostCreateIcon = auraIcon
 		d.PostUpdateIcon = PostUpdateIcon
 		self.Debuffs = d
+
+		self.SpellRange = {
+			insideAlpha = 1.0,
+			outsideAlpha = 0.4
+		}
 	end,
 	arena = function(self, unit)
 		Shared(self, unit)
@@ -705,6 +715,11 @@ local UnitSpecific = {
 		hl:SetBlendMode('ADD')
 		hl:Hide()
 		self.Highlight = hl
+
+		self.SpellRange = {
+			insideAlpha = 1.0,
+			outsideAlpha = 0.4
+		}
 	end,
 }
 
