@@ -28,7 +28,7 @@ local OnLeave = function(self)
 end
 
 local function auraWatchFilter(name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, nameplateShowPersonal, spellID)
-	return G.ace.db.profile.auraWatch[spellID]
+	return G.ace.db.profile.auraWatch[spellID] and unitCaster == "player"
 end
 
 local function createAuraBars(self, unit)
@@ -73,21 +73,20 @@ end
 local PostUpdateIcon = function(icons, unit, icon, index, offset)
 	local name, _, _, _, dtype, duration, expirationTime, unitCaster, _, _, spellID = UnitAura(unit, index, icon.filter)
 	local texture = icon.icon
-	if unit == "player" then
-		icon:SetScript("OnClick", function(self, button)
-			if button == "RightButton" then
-				CancelUnitBuff("player", index)
-			elseif button == "MiddleButton" then
-				if G.ace.db.profile.auraWatch[spellID] then 
-					G.ace.db.profile.auraWatch[spellID] = nil
-					F.print(GetSpellLink(spellID) .. " is no longer tracked")
-				else 
-					G.ace.db.profile.auraWatch[spellID] = name
-					F.print(GetSpellLink(spellID) .. " is now tracked")
-				end
+	
+	icon:SetScript("OnClick", function(self, button)
+		if unit == player and button == "RightButton" then
+			CancelUnitBuff("player", index)
+		elseif button == "MiddleButton" then
+			if G.ace.db.profile.auraWatch[spellID] then 
+				G.ace.db.profile.auraWatch[spellID] = nil
+				F.print(GetSpellLink(spellID) .. " is no longer tracked")
+			else 
+				G.ace.db.profile.auraWatch[spellID] = name
+				F.print(GetSpellLink(spellID) .. " is now tracked")
 			end
-		end)
-	end
+		end
+	end)
 	
 	if icon.isPlayer or UnitIsFriend('player', unit) or not icon.isDebuff then
 		texture:SetDesaturated(false)
