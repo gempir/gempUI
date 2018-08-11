@@ -87,14 +87,14 @@ f:SetScript("OnEvent", function()
 		f:SetShadowColor(0, 0, 0, 0.75)
 	end
 
-	-- I have no idea why the channel list is getting fucked up
-	-- but re-setting the font obj seems to fix it
-	for i = 1, MAX_CHANNEL_BUTTONS do
-		local f = _G["ChannelButton" .. i .. "Text"]
-		f:SetFontObject(GameFontNormalSmallLeft)
+	-- -- I have no idea why the channel list is getting fucked up
+	-- -- but re-setting the font obj seems to fix it
+	-- for i = 1, MAX_CHANNEL_BUTTONS do
+	-- 	local f = _G["ChannelButton" .. i .. "Text"]
+	-- 	f:SetFontObject(GameFontNormalSmallLeft)
 
-		-- function f:SetFont(...) error("Attempt to set font on ChannelButton"..i) end
-	end
+	-- 	-- function f:SetFont(...) error("Attempt to set font on ChannelButton"..i) end
+	-- end
 
 	for _, butt in pairs(PaperDollTitlesPane.buttons) do butt.text:SetFontObject(GameFontHighlightSmallLeft) end
 end)

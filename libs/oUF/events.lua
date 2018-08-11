@@ -15,16 +15,16 @@ local isEventRegistered = frame_metatable.__index.IsEventRegistered
 local unitEvents = {}
 
 function Private.UpdateUnits(frame, unit, realUnit)
-	if (unit == realUnit) then
+	if(unit == realUnit) then
 		realUnit = nil
 	end
 
-	if (frame.unit ~= unit or frame.realUnit ~= realUnit) then
+	if(frame.unit ~= unit or frame.realUnit ~= realUnit) then
 		for event in next, unitEvents do
 			-- IsEventRegistered returns the units in case of an event
 			-- registered with RegisterUnitEvent
 			local registered, unit1 = isEventRegistered(frame, event)
-			if (registered and unit1 ~= unit) then
+			if(registered and unit1 ~= unit) then
 				-- RegisterUnitEvent erases previously registered units so
 				-- do not bother to unregister it
 				registerUnitEvent(frame, event, unit, realUnit)
@@ -39,7 +39,7 @@ function Private.UpdateUnits(frame, unit, realUnit)
 end
 
 local function onEvent(self, event, ...)
-	if (self:IsVisible()) then
+	if(self:IsVisible()) then
 		return self[event](self, event, ...)
 	end
 end
@@ -69,37 +69,37 @@ function frame_metatable.__index:RegisterEvent(event, func, unitless)
 	-- Block OnUpdate polled frames from registering events except for
 	-- UNIT_PORTRAIT_UPDATE and UNIT_MODEL_CHANGED which are used for
 	-- portrait updates.
-	if (self.__eventless and event ~= 'UNIT_PORTRAIT_UPDATE' and event ~= 'UNIT_MODEL_CHANGED') then return end
+	if(self.__eventless and event ~= 'UNIT_PORTRAIT_UPDATE' and event ~= 'UNIT_MODEL_CHANGED') then return end
 
 	argcheck(event, 2, 'string')
 
-	if (type(func) == 'string' and type(self[func]) == 'function') then
+	if(type(func) == 'string' and type(self[func]) == 'function') then
 		func = self[func]
 	end
 
 	-- FIXME: should warn the user.
-	if (not unitless and not (unitEvents[event] or event:match('^UNIT_'))) then
+	if(not unitless and not (unitEvents[event] or event:match('^UNIT_'))) then
 		unitless = true
 	end
 
 	local curev = self[event]
 	local kind = type(curev)
-	if (curev and func) then
-		if (kind == 'function' and curev ~= func) then
-			self[event] = setmetatable({ curev, func }, event_metatable)
-		elseif (kind == 'table') then
+	if(curev and func) then
+		if(kind == 'function' and curev ~= func) then
+			self[event] = setmetatable({curev, func}, event_metatable)
+		elseif(kind == 'table') then
 			for _, infunc in next, curev do
-				if (infunc == func) then return end
+				if(infunc == func) then return end
 			end
 
 			table.insert(curev, func)
 		end
-	elseif (isEventRegistered(self, event)) then
+	elseif(isEventRegistered(self, event)) then
 		return
 	else
-		if (type(func) == 'function') then
+		if(type(func) == 'function') then
 			self[event] = func
-		elseif (not self[event]) then
+		elseif(not self[event]) then
 			return error("Style [%s] attempted to register event [%s] on unit [%s] with a handler that doesn't exist.", self.style, event, self.unit or 'unknown')
 		end
 
@@ -128,16 +128,16 @@ function frame_metatable.__index:UnregisterEvent(event, func)
 	argcheck(event, 2, 'string')
 
 	local curev = self[event]
-	if (type(curev) == 'table' and func) then
+	if(type(curev) == 'table' and func) then
 		for k, infunc in next, curev do
-			if (infunc == func) then
+			if(infunc == func) then
 				table.remove(curev, k)
 
 				local n = #curev
-				if (n == 1) then
+				if(n == 1) then
 					local _, handler = next(curev)
 					self[event] = handler
-				elseif (n == 0) then
+				elseif(n == 0) then
 					-- This should not happen
 					unregisterEvent(self, event)
 				end
@@ -145,7 +145,7 @@ function frame_metatable.__index:UnregisterEvent(event, func)
 				break
 			end
 		end
-	elseif (curev == func) then
+	elseif(curev == func) then
 		self[event] = nil
 		unregisterEvent(self, event)
 	end

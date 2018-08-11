@@ -4,12 +4,28 @@ GameTooltipHeaderText:SetFont(G.fonts.roboto, 14, "NONE")
 GameTooltipText:SetFont(G.fonts.roboto, 12, "NONE")
 Tooltip_Small:SetFont(G.fonts.roboto, 11, "NONE")
 
-GameTooltip:SetBackdrop(nil)
+local tooltips = {
+	'GameTooltip',
+	'ItemRefTooltip',
+	'ItemRefShoppingTooltip1',
+	'ItemRefShoppingTooltip2',
+	'ShoppingTooltip1',
+	'ShoppingTooltip2',
+	'DropDownList1MenuBackdrop',
+	'DropDownList2MenuBackdrop',
+	'WorldMapTooltip',
+	'WorldMapCompareTooltip1',
+	'WorldMapCompareTooltip2',
+}
 
-GameTooltip.bg = CreateFrame("Frame", nil, GameTooltip)
-GameTooltip.bg:SetAllPoints(true)
-F.addBackdrop(GameTooltip.bg)
-GameTooltip.bg:SetFrameLevel(0)
+for key, value in pairs(tooltips) do
+	_G[value]:SetBackdrop(nil)
+	F.addBackdrop(_G[value])
+
+	_G[value].bg = CreateFrame("Frame", nil, GameTooltip)
+	_G[value].bg:SetAllPoints(true)
+	_G[value].bg:SetFrameLevel(0)
+end
 
 GameTooltipStatusBar:ClearAllPoints()
 GameTooltipStatusBar:SetPoint("LEFT", 1, 0)
@@ -26,6 +42,14 @@ GameTooltipStatusBar.bg:SetVertexColor(unpack(G.colors.border))
 
 
 local function TooltipOnShow(self, ...)
+	for key, value in pairs(tooltips) do
+		_G[value]:SetBackdrop(nil)
+		F.addBackdrop(_G[value])
+
+		_G[value].bg = CreateFrame("Frame", nil, GameTooltip)
+		_G[value].bg:SetAllPoints(true)
+ 		_G[value].bg:SetFrameLevel(0)
+	end
 
 	local itemName, itemLink = self:GetItem()
 	if itemLink then

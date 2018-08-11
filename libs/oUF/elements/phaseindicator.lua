@@ -33,12 +33,12 @@ local function Update(self, event)
 
 	* self - the PhaseIndicator element
 	--]]
-	if (element.PreUpdate) then
+	if(element.PreUpdate) then
 		element:PreUpdate()
 	end
 
-	local isInSamePhase = UnitInPhase(self.unit)
-	if (isInSamePhase) then
+	local isInSamePhase = UnitInPhase(self.unit) and not UnitIsWarModePhased(self.unit)
+	if(isInSamePhase) then
 		element:Hide()
 	else
 		element:Show()
@@ -50,7 +50,7 @@ local function Update(self, event)
 	* self          - the PhaseIndicator element
 	* isInSamePhase - indicates whether the element is hidden (boolean)
 	--]]
-	if (element.PostUpdate) then
+	if(element.PostUpdate) then
 		return element:PostUpdate(isInSamePhase)
 	end
 end
@@ -63,7 +63,7 @@ local function Path(self, ...)
 	* event - the event triggering the update (string)
 	* ...   - the arguments accompanying the event
 	--]]
-	return (self.PhaseIndicator.Override or Update)(self, ...)
+	return (self.PhaseIndicator.Override or Update) (self, ...)
 end
 
 local function ForceUpdate(element)
@@ -72,13 +72,13 @@ end
 
 local function Enable(self)
 	local element = self.PhaseIndicator
-	if (element) then
+	if(element) then
 		element.__owner = self
 		element.ForceUpdate = ForceUpdate
 
 		self:RegisterEvent('UNIT_PHASE', Path, true)
 
-		if (element:IsObjectType('Texture') and not element:GetTexture()) then
+		if(element:IsObjectType('Texture') and not element:GetTexture()) then
 			element:SetTexture([[Interface\TargetingFrame\UI-PhasingIcon]])
 		end
 
@@ -88,7 +88,7 @@ end
 
 local function Disable(self)
 	local element = self.PhaseIndicator
-	if (element) then
+	if(element) then
 		element:Hide()
 
 		self:UnregisterEvent('UNIT_PHASE', Path)

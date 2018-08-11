@@ -25,13 +25,13 @@ The following options are listed by priority. The first check that returns true 
 .colorTapping      - Use `self.colors.tapping` to color the bar if the unit isn't tapped by the player (boolean)
 .colorDisconnected - Use `self.colors.disconnected` to color the bar if the unit is offline (boolean)
 .colorClass        - Use `self.colors.class[class]` to color the bar based on unit class. `class` is defined by the
-                     second return of [UnitClass](http://wowprogramming.com/docs/api/UnitClass) (boolean)
+                     second return of [UnitClass](http://wowprogramming.com/docs/api/UnitClass.html) (boolean)
 .colorClassNPC     - Use `self.colors.class[class]` to color the bar if the unit is a NPC (boolean)
 .colorClassPet     - Use `self.colors.class[class]` to color the bar if the unit is player controlled, but not a player
                      (boolean)
 .colorReaction     - Use `self.colors.reaction[reaction]` to color the bar based on the player's reaction towards the
                      unit. `reaction` is defined by the return value of
-                     [UnitReaction](http://wowprogramming.com/docs/api/UnitReaction) (boolean)
+                     [UnitReaction](http://wowprogramming.com/docs/api/UnitReaction.html) (boolean)
 .colorSmooth       - Use `smoothGradient` if present or `self.colors.smooth` to color the bar with a smooth gradient
                      based on the player's current health percentage (boolean)
 .colorHealth       - Use `self.colors.health` to color the bar. This flag is used to reset the bar color back to default
@@ -82,32 +82,32 @@ local function UpdateColor(element, unit, cur, max)
 	local parent = element.__owner
 
 	local r, g, b, t
-	if (element.colorTapping and not UnitPlayerControlled(unit) and UnitIsTapDenied(unit)) then
+	if(element.colorTapping and not UnitPlayerControlled(unit) and UnitIsTapDenied(unit)) then
 		t = parent.colors.tapped
-	elseif (element.colorDisconnected and element.disconnected) then
+	elseif(element.colorDisconnected and element.disconnected) then
 		t = parent.colors.disconnected
-	elseif (element.colorClass and UnitIsPlayer(unit)) or
-			(element.colorClassNPC and not UnitIsPlayer(unit)) or
-			(element.colorClassPet and UnitPlayerControlled(unit) and not UnitIsPlayer(unit)) then
+	elseif(element.colorClass and UnitIsPlayer(unit)) or
+		(element.colorClassNPC and not UnitIsPlayer(unit)) or
+		(element.colorClassPet and UnitPlayerControlled(unit) and not UnitIsPlayer(unit)) then
 		local _, class = UnitClass(unit)
 		t = parent.colors.class[class]
-	elseif (element.colorReaction and UnitReaction(unit, 'player')) then
+	elseif(element.colorReaction and UnitReaction(unit, 'player')) then
 		t = parent.colors.reaction[UnitReaction(unit, 'player')]
-	elseif (element.colorSmooth) then
+	elseif(element.colorSmooth) then
 		r, g, b = parent.ColorGradient(cur, max, unpack(element.smoothGradient or parent.colors.smooth))
-	elseif (element.colorHealth) then
+	elseif(element.colorHealth) then
 		t = parent.colors.health
 	end
 
-	if (t) then
+	if(t) then
 		r, g, b = t[1], t[2], t[3]
 	end
 
-	if (r or g or b) then
+	if(r or g or b) then
 		element:SetStatusBarColor(r, g, b)
 
 		local bg = element.bg
-		if (bg) then
+		if(bg) then
 			local mu = bg.multiplier or 1
 			bg:SetVertexColor(r * mu, g * mu, b * mu)
 		end
@@ -115,7 +115,7 @@ local function UpdateColor(element, unit, cur, max)
 end
 
 local function Update(self, event, unit)
-	if (not unit or self.unit ~= unit) then return end
+	if(not unit or self.unit ~= unit) then return end
 	local element = self.Health
 
 	--[[ Callback: Health:PreUpdate(unit)
@@ -124,7 +124,7 @@ local function Update(self, event, unit)
 	* self - the Health element
 	* unit - the unit for which the update has been triggered (string)
 	--]]
-	if (element.PreUpdate) then
+	if(element.PreUpdate) then
 		element:PreUpdate(unit)
 	end
 
@@ -132,7 +132,7 @@ local function Update(self, event, unit)
 	local disconnected = not UnitIsConnected(unit)
 	element:SetMinMaxValues(0, max)
 
-	if (disconnected) then
+	if(disconnected) then
 		element:SetValue(max)
 	else
 		element:SetValue(cur)
@@ -158,7 +158,7 @@ local function Update(self, event, unit)
 	* cur  - the unit's current health value (number)
 	* max  - the unit's maximum possible health value (number)
 	--]]
-	if (element.PostUpdate) then
+	if(element.PostUpdate) then
 		return element:PostUpdate(unit, cur, max)
 	end
 end
@@ -171,7 +171,7 @@ local function Path(self, ...)
 	* event - the event triggering the update (string)
 	* unit  - the unit accompanying the event (string)
 	--]]
-	return (self.Health.Override or Update)(self, ...)
+	return (self.Health.Override or Update) (self, ...)
 end
 
 local function ForceUpdate(element)
@@ -180,11 +180,11 @@ end
 
 local function Enable(self, unit)
 	local element = self.Health
-	if (element) then
+	if(element) then
 		element.__owner = self
 		element.ForceUpdate = ForceUpdate
 
-		if (element.frequentUpdates) then
+		if(element.frequentUpdates) then
 			self:RegisterEvent('UNIT_HEALTH_FREQUENT', Path)
 		else
 			self:RegisterEvent('UNIT_HEALTH', Path)
@@ -194,11 +194,11 @@ local function Enable(self, unit)
 		self:RegisterEvent('UNIT_CONNECTION', Path)
 		self:RegisterEvent('UNIT_FACTION', Path) -- For tapping
 
-		if (element:IsObjectType('StatusBar') and not element:GetStatusBarTexture()) then
+		if(element:IsObjectType('StatusBar') and not element:GetStatusBarTexture()) then
 			element:SetStatusBarTexture([[Interface\TargetingFrame\UI-StatusBar]])
 		end
 
-		if (not element.UpdateColor) then
+		if(not element.UpdateColor) then
 			element.UpdateColor = UpdateColor
 		end
 
@@ -210,7 +210,7 @@ end
 
 local function Disable(self)
 	local element = self.Health
-	if (element) then
+	if(element) then
 		element:Hide()
 
 		self:UnregisterEvent('UNIT_HEALTH_FREQUENT', Path)

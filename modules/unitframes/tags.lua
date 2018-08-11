@@ -44,7 +44,7 @@ oUF.Tags.Methods['color'] = function(u, r)
 		return hex(1, 1, 1)
 	end
 end
-oUF.Tags.Events['color'] = 'UNIT_REACTION UNIT_HEALTH'
+oUF.Tags.Events['color'] = 'UNIT_HEALTH'
 
 local function utf8sub(string, i, dots)
 	local bytes = string:len()
@@ -144,7 +144,7 @@ oUF.Tags.Methods['player:hp'] = function(u)
 		end
 	end
 end
-oUF.Tags.Events['player:hp'] = 'UNIT_HEALTH UNIT_POWER UNIT_CONNECTION'
+oUF.Tags.Events['player:hp'] = 'UNIT_HEALTH UNIT_POWER_UPDATE UNIT_CONNECTION'
 
 oUF.Tags.Methods['raid:hp'] = function(u)
 	local d = oUF.Tags.Methods['missinghp'](u) or 0
@@ -195,7 +195,7 @@ oUF.Tags.Methods['altpower'] = function(u)
 	local per = math.floor(cur / max * 100 + .5)
 	return ('|cffCDC5C2' .. sValue(cur)) .. ('|cffCDC5C2 || ') .. sValue(max)
 end
-oUF.Tags.Events['altpower'] = 'UNIT_POWER UNIT_MAXPOWER'
+oUF.Tags.Events['altpower'] = 'UNIT_POWER_UPDATE UNIT_MAXPOWER'
 
 oUF.Tags.Methods['player:power'] = function(u)
 	local spec = GetSpecialization()
@@ -217,7 +217,7 @@ oUF.Tags.Methods['player:power'] = function(u)
 		return nil
 	end
 end
-oUF.Tags.Events['player:power'] = 'UNIT_POWER PLAYER_SPECIALIZATION_CHANGED PLAYER_TALENT_UPDATE UNIT_HEALTH UNIT_CONNECTION'
+oUF.Tags.Events['player:power'] = 'UNIT_POWER_UPDATE PLAYER_SPECIALIZATION_CHANGED PLAYER_TALENT_UPDATE UNIT_HEALTH UNIT_CONNECTION'
 
 oUF.Tags.Methods['LFD'] = function(u)
 	local role = UnitGroupRolesAssigned(u)
@@ -229,4 +229,4 @@ oUF.Tags.Methods['LFD'] = function(u)
 		return '|cffFF6161D|r'
 	end
 end
-oUF.Tags.Events['LFD'] = 'PLAYER_ROLES_ASSIGNED PARTY_MEMBERS_CHANGED'
+oUF.Tags.Events['LFD'] = 'PLAYER_ROLES_ASSIGNED'

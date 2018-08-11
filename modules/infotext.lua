@@ -21,7 +21,7 @@ local function TinyMainbarInfo_OnLoad(self)
 	self:RegisterEvent("PLAYER_MONEY")
 	self:RegisterEvent("UPDATE_INVENTORY_DURABILITY")
 	self:RegisterEvent("UPDATE_INVENTORY_ALERTS")
-	self:RegisterEvent("PLAYER_AVG_ITEM_LEVEL_READY")
+	-- self:RegisterEvent("PLAYER_AVG_ITEM_LEVEL_READY")
 	self:RegisterEvent("PLAYER_EQUIPMENT_CHANGED")
 	self:RegisterEvent("PLAYER_FLAGS_CHANGED")
 end

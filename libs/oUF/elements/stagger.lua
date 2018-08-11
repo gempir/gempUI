@@ -29,7 +29,7 @@ A default texture will be applied if the widget is a StatusBar and doesn't have 
     self.Stagger = Stagger
 --]]
 
-if (select(2, UnitClass('player')) ~= 'MONK') then return end
+if(select(2, UnitClass('player')) ~= 'MONK') then return end
 
 local _, ns = ...
 local oUF = ns.oUF
@@ -41,7 +41,7 @@ local SPEC_MONK_BREWMASTER = SPEC_MONK_BREWMASTER or 1
 local BREWMASTER_POWER_BAR_NAME = BREWMASTER_POWER_BAR_NAME or 'STAGGER'
 
 -- percentages at which bar should change color
-local STAGGER_YELLOW_TRANSITION = STAGGER_YELLOW_TRANSITION or 0.3
+local STAGGER_YELLOW_TRANSITION =  STAGGER_YELLOW_TRANSITION or 0.3
 local STAGGER_RED_TRANSITION = STAGGER_RED_TRANSITION or 0.6
 
 -- table indices of bar colors
@@ -54,22 +54,22 @@ local function UpdateColor(element, cur, max)
 	local perc = cur / max
 
 	local t
-	if (perc >= STAGGER_RED_TRANSITION) then
+	if(perc >= STAGGER_RED_TRANSITION) then
 		t = colors and colors[STAGGER_RED_INDEX]
-	elseif (perc > STAGGER_YELLOW_TRANSITION) then
+	elseif(perc > STAGGER_YELLOW_TRANSITION) then
 		t = colors and colors[STAGGER_YELLOW_INDEX]
 	else
 		t = colors and colors[STAGGER_GREEN_INDEX]
 	end
 
 	local r, g, b
-	if (t) then
+	if(t) then
 		r, g, b = t[1], t[2], t[3]
-		if (b) then
+		if(b) then
 			element:SetStatusBarColor(r, g, b)
 
 			local bg = element.bg
-			if (bg and b) then
+			if(bg and b) then
 				local mu = bg.multiplier or 1
 				bg:SetVertexColor(r * mu, g * mu, b * mu)
 			end
@@ -78,7 +78,7 @@ local function UpdateColor(element, cur, max)
 end
 
 local function Update(self, event, unit)
-	if (unit and unit ~= self.unit) then return end
+	if(unit and unit ~= self.unit) then return end
 
 	local element = self.Stagger
 
@@ -87,7 +87,7 @@ local function Update(self, event, unit)
 
 	* self - the Stagger element
 	--]]
-	if (element.PreUpdate) then
+	if(element.PreUpdate) then
 		element:PreUpdate()
 	end
 
@@ -114,7 +114,7 @@ local function Update(self, event, unit)
 	* cur  - the amount of staggered damage (number)
 	* max  - the player's maximum possible health value (number)
 	--]]
-	if (element.PostUpdate) then
+	if(element.PostUpdate) then
 		element:PostUpdate(cur, max)
 	end
 end
@@ -131,13 +131,13 @@ local function Path(self, ...)
 end
 
 local function Visibility(self, event, unit)
-	if (SPEC_MONK_BREWMASTER ~= GetSpecialization() or UnitHasVehiclePlayerFrameUI('player')) then
-		if (self.Stagger:IsShown()) then
+	if(SPEC_MONK_BREWMASTER ~= GetSpecialization() or UnitHasVehiclePlayerFrameUI('player')) then
+		if(self.Stagger:IsShown()) then
 			self.Stagger:Hide()
 			self:UnregisterEvent('UNIT_AURA', Path)
 		end
 	else
-		if (not self.Stagger:IsShown()) then
+		if(not self.Stagger:IsShown()) then
 			self.Stagger:Show()
 			self:RegisterEvent('UNIT_AURA', Path)
 		end
@@ -163,25 +163,26 @@ end
 
 local function Enable(self)
 	local element = self.Stagger
-	if (element) then
+	if(element) then
 		element.__owner = self
 		element.ForceUpdate = ForceUpdate
 
 		self:RegisterEvent('UNIT_DISPLAYPOWER', VisibilityPath)
 		self:RegisterEvent('PLAYER_TALENT_UPDATE', VisibilityPath, true)
 
-		if (element:IsObjectType('StatusBar') and not element:GetStatusBarTexture()) then
+		if(element:IsObjectType('StatusBar') and not element:GetStatusBarTexture()) then
 			element:SetStatusBarTexture([[Interface\TargetingFrame\UI-StatusBar]])
 		end
 
-		if (not element.UpdateColor) then
+		if(not element.UpdateColor) then
 			element.UpdateColor = UpdateColor
 		end
 
 		MonkStaggerBar:UnregisterEvent('PLAYER_ENTERING_WORLD')
 		MonkStaggerBar:UnregisterEvent('PLAYER_SPECIALIZATION_CHANGED')
 		MonkStaggerBar:UnregisterEvent('UNIT_DISPLAYPOWER')
-		MonkStaggerBar:UnregisterEvent('UPDATE_VEHICLE_ACTION_BAR')
+		MonkStaggerBar:UnregisterEvent('UNIT_EXITED_VEHICLE')
+		MonkStaggerBar:UnregisterEvent('UPDATE_VEHICLE_ACTIONBAR')
 
 		element:Hide()
 
@@ -191,17 +192,18 @@ end
 
 local function Disable(self)
 	local element = self.Stagger
-	if (element) then
+	if(element) then
 		element:Hide()
 
 		self:UnregisterEvent('UNIT_AURA', Path)
 		self:UnregisterEvent('UNIT_DISPLAYPOWER', VisibilityPath)
 		self:UnregisterEvent('PLAYER_TALENT_UPDATE', VisibilityPath)
 
-		MonkStaggerBar:UnregisterEvent('PLAYER_ENTERING_WORLD')
-		MonkStaggerBar:UnregisterEvent('PLAYER_SPECIALIZATION_CHANGED')
-		MonkStaggerBar:UnregisterEvent('UNIT_DISPLAYPOWER')
-		MonkStaggerBar:UnregisterEvent('UPDATE_VEHICLE_ACTION_BAR')
+		MonkStaggerBar:RegisterEvent('PLAYER_ENTERING_WORLD')
+		MonkStaggerBar:RegisterEvent('PLAYER_SPECIALIZATION_CHANGED')
+		MonkStaggerBar:RegisterEvent('UNIT_DISPLAYPOWER')
+		MonkStaggerBar:RegisterEvent('UNIT_EXITED_VEHICLE')
+		MonkStaggerBar:RegisterEvent('UPDATE_VEHICLE_ACTIONBAR')
 	end
 end
 

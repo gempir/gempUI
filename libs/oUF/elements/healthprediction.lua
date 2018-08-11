@@ -85,7 +85,7 @@ local _, ns = ...
 local oUF = ns.oUF
 
 local function Update(self, event, unit)
-	if (self.unit ~= unit) then return end
+	if(self.unit ~= unit) then return end
 
 	local element = self.HealthPrediction
 
@@ -95,7 +95,7 @@ local function Update(self, event, unit)
 	* self - the HealthPrediction element
 	* unit - the unit for which the update has been triggered (string)
 	--]]
-	if (element.PreUpdate) then
+	if(element.PreUpdate) then
 		element:PreUpdate(unit)
 	end
 
@@ -104,77 +104,76 @@ local function Update(self, event, unit)
 	local absorb = UnitGetTotalAbsorbs(unit) or 0
 	local healAbsorb = UnitGetTotalHealAbsorbs(unit) or 0
 	local health, maxHealth = UnitHealth(unit), UnitHealthMax(unit)
-
-	local hasOverHealAbsorb = false
-	if (health < healAbsorb) then
-		hasOverHealAbsorb = true
-		healAbsorb = health
-	end
-
-	if (health - healAbsorb + allIncomingHeal > maxHealth * element.maxOverflow) then
-		allIncomingHeal = maxHealth * element.maxOverflow - health + healAbsorb
-	end
-
 	local otherIncomingHeal = 0
-	if (allIncomingHeal < myIncomingHeal) then
-		myIncomingHeal = allIncomingHeal
+	local hasOverHealAbsorb = false
+
+	if(healAbsorb > allIncomingHeal) then
+		healAbsorb = healAbsorb - allIncomingHeal
+		allIncomingHeal = 0
+		myIncomingHeal = 0
+
+		if(health < healAbsorb) then
+			hasOverHealAbsorb = true
+			healAbsorb = health
+		end
 	else
-		otherIncomingHeal = allIncomingHeal - myIncomingHeal
+		allIncomingHeal = allIncomingHeal - healAbsorb
+		healAbsorb = 0
+
+		if(health + allIncomingHeal > maxHealth * element.maxOverflow) then
+			allIncomingHeal = maxHealth * element.maxOverflow - health
+		end
+
+		if(allIncomingHeal < myIncomingHeal) then
+			myIncomingHeal = allIncomingHeal
+		else
+			otherIncomingHeal = allIncomingHeal - myIncomingHeal
+		end
 	end
 
 	local hasOverAbsorb = false
-	if (health - healAbsorb + allIncomingHeal + absorb >= maxHealth or health + absorb >= maxHealth) then
-		if (absorb > 0) then
+	if(health + allIncomingHeal + absorb >= maxHealth) then
+		if(absorb > 0) then
 			hasOverAbsorb = true
 		end
 
-		if (allIncomingHeal > healAbsorb) then
-			absorb = math.max(0, maxHealth - (health - healAbsorb + allIncomingHeal))
-		else
-			absorb = math.max(0, maxHealth - health)
-		end
+		absorb = math.max(0, maxHealth - health - allIncomingHeal)
 	end
 
-	if (healAbsorb > allIncomingHeal) then
-		healAbsorb = healAbsorb - allIncomingHeal
-	else
-		healAbsorb = 0
-	end
-
-	if (element.myBar) then
+	if(element.myBar) then
 		element.myBar:SetMinMaxValues(0, maxHealth)
 		element.myBar:SetValue(myIncomingHeal)
 		element.myBar:Show()
 	end
 
-	if (element.otherBar) then
+	if(element.otherBar) then
 		element.otherBar:SetMinMaxValues(0, maxHealth)
 		element.otherBar:SetValue(otherIncomingHeal)
 		element.otherBar:Show()
 	end
 
-	if (element.absorbBar) then
+	if(element.absorbBar) then
 		element.absorbBar:SetMinMaxValues(0, maxHealth)
 		element.absorbBar:SetValue(absorb)
 		element.absorbBar:Show()
 	end
 
-	if (element.healAbsorbBar) then
+	if(element.healAbsorbBar) then
 		element.healAbsorbBar:SetMinMaxValues(0, maxHealth)
 		element.healAbsorbBar:SetValue(healAbsorb)
 		element.healAbsorbBar:Show()
 	end
 
-	if (element.overAbsorb) then
-		if (hasOverAbsorb) then
+	if(element.overAbsorb) then
+		if(hasOverAbsorb) then
 			element.overAbsorb:Show()
 		else
 			element.overAbsorb:Hide()
 		end
 	end
 
-	if (element.overHealAbsorb) then
-		if (hasOverHealAbsorb) then
+	if(element.overHealAbsorb) then
+		if(hasOverHealAbsorb) then
 			element.overHealAbsorb:Show()
 		else
 			element.overHealAbsorb:Hide()
@@ -193,7 +192,7 @@ local function Update(self, event, unit)
 	* hasOverAbsorb     - indicates if the amount of damage absorb is higher than the unit's missing health (boolean)
 	* hasOverHealAbsorb - indicates if the amount of heal absorb is higher than the unit's current health (boolean)
 	--]]
-	if (element.PostUpdate) then
+	if(element.PostUpdate) then
 		return element:PostUpdate(unit, myIncomingHeal, otherIncomingHeal, absorb, healAbsorb, hasOverAbsorb, hasOverHealAbsorb)
 	end
 end
@@ -206,7 +205,7 @@ local function Path(self, ...)
 	* event - the event triggering the update (string)
 	* unit  - the unit accompanying the event
 	--]]
-	return (self.HealthPrediction.Override or Update)(self, ...)
+	return (self.HealthPrediction.Override or Update) (self, ...)
 end
 
 local function ForceUpdate(element)
@@ -215,11 +214,11 @@ end
 
 local function Enable(self)
 	local element = self.HealthPrediction
-	if (element) then
+	if(element) then
 		element.__owner = self
 		element.ForceUpdate = ForceUpdate
 
-		if (element.frequentUpdates) then
+		if(element.frequentUpdates) then
 			self:RegisterEvent('UNIT_HEALTH_FREQUENT', Path)
 		else
 			self:RegisterEvent('UNIT_HEALTH', Path)
@@ -230,43 +229,43 @@ local function Enable(self)
 		self:RegisterEvent('UNIT_ABSORB_AMOUNT_CHANGED', Path)
 		self:RegisterEvent('UNIT_HEAL_ABSORB_AMOUNT_CHANGED', Path)
 
-		if (not element.maxOverflow) then
+		if(not element.maxOverflow) then
 			element.maxOverflow = 1.05
 		end
 
-		if (element.myBar) then
-			if (element.myBar:IsObjectType('StatusBar') and not element.myBar:GetStatusBarTexture()) then
+		if(element.myBar) then
+			if(element.myBar:IsObjectType('StatusBar') and not element.myBar:GetStatusBarTexture()) then
 				element.myBar:SetStatusBarTexture([[Interface\TargetingFrame\UI-StatusBar]])
 			end
 		end
 
-		if (element.otherBar) then
-			if (element.otherBar:IsObjectType('StatusBar') and not element.otherBar:GetStatusBarTexture()) then
+		if(element.otherBar) then
+			if(element.otherBar:IsObjectType('StatusBar') and not element.otherBar:GetStatusBarTexture()) then
 				element.otherBar:SetStatusBarTexture([[Interface\TargetingFrame\UI-StatusBar]])
 			end
 		end
 
-		if (element.absorbBar) then
-			if (element.absorbBar:IsObjectType('StatusBar') and not element.absorbBar:GetStatusBarTexture()) then
+		if(element.absorbBar) then
+			if(element.absorbBar:IsObjectType('StatusBar') and not element.absorbBar:GetStatusBarTexture()) then
 				element.absorbBar:SetStatusBarTexture([[Interface\TargetingFrame\UI-StatusBar]])
 			end
 		end
 
-		if (element.healAbsorbBar) then
-			if (element.healAbsorbBar:IsObjectType('StatusBar') and not element.healAbsorbBar:GetStatusBarTexture()) then
+		if(element.healAbsorbBar) then
+			if(element.healAbsorbBar:IsObjectType('StatusBar') and not element.healAbsorbBar:GetStatusBarTexture()) then
 				element.healAbsorbBar:SetStatusBarTexture([[Interface\TargetingFrame\UI-StatusBar]])
 			end
 		end
 
-		if (element.overAbsorb) then
-			if (element.overAbsorb:IsObjectType('Texture') and not element.overAbsorb:GetTexture()) then
+		if(element.overAbsorb) then
+			if(element.overAbsorb:IsObjectType('Texture') and not element.overAbsorb:GetTexture()) then
 				element.overAbsorb:SetTexture([[Interface\RaidFrame\Shield-Overshield]])
 				element.overAbsorb:SetBlendMode('ADD')
 			end
 		end
 
-		if (element.overHealAbsorb) then
-			if (element.overHealAbsorb:IsObjectType('Texture') and not element.overHealAbsorb:GetTexture()) then
+		if(element.overHealAbsorb) then
+			if(element.overHealAbsorb:IsObjectType('Texture') and not element.overHealAbsorb:GetTexture()) then
 				element.overHealAbsorb:SetTexture([[Interface\RaidFrame\Absorb-Overabsorb]])
 				element.overHealAbsorb:SetBlendMode('ADD')
 			end
@@ -278,28 +277,28 @@ end
 
 local function Disable(self)
 	local element = self.HealthPrediction
-	if (element) then
-		if (element.myBar) then
+	if(element) then
+		if(element.myBar) then
 			element.myBar:Hide()
 		end
 
-		if (element.otherBar) then
+		if(element.otherBar) then
 			element.otherBar:Hide()
 		end
 
-		if (element.absorbBar) then
+		if(element.absorbBar) then
 			element.absorbBar:Hide()
 		end
 
-		if (element.healAbsorbBar) then
+		if(element.healAbsorbBar) then
 			element.healAbsorbBar:Hide()
 		end
 
-		if (element.overAbsorb) then
+		if(element.overAbsorb) then
 			element.overAbsorb:Hide()
 		end
 
-		if (element.overHealAbsorb) then
+		if(element.overHealAbsorb) then
 			element.overHealAbsorb:Hide()
 		end
 

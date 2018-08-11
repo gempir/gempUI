@@ -50,7 +50,7 @@ local ALT_MANA_BAR_PAIR_DISPLAY_INFO = ALT_MANA_BAR_PAIR_DISPLAY_INFO
 local _, playerClass = UnitClass('player')
 
 local function Update(self, event, unit)
-	if (self.unit ~= unit) then return end
+	if(self.unit ~= unit) then return end
 
 	local element = self.PowerPrediction
 
@@ -60,16 +60,16 @@ local function Update(self, event, unit)
 	* self - the PowerPrediction element
 	* unit - the unit for which the update has been triggered (string)
 	--]]
-	if (element.PreUpdate) then
+	if(element.PreUpdate) then
 		element:PreUpdate(unit)
 	end
 
-	local _, _, _, _, startTime, endTime, _, _, _, spellID = UnitCastingInfo(unit)
+	local _, _, _, startTime, endTime, _, _, _, spellID = UnitCastingInfo(unit)
 	local mainPowerType = UnitPowerType(unit)
 	local hasAltManaBar = ALT_MANA_BAR_PAIR_DISPLAY_INFO[playerClass] and ALT_MANA_BAR_PAIR_DISPLAY_INFO[playerClass][mainPowerType]
 	local mainCost, altCost = 0, 0
 
-	if (event == 'UNIT_SPELLCAST_START' or startTime ~= endTime) then
+	if(event == 'UNIT_SPELLCAST_START' or startTime ~= endTime) then
 		local costTable = GetSpellPowerCost(spellID)
 
 		for _, costInfo in pairs(costTable) do
@@ -82,11 +82,11 @@ local function Update(self, event, unit)
 			-- - minCost: number
 			-- - hasRequiredAura: boolean
 			-- - requiredAuraID: number
-			if (costInfo.type == mainPowerType) then
+			if(costInfo.type == mainPowerType) then
 				mainCost = costInfo.cost
 
 				break
-			elseif (costInfo.type == ADDITIONAL_POWER_BAR_INDEX) then
+			elseif(costInfo.type == ADDITIONAL_POWER_BAR_INDEX) then
 				altCost = costInfo.cost
 
 				break
@@ -94,13 +94,13 @@ local function Update(self, event, unit)
 		end
 	end
 
-	if (element.mainBar) then
+	if(element.mainBar) then
 		element.mainBar:SetMinMaxValues(0, UnitPowerMax(unit, mainPowerType))
 		element.mainBar:SetValue(mainCost)
 		element.mainBar:Show()
 	end
 
-	if (element.altBar and hasAltManaBar) then
+	if(element.altBar and hasAltManaBar) then
 		element.altBar:SetMinMaxValues(0, UnitPowerMax(unit, ADDITIONAL_POWER_BAR_INDEX))
 		element.altBar:SetValue(altCost)
 		element.altBar:Show()
@@ -115,7 +115,7 @@ local function Update(self, event, unit)
 	* altCost       - the secondary power type cost of the cast ability (number)
 	* hasAltManaBar - indicates if the unit has a secondary power bar (boolean)
 	--]]
-	if (element.PostUpdate) then
+	if(element.PostUpdate) then
 		return element:PostUpdate(unit, mainCost, altCost, hasAltManaBar)
 	end
 end
@@ -129,7 +129,7 @@ local function Path(self, ...)
 	* unit  - the unit accompanying the event (string)
 	* ...   - the arguments accompanying the event
 	--]]
-	return (self.PowerPrediction.Override or Update)(self, ...)
+	return (self.PowerPrediction.Override or Update) (self, ...)
 end
 
 local function ForceUpdate(element)
@@ -138,7 +138,7 @@ end
 
 local function Enable(self)
 	local element = self.PowerPrediction
-	if (element) then
+	if(element) then
 		element.__owner = self
 		element.ForceUpdate = ForceUpdate
 
@@ -148,14 +148,14 @@ local function Enable(self)
 		self:RegisterEvent('UNIT_SPELLCAST_SUCCEEDED', Path)
 		self:RegisterEvent('UNIT_DISPLAYPOWER', Path)
 
-		if (element.mainBar) then
-			if (element.mainBar:IsObjectType('StatusBar') and not element.mainBar:GetStatusBarTexture()) then
+		if(element.mainBar) then
+			if(element.mainBar:IsObjectType('StatusBar') and not element.mainBar:GetStatusBarTexture()) then
 				element.mainBar:SetStatusBarTexture([[Interface\TargetingFrame\UI-StatusBar]])
 			end
 		end
 
-		if (element.altBar) then
-			if (element.altBar:IsObjectType('StatusBar') and not element.altBar:GetStatusBarTexture()) then
+		if(element.altBar) then
+			if(element.altBar:IsObjectType('StatusBar') and not element.altBar:GetStatusBarTexture()) then
 				element.altBar:SetStatusBarTexture([[Interface\TargetingFrame\UI-StatusBar]])
 			end
 		end
@@ -166,12 +166,12 @@ end
 
 local function Disable(self)
 	local element = self.PowerPrediction
-	if (element) then
-		if (element.mainBar) then
+	if(element) then
+		if(element.mainBar) then
 			element.mainBar:Hide()
 		end
 
-		if (element.altBar) then
+		if(element.altBar) then
 			element.altBar:Hide()
 		end
 

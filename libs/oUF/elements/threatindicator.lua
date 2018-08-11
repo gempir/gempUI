@@ -15,7 +15,7 @@ A default texture will be applied if the widget is a Texture and doesn't have a 
 ## Options
 
 .feedbackUnit - The unit whose threat situation is being requested. If defined, it'll be passed as the first argument to
-                [GetThreatStatusColor](http://wowprogramming.com/docs/api/UnitThreatSituation).
+                [GetThreatStatusColor](http://wowprogramming.com/docs/api/UnitThreatSituation.html).
 
 ## Examples
 
@@ -32,7 +32,7 @@ local _, ns = ...
 local oUF = ns.oUF
 
 local function Update(self, event, unit)
-	if (unit ~= self.unit) then return end
+	if(unit ~= self.unit) then return end
 
 	local element = self.ThreatIndicator
 	--[[ Callback: ThreatIndicator:PreUpdate(unit)
@@ -41,15 +41,15 @@ local function Update(self, event, unit)
 	* self - the ThreatIndicator element
 	* unit - the unit for which the update has been triggered (string)
 	--]]
-	if (element.PreUpdate) then element:PreUpdate(unit) end
+	if(element.PreUpdate) then element:PreUpdate(unit) end
 
 	local feedbackUnit = element.feedbackUnit
 	unit = unit or self.unit
 
 	local status
 	-- BUG: Non-existent '*target' or '*pet' units cause UnitThreatSituation() errors
-	if (UnitExists(unit)) then
-		if (feedbackUnit and feedbackUnit ~= unit and UnitExists(feedbackUnit)) then
+	if(UnitExists(unit)) then
+		if(feedbackUnit and feedbackUnit ~= unit and UnitExists(feedbackUnit)) then
 			status = UnitThreatSituation(feedbackUnit, unit)
 		else
 			status = UnitThreatSituation(unit)
@@ -57,10 +57,10 @@ local function Update(self, event, unit)
 	end
 
 	local r, g, b
-	if (status and status > 0) then
+	if(status and status > 0) then
 		r, g, b = GetThreatStatusColor(status)
 
-		if (element.SetVertexColor) then
+		if(element.SetVertexColor) then
 			element:SetVertexColor(r, g, b)
 		end
 
@@ -74,12 +74,12 @@ local function Update(self, event, unit)
 
 	* self   - the ThreatIndicator element
 	* unit   - the unit for which the update has been triggered (string)
-	* status - the unit's threat status (see [UnitThreatSituation](http://wowprogramming.com/docs/api/UnitThreatSituation))
+	* status - the unit's threat status (see [UnitThreatSituation](http://wowprogramming.com/docs/api/UnitThreatSituation.html))
 	* r      - the red color component based on the unit's threat status (number?)[0-1]
 	* g      - the green color component based on the unit's threat status (number?)[0-1]
 	* b      - the blue color component based on the unit's threat status (number?)[0-1]
 	--]]
-	if (element.PostUpdate) then
+	if(element.PostUpdate) then
 		return element:PostUpdate(unit, status, r, g, b)
 	end
 end
@@ -92,7 +92,7 @@ local function Path(self, ...)
 	* event - the event triggering the update (string)
 	* ...   - the arguments accompanying the event
 	--]]
-	return (self.ThreatIndicator.Override or Update)(self, ...)
+	return (self.ThreatIndicator.Override or Update) (self, ...)
 end
 
 local function ForceUpdate(element)
@@ -101,16 +101,16 @@ end
 
 local function Enable(self)
 	local element = self.ThreatIndicator
-	if (element) then
+	if(element) then
 		element.__owner = self
 		element.ForceUpdate = ForceUpdate
 
 		self:RegisterEvent('UNIT_THREAT_SITUATION_UPDATE', Path)
 		self:RegisterEvent('UNIT_THREAT_LIST_UPDATE', Path)
 
-		if (element:IsObjectType('Texture') and not element:GetTexture()) then
+		if(element:IsObjectType('Texture') and not element:GetTexture()) then
 			element:SetTexture([[Interface\Minimap\ObjectIcons]])
-			element:SetTexCoord(6 / 8, 7 / 8, 1 / 8, 2 / 8)
+			element:SetTexCoord(6/8, 7/8, 1/8, 2/8)
 		end
 
 		return true
@@ -119,7 +119,7 @@ end
 
 local function Disable(self)
 	local element = self.ThreatIndicator
-	if (element) then
+	if(element) then
 		element:Hide()
 
 		self:UnregisterEvent('UNIT_THREAT_SITUATION_UPDATE', Path)

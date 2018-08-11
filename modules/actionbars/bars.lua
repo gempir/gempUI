@@ -609,6 +609,9 @@ mAB.SetVisibility("PetBar", petbar)
 local FramesToHide = {
 	MainMenuBar,
 	--MainMenuBarArtFrame, 
+	MainMenuBarArtFrameBackground, 
+	MainMenuBarArtFrame.RightEndCap, 
+	MainMenuBarArtFrame.LeftEndCap, 
 	MainMenuBarPageNumber,
 	ActionBarDownButton,
 	ActionBarUpButton,
