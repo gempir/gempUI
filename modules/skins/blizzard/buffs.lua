@@ -1,1 +1,1 @@
-BuffFrame:Hide()
+-- BuffFrame:Hide()

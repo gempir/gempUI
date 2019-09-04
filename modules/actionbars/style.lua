@@ -418,42 +418,9 @@ local function init()
 	for i = 1, NUM_STANCE_SLOTS do
 		styleStanceButton(_G["StanceButton" .. i])
 	end
-	--possess buttons
-	for i = 1, NUM_POSSESS_SLOTS do
-		stylePossessButton(_G["PossessButton" .. i])
-	end
-	--extraactionbutton1
-	styleExtraActionButton(ExtraActionButton1)
-	--spell flyout
-	SpellFlyoutBackgroundEnd:SetTexture(nil)
-	SpellFlyoutHorizontalBackground:SetTexture(nil)
-	SpellFlyoutVerticalBackground:SetTexture(nil)
-	local function checkForFlyoutButtons(self)
-		local NUM_FLYOUT_BUTTONS = 10
-		for i = 1, NUM_FLYOUT_BUTTONS do
-			styleActionButton(_G["SpellFlyoutButton" .. i])
-		end
-	end
-
-	SpellFlyout:HookScript("OnShow", checkForFlyoutButtons)
-
-	--dominos styling
-	if dominos then
-		--print("Dominos found")
-		for i = 1, 60 do
-			styleActionButton(_G["DominosActionButton" .. i])
-		end
-	end
-	--bartender4 styling
-	if bartender4 then
-		--print("Bartender4 found")
-		for i = 1, 120 do
-			styleActionButton(_G["BT4Button" .. i])
-		end
-	end
-
+	
 	--hide the hotkeys if needed
-	if not dominos and not bartender4 and not cfg.hotkeys.show then
+	if not cfg.hotkeys.show then
 		hooksecurefunc("ActionButton_UpdateHotkeys", updateHotkey)
 	end
 end

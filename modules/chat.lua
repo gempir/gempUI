@@ -155,10 +155,7 @@ BNToastFrame:SetClampRectInsets(-15, 15, 15, -15)
 ChatFrameMenuButton:HookScript("OnShow", ChatFrameMenuButton.Hide)
 ChatFrameMenuButton:Hide()
 
---hide the friend micro button
-local button = QuickJoinToastButton or FriendsMicroButton
-button:HookScript("OnShow", button.Hide)
-button:Hide()
+ChatFrameChannelButton:Hide()
 
 --skin chat
 for i = 1, NUM_CHAT_WINDOWS do

@@ -27,7 +27,7 @@ cfg.bars = {
 		buttons = 8,
 		button_size = cfg.mAB.size,
 		button_spacing = cfg.mAB.spacing,
-		position = { a = "CENTER", x = 0, y = -390 },
+		position = { a = "CENTER", x = 0, y = -440 },
 		custom_visibility_macro = false -- set a custom visibility macro for this bar or 'false' to disable
 		-- (e.g. "[petbattle][overridebar][vehicleui][possessbar,@vehicle,exists]hide;show")
 	},
@@ -42,7 +42,7 @@ cfg.bars = {
 		buttons = 8,
 		button_size = cfg.mAB.size,
 		button_spacing = cfg.mAB.spacing,
-		position = { a = "CENTER", x = 0, y = -429 },
+		position = { a = "CENTER", x = 0, y = -479 },
 		custom_visibility_macro = false
 	},
 	["Bar3"] = {
@@ -56,7 +56,7 @@ cfg.bars = {
 		buttons = 8,
 		button_size = cfg.mAB.size,
 		button_spacing = cfg.mAB.spacing,
-		position = { a = "CENTER", x = 0, y = -468 },
+		position = { a = "CENTER", x = 0, y = -518 },
 		custom_visibility_macro = false
 	},
 	["Bar4"] = {
@@ -532,17 +532,12 @@ local exitVehicle = mAB.CreateHolder("ExitVehicle_holder", cfg.bars["ExitVehicle
 --- - Forging action bars
 -- parenting action buttons to our holders
 MainMenuBarArtFrame:SetParent(mainbar)
-OverrideActionBar:SetParent(overridebar)
-OverrideActionBar:EnableMouse(false)
-OverrideActionBar:SetScript("OnShow", nil)
 MultiBarBottomLeft:SetParent(bottomleftbar)
 MultiBarBottomRight:SetParent(bottomrightbar)
 MultiBarLeft:SetParent(leftbar)
 MultiBarRight:SetParent(rightbar)
 MultiBarRight:EnableMouse(false)
 PetActionBarFrame:SetParent(petbar)
-PossessBarFrame:SetParent(stancebar)
-PossessBarFrame:EnableMouse(false)
 StanceBarFrame:SetParent(stancebar)
 StanceBarFrame:SetPoint("BOTTOMLEFT", stancebar, -12, -3)
 StanceBarFrame.ignoreFramePositionManager = true
@@ -551,7 +546,6 @@ StanceBarFrame.ignoreFramePositionManager = true
 mAB.SetBar(mainbar, "ActionButton", NUM_ACTIONBAR_BUTTONS, "Bar1")
 mAB.SetBar(overridebar, "OverrideActionBarButton", NUM_ACTIONBAR_BUTTONS, "Bar1")
 RegisterStateDriver(overridebar, "visibility", "[petbattle] hide; [overridebar][vehicleui][possessbar,@vehicle,exists] show; hide")
-RegisterStateDriver(OverrideActionBar, "visibility", "[overridebar][vehicleui][possessbar,@vehicle,exists] show; hide")
 mAB.SetBar(bottomleftbar, "MultiBarBottomLeftButton", NUM_ACTIONBAR_BUTTONS, "Bar2")
 mAB.SetBar(bottomrightbar, "MultiBarBottomRightButton", NUM_ACTIONBAR_BUTTONS, "Bar3")
 mAB.SetBar(leftbar, "MultiBarLeftButton", NUM_ACTIONBAR_BUTTONS, "Bar4")
@@ -560,7 +554,6 @@ mAB.SetBar(petbar, "PetActionButton", NUM_PET_ACTION_SLOTS, "PetBar")
 petbar:SetScale(cfg.bars["PetBar"].scale or 0.80)
 RegisterStateDriver(petbar, "visibility", "[pet,novehicleui,nobonusbar:5] show; hide")
 mAB.SetStanceBar(stancebar, "StanceButton", NUM_STANCE_SLOTS)
-mAB.SetStanceBar(stancebar, "PossessButton", NUM_POSSESS_SLOTS)
 mAB.SetExtraBar(extrabar, "ExtraBarButton", cfg.bars["Bar6"].orientation, cfg.bars["Bar6"].rows, cfg.bars["Bar6"].buttons, cfg.bars["Bar6"].button_size, cfg.bars["Bar6"].button_spacing)
 -- due to new ActionBarController introduced in WoW 5.0 we have to update the extra bar independently and lock it to page 1
 extrabar:RegisterEvent("PLAYER_LOGIN")
@@ -616,7 +609,6 @@ local FramesToHide = {
 	MainMenuBarPageNumber,
 	ActionBarDownButton,
 	ActionBarUpButton,
-	--OverrideActionBar,
 	OverrideActionBarExpBar,
 	OverrideActionBarHealthBar,
 	OverrideActionBarPowerBar,
@@ -649,75 +641,6 @@ for _, f in pairs(FramesToHide) do
 		f:SetParent(frameHider)
 	end
 end
-local OverrideTexList = {
-	"_BG",
-	"_MicroBGMid",
-	"_Border",
-	"EndCapL",
-	"EndCapR",
-	"Divider1",
-	"Divider2",
-	"Divider3",
-	"ExitBG",
-	"MicroBGL",
-	"MicroBGR",
-	"ButtonBGL",
-	"ButtonBGR",
-	"_ButtonBGMid",
-}
-for _, t in pairs(OverrideTexList) do
-	OverrideActionBar[t]:SetAlpha(0)
-end
-
-
--- ExtraBar button implementation
-V.extraButton = CreateFrame("Frame", "ExtraBtn_holder", UIParent)
-if not cfg.bars["ExtraButton"].disable then
-	V.extraButton:SetPoint(cfg.bars["ExtraButton"].position.a, cfg.bars["ExtraButton"].position.x, cfg.bars["ExtraButton"].position.y)
-	V.extraButton:SetSize(36, 36)
-
-	ExtraActionBarFrame:SetParent(V.extraButton)
-	ExtraActionBarFrame:ClearAllPoints()
-	ExtraActionBarFrame:SetPoint("CENTER", V.extraButton, "CENTER", 0, 0)
-
-	-- ExtraActionButton1.noResize = true
-	ExtraActionBarFrame.ignoreFramePositionManager = true
-end
-
-
-exitVehicle = CreateFrame("Button", "ExitVehicleButton", UIParent)
-exitVehicle:SetPoint("BOTTOM", UIParent, cfg.bars["ExitVehicleButton"].position.a, cfg.bars["ExitVehicleButton"].position.x, cfg.bars["ExitVehicleButton"].position.y)
-exitVehicle:SetWidth(28)
-exitVehicle:SetHeight(28)
-F.createBorder(exitVehicle)
-F.createOverlay(exitVehicle)
-exitVehicle:Hide()
-
-exitVehicle:SetScript("OnClick", function(self, button) 
-	if UnitOnTaxi("player") then TaxiRequestEarlyLanding() else VehicleExit() end
-end)
-
-local exitIcon = exitVehicle:CreateTexture("BACKGROUND")
-exitIcon:SetTexture(G.media .. "actionbars\\vehicleexit")
-exitIcon:SetPoint("TOPLEFT", exitVehicle, "TOPLEFT", 1, -1)
-exitIcon:SetPoint("BOTTOMRIGHT", exitVehicle, "BOTTOMRIGHT", -1, 1)
-exitIcon:SetTexCoord(.1, .9, .1, .9)
-
-exitVehicle:RegisterEvent("UNIT_ENTERING_VEHICLE")
-exitVehicle:RegisterEvent("UNIT_ENTERED_VEHICLE")
-exitVehicle:RegisterEvent("UNIT_EXITING_VEHICLE")
-exitVehicle:RegisterEvent("UNIT_EXITED_VEHICLE")
-exitVehicle:RegisterEvent("ZONE_CHANGED_NEW_AREA")
-exitVehicle:SetScript("OnEvent", function(self, event, ...)
-	local arg1 = ...;
-	if (((event == "UNIT_ENTERING_VEHICLE") or (event == "UNIT_ENTERED_VEHICLE")) and arg1 == "player") then
-		exitVehicle:Show()
-	elseif (((event == "UNIT_EXITING_VEHICLE") or (event == "UNIT_EXITED_VEHICLE")) and arg1 == "player") or (event == "ZONE_CHANGED_NEW_AREA" and not UnitHasVehicleUI("player")) then
-		exitVehicle:Hide()
-	end
-end)
-
-
 
 -- MicroMenu
 

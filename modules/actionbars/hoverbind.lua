@@ -218,10 +218,10 @@ SlashCmdList.MOUSEOVERBIND = function()
 
 		function bind:Deactivate(save)
 			if save then
-				SaveBindings(2)
+				AttemptToSaveBindings(2)
 				print("All keybindings have been saved.")
 			else
-				LoadBindings(2)
+				AttemptToLoadBindings(2)
 				print("All newly set keybindings have been discarded.")
 			end
 			self.enabled = false

@@ -95,8 +95,6 @@ f:SetScript("OnEvent", function()
 
 	-- 	-- function f:SetFont(...) error("Attempt to set font on ChannelButton"..i) end
 	-- end
-
-	for _, butt in pairs(PaperDollTitlesPane.buttons) do butt.text:SetFontObject(GameFontHighlightSmallLeft) end
 end)
 
 -- changes the damage font
