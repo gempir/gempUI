@@ -7,6 +7,8 @@
     <Include file="blizzard\load_blizzard.xml"/>
     <!-- Actionbars -->
     <Include file="actionbars\load_actionbars.xml"/>
+    <!-- Load Unitframes -->
+    <Include file="unitframes\load_unitframes.xml"/>
 
     <Script file="cooldowns.lua"/>
     <Script file="experience_reputation.lua"/>

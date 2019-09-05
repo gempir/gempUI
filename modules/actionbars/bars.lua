@@ -713,11 +713,6 @@ if cfg.bars["MicroMenu"].lock_to_CharacterFrame then
 	MicroMenu:SetPoint("BOTTOMLEFT", PaperDollFrame, "TOPLEFT", 65, 2)
 end
 
--- fix main bar keybind not working after a talent switch
-hooksecurefunc('TalentFrame_LoadUI', function()
-	PlayerTalentFrame:UnregisterEvent('ACTIVE_TALENT_GROUP_CHANGED')
-end)
-
 -- hiding extra bars
 local bars_visible = false
 -- making this global function to hook in my broker toggler

@@ -1,7 +1,7 @@
 local F, G, V = unpack(select(2, ...))
 
 Minimap:ClearAllPoints()
-Minimap:SetPoint('TOPRIGHT', UIParent, 'TOPRIGHT', -6, -6)
+Minimap:SetPoint('TOPRIGHT', UIParent, 'TOPRIGHT', -5, -5)
 Minimap:SetSize(178, 178)
 F.addBackdrop(Minimap)
 
@@ -17,6 +17,24 @@ end
 -- Shape Square
 Minimap:SetMaskTexture('Interface\\ChatFrame\\ChatFrameBackground')
 
+MiniMapTrackingFrame:ClearAllPoints()
+MiniMapTrackingFrame:SetPoint("TOPRIGHT", Minimap, -2, -2)
+MiniMapTrackingBorder:Hide()
+MiniMapTrackingIcon:SetScale(0.8)
+MiniMapTrackingIcon:SetTexCoord(.08, .92, .08, .92)
+
+local function OnLeave()
+	if not Minimap:IsMouseOver() then
+		UIFrameFadeOut(MiniMapTrackingFrame, 0.3, 1, 0)
+	end
+end
+
+Minimap:HookScript('OnEnter', function()
+	UIFrameFadeIn(MiniMapTrackingFrame, 0.3, 0, 1)
+end)
+Minimap:HookScript('OnLeave', OnLeave)
+MiniMapTrackingFrame:HookScript('OnLeave', OnLeave)
+
 -- Hide All
 local HideAll = {
     'MinimapBorder',
@@ -29,7 +47,6 @@ local HideAll = {
     'MinimapZoomOut',
     'GameTimeFrame',
     'SubZoneTextFrame',
-    'DurabilityFrame'
 }
 for i, v in pairs(HideAll) do
     getglobal(v).Show = function()
@@ -431,8 +448,8 @@ end
 
 local clockFrame, clockTime = TimeManagerClockButton:GetRegions()
 clockFrame:Hide()
-clockTime:SetFont(G.fonts.square, 16, '')
-clockTime:SetShadowOffset(1, -1)
+clockTime:SetFont(G.fonts.square, 10, 'OUTLINEMONOCHROME')
+clockTime:SetShadowOffset(0, 0)
 clockTime:SetTextColor(1, 1, 1)
 TimeManagerClockButton:SetFrameStrata('TOOLTIP')
 TimeManagerClockButton:SetPoint('BOTTOM', Minimap, 'BOTTOM', 0, -5)
