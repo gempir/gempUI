@@ -1,4 +1,4 @@
-## Interface: 70300
+## Interface: 90002
 ## Title: |cff00FF7F gemp|rUI
 ## Notes: gempUI
 ## OptionalDeps: Skada

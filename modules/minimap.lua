@@ -85,6 +85,7 @@ MiniMapTrackingBackground:SetAlpha(0)
 MiniMapTracking:ClearAllPoints()
 MiniMapTracking:SetPoint("TOPRIGHT", Minimap, -2, -2)
 MiniMapTrackingButtonBorder:Hide()
+Mixin(MiniMapTrackingButton, BackdropTemplateMixin)
 MiniMapTrackingButton:SetBackdropBorderColor(0, 0, 0)
 MiniMapTracking:SetAlpha(0)
 

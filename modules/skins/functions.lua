@@ -1,6 +1,7 @@
 local F, G, V = unpack(select(2, ...))
 
 function F.rebackdrop(frame)
+	Mixin(frame, BackdropTemplateMixin)
 	frame:SetBackdrop(nil)
 	frame:SetBackdrop({
 		bgFile = [[Interface\Buttons\WHITE8x8]],
@@ -12,6 +13,7 @@ function F.rebackdrop(frame)
 end
 
 function F.rebackdroplight(frame)
+	Mixin(frame, BackdropTemplateMixin)
 	frame:SetBackdrop(nil)
 	frame:SetBackdrop({
 		bgFile = [[Interface\Buttons\WHITE8x8]],

@@ -37,7 +37,7 @@ oUF:RegisterStyle("gempUI - Nameplates", function(self, unit)
 	health.colorDisconnected = true
 	health.frequentUpdates = true
 
-	local border = CreateFrame("Frame", nil, health)
+	local border = CreateFrame("Frame", nil, health, BackdropTemplateMixin and "BackdropTemplate")
 	border:SetFrameStrata("BACKGROUND")
 	border:SetWidth(G.nameplates.width + 2)
 	border:SetHeight(G.nameplates.height + 2)

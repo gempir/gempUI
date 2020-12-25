@@ -141,6 +141,13 @@ G.backdrop = {
 	edgeSize = 1,
 }
 
+G.actionbars = {
+	extra = {
+		x = 0,
+		y = 0,
+	}
+}
+
 
 V = {
 	oUF = ns.oUF,

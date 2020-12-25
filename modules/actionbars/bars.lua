@@ -139,7 +139,7 @@ cfg.bars = {
 	},
 	["ExtraButton"] = {
 		disable = false,
-		position = { a = "BOTTOM", x = 0, y = 400 },
+		position = { a = "CENTER", x = 0, y = 0 },
 	},
 	["RaidIconBar"] = {
 		hide = true,
@@ -477,35 +477,35 @@ f:SetScript("OnEvent", function()
 	end
 	-- show grid
 	for i = 1, 12 do
-		local btn = _G[format("ActionButton%d", i)]
-		btn:SetAttribute("showgrid", 1)
-		btn:SetAttribute("statehidden", nil)
-		ActionButton_ShowGrid(btn)
+		-- local btn = _G[format("ActionButton%d", i)]
+		-- btn:SetAttribute("showgrid", 1)
+		-- btn:SetAttribute("statehidden", nil)
+		-- ActionButton_ShowGrid(btn)
 
-		btn = _G[format("MultiBarRightButton%d", i)]
-		btn:SetAttribute("showgrid", 1)
-		btn:SetAttribute("statehidden", nil)
-		ActionButton_ShowGrid(btn)
+		-- btn = _G[format("MultiBarRightButton%d", i)]
+		-- btn:SetAttribute("showgrid", 1)
+		-- btn:SetAttribute("statehidden", nil)
+		-- ActionButton_ShowGrid(btn)
 
-		btn = _G[format("MultiBarBottomRightButton%d", i)]
-		btn:SetAttribute("showgrid", 1)
-		btn:SetAttribute("statehidden", nil)
-		ActionButton_ShowGrid(btn)
+		-- btn = _G[format("MultiBarBottomRightButton%d", i)]
+		-- btn:SetAttribute("showgrid", 1)
+		-- btn:SetAttribute("statehidden", nil)
+		-- ActionButton_ShowGrid(btn)
 
-		btn = _G[format("MultiBarLeftButton%d", i)]
-		btn:SetAttribute("showgrid", 1)
-		btn:SetAttribute("statehidden", nil)
-		ActionButton_ShowGrid(btn)
+		-- btn = _G[format("MultiBarLeftButton%d", i)]
+		-- btn:SetAttribute("showgrid", 1)
+		-- btn:SetAttribute("statehidden", nil)
+		-- ActionButton_ShowGrid(btn)
 
-		btn = _G[format("MultiBarBottomLeftButton%d", i)]
-		btn:SetAttribute("showgrid", 1)
-		btn:SetAttribute("statehidden", nil)
-		ActionButton_ShowGrid(btn)
+		-- btn = _G[format("MultiBarBottomLeftButton%d", i)]
+		-- btn:SetAttribute("showgrid", 1)
+		-- btn:SetAttribute("statehidden", nil)
+		-- ActionButton_ShowGrid(btn)
 
-		btn = _G[format("ExtraBarButton%d", i)]
-		btn:SetAttribute("showgrid", 1)
-		btn:SetAttribute("statehidden", nil)
-		ActionButton_ShowGrid(btn)
+		-- btn = _G[format("ExtraBarButton%d", i)]
+		-- btn:SetAttribute("showgrid", 1)
+		-- btn:SetAttribute("statehidden", nil)
+		-- ActionButton_ShowGrid(btn)
 	end
 	--SHOW_MULTI_ACTIONBAR_1 = 1
 	--SHOW_MULTI_ACTIONBAR_2 = 1
@@ -674,14 +674,20 @@ end
 V.extraButton = CreateFrame("Frame", "ExtraBtn_holder", UIParent)
 if not cfg.bars["ExtraButton"].disable then
 	V.extraButton:SetPoint(cfg.bars["ExtraButton"].position.a, cfg.bars["ExtraButton"].position.x, cfg.bars["ExtraButton"].position.y)
-	V.extraButton:SetSize(36, 36)
+	V.extraButton:SetSize(1, 1)
 
-	ExtraActionBarFrame:SetParent(V.extraButton)
-	ExtraActionBarFrame:ClearAllPoints()
-	ExtraActionBarFrame:SetPoint("CENTER", V.extraButton, "CENTER", 0, 0)
+	ExtraActionBarFrame:Hide()
+	ExtraActionButton1:SetParent(V.extraButton)
+	ExtraActionButton1:ClearAllPoints()
+	ExtraActionButton1:SetPoint("CENTER", V.extraButton, "CENTER", -100, -300)
+
+	ZoneAbilityFrame:Hide()
+	ZoneAbilityFrame.SpellButtonContainer:SetParent(V.extraButton)
+	ZoneAbilityFrame.SpellButtonContainer:ClearAllPoints()
+	ZoneAbilityFrame.SpellButtonContainer:SetPoint("CENTER", V.extraButton, "CENTER", 100, -300)
 
 	-- ExtraActionButton1.noResize = true
-	ExtraActionBarFrame.ignoreFramePositionManager = true
+	-- ExtraActionBarFrame.ignoreFramePositionManager = true
 end
 
 
@@ -1311,9 +1317,9 @@ function tullaRange:PLAYER_LOGIN()
 
 	self.buttonsToUpdate = {}
 
-	hooksecurefunc('ActionButton_OnUpdate', self.RegisterButton)
-	hooksecurefunc('ActionButton_UpdateUsable', self.OnUpdateButtonUsable)
-	hooksecurefunc('ActionButton_Update', self.OnButtonUpdate)
+	-- hooksecurefunc("ActionButton_UpdateFlyout", self.OnUpdateButtonUsable)
+	-- hooksecurefunc('ActionButton_UpdateRangeIndicator', self.RegisterButton)
+	-- hooksecurefunc("MultiActionBar_Update", self.OnButtonUpdate)
 end
 
 function tullaRange:PLAYER_LOGOUT()

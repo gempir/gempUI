@@ -79,7 +79,7 @@ end
 ------------------------------------------------------------------------
 
 --	Create the panel and bars
-gXpbarp = CreateFrame("Frame", nil, UIParent)
+gXpbarp = CreateFrame("Frame", nil, UIParent, BackdropTemplateMixin and "BackdropTemplate")
 gXpbarp:SetFrameStrata("LOW")
 gXpbarp:SetHeight(height - 2)
 gXpbarp:SetWidth(width - 2)

@@ -187,7 +187,7 @@ oUF.Tags.Methods['boss:hp'] = function(u)
 		return ('|cff559655' .. math.floor(min / max * 100 + .5) .. '%')
 	end
 end
-oUF.Tags.Events['boss:hp'] = 'UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH UNIT_TARGETABLE_CHANGED'
+oUF.Tags.Events['boss:hp'] = 'UNIT_MAXHEALTH UNIT_TARGETABLE_CHANGED'
 
 oUF.Tags.Methods['altpower'] = function(u)
 	local cur = UnitPower(u, ALTERNATE_POWER_INDEX)

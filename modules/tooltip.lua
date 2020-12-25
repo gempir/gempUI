@@ -13,18 +13,19 @@ local tooltips = {
 	'ShoppingTooltip2',
 	'DropDownList1MenuBackdrop',
 	'DropDownList2MenuBackdrop',
-	'WorldMapTooltip',
-	'WorldMapCompareTooltip1',
-	'WorldMapCompareTooltip2',
 }
 
 for key, value in pairs(tooltips) do
-	_G[value]:SetBackdrop(nil)
-	F.addBackdrop(_G[value])
+	if not _G[value] then
+		print("Broken tooltips: " + value)
+	else 
+		_G[value]:SetBackdrop(nil)
+		F.addBackdrop(_G[value])
 
-	_G[value].bg = CreateFrame("Frame", nil, GameTooltip)
-	_G[value].bg:SetAllPoints(true)
-	_G[value].bg:SetFrameLevel(0)
+		_G[value].bg = CreateFrame("Frame", nil, GameTooltip)
+		_G[value].bg:SetAllPoints(true)
+		_G[value].bg:SetFrameLevel(0)
+	end
 end
 
 GameTooltipStatusBar:ClearAllPoints()
@@ -50,6 +51,8 @@ local function TooltipOnShow(self, ...)
 		_G[value].bg:SetAllPoints(true)
  		_G[value].bg:SetFrameLevel(0)
 	end
+	
+	Mixin(GameTooltip.bg, BackdropTemplateMixin)
 
 	local itemName, itemLink = self:GetItem()
 	if itemLink then

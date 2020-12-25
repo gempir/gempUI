@@ -11,7 +11,7 @@ function F.createBorder(parent, anchor, extend)
 		anchor = parent
 	end
 
-	local frame = CreateFrame('Frame', nil, parent)
+	local frame = CreateFrame('Frame', nil, parent, BackdropTemplateMixin and "BackdropTemplate")
 	frame:SetFrameStrata('BACKGROUND')
 	if extend then
 		frame:SetPoint('TOPLEFT', anchor, 'TOPLEFT', -1, 1)
@@ -49,7 +49,7 @@ function F.createOverlay(element, anchor)
 		anchor = element
 	end
 
-	local buttonOverlay = CreateFrame("Frame", nil, parent)
+	local buttonOverlay = CreateFrame("Frame", nil, parent, BackdropTemplateMixin and "BackdropTemplate")
 	buttonOverlay:SetPoint("TOPLEFT", anchor, "TOPLEFT", 1, -1)
 	buttonOverlay:SetPoint("BOTTOMRIGHT", anchor, "BOTTOMRIGHT", -1, 1)
 	buttonOverlay:SetBackdrop({
@@ -64,6 +64,7 @@ function F.createOverlay(element, anchor)
 end
 
 function F.addBackdrop(frame)
+	Mixin(frame, BackdropTemplateMixin)
 	frame:SetBackdrop({
 		bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
 		edgeFile = "Interface\\Buttons\\WHITE8x8",
@@ -75,6 +76,7 @@ function F.addBackdrop(frame)
 end
 
 function F.addBackdropNoBorder(frame)
+	Mixin(frame, BackdropTemplateMixin)
 	frame:SetBackdrop({
 		bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=]
 	})

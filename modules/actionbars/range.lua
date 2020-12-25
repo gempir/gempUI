@@ -167,9 +167,9 @@ do
 	end
 
 	function Addon:HookActionEvents()
-		hooksecurefunc('ActionButton_OnUpdate', button_Register)
-		hooksecurefunc('ActionButton_UpdateUsable', button_UpdateUsable)
-		hooksecurefunc('ActionButton_Update', button_UpdateStatus)
+		-- hooksecurefunc('ActionButton_UpdateRangeIndicator', button_Register)
+		-- hooksecurefunc('ActionButton_UpdateFlyout', button_UpdateUsable)
+		-- hooksecurefunc('MultiActionBar_Update', button_UpdateStatus)
 	end
 
 	function Addon:Register(button)
