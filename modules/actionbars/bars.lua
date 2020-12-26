@@ -74,17 +74,17 @@ cfg.bars = {
 		custom_visibility_macro = false
 	},
 	["Bar5"] = {
-		hide_bar = true,
+		hide_bar = false,
 		show_in_combat = false,
 		show_on_mouseover = false,
 		bar_alpha = 1,
 		fadeout_alpha = 0.0,
-		orientation = "VERTICAL",
+		orientation = "HORIZONTAL",
 		rows = 1,
-		buttons = 12,
+		buttons = 8,
 		button_size = cfg.mAB.size,
 		button_spacing = cfg.mAB.spacing,
-		position = { a = "RIGHT", x = -43, y = 0 },
+		position = { a = "CENTER", x = 0, y = -507 },
 		custom_visibility_macro = false
 	},
 	["Bar6"] = {
@@ -1319,9 +1319,9 @@ function tullaRange:PLAYER_LOGIN()
 
 	self.buttonsToUpdate = {}
 
-	-- hooksecurefunc("ActionButton_UpdateFlyout", self.OnUpdateButtonUsable)
-	-- hooksecurefunc('ActionButton_UpdateRangeIndicator', self.RegisterButton)
-	-- hooksecurefunc("MultiActionBar_Update", self.OnButtonUpdate)
+	hooksecurefunc("ActionButton_UpdateFlyout", self.OnUpdateButtonUsable)
+	hooksecurefunc('ActionButton_UpdateRangeIndicator', self.RegisterButton)
+	hooksecurefunc("MultiActionBar_Update", self.OnButtonUpdate)
 end
 
 function tullaRange:PLAYER_LOGOUT()
@@ -1367,6 +1367,10 @@ function tullaRange:UpdateButton(button, elapsed)
 end
 
 function tullaRange:UpdateButtonStatus(button)
+	if not ActionButton_GetPagedID then
+		return
+	end
+
 	local action = ActionButton_GetPagedID(button)
 	if button:IsVisible() and action and HasAction(action) and ActionHasRange(action) then
 		self.buttonsToUpdate[button] = true
@@ -1402,6 +1406,7 @@ function tullaRange.OnUpdateButtonUsable(button)
 end
 
 function tullaRange.OnButtonUpdate(button)
+	ZoneAbilityFrame:Hide()
 	tullaRange:UpdateButtonStatus(button)
 end
 
@@ -1409,6 +1414,10 @@ end
 --[[ Range Coloring ]] --
 
 function tullaRange.UpdateButtonUsable(button)
+	if not ActionButton_GetPagedID then
+		return
+	end
+
 	local action = ActionButton_GetPagedID(button)
 	local isUsable, notEnoughMana = IsUsableAction(action)
 

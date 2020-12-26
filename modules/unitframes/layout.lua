@@ -64,8 +64,8 @@ local auraIcon = function(auras, button)
 	button.count:SetPoint('BOTTOMRIGHT', button, 'BOTTOMRIGHT', 3, 0)
 
 	button.overlay:SetTexture(nil)
-	button.icon:SetTexCoord(.1, .9, .1, .9)
-	F.createBorder(button, button, true)
+	button.icon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
+	F.createBorder(button, button, false)
 
 	button:RegisterForClicks("MiddleButtonUp", "RightButtonUp")
 end
@@ -87,6 +87,12 @@ local PostUpdateIcon = function(icons, unit, icon, index, offset)
 			end
 		end
 	end)
+
+	if icon.cd:IsShown() then
+		icon.overlay:SetParent(icon.cd)
+	else
+		icon.overlay:SetParent(icon)
+	end
 	
 	if icon.isPlayer or UnitIsFriend('player', unit) or not icon.isDebuff then
 		texture:SetDesaturated(false)
@@ -176,16 +182,16 @@ local castbar = function(self, unit)
 	cb.FailColor = { 1.0, 0.09, 0, G.colors.base[4] }
 	cb.ChannelingColor = G.colors.base
 	cb.Icon = cb:CreateTexture(nil, 'ARTWORK')
-	cb.Icon:SetPoint('TOPRIGHT', cb, 'TOPLEFT', -1, 0)
-	cb.Icon:SetTexCoord(.1, .9, .1, .9)
+	cb.Icon:SetPoint('TOPRIGHT', cb, 'TOPLEFT', -5, 0)
+	cb.Icon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
 
 	if self.unit == 'player' then
-		cb:SetPoint('CENTER', UIParent, G.ace.db.profile.unitframes['player'].castbarX + (G.ace.db.profile.unitframes["player"].castbarHeight / 2) + 1, G.ace.db.profile.unitframes['player'].castbarY)
-		cb:SetSize(G.ace.db.profile.unitframes["player"].castbarWidth - G.ace.db.profile.unitframes["player"].castbarHeight - 1, G.ace.db.profile.unitframes["player"].castbarHeight)
+		cb:SetPoint('CENTER', UIParent, G.ace.db.profile.unitframes['player'].castbarX + (G.ace.db.profile.unitframes["player"].castbarHeight / 2), G.ace.db.profile.unitframes['player'].castbarY)
+		cb:SetSize(G.ace.db.profile.unitframes["player"].castbarWidth - G.ace.db.profile.unitframes["player"].castbarHeight, G.ace.db.profile.unitframes["player"].castbarHeight)
 		cb.Icon:SetSize(cb:GetHeight(), cb:GetHeight())
 	elseif self.unit == 'target' then
-		cb:SetPoint('CENTER', UIParent, G.ace.db.profile.unitframes['target'].castbarX + (G.ace.db.profile.unitframes["target"].castbarHeight / 2) + 1, G.ace.db.profile.unitframes['target'].castbarY)
-		cb:SetSize(G.ace.db.profile.unitframes["target"].castbarWidth - G.ace.db.profile.unitframes["target"].castbarHeight - 1, G.ace.db.profile.unitframes["target"].castbarHeight)
+		cb:SetPoint('CENTER', UIParent, G.ace.db.profile.unitframes['target'].castbarX + (G.ace.db.profile.unitframes["target"].castbarHeight / 2), G.ace.db.profile.unitframes['target'].castbarY)
+		cb:SetSize(G.ace.db.profile.unitframes["target"].castbarWidth - G.ace.db.profile.unitframes["target"].castbarHeight, G.ace.db.profile.unitframes["target"].castbarHeight)
 		cb.Icon:SetSize(cb:GetHeight(), cb:GetHeight())
 		cb.Shield = cb:CreateTexture(nil, 'OVERLAY')
 		cb.Shield:SetSize(cb:GetHeight(), cb:GetHeight())
@@ -216,8 +222,8 @@ local castbar = function(self, unit)
 	cb.PostCastFailed = PostCastFailed
 	cb.PostCastInterrupted = PostCastFailed
 
-	cb.Backdrop = F.createBorder(cb, cb, true)
-	cb.IBackdrop = F.createBorder(cb, cb.Icon, true)
+	cb.Backdrop = F.createBorder(cb, cb)
+	cb.IBackdrop = F.createBorder(cb, cb.Icon)
 	self.Castbar = cb
 end
 
@@ -237,9 +243,16 @@ end
 
 local Power = function(self)
 	local p = createStatusbar(self, G.texture, nil, nil, nil, unpack(G.colors.base))
-	p:SetPoint('LEFT', self.Health, 'LEFT', 1, 0)
-	p:SetPoint('RIGHT', self.Health, 'RIGHT', -1, 0)
+	p:SetPoint('LEFT', self.Health, 'LEFT', 0, 0)
+	p:SetPoint('RIGHT', self.Health, 'RIGHT', 0, 0)
 	p:SetPoint('TOP', self.Health, 'BOTTOM', 0, 0)
+
+	local l = p:CreateLine(nil, "LOW", nil, 0)	
+	l:SetThickness(1)
+	l:SetColorTexture(unpack(G.colors.border))
+	
+	l:SetStartPoint("TOPLEFT")
+	l:SetEndPoint("TOPRIGHT")
 
 	if unit == 'player' and powerType ~= 0 then p.frequentUpdates = true end
 
@@ -247,8 +260,6 @@ local Power = function(self)
 	pbg:SetAllPoints(p)
 	pbg:SetTexture(G.texture)
 	pbg:SetVertexColor(unpack(G.colors.base))
-
-	F.createBorder(p, p, true)
 
 	p.colorClass = true
 	p.colorReaction = true
@@ -311,7 +322,7 @@ local UnitSpecific = {
 		PetCastingBarFrame.Show = function() end
 		PetCastingBarFrame:Hide()
 
-		self:SetSize(G.ace.db.profile.unitframes['player'].width, G.ace.db.profile.unitframes['player'].health + G.ace.db.profile.unitframes['player'].power + 1)
+		self:SetSize(G.ace.db.profile.unitframes['player'].width, G.ace.db.profile.unitframes['player'].health + G.ace.db.profile.unitframes['player'].power)
 		self.Health:SetHeight(G.ace.db.profile.unitframes['player'].health)
 		self.Power:SetHeight(G.ace.db.profile.unitframes['player'].power)
 
@@ -336,7 +347,7 @@ local UnitSpecific = {
 		ct.text:SetText('|cffAF5050j|r')
 		self.CombatIndicator = ct
 
-		local altp = createStatusbar(self, G.texture, nil, 30, 180, unpack(G.colors.base))
+		local altp = createStatusbar(self, G.texture, nil, 30, 179, unpack(G.colors.base))
 		altp:SetPoint("CENTER", UIParent, "CENTER", 0, -180)
 		altp.bd = F.createBorder(altp, altp)
 		altp.Text = fs(altp, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
@@ -447,7 +458,7 @@ local UnitSpecific = {
 		castbar(self)
 		createAuraBars(self, unit)
 
-		self:SetSize(G.ace.db.profile.unitframes['target'].width, G.ace.db.profile.unitframes['target'].health + G.ace.db.profile.unitframes['target'].power + 1)
+		self:SetSize(G.ace.db.profile.unitframes['target'].width, G.ace.db.profile.unitframes['target'].health + G.ace.db.profile.unitframes['target'].power)
 		self.Health:SetHeight(G.ace.db.profile.unitframes['target'].health)
 		self.Power:SetHeight(G.ace.db.profile.unitframes['target'].power)
 

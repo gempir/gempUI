@@ -6,27 +6,46 @@ local F, G, V = unpack(select(2, ...))
  * object anchor - frame that the new frame will be attached to
  * bool extend - 1px outside of the anchor or outside
 ]] --
-function F.createBorder(parent, anchor, extend)
+function F.createBorder(self, anchor, extend)
+	spacing = 0
+	if extend then
+		spacing = 1
+	end
+
 	if not anchor then
 		anchor = parent
 	end
 
-	local frame = CreateFrame('Frame', nil, parent, BackdropTemplateMixin and "BackdropTemplate")
-	frame:SetFrameStrata('BACKGROUND')
-	if extend then
-		frame:SetPoint('TOPLEFT', anchor, 'TOPLEFT', -1, 1)
-		frame:SetPoint('BOTTOMRIGHT', anchor, 'BOTTOMRIGHT', 1, -1)
-	else
-		frame:SetPoint('TOPLEFT', anchor, 'TOPLEFT', 0, 0)
-		frame:SetPoint('BOTTOMRIGHT', anchor, 'BOTTOMRIGHT', 0, 0)
+	if self:GetObjectType() == "StatusBar" then
+		self = CreateFrame("Frame", nil, self)
+		self:SetPoint("TOPLEFT", anchor, "TOPLEFT", 0, 0)
+		self:SetPoint("BOTTOMRIGHT", anchor, "BOTTOMRIGHT", 0, 0)
 	end
-	frame:SetBackdrop({
-		edgeFile = "Interface\\Buttons\\WHITE8x8",
-		edgeSize = 1
-	})
-	frame:SetBackdropColor(0, 0, 0, 0)
-	frame:SetBackdropBorderColor(unpack(G.colors.border))
-	return frame
+
+	if not self.borders then
+        self.borders = {}
+		for i=1, 4 do
+			self.borders[i] = self:CreateLine(nil, "LOW", nil, 0)	
+            local l = self.borders[i]
+            l:SetThickness(1)
+			l:SetColorTexture(unpack(G.colors.border))
+            if i==1 then
+                l:SetStartPoint("TOPLEFT", -spacing, spacing)
+                l:SetEndPoint("TOPRIGHT", spacing, spacing)
+            elseif i==2 then
+                l:SetStartPoint("TOPRIGHT", spacing, spacing)
+                l:SetEndPoint("BOTTOMRIGHT", spacing, -spacing)
+            elseif i==3 then
+                l:SetStartPoint("BOTTOMRIGHT", spacing, -spacing)
+                l:SetEndPoint("BOTTOMLEFT", -spacing, -spacing)
+            else
+                l:SetStartPoint("BOTTOMLEFT", -spacing, -spacing)
+                l:SetEndPoint("TOPLEFT", -spacing, spacing)
+            end
+        end
+    end
+
+	return self
 end
 
 function F.createFontString(parent) 
@@ -64,15 +83,8 @@ function F.createOverlay(element, anchor)
 end
 
 function F.addBackdrop(frame)
-	Mixin(frame, BackdropTemplateMixin)
-	frame:SetBackdrop({
-		bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
-		edgeFile = "Interface\\Buttons\\WHITE8x8",
-		edgeSize = 1,
-		insets = { left = 0, right = 0, top = 0, bottom = 0 }
-	})
-	frame:SetBackdropColor(unpack(G.colors.base))
-	frame:SetBackdropBorderColor(unpack(G.colors.border))
+	F.addBackdropNoBorder(frame)
+	F.createBorder(frame)
 end
 
 function F.addBackdropNoBorder(frame)

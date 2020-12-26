@@ -715,7 +715,7 @@ local defaults = {
                 x = -259,
                 y = -386,
                 castbarX = 0,
-                castbarY = -512,
+                castbarY = -551,
                 castbarWidth = 320,
                 castbarHeight = 25,
                 auraBarsX = 157,
@@ -754,9 +754,9 @@ local defaults = {
             mainpanel = {
                 hidden = false,
                 width = 322,
-                height = 126,
+                height = 165,
                 x = 0,
-                y = -429,
+                y = -449.5,
             }
         },
         actionbars = {
