@@ -677,7 +677,7 @@ if not cfg.bars["ExtraButton"].disable then
 	V.extraButton:SetSize(1, 1)
 
 	ExtraActionBarFrame:Hide()
-	ExtraActionButton1:SetParent(V.extraButton)
+	-- ExtraActionButton1:SetParent(V.extraButton)
 	ExtraActionButton1:ClearAllPoints()
 	ExtraActionButton1:SetPoint("CENTER", V.extraButton, "CENTER", -100, -300)
 
@@ -685,6 +685,8 @@ if not cfg.bars["ExtraButton"].disable then
 	ZoneAbilityFrame.SpellButtonContainer:SetParent(V.extraButton)
 	ZoneAbilityFrame.SpellButtonContainer:ClearAllPoints()
 	ZoneAbilityFrame.SpellButtonContainer:SetPoint("CENTER", V.extraButton, "CENTER", 100, -300)
+
+	ExtraAbilityContainer:Hide()
 
 	-- ExtraActionButton1.noResize = true
 	-- ExtraActionBarFrame.ignoreFramePositionManager = true

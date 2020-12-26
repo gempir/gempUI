@@ -426,27 +426,6 @@ local function init()
 	styleExtraActionButton(ExtraActionButton1)
 	--SpellButtonContainer
 	for spellButton in ZoneAbilityFrame.SpellButtonContainer:EnumerateActive() do
-		-- --icon
-		-- bu.icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
-		-- bu.icon:SetAllPoints(bu)
-		-- --cooldown
-		-- bu.cooldown:SetAllPoints(bu.icon)
-		-- --hotkey
-		-- ho:Hide()
-		-- --add button normaltexture
-		-- bu:SetNormalTexture(nil)
-		
-		-- local frame = CreateFrame('Frame', nil, bu, BackdropTemplateMixin and "BackdropTemplate")
-		-- frame:SetFrameStrata('HIGH')
-		-- frame:SetPoint('TOPLEFT', bu, 'TOPLEFT', -1, 1)
-		-- frame:SetPoint('BOTTOMRIGHT', bu, 'BOTTOMRIGHT', 1, -1)
-		-- frame:SetBackdrop({
-		-- 	edgeFile = "Interface\\Buttons\\WHITE8x8",
-		-- 	edgeSize = 1
-		-- })
-		-- frame:SetBackdropColor(0, 0, 0, 0)
-		-- frame:SetBackdropBorderColor(unpack(G.colors.border))
-
 		spellButton.NormalTexture:SetAlpha(0)
 		spellButton:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 		
