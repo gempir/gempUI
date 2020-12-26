@@ -78,32 +78,31 @@ do
 	f:SetScript("OnEvent", TinyMainbarInfo_OnEvent)
 	f:SetScript("OnUpdate", TinyMainbarInfo_OnUpdate2)
 
-
-
 	local latText = f:CreateFontString("latText")
-	latText:SetPoint("CENTER", msButton, "CENTER", 0, 0)
+	latText:SetPoint("BOTTOMLEFT", Minimap, "BOTTOMLEFT", 3, 2)
 	f.latText = latText
-	f.latText:SetFont(G.fonts.square, 10, '')
+	f.latText:SetFont(G.fonts.square, 8, '')
 	f.latText:SetShadowOffset(1, -1)
 	f.latText:SetTextColor(1, 1, 1)
-
-
-	local fpsText = f:CreateFontString("fpsText")
-	fpsText:SetPoint("CENTER", fpsButton, "CENTER", 0, 0)
-	f.fpsText = fpsText
-	f.fpsText:SetFont(G.fonts.square, 10, '')
-	f.fpsText:SetShadowOffset(1, -1)
-	f.fpsText:SetTextColor(1, 1, 1)
+	f.latText:SetAlpha(0.6)
 
 	local clockFrame, clockTime = TimeManagerClockButton:GetRegions()
 	clockFrame:Hide()
-	clockTime:SetFont(G.fonts.square, 14, '')
+	clockTime:SetFont(G.fonts.square, 12, '')
 	clockTime:SetShadowOffset(1, -1)
 	clockTime:SetTextColor(1, 1, 1)
 	TimeManagerClockButton:SetFrameStrata("TOOLTIP")
-	TimeManagerClockButton:SetPoint("CENTER", clockButton, "CENTER", 0, -1)
+	TimeManagerClockButton:SetPoint("BOTTOM", Minimap, "BOTTOM", 0, -7)
 	TimeManagerClockButton:EnableMouse(false)
 	clockTime:Show()
+
+	local fpsText = f:CreateFontString("fpsText")
+	fpsText:SetPoint("BOTTOMRIGHT", Minimap, "BOTTOMRIGHT", -3, 2)
+	f.fpsText = fpsText
+	f.fpsText:SetFont(G.fonts.square, 8, '')
+	f.fpsText:SetShadowOffset(1, -1)
+	f.fpsText:SetTextColor(1, 1, 1)
+	f.fpsText:SetAlpha(0.6)
 
 
 	TinyMainbarInfo_OnLoad(f)
