@@ -1,5 +1,9 @@
 local F, G, V = unpack(select(2, ...))
 
+function F.getPixel(pixels)
+	return PixelUtil.GetNearestPixelSize(pixels, UIParent:GetEffectiveScale(), 1)
+end
+
 --[[
  create a frame that adds a 1px border
  * object parent - parent of new frame
@@ -9,7 +13,7 @@ local F, G, V = unpack(select(2, ...))
 function F.createBorder(self, anchor, extend)
 	spacing = 0
 	if extend then
-		spacing = 1
+		spacing = F.getPixel(1)
 	end
 
 	if not anchor then
@@ -27,7 +31,7 @@ function F.createBorder(self, anchor, extend)
 		for i=1, 4 do
 			self.borders[i] = self:CreateLine(nil, "LOW", nil, 0)	
             local l = self.borders[i]
-            l:SetThickness(1)
+            l:SetThickness(F.getPixel(1))
 			l:SetColorTexture(unpack(G.colors.border))
             if i==1 then
                 l:SetStartPoint("TOPLEFT", -spacing, spacing)

@@ -27,7 +27,7 @@ cfg.bars = {
 		buttons = 8,
 		button_size = cfg.mAB.size,
 		button_spacing = cfg.mAB.spacing,
-		position = { a = "CENTER", x = 0, y = -390 },
+		position = { a = "CENTER", x = 0, y = -405 },
 		custom_visibility_macro = false -- set a custom visibility macro for this bar or 'false' to disable
 		-- (e.g. "[petbattle][overridebar][vehicleui][possessbar,@vehicle,exists]hide;show")
 	},
@@ -42,7 +42,7 @@ cfg.bars = {
 		buttons = 8,
 		button_size = cfg.mAB.size,
 		button_spacing = cfg.mAB.spacing,
-		position = { a = "CENTER", x = 0, y = -429 },
+		position = { a = "CENTER", x = 0, y = -444 },
 		custom_visibility_macro = false
 	},
 	["Bar3"] = {
@@ -56,7 +56,7 @@ cfg.bars = {
 		buttons = 8,
 		button_size = cfg.mAB.size,
 		button_spacing = cfg.mAB.spacing,
-		position = { a = "CENTER", x = 0, y = -468 },
+		position = { a = "CENTER", x = 0, y = -483 },
 		custom_visibility_macro = false
 	},
 	["Bar4"] = {
@@ -84,7 +84,7 @@ cfg.bars = {
 		buttons = 8,
 		button_size = cfg.mAB.size,
 		button_spacing = cfg.mAB.spacing,
-		position = { a = "CENTER", x = 0, y = -507 },
+		position = { a = "CENTER", x = 0, y = -522 },
 		custom_visibility_macro = false
 	},
 	["Bar6"] = {
@@ -681,16 +681,22 @@ if not cfg.bars["ExtraButton"].disable then
 	ExtraActionButton1:ClearAllPoints()
 	ExtraActionButton1:SetPoint("CENTER", V.extraButton, "CENTER", -100, -300)
 
-	ZoneAbilityFrame:Hide()
-	ZoneAbilityFrame.SpellButtonContainer:SetParent(V.extraButton)
-	ZoneAbilityFrame.SpellButtonContainer:ClearAllPoints()
-	ZoneAbilityFrame.SpellButtonContainer:SetPoint("CENTER", V.extraButton, "CENTER", 100, -300)
+	-- ZoneAbilityFrame:Hide()
+	-- ZoneAbilityFrame.SpellButtonContainer:SetParent(V.extraButton)
+	-- ZoneAbilityFrame.SpellButtonContainer:ClearAllPoints()
+	-- ZoneAbilityFrame.SpellButtonContainer:SetPoint("CENTER", V.extraButton, "CENTER", 100, -300)
 
-	ExtraAbilityContainer:Hide()
+	-- ExtraAbilityContainer:Hide()
 
 	-- ExtraActionButton1.noResize = true
 	-- ExtraActionBarFrame.ignoreFramePositionManager = true
 end
+
+-- ExtraAbility
+
+-- UIPARENT_MANAGED_FRAME_POSITIONS.ZoneAbilityFrame = nil
+-- ZoneAbilityFrame:ClearAllPoints();
+-- ZoneAbilityFrame:SetPoint("CENTER", UIParent, "CENTER", 0, -200);
 
 
 exitVehicle = CreateFrame("Button", "ExitVehicleButton", UIParent)

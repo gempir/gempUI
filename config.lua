@@ -2,6 +2,10 @@ local F, G, V = unpack(select(2, ...))
 
 G.ace = LibStub("AceAddon-3.0"):NewAddon("gempUI", "AceConsole-3.0", "AceEvent-3.0")
 
+function getPixel(pixels)
+	return PixelUtil.GetNearestPixelSize(pixels, UIParent:GetEffectiveScale(), 1)
+end
+
 local options = {
     name = "gempUI",
     handler = G.ace,
@@ -713,10 +717,10 @@ local defaults = {
                 health = 30,
                 power = 8,
                 x = -259,
-                y = -386,
+                y = -400,
                 castbarX = 0,
-                castbarY = -551,
-                castbarWidth = 320,
+                castbarY = -566,
+                castbarWidth = 300,
                 castbarHeight = 25,
                 auraBarsX = 157,
                 auraBarsY = 25,
@@ -731,9 +735,9 @@ local defaults = {
                 health = 30,
                 power = 8,
                 x = 259,
-                y = -386,
+                y = -400,
                 castbarX = 259,
-                castbarY = -420,
+                castbarY = -435,
                 castbarWidth = 182,
                 castbarHeight = 16,
                 auraBarsX = -157,
@@ -756,7 +760,7 @@ local defaults = {
                 width = 322,
                 height = 165,
                 x = 0,
-                y = -449.5,
+                y = -464,
             }
         },
         actionbars = {
