@@ -24,7 +24,7 @@ cfg.bars = {
 		fadeout_alpha = 0.5,
 		orientation = "HORIZONTAL",
 		rows = 1,
-		buttons = 8,
+		buttons = 7,
 		button_size = cfg.mAB.size,
 		button_spacing = cfg.mAB.spacing,
 		position = { a = "CENTER", x = 0, y = -405 },
@@ -39,7 +39,7 @@ cfg.bars = {
 		fadeout_alpha = 0.5,
 		orientation = "HORIZONTAL",
 		rows = 1,
-		buttons = 8,
+		buttons = 7,
 		button_size = cfg.mAB.size,
 		button_spacing = cfg.mAB.spacing,
 		position = { a = "CENTER", x = 0, y = -444 },
@@ -53,7 +53,7 @@ cfg.bars = {
 		fadeout_alpha = 0.5,
 		orientation = "HORIZONTAL",
 		rows = 1,
-		buttons = 8,
+		buttons = 7,
 		button_size = cfg.mAB.size,
 		button_spacing = cfg.mAB.spacing,
 		position = { a = "CENTER", x = 0, y = -483 },
@@ -81,7 +81,7 @@ cfg.bars = {
 		fadeout_alpha = 0.0,
 		orientation = "HORIZONTAL",
 		rows = 1,
-		buttons = 8,
+		buttons = 7,
 		button_size = cfg.mAB.size,
 		button_spacing = cfg.mAB.spacing,
 		position = { a = "CENTER", x = 0, y = -522 },
@@ -676,15 +676,19 @@ if not cfg.bars["ExtraButton"].disable then
 	V.extraButton:SetPoint(cfg.bars["ExtraButton"].position.a, cfg.bars["ExtraButton"].position.x, cfg.bars["ExtraButton"].position.y)
 	V.extraButton:SetSize(1, 1)
 
-	ExtraActionBarFrame:Hide()
-	-- ExtraActionButton1:SetParent(V.extraButton)
+	-- ExtraActionBarFrame:Hide()
+	-- ExtraActionButton1:SetParent(UIParent)
 	ExtraActionButton1:ClearAllPoints()
-	ExtraActionButton1:SetPoint("CENTER", V.extraButton, "CENTER", -100, -300)
+	ExtraActionButton1:SetPoint("CENTER", UIParent, "CENTER", -50, -300)
 
-	-- ZoneAbilityFrame:Hide()
-	-- ZoneAbilityFrame.SpellButtonContainer:SetParent(V.extraButton)
-	-- ZoneAbilityFrame.SpellButtonContainer:ClearAllPoints()
-	-- ZoneAbilityFrame.SpellButtonContainer:SetPoint("CENTER", V.extraButton, "CENTER", 100, -300)
+	-- ZoneAbilityFrame:SetParent(UIParent)
+	-- ZoneAbilityFrame:ClearAllPoints()
+	-- ZoneAbilityFrame:SetPoint("CENTER", UIParent, "CENTER", 100, -300)
+
+	ZoneAbilityFrame:Hide()
+	ZoneAbilityFrame.SpellButtonContainer:SetParent(UIParent)
+	ZoneAbilityFrame.SpellButtonContainer:ClearAllPoints()
+	ZoneAbilityFrame.SpellButtonContainer:SetPoint("CENTER", UIParent, "CENTER", 40, -300)
 
 	-- ExtraAbilityContainer:Hide()
 
@@ -1412,7 +1416,6 @@ function tullaRange.OnUpdateButtonUsable(button)
 end
 
 function tullaRange.OnButtonUpdate(button)
-	ZoneAbilityFrame:Hide()
 	tullaRange:UpdateButtonStatus(button)
 end
 
