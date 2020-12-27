@@ -83,7 +83,7 @@ gXpbarp = CreateFrame("Frame", nil, UIParent, BackdropTemplateMixin and "Backdro
 gXpbarp:SetFrameStrata("LOW")
 gXpbarp:SetHeight(height - 2)
 gXpbarp:SetWidth(width - 2)
-gXpbarp:SetPoint("RIGHT", UIParent, "RIGHT", 1, 168)
+gXpbarp:SetPoint("RIGHT", UIParent, "RIGHT", 1, 169)
 
 
 F.addBackdrop(gXpbarp)
@@ -91,8 +91,8 @@ F.addBackdrop(gXpbarp)
 gempXpbar = CreateFrame("statusbar", nil, UIParent)
 gempXpbar:SetPoint("CENTER", gXpbarp, "CENTER", 0, 0)
 gempXpbar:SetOrientation("HORIZONTAL")
-gempXpbar:SetWidth(width - 4)
-gempXpbar:SetHeight(height - 4)
+gempXpbar:SetWidth(width - 2)
+gempXpbar:SetHeight(height - 3)
 gempXpbar:SetStatusBarTexture(TEXTURE)
 gempXpbar:SetStatusBarColor(unpack(grepbarcolor))
 gempXpbar:EnableMouse()
@@ -104,8 +104,8 @@ text:SetAlpha(0)
 
 local xpreptxt = CreateFrame("Frame", xpreptxt, gempXpbar)
 xpreptxt:SetPoint("CENTER", gXpbarp, "CENTER", 0, 0)
-xpreptxt:SetWidth(width - 4)
-xpreptxt:SetHeight(height - 4)
+xpreptxt:SetWidth(width - 2)
+xpreptxt:SetHeight(height - 3)
 
 ------------------------------------------------------------------------
 -- Tooltip

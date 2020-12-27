@@ -29,7 +29,7 @@ for key, value in pairs(tooltips) do
 end
 
 GameTooltipStatusBar:ClearAllPoints()
-GameTooltipStatusBar:SetPoint("LEFT", 1, 0)
+GameTooltipStatusBar:SetPoint("LEFT", 0, 0)
 GameTooltipStatusBar:SetPoint("RIGHT", -1, 0)
 GameTooltipStatusBar:SetPoint("BOTTOM", GameTooltipStatusBar:GetParent(), "TOP", 0, 0)
 GameTooltipStatusBar:SetHeight(3)
@@ -51,7 +51,6 @@ local function TooltipOnShow(self, ...)
 		_G[value].bg:SetAllPoints(true)
  		_G[value].bg:SetFrameLevel(0)
 	end
-	
 	Mixin(GameTooltip.bg, BackdropTemplateMixin)
 
 	local itemName, itemLink = self:GetItem()
@@ -67,6 +66,5 @@ end
 
 local tooltips = { GameTooltip, ItemRefTooltip, ShoppingTooltip1, ShoppingTooltip2, ShoppingTooltip3, WorldMapTooltip, }
 for idx, tooltip in ipairs(tooltips) do
-
 	tooltip:HookScript("OnShow", TooltipOnShow)
 end
