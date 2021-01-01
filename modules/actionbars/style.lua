@@ -424,17 +424,6 @@ local function init()
 	end
 	--extraactionbutton1
 	styleExtraActionButton(ExtraActionButton1)
-	--SpellButtonContainer
-	for spellButton in ZoneAbilityFrame.SpellButtonContainer:EnumerateActive() do
-		spellButton.NormalTexture:SetAlpha(0)
-		spellButton:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
-		
-		F.addBackdrop(spellButton)
-		F.createBorder(spellButton, spellButton, true)
-
-		spellButton.Icon:SetDrawLayer('ARTWORK')
-		spellButton.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
-	end
 	--spell flyout
 	SpellFlyoutBackgroundEnd:SetTexture(nil)
 	SpellFlyoutHorizontalBackground:SetTexture(nil)

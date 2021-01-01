@@ -81,7 +81,7 @@ do
 	local latText = f:CreateFontString("latText", "OVERLAY")
 	latText:SetPoint("BOTTOMLEFT", Minimap, "BOTTOMLEFT", 3, 2)
 	f.latText = latText
-	f.latText:SetFont(G.fonts.square, 13, '')
+	f.latText:SetFont(G.fonts.square, 10, '')
 	f.latText:SetShadowOffset(1, -1)
 	f.latText:SetTextColor(1, 1, 1)
 	f.latText:SetAlpha(0.6)
@@ -100,7 +100,7 @@ do
 	local fpsText = f:CreateFontString("fpsText", "OVERLAY")
 	fpsText:SetPoint("BOTTOMRIGHT", Minimap, "BOTTOMRIGHT", -3, 2)
 	f.fpsText = fpsText
-	f.fpsText:SetFont(G.fonts.square, 13, '')
+	f.fpsText:SetFont(G.fonts.square, 10, '')
 	f.fpsText:SetShadowOffset(1, -1)
 	f.fpsText:SetTextColor(1, 1, 1)
 	f.fpsText:SetAlpha(0.6)

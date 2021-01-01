@@ -32,6 +32,7 @@ local function SkinChat(self)
 	local bf = _G[name .. "ButtonFrame"]
 	bf:HookScript("OnShow", bf.Hide)
 	bf:Hide()
+	ChatFrameChannelButton:Hide()
 	--editbox
 	local eb = _G[name .. "EditBox"]
 	eb:SetAltArrowKeyMode(false)

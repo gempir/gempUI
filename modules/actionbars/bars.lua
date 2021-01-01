@@ -3,7 +3,7 @@ local cfg = CreateFrame("Frame")
 local F, G, V = unpack(select(2, ...))
 --ActionBars config
 cfg.mAB = {
-	size = 37, -- setting up default buttons size
+	size = 34, -- setting up default buttons size
 	size_small = 28,
 	spacing = 2, -- spacing between buttons
 	spacing_small = 3,
@@ -685,10 +685,34 @@ if not cfg.bars["ExtraButton"].disable then
 	-- ZoneAbilityFrame:ClearAllPoints()
 	-- ZoneAbilityFrame:SetPoint("CENTER", UIParent, "CENTER", 100, -300)
 
-	ZoneAbilityFrame:Hide()
-	ZoneAbilityFrame.SpellButtonContainer:SetParent(UIParent)
-	ZoneAbilityFrame.SpellButtonContainer:ClearAllPoints()
-	ZoneAbilityFrame.SpellButtonContainer:SetPoint("CENTER", UIParent, "CENTER", 40, -300)
+	ZoneAbilityFrame:SetParent(UIParent)
+	ZoneAbilityFrame:ClearAllPoints()
+	ZoneAbilityFrame:SetPoint("CENTER", UIParent, "CENTER", 40, -300)
+	ZoneAbilityFrame.ignoreFramePositionManager = true
+	ZoneAbilityFrame.Style:SetAlpha(0)
+
+	hooksecurefunc(ZoneAbilityFrame, 'UpdateDisplayedZoneAbilities', function(self)
+		for spellButton in self.SpellButtonContainer:EnumerateActive() do
+			if spellButton and not spellButton.styled then
+				spellButton.NormalTexture:SetAlpha(0)
+				spellButton:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
+				
+				F.addBackdrop(spellButton)
+				F.createBorder(spellButton, spellButton, true)
+
+				spellButton.Icon:SetDrawLayer('ARTWORK')
+				spellButton.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+				spellButton.styled = true
+			end
+		end
+	end)
+
+	-- Fix button visibility
+	hooksecurefunc(ZoneAbilityFrame, 'SetParent', function(self, parent)
+		if parent == _G.ExtraAbilityContainer then
+			self:SetParent(UIParent)
+		end
+	end)
 
 	-- ExtraAbilityContainer:Hide()
 

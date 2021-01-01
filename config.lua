@@ -615,92 +615,6 @@ local options = {
                 },
             }
         },
-        panels = {
-            name = "Panels",
-            type = 'group',
-            order = 2,
-            childGroups = "tree",
-            args = {
-                mainpanel = {
-                    name = "Mainpanel",
-                    type = 'group',
-                    order = 0,
-                    args = {
-                        Hidden = {
-                            order = 0,
-                            name = "Hidden",
-                            desc = "",
-                            type = "toggle",
-                            get = function()
-                                return G.ace.db.profile.panels['mainpanel'].hidden
-                            end,
-                            set = function(info, value)
-                                G.ace.db.profile.panels['mainpanel'].hidden = value
-                                G.ace:GetModule("Panels"):SetPanel("mainpanel", UIParent, G.ace.db.profile.panels['mainpanel'].x, G.ace.db.profile.panels['mainpanel'].y, G.ace.db.profile.panels['mainpanel'].width, G.ace.db.profile.panels['mainpanel'].height, G.ace.db.profile.panels['mainpanel'].hidden)
-                            end
-                        },
-                        width = {
-                            order = 1,
-                            name = "Width",
-                            desc = "",
-                            min = 1,
-                            max = 4096,
-                            step = 1,
-                            type = "range",
-                            get = function()
-                                return G.ace.db.profile.panels['mainpanel'].width
-                            end,
-                            set = function(info, value)
-                                G.ace.db.profile.panels['mainpanel'].width = value
-                                G.ace:GetModule("Panels"):SetPanel("mainpanel", UIParent, G.ace.db.profile.panels['mainpanel'].x, G.ace.db.profile.panels['mainpanel'].y, G.ace.db.profile.panels['mainpanel'].width, G.ace.db.profile.panels['mainpanel'].height, G.ace.db.profile.panels['mainpanel'].hidden)
-                            end
-                        },
-                        height = {
-                            order = 2,
-                            name = "Height",
-                            desc = "",
-                            min = 1,
-                            max = 2160,
-                            step = 1,
-                            type = "range",
-                            get = function()
-                                return G.ace.db.profile.panels['mainpanel'].height
-                            end,
-                            set = function(info, value)
-                                G.ace.db.profile.panels['mainpanel'].height = value
-                                G.ace:GetModule("Panels"):SetPanel("mainpanel", UIParent, G.ace.db.profile.panels['mainpanel'].x, G.ace.db.profile.panels['mainpanel'].y, G.ace.db.profile.panels['mainpanel'].width, G.ace.db.profile.panels['mainpanel'].height, G.ace.db.profile.panels['mainpanel'].hidden)
-                            end
-                        },
-                        x = {
-                            order = 3,
-                            name = "Position X",
-                            type = "input",
-                            get = function()
-                                return tostring(G.ace.db.profile.panels['mainpanel'].x)
-                            end,
-                            set = function(info, value)
-                                value = tonumber(value)
-                                G.ace.db.profile.panels['mainpanel'].x = value
-                                G.ace:GetModule("Panels"):SetPanel("mainpanel", UIParent, G.ace.db.profile.panels['mainpanel'].x, G.ace.db.profile.panels['mainpanel'].y, G.ace.db.profile.panels['mainpanel'].width, G.ace.db.profile.panels['mainpanel'].height, G.ace.db.profile.panels['mainpanel'].hidden)
-                            end
-                        },
-                        y = {
-                            order = 4,
-                            name = "Position Y",
-                            type = "input",
-                            get = function()
-                                return tostring(G.ace.db.profile.panels['mainpanel'].y)
-                            end,
-                            set = function(info, value)
-                                value = tonumber(value)
-                                G.ace.db.profile.panels['mainpanel'].y = value
-                                G.ace:GetModule("Panels"):SetPanel("mainpanel", UIParent, G.ace.db.profile.panels['mainpanel'].x, G.ace.db.profile.panels['mainpanel'].y, G.ace.db.profile.panels['mainpanel'].width, G.ace.db.profile.panels['mainpanel'].height, G.ace.db.profile.panels['mainpanel'].hidden)
-                            end
-                        }
-                    }
-                },
-            }
-        },
     }
 }
 
@@ -710,6 +624,10 @@ local defaults = {
         autoRepair = true,
         hideErrors = "never",
         auraWatch = {},
+        uiModScale = 1,
+        customScale = 1,
+        isHighRes = false,
+        isPixelScale = true,
         unitframes = {
             player = {
                 width = 184,
@@ -754,15 +672,6 @@ local defaults = {
                 y = -479,
             }
         },
-        panels = {
-            mainpanel = {
-                hidden = false,
-                width = 282,
-                height = 165,
-                x = 0,
-                y = -464,
-            }
-        },
         actionbars = {
             bar1 = {
                 hidden = false,
@@ -788,28 +697,16 @@ local defaults = {
     }
 }
 
-local function setupUI()
-    G.ace:GetModule("Panels"):SetPanel("mainpanel", UIParent, G.ace.db.profile.panels['mainpanel'].x, G.ace.db.profile.panels['mainpanel'].y, G.ace.db.profile.panels['mainpanel'].width, G.ace.db.profile.panels['mainpanel'].height, G.ace.db.profile.panels['mainpanel'].hidden)
-end
-
 function G.ace:OnInitialize()
     local frame = CreateFrame("FRAME", "SavedVarsFrame");
     frame:RegisterEvent("ADDON_LOADED")
     frame:SetScript("OnEvent", function(self, event, arg1)
-        if arg1 == "gempUI" then
-            self:UnregisterEvent("ADDON_LOADED")
-            G.ace.db = LibStub("AceDB-3.0"):New("gempDB", defaults, true)
+        self:UnregisterEvent("ADDON_LOADED")
+        G.ace.db = LibStub("AceDB-3.0"):New("gempDB", defaults, true)
 
-            options.args.profiles = LibStub("AceDBOptions-3.0"):GetOptionsTable(G.ace.db)
-            LibStub("AceConfig-3.0"):RegisterOptionsTable("gempUI", options)
-            self.optionsFrame = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("gempUI", "gempUI")
-
-            setupUI()
-        end 
-    end)
-    
-
-
-   
+        options.args.profiles = LibStub("AceDBOptions-3.0"):GetOptionsTable(G.ace.db)
+        LibStub("AceConfig-3.0"):RegisterOptionsTable("gempUI", options)
+        self.optionsFrame = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("gempUI", "gempUI")
+    end)   
 end
 

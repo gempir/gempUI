@@ -103,23 +103,42 @@ function F.print(message)
 	print("|cff00FF7Fg|rUI | ".. message)
 end
 
-	
--- options
 
-local optionFunctions = {}
+-- Events
+local events = {}
 
-local frame = CreateFrame("FRAME", "SavedVarsFrame");
-frame:RegisterEvent("ADDON_LOADED")
-frame:SetScript("OnEvent", function(self, event, arg1)
-	if arg1 == "gempUI" then
-		self:UnregisterEvent("ADDON_LOADED")
-		for key,value in pairs(optionFunctions) do --actualcode
-			value()
+local host = CreateFrame('Frame')
+host:SetScript('OnEvent', function(_, event, ...)
+	for func in pairs(events[event]) do
+		if event == 'COMBAT_LOG_EVENT_UNFILTERED' then
+			func(event, CombatLogGetCurrentEventInfo())
+		else
+			func(event, ...)
 		end
-	end 
+	end
 end)
 
-function F.onOptionsLoaded(func)
-    table.insert(optionFunctions, func)
+function F:RegisterEvent(event, func, unit1, unit2)
+	if not events[event] then
+		events[event] = {}
+		if unit1 then
+			host:RegisterUnitEvent(event, unit1, unit2)
+		else
+			host:RegisterEvent(event)
+		end
+	end
+
+	events[event][func] = true
 end
 
+function F:UnregisterEvent(event, func)
+	local funcs = events[event]
+	if funcs and funcs[func] then
+		funcs[func] = nil
+
+		if not next(funcs) then
+			events[event] = nil
+			host:UnregisterEvent(event)
+		end
+	end
+end

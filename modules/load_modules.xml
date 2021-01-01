@@ -17,7 +17,6 @@
     <Script file="infotext.lua"/>
     <Script file="fonts.lua"/>
     <Script file="chat.lua"/>
-    <Script file="panels.lua"/>
 
     <!-- UnitFrames -->
     <Include file="unitframes\load_unitframes.xml"/>

@@ -183,7 +183,6 @@ A lot of Credit goes to these great people who wrote these addons and people who
 
 Zork - rTooltip, rActionButtonStyler, rActionbar
 Skaarj - ouF_Skaarj
-nightcracker, Coote - ncHoverbind
 10leej - Click Menu - Copyright (c) 2015 10leej (MIT License)
 
 General cool People who helped me out
