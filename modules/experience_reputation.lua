@@ -79,16 +79,16 @@ end
 ------------------------------------------------------------------------
 
 --	Create the panel and bars
-gXpbarp = CreateFrame("Frame", nil, UIParent, BackdropTemplateMixin and "BackdropTemplate")
+gXpbarp = CreateFrame("Frame", nil, G.frame, BackdropTemplateMixin and "BackdropTemplate")
 gXpbarp:SetFrameStrata("LOW")
 gXpbarp:SetHeight(height - 2)
 gXpbarp:SetWidth(width - 2)
-gXpbarp:SetPoint("RIGHT", UIParent, "RIGHT", 1, 169)
+gXpbarp:SetPoint("RIGHT", G.frame, "RIGHT", 1, 169)
 
 
 F.addBackdrop(gXpbarp)
 
-gempXpbar = CreateFrame("statusbar", nil, UIParent)
+gempXpbar = CreateFrame("statusbar", nil, G.frame)
 gempXpbar:SetPoint("CENTER", gXpbarp, "CENTER", 0, 0)
 gempXpbar:SetOrientation("HORIZONTAL")
 gempXpbar:SetWidth(width - 2)
@@ -114,7 +114,7 @@ local function OnEnter(self)
 	-- Create the tooltip
 	-- GameTooltip:SetOwner(self, 'ANCHOR_NONE')
 	-- GameTooltip:SetPoint(ttanchorpoint, self, ttanchorframe, ttxoffset, ttyoffset)
-	GameTooltip_SetDefaultAnchor(GameTooltip, UIParent)
+	GameTooltip_SetDefaultAnchor(GameTooltip, G.frame)
 
 	name, standing, minrep, maxrep, value = GetWatchedFactionInfo()
 

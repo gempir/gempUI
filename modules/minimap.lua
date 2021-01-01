@@ -1,7 +1,7 @@
 local F, G = unpack(select(2, ...))
 
 Minimap:ClearAllPoints()
-Minimap:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", -6, -6)
+Minimap:SetPoint("TOPRIGHT", G.frame, "TOPRIGHT", -6, -6)
 Minimap:SetSize(178, 178)
 F.addBackdrop(Minimap)
 
@@ -200,7 +200,7 @@ cfg = {
 
 	use_Minimap = true, --disabling this forces Click Menu to make a button
 	button = {
-		location = { "CENTER", UIParent, "CENTER", 0, 0 },
+		location = { "CENTER", G.frame, "CENTER", 0, 0 },
 		blizzard_theme = false,
 		color = {
 			normal = { 0, 0, 0, 0.5 },
@@ -211,7 +211,7 @@ cfg = {
 }
 
 
-local menuFrame = CreateFrame('Frame', 'ClickMenu', UIParent, 'UIDropDownMenuTemplate')
+local menuFrame = CreateFrame('Frame', 'ClickMenu', G.frame, 'UIDropDownMenuTemplate')
 local menuList = {
 	{
 		text = L['Micro Menu'],

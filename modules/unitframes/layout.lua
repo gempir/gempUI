@@ -3,10 +3,6 @@ local name, ns = ...
 local oUF = ns.oUF 
 local cfg = ns.cfg
 
-
-
-V.gempUI = CreateFrame("Frame", nil, self)
-
 local raidicons = G.media .. "unitframes\\raidicons"
 local symbol = G.media .. "unitframes\\symbol.ttf"
 
@@ -189,11 +185,11 @@ local castbar = function(self, unit)
 	cb.Icon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
 
 	if self.unit == 'player' then
-		cb:SetPoint('CENTER', UIParent, G.unitframes['player'].castbarX + (G.unitframes["player"].castbarHeight / 2), G.unitframes['player'].castbarY)
+		cb:SetPoint('CENTER', G.frame, G.unitframes['player'].castbarX + (G.unitframes["player"].castbarHeight / 2), G.unitframes['player'].castbarY)
 		cb:SetSize(G.unitframes["player"].castbarWidth - G.unitframes["target"].castbarHeight, G.unitframes["player"].castbarHeight)
 		cb.Icon:SetSize(cb:GetHeight(), cb:GetHeight())
 	elseif self.unit == 'target' then
-		cb:SetPoint('CENTER', UIParent, G.unitframes['target'].castbarX + (G.unitframes["target"].castbarHeight / 2), G.unitframes['target'].castbarY)
+		cb:SetPoint('CENTER', G.frame, G.unitframes['target'].castbarX + (G.unitframes["target"].castbarHeight / 2), G.unitframes['target'].castbarY)
 		cb:SetSize(G.unitframes["target"].castbarWidth - G.unitframes["target"].castbarHeight, G.unitframes["target"].castbarHeight)
 		cb.Icon:SetSize(cb:GetHeight(), cb:GetHeight())
 		cb.Shield = cb:CreateTexture(nil, 'OVERLAY')
@@ -351,7 +347,7 @@ local UnitSpecific = {
 		self.CombatIndicator = ct
 
 		local altp = createStatusbar(self, G.texture, nil, 30, 179, unpack(G.colors.base))
-		altp:SetPoint("CENTER", UIParent, "CENTER", 0, -180)
+		altp:SetPoint("CENTER", G.frame, "CENTER", 0, -180)
 		altp.bd = F.createBorder(altp, altp)
 		altp.Text = fs(altp, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
 		altp.Text:SetPoint('CENTER')
@@ -770,7 +766,7 @@ oUF:Factory(function(self)
 	unitframes["player"] = spawnHelper(self, 'player', 'CENTER', G.unitframes["player"].x, G.unitframes["player"].y)
 	unitframes["target"] = spawnHelper(self, 'target', 'CENTER', G.unitframes["target"].x, G.unitframes["target"].y)
 	unitframes["targettarget"] = spawnHelper(self, 'targettarget', "CENTER", G.unitframes["targettarget"].x, G.unitframes["targettarget"].y)
-	spawnHelper(self, 'focus', 'TOP', UIParent, 'CENTER', G.unitframes.focus.xOff, G.unitframes.focus.yOff)
+	spawnHelper(self, 'focus', 'TOP', G.frame, 'CENTER', G.unitframes.focus.xOff, G.unitframes.focus.yOff)
 	spawnHelper(self, 'focustarget', 'TOPLEFT', "oUF_gempUIFocus", "TOPRIGHT", G.unitframes.focustarget.xOff, G.unitframes.focustarget.yOff)
 	spawnHelper(self, 'pet', 'LEFT', "oUF_gempUIPlayer", "LEFT",  G.unitframes.pet.xOff,  G.unitframes.pet.yOff)
 
@@ -801,7 +797,7 @@ oUF:Factory(function(self)
 
 	local arenaprep = {}
 	for i = 1, 5 do
-		arenaprep[i] = CreateFrame('Frame', 'oUF_ArenaPrep' .. i, UIParent)
+		arenaprep[i] = CreateFrame('Frame', 'oUF_ArenaPrep' .. i, G.frame)
 		arenaprep[i]:SetAllPoints(_G['oUF_Arena' .. i])
 		arenaprep[i]:SetFrameStrata('BACKGROUND')
 
@@ -875,7 +871,9 @@ oUF:Factory(function(self)
 		self:SetHeight(%d)
 		self:SetWidth(%d)
 		]]):format(G.unitframes.party.health + G.unitframes.party.power - 2, G.unitframes.party.width))
-	party:SetPoint('TOPLEFT', UIParent, 'TOPLEFT', G.unitframes.party.xOff, G.unitframes.party.yOff)
+	party:SetPoint('TOPLEFT', G.frame, 'TOPLEFT', G.unitframes.party.xOff, G.unitframes.party.yOff)
+
+	print(G.frame:GetScale())
 
 	self:SetActiveStyle 'gempUI - Party'
 	local maintank = self:SpawnHeader(nil, nil, 'raid',
@@ -921,5 +919,5 @@ oUF:Factory(function(self)
 		self:SetHeight(%d)
 		self:SetWidth(%d)
 	]]):format(G.unitframes.raid.health, G.unitframes.raid.width))
-	raid:SetPoint('TOPLEFT', UIParent, 'TOPLEFT', G.unitframes.raid.xOff, G.unitframes.raid.yOff)
+	raid:SetPoint('TOPLEFT', G.frame, 'TOPLEFT', G.unitframes.raid.xOff, G.unitframes.raid.yOff)
 end)

@@ -21,7 +21,7 @@ local function SkinChat(self)
 	local name = self:GetName()
 	--chat frame resizing
 	self:SetClampRectInsets(0, 0, 0, 0)
-	self:SetMaxResize(UIParent:GetWidth() / 2, UIParent:GetHeight() / 2)
+	self:SetMaxResize(G.frame:GetWidth() / 2, G.frame:GetHeight() / 2)
 	self:SetMinResize(100, 50)
 	self:SetFont(unpack(cfg.chat.font))
 	self:SetShadowOffset(unpack(cfg.dropshadow.offset))

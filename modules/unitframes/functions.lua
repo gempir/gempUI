@@ -35,5 +35,5 @@ end
 
 -----------------------------------------------------------------------------------------
 
-local hider = CreateFrame("Frame", "Hider", UIParent)
+local hider = CreateFrame("Frame", "Hider", G.frame)
 hider:Hide()

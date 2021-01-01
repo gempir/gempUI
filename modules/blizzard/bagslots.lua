@@ -7,10 +7,10 @@ local F, G = unpack(select(2, ...))
 -- CharacterBag3Slot.IconBorder:SetTexture(0, 0, 0, 0)
 
 
--- CharacterBag0Slot:SetPoint("RIGHT", UIParent, "RIGHT", -6, -278)
--- CharacterBag1Slot:SetPoint("RIGHT", UIParent, "RIGHT", -6, -246)
--- CharacterBag2Slot:SetPoint("RIGHT", UIParent, "RIGHT", -6, -214)
--- CharacterBag3Slot:SetPoint("RIGHT", UIParent, "RIGHT", -6, -182)
+-- CharacterBag0Slot:SetPoint("RIGHT", G.frame, "RIGHT", -6, -278)
+-- CharacterBag1Slot:SetPoint("RIGHT", G.frame, "RIGHT", -6, -246)
+-- CharacterBag2Slot:SetPoint("RIGHT", G.frame, "RIGHT", -6, -214)
+-- CharacterBag3Slot:SetPoint("RIGHT", G.frame, "RIGHT", -6, -182)
 
 
 -- CharacterBag0Slot:Hide()

@@ -26,6 +26,12 @@ G.fonts = {
 ------ Options
 -------------------------------------------------------------------------------------
 
+G.frame = CreateFrame("Frame", nil, self)
+local _, height = GetPhysicalScreenSize()
+G.frame:SetAllPoints(UIParent)
+G.frame:SetScale(768 / height)
+
+
 G.cooldowns = {
 	font = G.fonts.square,
 	fontflag = "MONOCHROMEOUTLINE",
