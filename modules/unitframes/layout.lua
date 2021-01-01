@@ -435,7 +435,7 @@ local UnitSpecific = {
 		b.spacing = 4
 		b.num = 28
 		b:SetSize(120, b.size)
-		b:SetPoint('TOPRIGHT', self, 'TOPLEFT', -7, -1)
+		b:SetPoint('TOPRIGHT', self, 'TOPLEFT', -7, 0)
 		b.initialAnchor = 'TOPRIGHT'
 		b['growth-y'] = 'DOWN'
 		b['growth-x'] = 'LEFT'
@@ -480,7 +480,7 @@ local UnitSpecific = {
 		b.spacing = 4
 		b.num = 18
 		b:SetSize(120, b.size)
-		b:SetPoint('TOPLEFT', self, 'TOPRIGHT', 7, -1)
+		b:SetPoint('TOPLEFT', self, 'TOPRIGHT', 7, 0)
 		b.initialAnchor = 'TOPLEFT'
 		b['growth-y'] = 'DOWN'
 		b.PostCreateIcon = auraIcon
