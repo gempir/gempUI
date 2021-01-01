@@ -86,9 +86,9 @@ function F.createOverlay(element, anchor)
 	element:SetScript('OnLeave', function() buttonOverlay:Hide() end)
 end
 
-function F.addBackdrop(frame)
+function F.addBackdrop(frame, extend)
 	F.addBackdropNoBorder(frame)
-	F.createBorder(frame)
+	F.createBorder(frame, frame, extend)
 end
 
 function F.addBackdropNoBorder(frame)

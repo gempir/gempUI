@@ -8,7 +8,6 @@
     <!-- Actionbars -->
     <Include file="actionbars\load_actionbars.xml"/>
 
-    <Script file="nameplates.lua"/>
     <Script file="cooldowns.lua"/>
     <Script file="experience_reputation.lua"/>
     <Script file="events.lua"/>

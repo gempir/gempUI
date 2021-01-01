@@ -873,8 +873,6 @@ oUF:Factory(function(self)
 		]]):format(G.unitframes.party.health + G.unitframes.party.power - 2, G.unitframes.party.width))
 	party:SetPoint('TOPLEFT', G.frame, 'TOPLEFT', G.unitframes.party.xOff, G.unitframes.party.yOff)
 
-	print(G.frame:GetScale())
-
 	self:SetActiveStyle 'gempUI - Party'
 	local maintank = self:SpawnHeader(nil, nil, 'raid',
 		'showRaid', true, 'showSolo', false, 'groupFilter', 'MAINTANK', 'yOffset', -23,

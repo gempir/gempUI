@@ -1,5 +1,6 @@
 local F, G = unpack(select(2, ...))
 
+
 GameTooltipHeaderText:SetFont(G.fonts.roboto, 14, "NONE")
 GameTooltipText:SetFont(G.fonts.roboto, 12, "NONE")
 Tooltip_Small:SetFont(G.fonts.roboto, 11, "NONE")
@@ -30,7 +31,7 @@ end
 
 GameTooltipStatusBar:ClearAllPoints()
 GameTooltipStatusBar:SetPoint("LEFT", 0, 0)
-GameTooltipStatusBar:SetPoint("RIGHT", -1, 0)
+GameTooltipStatusBar:SetPoint("RIGHT", 0, 0)
 GameTooltipStatusBar:SetPoint("BOTTOM", GameTooltipStatusBar:GetParent(), "TOP", 0, 0)
 GameTooltipStatusBar:SetHeight(3)
 GameTooltipStatusBar:SetStatusBarTexture("Interface\\AddOns\\gempUI\\textures\\flat.tga")

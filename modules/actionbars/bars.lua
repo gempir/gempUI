@@ -460,20 +460,6 @@ f:SetScript("OnEvent", function()
 	local ab1, ab2, ab3, ab4 = GetActionBarToggles()
 	if (not ab1 or not ab2 or not ab3 or not ab4) then
 		SetActionBarToggles(1, 1, 1, 1)
-		StaticPopupDialogs.SET_AB = {
-			text = "gempUI is almost finished installing. Click 'Accept' for a quick UI reload and to finish the installation.",
-			button1 = ACCEPT,
-			button2 = CANCEL,
-			OnAccept = function()
-				SetCVar("uiScale", 768 / string.match(({ GetScreenResolutions() })[GetCurrentResolution()], "%d+x(%d+)"))
-				ReloadUI()
-			end,
-			timeout = 0,
-			whileDead = 1,
-			hideOnEscape = true,
-			preferredIndex = 5,
-		}
-		StaticPopup_Show("SET_AB")
 	end
 	-- show grid
 	for i = 1, 12 do
