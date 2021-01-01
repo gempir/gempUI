@@ -247,7 +247,7 @@ local Power = function(self)
 	p:SetPoint('TOP', self.Health, 'BOTTOM', 0, 0)
 
 	local l = p:CreateLine(nil, "LOW", nil, 0)	
-	l:SetThickness(F.getPixel(1))
+	l:SetThickness(1)
 	l:SetColorTexture(unpack(G.colors.border))
 	
 	l:SetStartPoint("TOPLEFT")
