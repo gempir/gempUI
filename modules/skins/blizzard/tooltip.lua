@@ -1,4 +1,4 @@
-local F, G, V = unpack(select(2, ...))
+local F, G = unpack(select(2, ...))
 
 -- redoes a lot of simple tooltips like the micromenu on the minimap
 F.rebackdrop(DropDownList1MenuBackdrop)

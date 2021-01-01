@@ -1,4 +1,4 @@
-local F, G, V = unpack(select(2, ...))
+local F, G = unpack(select(2, ...))
 
 function F.rebackdrop(frame)
 	Mixin(frame, BackdropTemplateMixin)

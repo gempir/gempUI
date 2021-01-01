@@ -2,10 +2,9 @@ local addon, core = ...
 local name, ns = ...
 
 core[1] = {} -- F, functions
-core[2] = {} -- G, globals like fonts, textures, media, Ace3
-core[3] = {} -- V, variables
+core[2] = {} -- G, globals like fonts, textures, media, Ace3, frames
 
-local F, G, V = unpack(select(2, ...))
+local F, G = unpack(select(2, ...))
 
 ChatFrame1:AddMessage("|cff00FF7Fgemp|rUI");
 -------------------------------------------------------------------------------------
@@ -37,31 +36,47 @@ G.unitframes = {
 	fontsize = 13,
 	fontflag = "",
 	player = {
-		width = 184,
-		health = 30,
-		power = 8, -- rage, mana etc.
-		special = 8, -- holy power, runes etc.
-		castbar = {
-			width = 280,
-			xOff = 285,
-			yOff = -67
-		},
-		aurabar = {
-			width = 210,
-			height = 24
-		}
-	},
-	target = {
-		width = 184,
-		health = 30,
-		power = 8
-	},
-	targettarget = {
-		width = 80,
-		health = 27,
-		xOff = 0,
-		yOff = -92,
-	},
+        width = 184,
+        showName = false,
+        health = 30,
+        power = 7,
+        x = -259,
+        y = -409,
+        castbarX = 3,
+        castbarY = -366,
+        castbarWidth = 232,
+        castbarHeight = 25,
+        auraBarsX = 157,
+        auraBarsY = 25,
+        auraBarsWidth = 118,
+        auraBarsHeight = 32,
+        auraBarsSpacing = -1,
+        auraBarsFontSize = 18,
+    },
+    target = {
+        width = 184,
+        allDebuffs = false,
+        health = 30,
+        power = 8,
+        x = 259,
+        y = -409,
+        castbarX = 262,
+        castbarY = -442,
+        castbarWidth = 179,
+        castbarHeight = 16,
+        auraBarsX = -157,
+        auraBarsY = 25,
+        auraBarsWidth = 118,
+        auraBarsHeight = 32,
+        auraBarsSpacing = -1,
+        auraBarsFontSize = 18,
+    },
+    targettarget = {
+        width = 80,
+        health = 27,
+        x = 309,
+        y = -479,
+    },
 	party = {
 		width = 166,
 		health = 26,

@@ -1,4 +1,4 @@
-local F, G, V = unpack(select(2, ...))
+local F, G = unpack(select(2, ...))
 
 -- Skin for the Objective Tracker
 -- ObjectiveTrackerBlocksFrame.QuestHeader.Background:SetTexture(nil)

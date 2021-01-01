@@ -1,4 +1,4 @@
-local F, G, V = unpack(select(2, ...))
+local F, G = unpack(select(2, ...))
 
 GameTooltipHeaderText:SetFont(G.fonts.roboto, 14, "NONE")
 GameTooltipText:SetFont(G.fonts.roboto, 12, "NONE")

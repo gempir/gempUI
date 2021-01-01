@@ -1,6 +1,6 @@
 local addon, ns = ...
 local cfg = CreateFrame("Frame")
-local F, G, V = unpack(select(2, ...))
+local F, G = unpack(select(2, ...))
 --ActionBars config
 cfg.mAB = {
 	size = 34, -- setting up default buttons size
@@ -671,10 +671,10 @@ end
 
 
 -- ExtraBar button implementation
-V.extraButton = CreateFrame("Frame", "ExtraBtn_holder", UIParent)
+extraButton = CreateFrame("Frame", "ExtraBtn_holder", UIParent)
 if not cfg.bars["ExtraButton"].disable then
-	V.extraButton:SetPoint(cfg.bars["ExtraButton"].position.a, cfg.bars["ExtraButton"].position.x, cfg.bars["ExtraButton"].position.y)
-	V.extraButton:SetSize(1, 1)
+	extraButton:SetPoint(cfg.bars["ExtraButton"].position.a, cfg.bars["ExtraButton"].position.x, cfg.bars["ExtraButton"].position.y)
+	extraButton:SetSize(1, 1)
 
 	-- ExtraActionBarFrame:Hide()
 	-- ExtraActionButton1:SetParent(UIParent)

@@ -1,8 +1,11 @@
-local F, G, V = unpack(select(2, ...))
+local F, G = unpack(select(2, ...))
 local name, ns = ...
 local oUF = ns.oUF 
 local cfg = ns.cfg
 
+
+
+V.gempUI = CreateFrame("Frame", nil, self)
 
 local raidicons = G.media .. "unitframes\\raidicons"
 local symbol = G.media .. "unitframes\\symbol.ttf"
@@ -33,17 +36,17 @@ end
 
 local function createAuraBars(self, unit)
 	self.AuraBars = CreateFrame("Frame", nil, self)
-	self.AuraBars:SetSize(G.ace.db.profile.unitframes[unit].auraBarsWidth, 1)
-	self.AuraBars.auraBarHeight = G.ace.db.profile.unitframes[unit].auraBarsHeight
-	self.AuraBars:SetPoint("CENTER", G.ace.db.profile.unitframes[unit].auraBarsX, G.ace.db.profile.unitframes[unit].auraBarsY)
+	self.AuraBars:SetSize(G.unitframes[unit].auraBarsWidth, 1)
+	self.AuraBars.auraBarHeight = G.unitframes[unit].auraBarsHeight
+	self.AuraBars:SetPoint("CENTER", G.unitframes[unit].auraBarsX, G.unitframes[unit].auraBarsY)
 
 	self.AuraBars.auraBarTexture = G.texture
 	self.AuraBars.color = G.colors.base
 	self.AuraBars.bgalpha = 0
-	self.AuraBars.spacing = G.ace.db.profile.unitframes[unit].auraBarsSpacing
+	self.AuraBars.spacing = G.unitframes[unit].auraBarsSpacing
 	self.AuraBars.sort = true
 	self.AuraBars.spellTimeFont = G.unitframes.font
-	self.AuraBars.spellTimeSize = G.ace.db.profile.unitframes[unit].auraBarsFontSize
+	self.AuraBars.spellTimeSize = G.unitframes[unit].auraBarsFontSize
 	self.AuraBars.filter = auraWatchFilter
 
 	if unit == "target" then 
@@ -78,11 +81,11 @@ local PostUpdateIcon = function(icons, unit, icon, index, offset)
 		if unit == "player" and button == "RightButton" then
 			CancelUnitBuff("player", index)
 		elseif button == "MiddleButton" then
-			if G.ace.db.profile.auraWatch[spellID] then 
-				G.ace.db.profile.auraWatch[spellID] = nil
+			if G.auraWatch[spellID] then 
+				G.auraWatch[spellID] = nil
 				F.print(GetSpellLink(spellID) .. " is no longer tracked")
 			else 
-				G.ace.db.profile.auraWatch[spellID] = name
+				G.auraWatch[spellID] = name
 				F.print(GetSpellLink(spellID) .. " is now tracked")
 			end
 		end
@@ -109,7 +112,7 @@ local CustomFilter = function(icons, ...)
 		return true
 	end
 
-	return G.ace.db.profile.unitframes['target'].allDebuffs
+	return G.unitframes['target'].allDebuffs
 end
 
 local OnCastbarUpdate = function(self, elapsed)
@@ -186,12 +189,12 @@ local castbar = function(self, unit)
 	cb.Icon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
 
 	if self.unit == 'player' then
-		cb:SetPoint('CENTER', UIParent, G.ace.db.profile.unitframes['player'].castbarX + (G.ace.db.profile.unitframes["player"].castbarHeight / 2), G.ace.db.profile.unitframes['player'].castbarY)
-		cb:SetSize(G.ace.db.profile.unitframes["player"].castbarWidth - G.ace.db.profile.unitframes["player"].castbarHeight, G.ace.db.profile.unitframes["player"].castbarHeight)
+		cb:SetPoint('CENTER', UIParent, G.unitframes['player'].castbarX + (G.unitframes["player"].castbarHeight / 2), G.unitframes['player'].castbarY)
+		cb:SetSize(G.unitframes["player"].castbarWidth - G.unitframes["target"].castbarHeight, G.unitframes["player"].castbarHeight)
 		cb.Icon:SetSize(cb:GetHeight(), cb:GetHeight())
 	elseif self.unit == 'target' then
-		cb:SetPoint('CENTER', UIParent, G.ace.db.profile.unitframes['target'].castbarX + (G.ace.db.profile.unitframes["target"].castbarHeight / 2), G.ace.db.profile.unitframes['target'].castbarY)
-		cb:SetSize(G.ace.db.profile.unitframes["target"].castbarWidth - G.ace.db.profile.unitframes["target"].castbarHeight, G.ace.db.profile.unitframes["target"].castbarHeight)
+		cb:SetPoint('CENTER', UIParent, G.unitframes['target'].castbarX + (G.unitframes["target"].castbarHeight / 2), G.unitframes['target'].castbarY)
+		cb:SetSize(G.unitframes["target"].castbarWidth - G.unitframes["target"].castbarHeight, G.unitframes["target"].castbarHeight)
 		cb.Icon:SetSize(cb:GetHeight(), cb:GetHeight())
 		cb.Shield = cb:CreateTexture(nil, 'OVERLAY')
 		cb.Shield:SetSize(cb:GetHeight(), cb:GetHeight())
@@ -322,16 +325,16 @@ local UnitSpecific = {
 		PetCastingBarFrame.Show = function() end
 		PetCastingBarFrame:Hide()
 
-		self:SetSize(G.ace.db.profile.unitframes['player'].width, G.ace.db.profile.unitframes['player'].health + G.ace.db.profile.unitframes['player'].power)
-		self.Health:SetHeight(G.ace.db.profile.unitframes['player'].health)
-		self.Power:SetHeight(G.ace.db.profile.unitframes['player'].power)
+		self:SetSize(G.unitframes['player'].width, G.unitframes['player'].health + G.unitframes['player'].power)
+		self.Health:SetHeight(G.unitframes['player'].health)
+		self.Power:SetHeight(G.unitframes['player'].power)
 
 		local htext = fs(self.Health, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
 		htext:SetPoint('RIGHT', -4, 0)
 		if powerType ~= 0 then htext.frequentUpdates = .1 end
 		self:Tag(htext, '[player:hp][player:power]')
 
-		if G.ace.db.profile.unitframes['player'].showName then
+		if G.unitframes['player'].showName then
 			local name = fs(self.Health, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
 			name:SetPoint('LEFT', 4, 0)
 			name:SetJustifyH'LEFT'
@@ -458,9 +461,9 @@ local UnitSpecific = {
 		castbar(self)
 		createAuraBars(self, unit)
 
-		self:SetSize(G.ace.db.profile.unitframes['target'].width, G.ace.db.profile.unitframes['target'].health + G.ace.db.profile.unitframes['target'].power)
-		self.Health:SetHeight(G.ace.db.profile.unitframes['target'].health)
-		self.Power:SetHeight(G.ace.db.profile.unitframes['target'].power)
+		self:SetSize(G.unitframes['target'].width, G.unitframes['target'].health + G.unitframes['target'].power)
+		self.Health:SetHeight(G.unitframes['target'].health)
+		self.Power:SetHeight(G.unitframes['target'].power)
 
 		local name = fs(self.Health, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
 		name:SetPoint('LEFT', 4, 0)
@@ -603,7 +606,7 @@ local UnitSpecific = {
 	targettarget = function(self, unit)
 		Shared(self, unit)
 
-		self:SetSize(G.ace.db.profile.unitframes['targettarget'].width, G.ace.db.profile.unitframes['targettarget'].health)
+		self:SetSize(G.unitframes['targettarget'].width, G.unitframes['targettarget'].health)
 
 		local name = fs(self.Health, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
 		name:SetPoint('CENTER')
@@ -759,14 +762,14 @@ end
 
 function refreshUnitframePositions()
 	for unit,object in pairs(unitframes) do
-		object:SetPoint("CENTER", G.ace.db.profile.unitframes[unit].x, G.ace.db.profile.unitframes[unit].y)
+		object:SetPoint("CENTER", G.unitframes[unit].x, G.unitframes[unit].y)
 	end
 end
 
 oUF:Factory(function(self)
-	unitframes["player"] = spawnHelper(self, 'player', 'CENTER', G.ace.db.profile.unitframes["player"].x, G.ace.db.profile.unitframes["player"].y)
-	unitframes["target"] = spawnHelper(self, 'target', 'CENTER', G.ace.db.profile.unitframes["target"].x, G.ace.db.profile.unitframes["target"].y)
-	unitframes["targettarget"] = spawnHelper(self, 'targettarget', "CENTER", G.ace.db.profile.unitframes["targettarget"].x, G.ace.db.profile.unitframes["targettarget"].y)
+	unitframes["player"] = spawnHelper(self, 'player', 'CENTER', G.unitframes["player"].x, G.unitframes["player"].y)
+	unitframes["target"] = spawnHelper(self, 'target', 'CENTER', G.unitframes["target"].x, G.unitframes["target"].y)
+	unitframes["targettarget"] = spawnHelper(self, 'targettarget', "CENTER", G.unitframes["targettarget"].x, G.unitframes["targettarget"].y)
 	spawnHelper(self, 'focus', 'TOP', UIParent, 'CENTER', G.unitframes.focus.xOff, G.unitframes.focus.yOff)
 	spawnHelper(self, 'focustarget', 'TOPLEFT', "oUF_gempUIFocus", "TOPRIGHT", G.unitframes.focustarget.xOff, G.unitframes.focustarget.yOff)
 	spawnHelper(self, 'pet', 'LEFT', "oUF_gempUIPlayer", "LEFT",  G.unitframes.pet.xOff,  G.unitframes.pet.yOff)
