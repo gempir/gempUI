@@ -463,35 +463,35 @@ f:SetScript("OnEvent", function()
 	end
 	-- show grid
 	for i = 1, 12 do
-		-- local btn = _G[format("ActionButton%d", i)]
-		-- btn:SetAttribute("showgrid", 1)
-		-- btn:SetAttribute("statehidden", nil)
-		-- ActionButton_ShowGrid(btn)
+		local btn = _G[format("ActionButton%d", i)]
+		btn:SetAttribute("showgrid", 1)
+		btn:SetAttribute("statehidden", nil)
+		btn:ShowGrid(ACTION_BUTTON_SHOW_GRID_REASON_CVAR)
 
-		-- btn = _G[format("MultiBarRightButton%d", i)]
-		-- btn:SetAttribute("showgrid", 1)
-		-- btn:SetAttribute("statehidden", nil)
-		-- ActionButton_ShowGrid(btn)
+		btn = _G[format("MultiBarRightButton%d", i)]
+		btn:SetAttribute("showgrid", 1)
+		btn:SetAttribute("statehidden", nil)
+		btn:ShowGrid(ACTION_BUTTON_SHOW_GRID_REASON_CVAR)
 
-		-- btn = _G[format("MultiBarBottomRightButton%d", i)]
-		-- btn:SetAttribute("showgrid", 1)
-		-- btn:SetAttribute("statehidden", nil)
-		-- ActionButton_ShowGrid(btn)
+		btn = _G[format("MultiBarBottomRightButton%d", i)]
+		btn:SetAttribute("showgrid", 1)
+		btn:SetAttribute("statehidden", nil)
+		btn:ShowGrid(ACTION_BUTTON_SHOW_GRID_REASON_CVAR)
 
-		-- btn = _G[format("MultiBarLeftButton%d", i)]
-		-- btn:SetAttribute("showgrid", 1)
-		-- btn:SetAttribute("statehidden", nil)
-		-- ActionButton_ShowGrid(btn)
+		btn = _G[format("MultiBarLeftButton%d", i)]
+		btn:SetAttribute("showgrid", 1)
+		btn:SetAttribute("statehidden", nil)
+		btn:ShowGrid(ACTION_BUTTON_SHOW_GRID_REASON_CVAR)
 
-		-- btn = _G[format("MultiBarBottomLeftButton%d", i)]
-		-- btn:SetAttribute("showgrid", 1)
-		-- btn:SetAttribute("statehidden", nil)
-		-- ActionButton_ShowGrid(btn)
+		btn = _G[format("MultiBarBottomLeftButton%d", i)]
+		btn:SetAttribute("showgrid", 1)
+		btn:SetAttribute("statehidden", nil)
+		btn:ShowGrid(ACTION_BUTTON_SHOW_GRID_REASON_CVAR)
 
-		-- btn = _G[format("ExtraBarButton%d", i)]
-		-- btn:SetAttribute("showgrid", 1)
-		-- btn:SetAttribute("statehidden", nil)
-		-- ActionButton_ShowGrid(btn)
+		btn = _G[format("ExtraBarButton%d", i)]
+		btn:SetAttribute("showgrid", 1)
+		btn:SetAttribute("statehidden", nil)
+		btn:ShowGrid(ACTION_BUTTON_SHOW_GRID_REASON_CVAR)
 	end
 	--SHOW_MULTI_ACTIONBAR_1 = 1
 	--SHOW_MULTI_ACTIONBAR_2 = 1
