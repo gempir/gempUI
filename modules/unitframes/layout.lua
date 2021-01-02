@@ -173,7 +173,7 @@ local castbar = function(self, unit)
 
 	cb.Time = fs(cb, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1)
 	cb.Time:SetPoint('RIGHT', cb, -2, 0)
-	cb.Text = fs(cb, 'OVERLAY', G.unitframes.font, G.unitframes.fontsize, G.unitframes.fontflag, 1, 1, 1, 'LEFT')
+	cb.Text = fs(cb, 'OVERLAY', G.unitframes.font, 11, G.unitframes.fontflag, 1, 1, 1, 'LEFT')
 	cb.Text:SetPoint('LEFT', cb, 2, 0)
 	cb.Text:SetPoint('RIGHT', cb.Time, 'LEFT')
 	cb.CastingColor = G.colors.base
@@ -181,7 +181,7 @@ local castbar = function(self, unit)
 	cb.FailColor = { 1.0, 0.09, 0, G.colors.base[4] }
 	cb.ChannelingColor = G.colors.base
 	cb.Icon = cb:CreateTexture(nil, 'ARTWORK')
-	cb.Icon:SetPoint('TOPRIGHT', cb, 'TOPLEFT', -5, 0)
+	cb.Icon:SetPoint('TOPRIGHT', cb, 'TOPLEFT', -6, 0)
 	cb.Icon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
 
 	if self.unit == 'player' then
@@ -196,6 +196,7 @@ local castbar = function(self, unit)
 		cb.Shield:SetSize(cb:GetHeight(), cb:GetHeight())
 		cb.Shield:SetPoint('LEFT', cb.Icon)
 		cb.Shield:SetTexture(G.media .. "textures\\shield")
+		cb.Text:SetFont(G.unitframes.font, 8, G.unitframes.fontflag)
 	elseif self.unit == 'boss' then
 		cb:SetPoint('TOPRIGHT', "oUF_gempUIBoss", "BOTTOMRIGHT", G.unitframes.target.castbar.xOff - 1, G.unitframes.target.castbar.yOff)
 		cb:SetSize(G.unitframes.boss.width - G.unitframes.target.castbar.height - 3, G.unitframes.target.castbar.height)
