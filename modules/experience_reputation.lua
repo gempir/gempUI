@@ -5,8 +5,8 @@ local F, G = unpack(select(2, ...))
 ------------------------------------------------------------------------
 
 -- Bar settings
-local width = 49
-local height = 22
+local width = 33
+local height = 18
 
 -- Tooltip settings
 local ttanchorpoint = "BOTTOMLEFT"
@@ -79,16 +79,16 @@ end
 ------------------------------------------------------------------------
 
 --	Create the panel and bars
-gXpbarp = CreateFrame("Frame", nil, G.frame, BackdropTemplateMixin and "BackdropTemplate")
+gXpbarp = CreateFrame("Frame", nil, UIParent, BackdropTemplateMixin and "BackdropTemplate")
 gXpbarp:SetFrameStrata("LOW")
 gXpbarp:SetHeight(height - 2)
 gXpbarp:SetWidth(width - 2)
-gXpbarp:SetPoint("RIGHT", G.frame, "RIGHT", 1, 169)
+gXpbarp:SetPoint("RIGHT", G.frame, "RIGHT", -5, 161)
 
 
 F.addBackdrop(gXpbarp)
 
-gempXpbar = CreateFrame("statusbar", nil, G.frame)
+gempXpbar = CreateFrame("statusbar", nil, UIParent)
 gempXpbar:SetPoint("CENTER", gXpbarp, "CENTER", 0, 0)
 gempXpbar:SetOrientation("HORIZONTAL")
 gempXpbar:SetWidth(width - 2)
@@ -195,9 +195,9 @@ function gempXpbar:PLAYER_XP_UPDATE()
 
 	-- If the player has just gained some experience display this on the main bar else just display current experience information
 	if (gained == 0) then
-		text:SetFormattedText("|cffffffff%.1f|r%%", min / max * 100)
+		text:SetFormattedText("|cffffffff%.0f|r%%", min / max * 100)
 	else
-		text:SetFormattedText("|cffffffff%.1f|r%% +|cffffffff%.0f|r", min / max * 100, gained)
+		text:SetFormattedText("|cffffffff%.0f|r%% +|cffffffff%.0f|r", min / max * 100, gained)
 	end
 end
 
@@ -232,9 +232,9 @@ function gempXpbar:PLAYER_ENTERING_WORLD()
 
 	-- If the player has just gained some experience display this on the main bar else just display current experience information
 	if (gained == 0) then
-		text:SetFormattedText("|cffffffff%.1f|r%%", min / max * 100)
+		text:SetFormattedText("|cffffffff%.0f|r%%", min / max * 100)
 	else
-		text:SetFormattedText("|cffffffff%.1f|r%% +|cffffffff%.0f|r", min / max * 100, gained)
+		text:SetFormattedText("|cffffffff%.0f|r%% +|cffffffff%.0f|r", min / max * 100, gained)
 	end
 end
 
@@ -270,7 +270,7 @@ function gempXpbar:UPDATE_FACTION()
 	gempXpbar:SetMinMaxValues(0, maxrep)
 	gempXpbar:SetValue(minrep)
 
-	text:SetFormattedText("|cffffffff %.1f%%|r", minrep / maxrep * 100)
+	text:SetFormattedText("|cffffffff %.0f%%|r", minrep / maxrep * 100)
 end
 
 --	RegisterEvents
