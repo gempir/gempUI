@@ -166,7 +166,7 @@ cfg.bars = {
 		position = { a = "RIGHT", x = -10, y = 122 },
 	},
 	["ExitVehicleButton"] = {
-		position = { a = "BOTTOM", x = 0, y = 0 },
+		position = { a = "BOTTOM", x = 200, y = 4 },
 	},
 }
 
