@@ -108,7 +108,7 @@ local CustomFilter = function(icons, ...)
 		return true
 	end
 
-	return G.unitframes['target'].allDebuffs
+	return G.ace.db.profile.allTargetDebuffs
 end
 
 local OnCastbarUpdate = function(self, elapsed)

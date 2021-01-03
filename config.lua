@@ -37,9 +37,21 @@ local options = {
                         G.ace.db.profile.sellJunk = value
                     end
                 },
+                allTargetDebuffs = {
+                    type = "toggle",
+                    order = 2,
+                    name = "All Target Debuffs",
+                    desc = "Shows all debuffs on the target not just your own",
+                    get = function()
+                        return G.ace.db.profile.allTargetDebuffs
+                    end,
+                    set = function(info, value)
+                        G.ace.db.profile.allTargetDebuffs = value
+                    end
+                },
                 hideErrors = {
                     type = "select",
-                    order = 2,
+                    order = 3,
                     name = "Hide Errors",
                     desc = "Mute Blizzard error frame",
                     values = {
@@ -65,6 +77,7 @@ local defaults = {
         autoRepair = true,
         hideErrors = "never",
         auraWatch = {},
+        allTargetDebuffs = true,
     }
 }
 

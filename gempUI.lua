@@ -27,6 +27,7 @@ G.fonts = {
 -------------------------------------------------------------------------------------
 
 G.frame = CreateFrame("Frame", nil, self)
+G.frame:SetFrameStrata("LOW")
 local _, height = GetPhysicalScreenSize()
 G.frame:SetAllPoints(UIParent)
 G.frame:SetScale(768 / height)
@@ -62,7 +63,6 @@ G.unitframes = {
     },
     target = {
         width = 184,
-        allDebuffs = false,
         health = 30,
         power = 8,
         x = 260,
