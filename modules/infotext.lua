@@ -74,7 +74,7 @@ do
 	local timeframe = CreateFrame("Frame")
 	timeframe:SetScript("OnUpdate", TinyMainbarInfo_OnUpdate)
 
-	local f = CreateFrame("Frame", nil, G.frame)
+	local f = CreateFrame("Frame", nil, Minimap)
 	f:SetScript("OnEvent", TinyMainbarInfo_OnEvent)
 	f:SetScript("OnUpdate", TinyMainbarInfo_OnUpdate2)
 
@@ -89,7 +89,7 @@ do
 	local clockFrame, clockTime = TimeManagerClockButton:GetRegions()
 	clockFrame:Hide()
 	clockTime:SetFont(G.fonts.square, 13, '')
-	clockTime:SetParent(G.frame)
+	clockTime:SetParent(Minimap)
 	clockTime:SetShadowOffset(1, -1)
 	clockTime:SetTextColor(1, 1, 1)
 	TimeManagerClockButton:SetFrameStrata("TOOLTIP")
